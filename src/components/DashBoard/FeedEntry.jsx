@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FeedEntry = () => (
-  <div />
+  <div>Feed Entry</div>
 );
 
 export default FeedEntry;

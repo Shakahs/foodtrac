@@ -2,7 +2,10 @@ import React from 'react';
 import RewardEntry from './RewardEntry';
 
 const RewardsList = () => (
-  <RewardEntry />
+  <div>
+    Rewards List
+    <RewardEntry />
+  </div>
 );
 
 export default RewardsList;

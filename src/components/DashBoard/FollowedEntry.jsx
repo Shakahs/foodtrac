@@ -1,7 +1,7 @@
 import React from 'react';
 
 const FollowedEntry = () => (
-  <div />
+  <div>Followed Truck Entry</div>
 );
 
 export default FollowedEntry;

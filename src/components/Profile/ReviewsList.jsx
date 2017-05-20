@@ -2,7 +2,10 @@ import React from 'react';
 import ReviewEntry from './ReviewEntry';
 
 const ReviewsList = () => (
-  <ReviewEntry />
+  <div>
+    Reviews List
+    <ReviewEntry />
+  </div>
 );
 
 export default ReviewsList;

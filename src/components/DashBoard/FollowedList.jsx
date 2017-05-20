@@ -2,7 +2,10 @@ import React from 'react';
 import FollowedEntry from './FollowedEntry';
 
 const FollowedList = () => (
-  <FollowedEntry />
+  <div>
+    Followed Truck List
+    <FollowedEntry />
+  </div>
 );
 
 export default FollowedList;

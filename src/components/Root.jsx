@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import NavBar from './NavBar/NavBar';
+import Routes from './Routes';
 
 class Root extends Component {
   constructor() {
@@ -8,7 +10,10 @@ class Root extends Component {
 
   render() {
     return (
-      <div>Hello React Hot Loader!</div>
+      <div>
+        <NavBar />
+        <Routes />
+      </div>
     );
   }
 }
