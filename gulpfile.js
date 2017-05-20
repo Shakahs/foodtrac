@@ -1,8 +1,10 @@
 require('dotenv').config();
 const gulp = require('gulp');
+const nodemon = require('gulp-nodemon');
 const knexConfig = require('./knexfile');
 const knex = require('knex')(knexConfig.development);
 const fs = require('fs');
+
 
 gulp.task('db:recreate', (cb) => {
   const sql = fs.readFileSync('./dev/database/Foodtrac.sql').toString();
@@ -13,4 +15,11 @@ gulp.task('db:recreate', (cb) => {
     .catch((err) => { cb(err); });
 });
 
-gulp.task('default', ['db:recreate']);
+gulp.task('nodemon', () => {
+  const stream = nodemon({ // eslint-disable-line no-unused-vars
+    script: 'server/index.js',
+    watch: ['server/**'],
+  });
+});
+
+gulp.task('default', ['nodemon']);
