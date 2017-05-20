@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: {
     app: [
       'babel-polyfill',
@@ -10,12 +10,20 @@ module.exports = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, './static'),
+    path: path.resolve(__dirname, './public'),
     filename: 'bundle.js',
   },
   module: {
     rules: [
-      { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+      { test: /\.js[x]?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader' },
     ],
+  },
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
+  devServer: {
+    contentBase: './static/',
   },
 };
