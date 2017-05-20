@@ -1,7 +1,12 @@
-import React from 'react'
+import React, {Component} from 'react';
 
-const Root = () => (
-  <div>Hello React Hot Loader!</div>
-)
+class Root extends Component {
+
+  render() {
+    return (
+      <div>Hello React Hot Loader!</div>
+    );
+  };
+}
 
 export default Root
