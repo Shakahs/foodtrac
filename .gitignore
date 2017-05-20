@@ -2,3 +2,4 @@ yarn.lock
 *.ipynb
 node_modules
 .idea
+.env

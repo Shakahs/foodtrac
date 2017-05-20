@@ -14,12 +14,12 @@
         </Counter>
         <Counter>
             <Name>column</Name>
-            <Value>148</Value>
+            <Value>152</Value>
             <Prefix>c</Prefix>
         </Counter>
         <Counter>
             <Name>index</Name>
-            <Value>0</Value>
+            <Value>1</Value>
             <Prefix>i</Prefix>
         </Counter>
         <Counter>
@@ -34,7 +34,7 @@
         </Counter>
         <Counter>
             <Name>alternate_key</Name>
-            <Value>0</Value>
+            <Value>1</Value>
             <Prefix>a</Prefix>
         </Counter>
         <Counter>
@@ -113,6 +113,15 @@
                 <Column Id="c5">
                     <Name>is_truck_owner</Name>
                     <Type>bool</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
+                <Column Id="c149">
+                    <Name>auth0_id</Name>
+                    <Type>varchar(30)</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
                     <DefaultValue></DefaultValue>
@@ -290,6 +299,15 @@
                     <CheckExpression></CheckExpression>
                     <Properties/>
                 </Column>
+                <Column Id="c151">
+                    <Name>address</Name>
+                    <Type>varchar(100)</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
                 <Column Id="c29">
                     <Name>lat</Name>
                     <Type>decimal(9,6)</Type>
@@ -335,15 +353,6 @@
                     <CheckExpression></CheckExpression>
                     <Properties/>
                 </Column>
-                <Column Id="c22">
-                    <Name>location_description</Name>
-                    <Type>varchar(30)</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
                 <Column Id="c27">
                     <Name>start</Name>
                     <Type>timestamp</Type>
@@ -374,6 +383,15 @@
                 <Column Id="c35">
                     <Name>location_id</Name>
                     <Type>int</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
+                <Column Id="c152">
+                    <Name>checked_in</Name>
+                    <Type>bool</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
                     <DefaultValue></DefaultValue>
@@ -2416,8 +2434,8 @@
         <Area Id="ar3">
             <Name>Truck / Brand</Name>
             <DisplayInfo>
-                <X>7388.5</X>
-                <Y>6097.5</Y>
+                <X>7351.5</X>
+                <Y>6093.5</Y>
                 <Width>557.0</Width>
                 <Height>776.0</Height>
                 <LineColor>#000000</LineColor>
@@ -2511,7 +2529,7 @@
             <FixedSize>false</FixedSize>
         </TableDisplay>
         <TableDisplay Id="td5">
-            <X>7474.5</X>
+            <X>7473.5</X>
             <Y>6954.5</Y>
             <Width>226.0</Width>
             <Height>102.0</Height>
@@ -2823,11 +2841,11 @@
             <Type>Cross_3CP</Type>
             <ControlPoints>
                 <ControlPoint>
-                    <X>7631.5</X>
+                    <X>7630.5</X>
                     <Y>7009.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>7631.5</X>
+                    <X>7630.5</X>
                     <Y>7055.5</Y>
                 </ControlPoint>
                 <ControlPoint>
@@ -2844,11 +2862,11 @@
             <Type>Vertical_4CP</Type>
             <ControlPoints>
                 <ControlPoint>
-                    <X>7542.5</X>
+                    <X>7541.5</X>
                     <Y>7045.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>7542.5</X>
+                    <X>7541.5</X>
                     <Y>6768.5</Y>
                 </ControlPoint>
                 <ControlPoint>
@@ -3095,11 +3113,11 @@
             <Type>Cross_3CP</Type>
             <ControlPoints>
                 <ControlPoint>
-                    <X>7580.5</X>
+                    <X>7579.5</X>
                     <Y>7008.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>7580.5</X>
+                    <X>7579.5</X>
                     <Y>7389.5</Y>
                 </ControlPoint>
                 <ControlPoint>
@@ -3626,7 +3644,7 @@
             <Type>Horizontal_4CP</Type>
             <ControlPoints>
                 <ControlPoint>
-                    <X>7565.5</X>
+                    <X>7564.5</X>
                     <Y>7018.5</Y>
                 </ControlPoint>
                 <ControlPoint>
@@ -3681,11 +3699,11 @@
                 </ControlPoint>
                 <ControlPoint>
                     <X>6686.5</X>
-                    <Y>7155.5</Y>
+                    <Y>7127.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>7188.5</X>
-                    <Y>7155.5</Y>
+                    <Y>7127.5</Y>
                 </ControlPoint>
             </ControlPoints>
             <PkTableDisplay>td1</PkTableDisplay>
@@ -3719,11 +3737,11 @@
             <ControlPoints>
                 <ControlPoint>
                     <X>6544.5</X>
-                    <Y>6789.5</Y>
+                    <Y>6795.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>7150.5</X>
-                    <Y>6789.5</Y>
+                    <Y>6795.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>7150.5</X>
@@ -3744,11 +3762,11 @@
             <ControlPoints>
                 <ControlPoint>
                     <X>6518.5</X>
-                    <Y>6813.5</Y>
+                    <Y>6862.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>7320.5</X>
-                    <Y>6813.5</Y>
+                    <Y>6862.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>7320.5</X>
