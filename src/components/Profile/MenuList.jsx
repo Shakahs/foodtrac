@@ -2,7 +2,10 @@ import React from 'react';
 import MenuItemEntry from './MenuItemEntry';
 
 const MenuList = () => (
-  <MenuItemEntry />
+  <div>
+    Menu List
+    <MenuItemEntry />
+  </div>
 );
 
 export default MenuList;

@@ -2,7 +2,10 @@ import React from 'react';
 import TruckEntry from '../common/TruckEntry';
 
 const TrucksList = () => (
-  <TruckEntry />
+  <div>
+    Trucks List
+    <TruckEntry />
+  </div>
 );
 
 export default TrucksList;

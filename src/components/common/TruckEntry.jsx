@@ -1,7 +1,7 @@
 import React from 'react';
 
 const TruckEntry = () => (
-  <div />
+  <div>Truck Entry</div>
 );
 
 export default TruckEntry;

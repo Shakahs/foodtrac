@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MapView = () => (
-  <div />
+  <div>Map View</div>
 );
 
 export default MapView;

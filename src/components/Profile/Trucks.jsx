@@ -4,6 +4,7 @@ import TrucksList from './TrucksList';
 
 const Trucks = () => (
   <div>
+    Trucks
     <MapView />
     <TrucksList />
   </div>

@@ -3,7 +3,7 @@ import MapView from './MapView';
 import TrucksList from './TrucksList';
 
 class MapPage extends Component {
-  constrictor() {
+  constructor() {
     super();
     this.state = {};
   }

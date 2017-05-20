@@ -7,7 +7,7 @@ import Login from './Login/Login';
 import Settings from './Settings/Settings';
 
 class Routes extends Component {
-  constrictor() {
+  constructor() {
     super();
     this.state = {};
   }

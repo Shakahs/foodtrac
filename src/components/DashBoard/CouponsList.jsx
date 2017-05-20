@@ -2,7 +2,10 @@ import React from 'react';
 import CouponEntry from '../common/CouponEntry';
 
 const CouponsList = () => (
-  <CouponEntry />
+  <div>
+    Coupons List
+    <CouponEntry />
+  </div>
 );
 
 export default CouponsList;

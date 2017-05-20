@@ -1,7 +1,7 @@
 import React from 'react';
 
 const RewardEntry = () => (
-  <div />
+  <div>Reward Entry</div>
 );
 
 export default RewardEntry;

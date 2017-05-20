@@ -1,7 +1,7 @@
 import React from 'react';
 
 const UserMenu = () => (
-  <div />
+  <div>User Menu</div>
 );
 
 export default UserMenu;

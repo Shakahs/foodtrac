@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
 import TabView from './TabView';
-import CommentsList from './CommentsList';
 
 class Profile extends Component {
   constructor() {
@@ -16,7 +15,6 @@ class Profile extends Component {
         <Cover />
         <ProfileInfo />
         <TabView />
-        <CommentsList />
       </div>
     );
   }

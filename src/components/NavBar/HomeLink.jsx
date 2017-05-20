@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HomeLink = () => (
-  <div />
+  <div>Home Link</div>
 );
 
 export default HomeLink;
