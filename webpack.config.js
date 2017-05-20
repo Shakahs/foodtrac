@@ -1,4 +1,5 @@
 const path = require('path');
+require('dotenv').config();
 
 module.exports = {
   devtool: 'eval',
@@ -25,5 +26,15 @@ module.exports = {
   },
   devServer: {
     contentBase: './static/',
+    hot: true,
+    inline: true,
+    stats: true,
+    clientLogLevel: 'info',
+    proxy: [
+      {
+        context: ['/api'],
+        target: `http://localhost:${process.env.PORT}`,
+      },
+    ],
   },
 };
