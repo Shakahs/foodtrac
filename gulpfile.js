@@ -28,7 +28,6 @@ gulp.task('nodemon', () => {
 
 gulp.task('webpackhot', () => {
   // Start a webpack-dev-server
-  // delete webpackConfig.devServer;
   webpackConfig.plugins = [new webpack.HotModuleReplacementPlugin()];
   webpackConfig.entry.app = [
     `webpack-dev-server/client?http://localhost:${process.env.WEBPACK_PORT}`,
