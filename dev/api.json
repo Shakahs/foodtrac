@@ -1,0 +1,488 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "description" : "No description",
+    "version" : "1.0.0",
+    "title" : "Foodtrac API",
+    "contact" : { }
+  },
+  "host" : "localhost:3000",
+  "basePath" : "/api",
+  "schemes" : [ "http" ],
+  "consumes" : [ "application/json" ],
+  "produces" : [ "application/json" ],
+  "paths" : {
+    "/users" : {
+      "post" : {
+        "summary" : "Add new user",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "email" : {
+                "type" : "string"
+              },
+              "is_truck_owner" : {
+                "type" : "boolean"
+              },
+              "auth0_id" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/users/{userId}" : {
+      "get" : {
+        "summary" : "Get user detail",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Edit user detail",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove user",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/users/{userId}/subscribe" : {
+      "get" : {
+        "summary" : "Get all brands a user subscribes to",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Brand"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Subscribe to a brand",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Unsubscribe from a brand",
+        "parameters" : [ {
+          "name" : "brand_id",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/brands" : {
+      "post" : {
+        "summary" : "Create a brand",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/brands/{brandId}" : {
+      "get" : {
+        "summary" : "Display brand details",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Brand"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Update brand details",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/brands/{brandId}/trucks" : {
+      "get" : {
+        "summary" : "Get all trucks for a brand",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Foodtruck"
+              }
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/foodtrucks" : {
+      "get" : {
+        "summary" : "List all foodtrucks near a coordinate",
+        "parameters" : [ {
+          "name" : "lat",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "lng",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "distance",
+          "in" : "query",
+          "required" : true,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "required" : [ "location", "truck" ],
+                "type" : "object",
+                "properties" : {
+                  "truck" : {
+                    "$ref" : "#/definitions/Foodtruck"
+                  },
+                  "location" : {
+                    "$ref" : "#/definitions/Location"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Add new foodtruck",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Foodtruck"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/foodtrucks/{truckId}" : {
+      "get" : {
+        "summary" : "Get details of specific truck",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Foodtruck"
+            }
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Edit truck name",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Foodtruck"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove truck",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/foodtrucks/{truckId}/location" : {
+      "post" : {
+        "summary" : "Update truck location",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/LocationTimeline"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/location" : {
+      "get" : {
+        "summary" : "Get locations near a coordinate",
+        "parameters" : [ {
+          "name" : "lat",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        }, {
+          "name" : "lng",
+          "in" : "query",
+          "required" : true,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Location"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create a location",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Location"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/locations/{locationId}" : {
+      "get" : {
+        "summary" : "Get details of specific location",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Location"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "locationId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    }
+  },
+  "definitions" : {
+    "LocationTimeline" : {
+      "type" : "object",
+      "properties" : {
+        "start" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "end" : {
+          "type" : "string",
+          "format" : "date-time"
+        },
+        "truck_id" : {
+          "type" : "integer"
+        },
+        "location_id" : {
+          "type" : "integer"
+        },
+        "checked_in" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "Auth0 header" : {
+      "type" : "string"
+    },
+    "Brand" : {
+      "type" : "object",
+      "properties" : {
+        "owner_id" : {
+          "type" : "integer"
+        },
+        "truck_id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "foodgenre_id" : {
+          "type" : "number"
+        },
+        "rewards_trigger_count" : {
+          "type" : "integer"
+        },
+        "default_coupon_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Foodtruck" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Location" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "address" : {
+          "type" : "string"
+        },
+        "lat" : {
+          "type" : "number"
+        },
+        "lng" : {
+          "type" : "number"
+        }
+      }
+    }
+  }
+}
