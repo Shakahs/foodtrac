@@ -1,8 +1,8 @@
 import React from 'react';
 import CouponEntry from '../common/CouponEntry';
 
-const AvailableCouponsList = () => (
+const CouponsList = () => (
   <CouponEntry />
 );
 
-export default AvailableCouponsList;
+export default CouponsList;

@@ -1,8 +1,8 @@
 import React from 'react';
-import OrderEntry from './OrderEntry.jsx';
+import OrderEntry from './OrderEntry';
 
 const OrderList = () => (
-
-)
+  <OrderEntry />
+);
 
 export default OrderList;

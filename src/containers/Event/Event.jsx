@@ -1,19 +1,23 @@
-import React, {Component} from 'react';
-import EventInfo from './EventInfo.jsx';
-import AttendeeList from './AttendeeList.jsx';
-import CommentsList from './CommentsList.jsx';
+import React, { Component } from 'react';
+import EventInfo from './EventInfo';
+import AttendeesList from './AttendeesList';
+import CommentsList from './CommentsList';
 
 class Event extends Component {
+  constructor() {
+    super();
+    this.state = {};
+  }
 
   render() {
     return (
-    	<div>
-	      <EventInfo />
-	      <AttendeeList />
-	      <CommentsList />
-    	</div>
+      <div>
+        <EventInfo />
+        <AttendeesList />
+        <CommentsList />
+      </div>
     );
-  };
+  }
 }
 
 export default Event;

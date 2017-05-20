@@ -1,8 +1,8 @@
 import React from 'react';
-import ReviewEntry from './ReviewEntry.jsx';
+import ReviewEntry from './ReviewEntry';
 
 const ReviewsList = () => (
-
-)
+  <ReviewEntry />
+);
 
 export default ReviewsList;

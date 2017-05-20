@@ -1,8 +1,8 @@
 import React from 'react';
-import CommentEntry from './CommentEntry.jsx';
+import CommentEntry from '../common/CommentEntry';
 
 const CommentsList = () => (
-
-)
+  <CommentEntry />
+);
 
 export default CommentsList;

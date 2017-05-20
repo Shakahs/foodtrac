@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import OrderList from './OrderList';
 
-class IncomingOrder extends Component {
+class Root extends Component {
   constructor() {
     super();
     this.state = {};
@@ -9,9 +8,9 @@ class IncomingOrder extends Component {
 
   render() {
     return (
-      <OrderList />
+      <div>Hello React Hot Loader!</div>
     );
   }
 }
 
-export default IncomingOrder;
+export default Root;
