@@ -23,6 +23,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^4.0.0",
+    "eslint-plugin-import": "^2.2.0",
     "knex": "^0.13.0",
     "mysql": "^2.13.0",
     "objection": "^0.7.12",
