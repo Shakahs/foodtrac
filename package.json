@@ -1,22 +1,26 @@
 {
-  "name": "react-hot-loader-minimal-boilerplate",
+  "name": "foodtrac",
   "version": "1.0.0",
-  "description": "",
+  "description": "A social platform for food truck owners and food truck lovers alike",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --hot --history-api-fallback --open"
+    "dev": "webpack-dev-server --hot --history-api-fallback --open",
+    "lint-staged": "lint-staged"
+  },
+  "pre-commit": [
+    "lint-staged"
+  ],
+  "lint-staged": {
+    "*.js": "eslint",
+    "*.jsx": "eslint"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate.git"
+    "url": "git+https://github.com/hrla14-foodtrac/foodtrac.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "team foodtrac",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate/issues"
-  },
-  "homepage": "https://github.com/wkwiatek/react-hot-loader-minimal-boilerplate#readme",
   "dependencies": {
     "react": "^15.4.2",
     "react-dom": "^15.4.2"
@@ -27,6 +31,12 @@
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-jsx-a11y": "^5.0.3",
+    "eslint-plugin-react": "^7.0.1",
+    "lint-staged": "^3.4.2",
+    "pre-commit": "^1.2.2",
     "react-hot-loader": "^3.0.0-beta.6",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
