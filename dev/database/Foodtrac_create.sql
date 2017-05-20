@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-19 04:03:53.19
+-- Last modification date: 2017-05-19 23:34:38.298
 
 -- tables
 -- Table: Brand
@@ -107,11 +107,11 @@ CREATE TABLE LocationComments (
 -- Table: LocationTimeline
 CREATE TABLE LocationTimeline (
     id int NOT NULL,
-    location_description varchar(30) NOT NULL,
     start timestamp NOT NULL,
     end timestamp NOT NULL,
     truck_id int NOT NULL,
     location_id int NOT NULL,
+    checked_in bool NOT NULL,
     CONSTRAINT LocationTimeline_pk PRIMARY KEY (id)
 );
 
@@ -128,6 +128,7 @@ CREATE TABLE LocationVotes (
 CREATE TABLE Locations (
     id int NOT NULL,
     name varchar(30) NOT NULL,
+    address varchar(100) NOT NULL,
     lat decimal(9,6) NOT NULL,
     lng decimal(9,6) NOT NULL,
     CONSTRAINT Locations_pk PRIMARY KEY (id)
@@ -236,6 +237,7 @@ CREATE TABLE Users (
     id int NOT NULL,
     email varchar(30) NOT NULL,
     is_truck_owner bool NOT NULL,
+    auth0_id varchar(30) NOT NULL,
     CONSTRAINT id PRIMARY KEY (id)
 );
 
