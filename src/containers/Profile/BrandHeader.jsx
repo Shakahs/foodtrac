@@ -1,7 +1,7 @@
 import React from 'react';
 
-const BrandHeade = () => (
+const BrandHeader = () => (
 
 )
 
-export default BrandHeade;
+export default BrandHeader;
