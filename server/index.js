@@ -32,5 +32,5 @@ app.get('/hello', (req, res) => {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log('app listening on', port);
+  console.log('node listening on port', port);
 });
