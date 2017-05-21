@@ -1,10 +1,10 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-21 21:51:27.096
+-- Last modification date: 2017-05-21 22:57:35.61
 
 -- tables
 -- Table: BrandComments
 CREATE TABLE BrandComments (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     text int NOT NULL,
     brand_id int NOT NULL,
     users_id int NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE BrandComments (
 
 -- Table: BrandImages
 CREATE TABLE BrandImages (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     brand_id int NOT NULL,
     image_id int NOT NULL,
     CONSTRAINT BrandImages_pk PRIMARY KEY (id)
@@ -21,7 +21,7 @@ CREATE TABLE BrandImages (
 
 -- Table: BrandReviews
 CREATE TABLE BrandReviews (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     text text NOT NULL,
     score int NOT NULL,
     user_id int NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE BrandReviews (
 
 -- Table: BrandReviewsImages
 CREATE TABLE BrandReviewsImages (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     brand_review_id int NOT NULL,
     image_id int NOT NULL,
     CONSTRAINT BrandReviewsImages_pk PRIMARY KEY (id)
@@ -39,19 +39,19 @@ CREATE TABLE BrandReviewsImages (
 
 -- Table: Brands
 CREATE TABLE Brands (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     owner_id int NOT NULL,
     name varchar(30) NOT NULL,
     description text NOT NULL,
     food_genre_id int NOT NULL,
-    rewards_trigger int NOT NULL,
-    default_coupon int NOT NULL,
+    rewards_trigger int NULL,
+    default_coupon_id int NULL,
     CONSTRAINT Brands_pk PRIMARY KEY (id)
 );
 
 -- Table: Coupons
 CREATE TABLE Coupons (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     menu_item_free bool NOT NULL,
     menu_item_discount int NOT NULL,
     order_discount int NOT NULL,
@@ -61,7 +61,7 @@ CREATE TABLE Coupons (
 
 -- Table: EventComments
 CREATE TABLE EventComments (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     event_id int NOT NULL,
     CONSTRAINT EventComments_pk PRIMARY KEY (id)
@@ -69,7 +69,7 @@ CREATE TABLE EventComments (
 
 -- Table: Events
 CREATE TABLE Events (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     event_owner_id int NOT NULL,
     start timestamp NOT NULL,
     end timestamp NOT NULL,
@@ -81,14 +81,14 @@ CREATE TABLE Events (
 
 -- Table: FoodGenres
 CREATE TABLE FoodGenres (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     name varchar(20) NOT NULL,
     CONSTRAINT FoodGenres_pk PRIMARY KEY (id)
 );
 
 -- Table: Images
 CREATE TABLE Images (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     url varchar(30) NOT NULL,
     user_id int NOT NULL,
     CONSTRAINT Images_pk PRIMARY KEY (id)
@@ -96,7 +96,7 @@ CREATE TABLE Images (
 
 -- Table: LocationComments
 CREATE TABLE LocationComments (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     text text NOT NULL,
     user_id int NOT NULL,
     location_id int NOT NULL,
@@ -105,7 +105,7 @@ CREATE TABLE LocationComments (
 
 -- Table: LocationTimeline
 CREATE TABLE LocationTimeline (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     start timestamp NOT NULL,
     end timestamp NOT NULL,
     truck_id int NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE LocationTimeline (
 
 -- Table: LocationVotes
 CREATE TABLE LocationVotes (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     location_id int NOT NULL,
     brand_id int NOT NULL,
     user_id int NOT NULL,
@@ -125,7 +125,7 @@ CREATE TABLE LocationVotes (
 
 -- Table: Locations
 CREATE TABLE Locations (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     name varchar(30) NOT NULL,
     address varchar(100) NOT NULL,
     lat decimal(9,6) NOT NULL,
@@ -135,7 +135,7 @@ CREATE TABLE Locations (
 
 -- Table: MenuItems
 CREATE TABLE MenuItems (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     brand_id int NOT NULL,
     name varchar(30) NOT NULL,
     price decimal(6,2) NOT NULL,
@@ -145,7 +145,7 @@ CREATE TABLE MenuItems (
 
 -- Table: Notifications
 CREATE TABLE Notifications (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     text varchar(100) NOT NULL,
     user_id int NOT NULL,
     brand_id int NOT NULL,
@@ -154,7 +154,7 @@ CREATE TABLE Notifications (
 
 -- Table: OrderItems
 CREATE TABLE OrderItems (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     order_id int NOT NULL,
     menu_item_id int NOT NULL,
     CONSTRAINT OrderItems_pk PRIMARY KEY (id)
@@ -162,7 +162,7 @@ CREATE TABLE OrderItems (
 
 -- Table: Orders
 CREATE TABLE Orders (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     truck_id int NOT NULL,
     date timestamp NOT NULL,
@@ -173,7 +173,7 @@ CREATE TABLE Orders (
 
 -- Table: TruckAttendees
 CREATE TABLE TruckAttendees (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     truck_id int NOT NULL,
     event_id int NOT NULL,
     CONSTRAINT TruckAttendees_pk PRIMARY KEY (id)
@@ -181,7 +181,7 @@ CREATE TABLE TruckAttendees (
 
 -- Table: Trucks
 CREATE TABLE Trucks (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     name varchar(20) NULL,
     brand_id int NOT NULL,
     CONSTRAINT Trucks_pk PRIMARY KEY (id)
@@ -189,7 +189,7 @@ CREATE TABLE Trucks (
 
 -- Table: Upvotes
 CREATE TABLE Upvotes (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     brand_id int NOT NULL,
     user_id int NOT NULL,
     date timestamp NOT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE Upvotes (
 
 -- Table: UserAttendees
 CREATE TABLE UserAttendees (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     event_id int NOT NULL,
     user_id int NOT NULL,
     CONSTRAINT UserAttendees_pk PRIMARY KEY (id)
@@ -206,7 +206,7 @@ CREATE TABLE UserAttendees (
 
 -- Table: UserCoupons
 CREATE TABLE UserCoupons (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     redeemed bool NOT NULL,
     coupon_id int NOT NULL,
     user_reward_id int NOT NULL,
@@ -215,7 +215,7 @@ CREATE TABLE UserCoupons (
 
 -- Table: UserFollows
 CREATE TABLE UserFollows (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     brand_id int NOT NULL,
     favorite bool NULL,
@@ -224,7 +224,7 @@ CREATE TABLE UserFollows (
 
 -- Table: UserRewards
 CREATE TABLE UserRewards (
-    id int NOT NULL,
+    id int NOT NULL AUTO_INCREMENT,
     brand_id int NOT NULL,
     user_id int NOT NULL,
     count int NOT NULL,
@@ -274,7 +274,7 @@ ALTER TABLE BrandReviewsImages ADD CONSTRAINT BrandReviewsImages_Images FOREIGN 
     REFERENCES Images (id);
 
 -- Reference: Brand_Coupons (table: Brands)
-ALTER TABLE Brands ADD CONSTRAINT Brand_Coupons FOREIGN KEY Brand_Coupons (default_coupon)
+ALTER TABLE Brands ADD CONSTRAINT Brand_Coupons FOREIGN KEY Brand_Coupons (default_coupon_id)
     REFERENCES Coupons (id);
 
 -- Reference: Brand_FoodGenre (table: Brands)
