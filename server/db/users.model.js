@@ -9,12 +9,13 @@ class Users extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['email', 'is_truck_owner'],
+      required: ['email', 'is_truck_owner', 'auth0_id'],
 
       properties: {
         id: { type: 'integer' },
         email: { type: 'string', minLength: 1, maxLength: 30 },
         is_truck_owner: { type: 'boolean' },
+        auth0_id: { type: 'string', minLength: 1, maxLength: 30 },
       },
     };
   }
@@ -25,12 +26,12 @@ class Users extends Model {
         relation: Model.ManyToManyRelation,
         modelClass: Brands,
         join: {
-          from: 'User.id',
+          from: 'Users.id',
           through: {
-            from: 'UserFollows.brand_id',
-            to: 'UserFollows.user_id',
+            from: 'UserFollows.user_id',
+            to: 'UserFollows.brand_id',
           },
-          to: 'Brand.id',
+          to: 'Brands.id',
         },
       },
       brands: {
