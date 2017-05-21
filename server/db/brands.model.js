@@ -44,7 +44,7 @@ class Brands extends Model {
             from: 'UserFollows.brand_id',
             to: 'UserFollows.user_id',
           },
-          to: 'User.id',
+          to: 'Users.id',
         },
       },
       trucks: {
