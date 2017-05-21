@@ -27,8 +27,8 @@ class Users extends Model {
         join: {
           from: 'User.id',
           through: {
-            from: 'UserFollows.brand_id',
-            to: 'UserFollows.user_id',
+            from: 'UserFollows.user_id',
+            to: 'UserFollows.brand_id',
           },
           to: 'Brand.id',
         },
