@@ -54,7 +54,23 @@
       },
       "put" : {
         "summary" : "Edit user detail",
-        "parameters" : [ ],
+        "consumes" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "email" : {
+                "type" : "string"
+              },
+              "is_truck_owner" : {
+                "type" : "boolean"
+              }
+            }
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "Status 200"
