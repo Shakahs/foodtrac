@@ -339,7 +339,7 @@
         "type" : "string"
       } ]
     },
-    "/location" : {
+    "/locations" : {
       "get" : {
         "summary" : "Get locations near a coordinate",
         "parameters" : [ {
