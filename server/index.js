@@ -3,10 +3,16 @@ const bodyParser = require('body-parser');
 const swaggerize = require('swaggerize-express');
 const swaggerSpec = require('../dev/api.json');
 const morgan = require('morgan');
+const { Model } = require('objection');
+const knexConfig = require('../knexfile');
+const knex = require('knex')(knexConfig.development);
+
+Model.knex(knex);
 
 const app = express();
 app.use('/static', express.static('static'));
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded());
 
 delete swaggerSpec.host;
 app.use(swaggerize({
@@ -21,7 +27,7 @@ if (app.get('env') === 'production') {
 }
 
 app.get('/hello', (req, res) => {
-  res.end('hello world');
+  res.send('hello world');
 });
 
 const port = process.env.PORT || 3000;
