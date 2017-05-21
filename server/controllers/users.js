@@ -4,11 +4,7 @@ module.exports = {
   post(req, res) {
     Users.query()
       .insert(req.body)
-      .then((result) => {
-        console.log(result instanceof Users);
-        console.log(result);
-        res.send(result);
-      })
+      .then(() => res.sendStatus(201))
       .catch(e => console.log('Error inserting new user:', e));
   },
 };
