@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerize = require('swaggerize-express');
-const swaggerSpec = require('../dev/api.json');
+const swaggerSpec = require('../config/api.json');
 const morgan = require('morgan');
 const { Model } = require('objection');
 const knexConfig = require('../knexfile');
