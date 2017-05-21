@@ -1,11 +1,11 @@
-const User = require('../db/users.model');
+const Users = require('../db/users.model');
 
 module.exports = {
   post(req, res) {
-    User.query()
+    Users.query()
       .insert(req.body)
       .then((result) => {
-        console.log(result instanceof User);
+        console.log(result instanceof Users);
         console.log(result);
         res.send(result);
       })
