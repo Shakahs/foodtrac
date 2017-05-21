@@ -11,5 +11,4 @@ module.exports = {
       })
       .catch(e => console.log('Error inserting new user:', e));
   },
-
 };
