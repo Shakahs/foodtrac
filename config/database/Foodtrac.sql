@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-21 00:37:59.673
+-- Last modification date: 2017-05-21 21:51:27.096
 
 -- tables
 -- Table: BrandComments
@@ -41,7 +41,6 @@ CREATE TABLE BrandReviewsImages (
 CREATE TABLE Brands (
     id int NOT NULL,
     owner_id int NOT NULL,
-    truck_id int NOT NULL,
     name varchar(30) NOT NULL,
     description text NOT NULL,
     food_genre_id int NOT NULL,
