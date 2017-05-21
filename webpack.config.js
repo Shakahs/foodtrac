@@ -1,7 +1,7 @@
-const path = require('path');
 require('dotenv').config();
+const path = require('path');
 
-module.exports = {
+const webpackConfig = {
   devtool: 'eval',
   entry: {
     app: [
@@ -15,7 +15,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   module: {
-    rules: [
+    loaders: [
       { test: /\.js[x]?$/,
         exclude: /node_modules/,
         loader: 'babel-loader' },
@@ -38,3 +38,10 @@ module.exports = {
     ],
   },
 };
+
+webpackConfig.module.loaders.push({
+  test: /\.scss$/,
+  loaders: ['style-loader', 'css-loader', 'sass-loader'],
+});
+
+module.exports = webpackConfig;

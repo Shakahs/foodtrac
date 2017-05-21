@@ -10,7 +10,7 @@ const webpackConfig = require('./webpack.config');
 const WebpackDevServer = require('webpack-dev-server');
 
 gulp.task('db:recreate', (cb) => {
-  const sql = fs.readFileSync('./dev/database/Foodtrac.sql').toString();
+  const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
   knex.raw('DROP DATABASE foodtrac')
     .then(() => knex.raw('CREATE DATABASE foodtrac'))
     .then(() => knex.raw(sql))
