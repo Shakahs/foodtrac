@@ -452,9 +452,6 @@
         "owner_id" : {
           "type" : "integer"
         },
-        "truck_id" : {
-          "type" : "integer"
-        },
         "name" : {
           "type" : "string"
         },
