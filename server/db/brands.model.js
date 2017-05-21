@@ -1,5 +1,6 @@
 const { Model } = require('objection');
 const Users = require('./users.model');
+const FoodGenres = require('./foodgenres.model');
 const Trucks = require('./trucks.model');
 
 class Brands extends Model {
@@ -16,10 +17,10 @@ class Brands extends Model {
         id: { type: 'integer' },
         owner_id: { type: 'integer' },
         name: { type: 'string', minLength: 1, maxLength: 30 },
-        description: { type: 'text' },
+        description: { type: 'string', minLength: 1, maxLength: 255 },
         food_genre_id: { type: 'integer' },
-        rewards_trigger: { type: 'integer', default: 10 },
-        default_coupon: { type: 'integer' },
+        rewards_trigger: { type: ['integer', 'null'], default: null },
+        default_coupon_id: { type: ['integer', 'null'], default: null },
       },
     };
   }
@@ -32,6 +33,14 @@ class Brands extends Model {
         join: {
           from: 'Brands.owner_id',
           to: 'Users.id',
+        },
+      },
+      food_genres: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: FoodGenres,
+        join: {
+          from: 'Brands.food_genre_id',
+          to: 'FoodGenres.id',
         },
       },
       user_follows: {
@@ -51,7 +60,7 @@ class Brands extends Model {
         modelClass: Trucks,
         join: {
           from: 'Brands.id',
-          to: 'trucks.brand_id',
+          to: 'Trucks.brand_id',
         },
       },
     };
