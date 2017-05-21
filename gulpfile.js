@@ -21,7 +21,7 @@ gulp.task('db:recreate', (cb) => {
 gulp.task('nodemon', () => {
   const stream = nodemon({ // eslint-disable-line no-unused-vars
     script: 'server/index.js',
-    watch: ['server/**'],
+    watch: ['./server/', './server/db'],
   });
 });
 
