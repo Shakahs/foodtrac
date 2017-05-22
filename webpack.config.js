@@ -2,7 +2,6 @@ require('dotenv').config();
 const path = require('path');
 
 const webpackConfig = {
-  devtool: 'eval',
   entry: {
     app: [
       'babel-polyfill',
@@ -37,6 +36,8 @@ const webpackConfig = {
       },
     ],
   },
+  devtool: 'eval',
+  cache: true,
 };
 
 webpackConfig.module.loaders.push({

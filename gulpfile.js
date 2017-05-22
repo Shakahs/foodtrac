@@ -1,30 +1,124 @@
 require('dotenv').config();
-const gulp = require('gulp');
-const nodemon = require('gulp-nodemon');
-const knexConfig = require('./knexfile');
-const knex = require('knex')(knexConfig.development);
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
 const gutil = require('gulp-util');
+const nodemon = require('gulp-nodemon');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 const WebpackDevServer = require('webpack-dev-server');
+const jsf = require('json-schema-faker');
+const axios = require('axios');
+const Promise = require('bluebird');
+const { Model } = require('objection');
+const knexConfig = require('./knexfile');
+const knex = require('knex');
+const Users = require('./server/db/users.model');
+const Chance = require('chance');
+
+jsf.extend('chance', () => {
+  const chance = new Chance();
+  return chance;
+});
+
+/*
+ /
+ /
+ / Database schema application and seeding
+ /
+ /
+*/
+
+gulp.task('db', (cb) => {
+  runSequence('db:recreate', 'db:seed:users', cb);
+});
 
 gulp.task('db:recreate', (cb) => {
+  const thisKnex = knex(knexConfig.development);
+  Model.knex(thisKnex);
   const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
-  knex.raw('DROP DATABASE foodtrac')
-    .then(() => knex.raw('CREATE DATABASE foodtrac'))
-    .then(() => knex.raw(sql))
+  thisKnex.raw('DROP DATABASE foodtrac')
+    .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
+    .then(() => thisKnex.raw(sql))
+    .then(() => thisKnex.destroy())
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
 
+gulp.task('db:seed:users', (cb) => {
+  const thisKnex = knex(knexConfig.development);
+  Model.knex(thisKnex);
+  const userSeedSchema = {
+    type: 'array',
+    minItems: 5000,
+    maxItems: 10000,
+    uniqueItems: true,
+    items: Users.jsonSchema,
+  };
+  jsf.resolve(userSeedSchema)
+    .then(seedData => thisKnex.batchInsert('Users', seedData))
+    .then(() => thisKnex.destroy())
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+/*
+ /
+ /
+ / Downloading DB/API schemas
+ /
+ /
+*/
+
+gulp.task('schema:db', (cb) => {
+  runSequence('schema:db:download', 'db', cb);
+});
+
+gulp.task('schema:db:download', (cb) => {
+  const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
+
+  axios.all([
+    axios.get(`https://my.vertabelo.com/api/sql/${process.env.VERTABELO_MODEL}`, axiosConf),
+    axios.get(`https://my.vertabelo.com/api/xml/${process.env.VERTABELO_MODEL}`, axiosConf),
+  ])
+    .then(axios.spread((sql, xml) => {
+      fs.writeFileSync('config/database/Foodtrac.sql', sql.data);
+      fs.writeFileSync('config/database/Foodtrac.xml', xml.data);
+    }))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('schema:api', (cb) => {
+  const pRename = Promise.promisify(fs.rename);
+  const apiFileSource = path.join(os.homedir(), 'Downloads', 'swagger20.json');
+  const apiFileTarget = path.join('server', 'api.json');
+  pRename(apiFileSource, apiFileTarget)
+    .then(() => {
+      console.log(`API file copied from Downloads directory to ${apiFileTarget}`); // eslint-disable-line no-console
+      cb();
+    })
+    .catch((err) => { cb(err); });
+});
+
+/*
+/
+/
+/ Starting dev environment
+/
+/
+*/
+
+gulp.task('default', ['nodemon', 'webpackhot']);
+
 gulp.task('nodemon', () => {
   const stream = nodemon({ // eslint-disable-line no-unused-vars
     script: 'server/index.js',
-    watch: ['server/**'],
+    watch: ['./server/', './server/db'],
   });
 });
-
 
 gulp.task('webpackhot', () => {
   // Start a webpack-dev-server
@@ -43,5 +137,3 @@ gulp.task('webpackhot', () => {
     //  callback();
   });
 });
-
-gulp.task('default', ['nodemon', 'webpackhot']);
