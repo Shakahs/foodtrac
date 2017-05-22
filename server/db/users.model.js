@@ -20,7 +20,14 @@ class Users extends Model {
         },
         is_truck_owner: {
           type: 'boolean',
-          chance: 'weightedTruckOwner',
+          chance: {
+            weighted: [
+              [
+                true, false,
+              ],
+              [1, 100],
+            ],
+          },
         },
         auth0_id: {
           type: 'string',

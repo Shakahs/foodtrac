@@ -18,24 +18,21 @@ const knex = require('knex');
 const Users = require('./server/db/users.model');
 const Chance = require('chance');
 
+jsf.extend('chance', () => {
+  const chance = new Chance();
+  return chance;
+});
+
 /*
  /
  /
- / Database tasks
+ / Database schema application and seeding
  /
  /
 */
 
-jsf.extend('chance', () => {
-  const chance = new Chance();
-
-  chance.mixin({
-    weightedTruckOwner() {
-      return chance.weighted([true, false], [1, 100]);
-    },
-  });
-
-  return chance;
+gulp.task('db', (cb) => {
+  runSequence('db:recreate', 'db:seed:users', cb);
 });
 
 gulp.task('db:recreate', (cb) => {
@@ -67,10 +64,6 @@ gulp.task('db:seed:users', (cb) => {
     .catch((err) => { cb(err); });
 });
 
-gulp.task('db', (cb) => {
-  runSequence('db:recreate', 'db:seed:users', cb);
-});
-
 /*
  /
  /
@@ -78,6 +71,10 @@ gulp.task('db', (cb) => {
  /
  /
 */
+
+gulp.task('schema:db', (cb) => {
+  runSequence('schema:db:download', 'db', cb);
+});
 
 gulp.task('schema:db:download', (cb) => {
   const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
@@ -92,10 +89,6 @@ gulp.task('schema:db:download', (cb) => {
     }))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
-});
-
-gulp.task('schema:db', (cb) => {
-  runSequence('schema:db:download', 'db', cb);
 });
 
 gulp.task('schema:api', (cb) => {
@@ -117,6 +110,8 @@ gulp.task('schema:api', (cb) => {
 /
 /
 */
+
+gulp.task('default', ['nodemon', 'webpackhot']);
 
 gulp.task('nodemon', () => {
   const stream = nodemon({ // eslint-disable-line no-unused-vars
@@ -142,5 +137,3 @@ gulp.task('webpackhot', () => {
     //  callback();
   });
 });
-
-gulp.task('default', ['nodemon', 'webpackhot']);
