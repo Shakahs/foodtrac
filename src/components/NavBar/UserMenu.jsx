@@ -19,4 +19,6 @@ const UserMenu = props => (
   </IconMenu>
 );
 
+UserMenu.muiName = 'IconMenu';
+
 export default UserMenu;
