@@ -248,9 +248,9 @@
           "required" : true,
           "type" : "number"
         }, {
-          "name" : "distance",
+          "name" : "dist",
           "in" : "query",
-          "required" : true,
+          "required" : false,
           "type" : "integer"
         } ],
         "responses" : {
@@ -376,6 +376,11 @@
           "in" : "query",
           "required" : true,
           "type" : "number"
+        }, {
+          "name" : "dist",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
         } ],
         "responses" : {
           "200" : {
