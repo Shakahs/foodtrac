@@ -2,6 +2,7 @@ import React from 'react';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
+import Divider from 'material-ui/Divider';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -24,6 +25,7 @@ const UserMenu = props => (
     <Link to="/settings">
       <MenuItem primaryText="Settings" />
     </Link>
+    <Divider />
     <Link to="/">
       <MenuItem primaryText="Sign out" onClick={() => props.handleLogin()} />
     </Link>

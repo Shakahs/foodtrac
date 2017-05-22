@@ -3,7 +3,11 @@ body {
   margin: 10px;
 }
 
-.NavBar  {
+a {
+  text-decoration: none;
+}
+
+.NavBar {
   margin: -10 -10 0 -10;
 }
 
@@ -13,6 +17,6 @@ body {
   margin-top: 13px;
 }
 
-.profileButton{
+.profileButton {
   width: 100%;
 }
