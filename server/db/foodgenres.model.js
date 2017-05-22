@@ -1,5 +1,4 @@
 const { Model } = require('objection');
-const Brands = require('./brands.model');
 
 class FoodGenres extends Model {
   static get tableName() {
@@ -22,7 +21,7 @@ class FoodGenres extends Model {
     return {
       brands: {
         relation: Model.HasManyRelation,
-        modelClass: Brands,
+        modelClass: `${__dirname}/brands.model`,
         join: {
           from: 'FoodGenres.id',
           to: 'Brands.food_genre_id',

@@ -1,7 +1,4 @@
 const { Model } = require('objection');
-const Users = require('./users.model');
-const FoodGenres = require('./foodgenres.model');
-const Trucks = require('./trucks.model');
 
 class Brands extends Model {
   static get tableName() {
@@ -29,7 +26,7 @@ class Brands extends Model {
     return {
       owners: {
         relation: Model.BelongsToOneRelation,
-        modelClass: Users,
+        modelClass: `${__dirname}/users.model`,
         join: {
           from: 'Brands.owner_id',
           to: 'Users.id',
@@ -37,7 +34,7 @@ class Brands extends Model {
       },
       food_genres: {
         relation: Model.BelongsToOneRelation,
-        modelClass: FoodGenres,
+        modelClass: `${__dirname}/foodgenres.model`,
         join: {
           from: 'Brands.food_genre_id',
           to: 'FoodGenres.id',
@@ -45,7 +42,7 @@ class Brands extends Model {
       },
       user_follows: {
         relation: Model.ManyToManyRelation,
-        modelClass: Users,
+        modelClass: `${__dirname}/users.model`,
         join: {
           from: 'Brands.id',
           through: {
@@ -57,7 +54,7 @@ class Brands extends Model {
       },
       trucks: {
         relation: Model.HasManyRelation,
-        modelClass: Trucks,
+        modelClass: `${__dirname}/trucks.model`,
         join: {
           from: 'Brands.id',
           to: 'Trucks.brand_id',
