@@ -9,9 +9,3 @@ module.exports = {
   },
 
 };
-
-// {
-//   "owner_id": 5,
-//   "name": "Durrhurr",
-//   "description": "blah blah",
-// }
