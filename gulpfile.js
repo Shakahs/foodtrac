@@ -28,6 +28,11 @@ const Brands = require('./server/db/brands.model');
  /
 */
 
+const googleMapsClient = require('@google/maps').createClient({
+  key: process.env.GOOGLE_API_KEY,
+  Promise,
+});
+
 jsf.extend('chance', () => new Chance());
 jsf.extend('faker', () => Faker);
 
@@ -45,7 +50,7 @@ const insertSeed = (table, seedData) => {
 };
 
 gulp.task('db', (cb) => {
-  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres'], 'db:seed:brands', cb);
+  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands', cb);
 });
 
 gulp.task('db:recreate', (cb) => {
@@ -126,6 +131,29 @@ gulp.task('db:seed:brands', (cb) => {
       return newSeedData;
     })
     .then(seedData => insertSeed('Brands', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:locations', (cb) => {
+  const query = {
+    location: '34.053736,-118.242809', // LA city hall
+    radius: 25000,
+    type: 'parking',
+  };
+  googleMapsClient.placesRadar(query).asPromise()
+    .then((radarData) => {
+      const dataSlice = radarData.json.results.slice(0, 40);
+      return Promise.map(dataSlice, radarPlace =>
+        googleMapsClient.place({ placeid: radarPlace.place_id }).asPromise());
+    })
+    .then(placeData => placeData.map(place => ({
+      name: place.json.result.name,
+      address: place.json.result.formatted_address,
+      lat: place.json.result.geometry.location.lat,
+      lng: place.json.result.geometry.location.lng,
+    })))
+  .then(seedData => insertSeed('Locations', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
