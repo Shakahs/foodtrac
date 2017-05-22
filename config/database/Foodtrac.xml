@@ -34,7 +34,7 @@
         </Counter>
         <Counter>
             <Name>alternate_key</Name>
-            <Value>3</Value>
+            <Value>4</Value>
             <Prefix>a</Prefix>
         </Counter>
         <Counter>
@@ -1255,7 +1255,16 @@
                     <Column>c103</Column>
                 </Columns>
             </PrimaryKey>
-            <AlternateKeys/>
+            <AlternateKeys>
+                <AlternateKey Id="a4">
+                    <Name>FoodGenres_name_unique_index</Name>
+                    <Description></Description>
+                    <Columns>
+                        <Column>c104</Column>
+                    </Columns>
+                    <Properties/>
+                </AlternateKey>
+            </AlternateKeys>
             <Indexes/>
             <TableChecks/>
             <AdditionalSQLBefore></AdditionalSQLBefore>

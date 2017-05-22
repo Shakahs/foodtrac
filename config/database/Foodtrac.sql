@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-22 17:56:47.4
+-- Last modification date: 2017-05-22 18:13:37.12
 
 -- tables
 -- Table: BrandComments
@@ -83,6 +83,7 @@ CREATE TABLE Events (
 CREATE TABLE FoodGenres (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(20) NOT NULL,
+    UNIQUE INDEX FoodGenres_name_unique_index (name),
     CONSTRAINT FoodGenres_pk PRIMARY KEY (id)
 );
 
