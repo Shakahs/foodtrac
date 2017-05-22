@@ -1,21 +1,49 @@
 require('dotenv').config();
-const gulp = require('gulp');
-const nodemon = require('gulp-nodemon');
-const knexConfig = require('./knexfile');
-const knex = require('knex')(knexConfig.development);
 const fs = require('fs');
+const gulp = require('gulp');
+const runSequence = require('run-sequence');
 const gutil = require('gulp-util');
+const nodemon = require('gulp-nodemon');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 const WebpackDevServer = require('webpack-dev-server');
+const jsf = require('json-schema-faker');
+const { Model } = require('objection');
+const knexConfig = require('./knexfile');
+const knex = require('knex');
+const Users = require('./server/db/users.model');
+
 
 gulp.task('db:recreate', (cb) => {
+  const thisKnex = knex(knexConfig.development);
+  Model.knex(thisKnex);
   const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
-  knex.raw('DROP DATABASE foodtrac')
-    .then(() => knex.raw('CREATE DATABASE foodtrac'))
-    .then(() => knex.raw(sql))
+  thisKnex.raw('DROP DATABASE foodtrac')
+    .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
+    .then(() => thisKnex.raw(sql))
+    .then(() => thisKnex.destroy())
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:users', (cb) => {
+  const thisKnex = knex(knexConfig.development);
+  Model.knex(thisKnex);
+  const userSeedSchema = {
+    type: 'array',
+    minItems: 50,
+    maxItems: 100,
+    items: Users.jsonSchema,
+  };
+  jsf.resolve(userSeedSchema)
+    .then(seedData => thisKnex.batchInsert('Users', seedData))
+    .then(() => thisKnex.destroy())
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db', (cb) => {
+  runSequence('db:recreate', 'db:seed:users', cb);
 });
 
 gulp.task('nodemon', () => {
@@ -24,7 +52,6 @@ gulp.task('nodemon', () => {
     watch: ['./server/', './server/db'],
   });
 });
-
 
 gulp.task('webpackhot', () => {
   // Start a webpack-dev-server

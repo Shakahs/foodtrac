@@ -12,9 +12,18 @@ class Users extends Model {
 
       properties: {
         id: { type: 'integer' },
-        email: { type: 'string', minLength: 1, maxLength: 30 },
+        email: {
+          type: 'string',
+          format: 'email',
+          faker: 'internet.email',
+        },
         is_truck_owner: { type: 'boolean' },
-        auth0_id: { type: 'string', minLength: 1, maxLength: 30 },
+        auth0_id: {
+          type: 'string',
+          minLength: 5,
+          maxLength: 30,
+          pattern: String.raw`^(\w+)\|(\d+)$`,
+        },
       },
     };
   }
