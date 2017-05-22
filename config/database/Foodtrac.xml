@@ -108,7 +108,7 @@
                 </Column>
                 <Column Id="c3">
                     <Name>email</Name>
-                    <Type>varchar(30)</Type>
+                    <Type>varchar(100)</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
                     <DefaultValue></DefaultValue>
@@ -1008,7 +1008,7 @@
                     <Type>bool</Type>
                     <Description></Description>
                     <Nullable>true</Nullable>
-                    <DefaultValue></DefaultValue>
+                    <DefaultValue>false</DefaultValue>
                     <CheckExpression></CheckExpression>
                     <Properties/>
                 </Column>

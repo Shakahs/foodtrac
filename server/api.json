@@ -25,7 +25,8 @@
             "required" : [ "auth0_id", "email" ],
             "properties" : {
               "email" : {
-                "type" : "string"
+                "type" : "string",
+                "maxLength" : 100
               },
               "is_truck_owner" : {
                 "type" : "boolean",
@@ -247,9 +248,9 @@
           "required" : true,
           "type" : "number"
         }, {
-          "name" : "distance",
+          "name" : "dist",
           "in" : "query",
-          "required" : true,
+          "required" : false,
           "type" : "integer"
         } ],
         "responses" : {
@@ -375,6 +376,11 @@
           "in" : "query",
           "required" : true,
           "type" : "number"
+        }, {
+          "name" : "dist",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
         } ],
         "responses" : {
           "200" : {
@@ -472,6 +478,9 @@
           "type" : "integer"
         },
         "default_coupon_id" : {
+          "type" : "integer"
+        },
+        "id" : {
           "type" : "integer"
         }
       }
