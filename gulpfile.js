@@ -19,9 +19,7 @@ const Chance = require('chance');
 
 const Users = require('./server/db/users.model');
 const FoodGenres = require('./server/db/foodgenres.model');
-
-
-jsf.extend('chance', () => new Chance());
+// const Brands = require('./server/db/brands.model');
 
 /*
  /
@@ -30,6 +28,16 @@ jsf.extend('chance', () => new Chance());
  /
  /
 */
+
+jsf.extend('chance', () => new Chance());
+
+const insertSeed = function (seedSchema, table) {
+  const thisKnex = knex(knexConfig.development);
+  Model.knex(thisKnex);
+  return jsf.resolve(seedSchema)
+    .then(seedData => thisKnex.batchInsert(table, seedData))
+    .then(() => thisKnex.destroy());
+};
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres'], cb);
@@ -48,8 +56,6 @@ gulp.task('db:recreate', (cb) => {
 });
 
 gulp.task('db:seed:users', (cb) => {
-  const thisKnex = knex(knexConfig.development);
-  Model.knex(thisKnex);
   const userSeedSchema = {
     type: 'array',
     minItems: 5000,
@@ -57,16 +63,12 @@ gulp.task('db:seed:users', (cb) => {
     uniqueItems: true,
     items: Users.jsonSchema,
   };
-  jsf.resolve(userSeedSchema)
-    .then(seedData => thisKnex.batchInsert('Users', seedData))
-    .then(() => thisKnex.destroy())
+  insertSeed(userSeedSchema, 'Users')
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
 
 gulp.task('db:seed:foodgenres', (cb) => {
-  const thisKnex = knex(knexConfig.development);
-  Model.knex(thisKnex);
   const foodGenreSchema = {
     type: 'array',
     minItems: 5,
@@ -74,12 +76,27 @@ gulp.task('db:seed:foodgenres', (cb) => {
     uniqueItems: true,
     items: FoodGenres.jsonSchema,
   };
-  jsf.resolve(foodGenreSchema)
-    .then(seedData => thisKnex.batchInsert('FoodGenres', seedData))
-    .then(() => thisKnex.destroy())
+  insertSeed(foodGenreSchema, 'FoodGenres')
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
+
+// gulp.task('db:seed:brands', (cb) => {
+//   const thisKnex = knex(knexConfig.development);
+//   Model.knex(thisKnex);
+//   const foodGenreSchema = {
+//     type: 'array',
+//     minItems: 5,
+//     maxItems: 6,
+//     uniqueItems: true,
+//     items: FoodGenres.jsonSchema,
+//   };
+//   jsf.resolve(foodGenreSchema)
+//     .then(seedData => thisKnex.batchInsert('FoodGenres', seedData))
+//     .then(() => thisKnex.destroy())
+//     .then(() => { cb(); })
+//     .catch((err) => { cb(err); });
+// });
 
 /*
  /
