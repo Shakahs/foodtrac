@@ -12,7 +12,7 @@ const { Model } = require('objection');
 const knexConfig = require('./knexfile');
 const knex = require('knex');
 const Users = require('./server/db/users.model');
-
+const axios = require('axios');
 
 gulp.task('db:recreate', (cb) => {
   const thisKnex = knex(knexConfig.development);
@@ -44,6 +44,25 @@ gulp.task('db:seed:users', (cb) => {
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', 'db:seed:users', cb);
+});
+
+gulp.task('schemas:vertabelo', (cb) => {
+  const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
+
+  axios.all([
+    axios.get(`https://my.vertabelo.com/api/sql/${process.env.VERTABELO_MODEL}`, axiosConf),
+    axios.get(`https://my.vertabelo.com/api/xml/${process.env.VERTABELO_MODEL}`, axiosConf),
+  ])
+    .then(axios.spread((sql, xml) => {
+      fs.writeFileSync('config/database/Foodtrac.sql', sql.data);
+      fs.writeFileSync('config/database/Foodtrac.xml', xml.data);
+    }))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('schemas', (cb) => {
+  runSequence(['schemas:vertabelo'], cb);
 });
 
 gulp.task('nodemon', () => {
