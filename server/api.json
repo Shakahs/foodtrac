@@ -474,6 +474,9 @@
         },
         "default_coupon_id" : {
           "type" : "integer"
+        },
+        "id" : {
+          "type" : "integer"
         }
       }
     },
