@@ -31,9 +31,14 @@ const FoodGenres = require('./server/db/foodgenres.model');
 
 jsf.extend('chance', () => new Chance());
 
-const insertSeed = function (table, seedData) {
+const reconnectKnex = function () {
   const thisKnex = knex(knexConfig.development);
   Model.knex(thisKnex);
+  return thisKnex;
+};
+
+const insertSeed = function (table, seedData) {
+  const thisKnex = reconnectKnex();
   return thisKnex.batchInsert(table, seedData)
     .then(() => thisKnex.destroy());
 };
@@ -43,8 +48,7 @@ gulp.task('db', (cb) => {
 });
 
 gulp.task('db:recreate', (cb) => {
-  const thisKnex = knex(knexConfig.development);
-  Model.knex(thisKnex);
+  const thisKnex = reconnectKnex();
   const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
   thisKnex.raw('DROP DATABASE foodtrac')
     .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
@@ -83,20 +87,23 @@ gulp.task('db:seed:foodgenres', (cb) => {
 });
 
 // gulp.task('db:seed:brands', (cb) => {
-//   const thisKnex = knex(knexConfig.development);
-//   Model.knex(thisKnex);
-//   const foodGenreSchema = {
+//   const brandSchema = {
 //     type: 'array',
-//     minItems: 5,
+//     minItems: 6,
 //     maxItems: 6,
 //     uniqueItems: true,
-//     items: FoodGenres.jsonSchema,
+//     items: Brands.jsonSchema,
 //   };
-//   jsf.resolve(foodGenreSchema)
-//     .then(seedData => thisKnex.batchInsert('FoodGenres', seedData))
-//     .then(() => thisKnex.destroy())
-//     .then(() => { cb(); })
-//     .catch((err) => { cb(err); });
+//   Users
+//     .query()
+//     .then((user) => {
+//       console.log(user[0] instanceof Users); // --> true
+//       console.log('there are', user.length, 'Users in total');
+//     });
+//   // jsf.resolve(brandSchema)
+//   //   .then(seedData => insertSeed('FoodGenres', seedData))
+//   //   .then(() => { cb(); })
+//   //   .catch((err) => { cb(err); });
 // });
 
 /*
