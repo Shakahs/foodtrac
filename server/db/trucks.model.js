@@ -1,6 +1,4 @@
 const { Model } = require('objection');
-const Brands = require('./brands.model');
-const LocationTimeline = require('./locationtimeline.model');
 
 class Trucks extends Model {
   static get tableName() {
@@ -24,7 +22,7 @@ class Trucks extends Model {
     return {
       brands: {
         relation: Model.BelongsToOneRelation,
-        modelClass: Brands,
+        modelClass: `${__dirname}/brands.model`,
         join: {
           from: 'Trucks.brand_id',
           to: 'Brands.id',
@@ -32,7 +30,7 @@ class Trucks extends Model {
       },
       location_timeline: {
         relation: Model.HasManyRelation,
-        modelClass: LocationTimeline,
+        modelClass: `${__dirname}/locationtimeline.model`,
         join: {
           from: 'Trucks.id',
           to: 'LocationTimeline.location_id',

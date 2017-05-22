@@ -22,22 +22,37 @@
           "required" : true,
           "schema" : {
             "type" : "object",
+            "required" : [ "auth0_id", "email" ],
             "properties" : {
               "email" : {
                 "type" : "string"
               },
               "is_truck_owner" : {
-                "type" : "boolean"
+                "type" : "boolean",
+                "default" : false
               },
               "auth0_id" : {
-                "type" : "string"
+                "type" : "string",
+                "minLength" : 5,
+                "maxLength" : 30,
+                "example" : "auth0|64646784"
               }
             }
           }
         } ],
         "responses" : {
           "200" : {
-            "description" : "Status 200"
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "Status 400",
+            "schema" : {
+              "type" : "string",
+              "default" : "Bad request"
+            }
           }
         }
       }
@@ -60,15 +75,7 @@
           "in" : "body",
           "required" : true,
           "schema" : {
-            "type" : "object",
-            "properties" : {
-              "email" : {
-                "type" : "string"
-              },
-              "is_truck_owner" : {
-                "type" : "boolean"
-              }
-            }
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
@@ -461,7 +468,7 @@
         "food_genre_id" : {
           "type" : "number"
         },
-        "rewards_trigger_count" : {
+        "rewards_trigger" : {
           "type" : "integer"
         },
         "default_coupon_id" : {
@@ -477,6 +484,18 @@
         },
         "brand_id" : {
           "type" : "integer"
+        }
+      }
+    },
+    "User" : {
+      "type" : "object",
+      "required" : [ "id", "is_truck_owner" ],
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "is_truck_owner" : {
+          "type" : "boolean"
         }
       }
     },
