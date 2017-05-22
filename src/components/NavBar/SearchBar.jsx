@@ -10,7 +10,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>
+      <div className="searchBar">
 
         <Geosuggest
           className="midin"
