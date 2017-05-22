@@ -17,6 +17,14 @@ const Users = require('./server/db/users.model');
 const axios = require('axios');
 const Promise = require('bluebird');
 
+/*
+ /
+ /
+ / Database tasks
+ /
+ /
+*/
+
 gulp.task('db:recreate', (cb) => {
   const thisKnex = knex(knexConfig.development);
   Model.knex(thisKnex);
@@ -49,7 +57,15 @@ gulp.task('db', (cb) => {
   runSequence('db:recreate', 'db:seed:users', cb);
 });
 
-gulp.task('schema:db', (cb) => {
+/*
+ /
+ /
+ / Downloading DB/API schemas
+ /
+ /
+*/
+
+gulp.task('schema:db:download', (cb) => {
   const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
 
   axios.all([
@@ -64,6 +80,10 @@ gulp.task('schema:db', (cb) => {
     .catch((err) => { cb(err); });
 });
 
+gulp.task('schema:db', (cb) => {
+  runSequence('schema:db:download', 'db', cb);
+});
+
 gulp.task('schema:api', (cb) => {
   const pRename = Promise.promisify(fs.rename);
   const apiFile = path.join(os.homedir(), 'Downloads', 'swagger20.json');
@@ -74,6 +94,14 @@ gulp.task('schema:api', (cb) => {
     })
     .catch((err) => { cb(err); });
 });
+
+/*
+/
+/
+/ Starting dev environment
+/
+/
+*/
 
 gulp.task('nodemon', () => {
   const stream = nodemon({ // eslint-disable-line no-unused-vars
