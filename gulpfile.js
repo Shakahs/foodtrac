@@ -1,5 +1,7 @@
 require('dotenv').config();
 const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const gulp = require('gulp');
 const runSequence = require('run-sequence');
 const gutil = require('gulp-util');
@@ -13,6 +15,7 @@ const knexConfig = require('./knexfile');
 const knex = require('knex');
 const Users = require('./server/db/users.model');
 const axios = require('axios');
+const Promise = require('bluebird');
 
 gulp.task('db:recreate', (cb) => {
   const thisKnex = knex(knexConfig.development);
@@ -46,7 +49,7 @@ gulp.task('db', (cb) => {
   runSequence('db:recreate', 'db:seed:users', cb);
 });
 
-gulp.task('schemas:vertabelo', (cb) => {
+gulp.task('schema:db', (cb) => {
   const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
 
   axios.all([
@@ -61,8 +64,15 @@ gulp.task('schemas:vertabelo', (cb) => {
     .catch((err) => { cb(err); });
 });
 
-gulp.task('schemas', (cb) => {
-  runSequence(['schemas:vertabelo'], cb);
+gulp.task('schema:api', (cb) => {
+  const pRename = Promise.promisify(fs.rename);
+  const apiFile = path.join(os.homedir(), 'Downloads', 'swagger20.json');
+  pRename(apiFile, './config/api.json')
+    .then(() => {
+      console.log('API file copied from Downloads directory to config/api.json');
+      cb();
+    })
+    .catch((err) => { cb(err); });
 });
 
 gulp.task('nodemon', () => {
