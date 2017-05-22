@@ -31,11 +31,10 @@ const FoodGenres = require('./server/db/foodgenres.model');
 
 jsf.extend('chance', () => new Chance());
 
-const insertSeed = function (seedSchema, table) {
+const insertSeed = function (table, seedData) {
   const thisKnex = knex(knexConfig.development);
   Model.knex(thisKnex);
-  return jsf.resolve(seedSchema)
-    .then(seedData => thisKnex.batchInsert(table, seedData))
+  return thisKnex.batchInsert(table, seedData)
     .then(() => thisKnex.destroy());
 };
 
@@ -63,7 +62,8 @@ gulp.task('db:seed:users', (cb) => {
     uniqueItems: true,
     items: Users.jsonSchema,
   };
-  insertSeed(userSeedSchema, 'Users')
+  jsf.resolve(userSeedSchema)
+    .then(seedData => insertSeed('Users', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
@@ -71,12 +71,13 @@ gulp.task('db:seed:users', (cb) => {
 gulp.task('db:seed:foodgenres', (cb) => {
   const foodGenreSchema = {
     type: 'array',
-    minItems: 5,
+    minItems: 6,
     maxItems: 6,
     uniqueItems: true,
     items: FoodGenres.jsonSchema,
   };
-  insertSeed(foodGenreSchema, 'FoodGenres')
+  jsf.resolve(foodGenreSchema)
+    .then(seedData => insertSeed('FoodGenres', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
