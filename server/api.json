@@ -25,7 +25,8 @@
             "required" : [ "auth0_id", "email" ],
             "properties" : {
               "email" : {
-                "type" : "string"
+                "type" : "string",
+                "maxLength" : 100
               },
               "is_truck_owner" : {
                 "type" : "boolean",
