@@ -18,10 +18,7 @@ const knex = require('knex');
 const Users = require('./server/db/users.model');
 const Chance = require('chance');
 
-jsf.extend('chance', () => {
-  const chance = new Chance();
-  return chance;
-});
+jsf.extend('chance', () => new Chance());
 
 /*
  /
