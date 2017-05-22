@@ -16,13 +16,17 @@ class Users extends Model {
           type: 'string',
           format: 'email',
           faker: 'internet.email',
+          maxLength: 100,
         },
-        is_truck_owner: { type: 'boolean' },
+        is_truck_owner: {
+          type: 'boolean',
+          chance: 'weightedTruckOwner',
+        },
         auth0_id: {
           type: 'string',
           minLength: 5,
           maxLength: 30,
-          pattern: String.raw`^(\w+)\|(\d+)$`,
+          pattern: String.raw`^(\w+)\|(\d){10,20}$`,
         },
       },
     };

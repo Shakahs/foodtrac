@@ -10,12 +10,13 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 const WebpackDevServer = require('webpack-dev-server');
 const jsf = require('json-schema-faker');
+const axios = require('axios');
+const Promise = require('bluebird');
 const { Model } = require('objection');
 const knexConfig = require('./knexfile');
 const knex = require('knex');
 const Users = require('./server/db/users.model');
-const axios = require('axios');
-const Promise = require('bluebird');
+const Chance = require('chance');
 
 /*
  /
@@ -24,6 +25,18 @@ const Promise = require('bluebird');
  /
  /
 */
+
+jsf.extend('chance', () => {
+  const chance = new Chance();
+
+  chance.mixin({
+    weightedTruckOwner() {
+      return chance.weighted([true, false], [1, 100]);
+    },
+  });
+
+  return chance;
+});
 
 gulp.task('db:recreate', (cb) => {
   const thisKnex = knex(knexConfig.development);
@@ -42,8 +55,9 @@ gulp.task('db:seed:users', (cb) => {
   Model.knex(thisKnex);
   const userSeedSchema = {
     type: 'array',
-    minItems: 50,
-    maxItems: 100,
+    minItems: 5000,
+    maxItems: 10000,
+    uniqueItems: true,
     items: Users.jsonSchema,
   };
   jsf.resolve(userSeedSchema)
@@ -90,7 +104,7 @@ gulp.task('schema:api', (cb) => {
   const apiFileTarget = path.join('server', 'api.json');
   pRename(apiFileSource, apiFileTarget)
     .then(() => {
-      console.log(`API file copied from Downloads directory to ${apiFileTarget}`);
+      console.log(`API file copied from Downloads directory to ${apiFileTarget}`); // eslint-disable-line no-console
       cb();
     })
     .catch((err) => { cb(err); });
