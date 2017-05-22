@@ -1,5 +1,4 @@
 const { Model } = require('objection');
-const Brands = require('./brands.model');
 
 class Users extends Model {
   static get tableName() {
@@ -24,7 +23,7 @@ class Users extends Model {
     return {
       user_follows: {
         relation: Model.ManyToManyRelation,
-        modelClass: Brands,
+        modelClass: `${__dirname}/brands.model`,
         join: {
           from: 'Users.id',
           through: {
@@ -36,7 +35,7 @@ class Users extends Model {
       },
       brands: {
         relation: Model.HasManyRelation,
-        modelClass: Brands,
+        modelClass: `${__dirname}/brands.model`,
         join: {
           from: 'Users.id',
           to: 'Brands.owner_id',
