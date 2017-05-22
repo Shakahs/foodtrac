@@ -1,6 +1,23 @@
+const Locations = require('../db/locations.model');
+
 module.exports = {
   post(req, res) {
-    res.end('it worked!');
+    Locations.query()
+      .insert(req.body)
+      .then(() => res.sendStatus(201))
+      .catch((e) => {
+        console.log('Error inserting new location:', e);
+        res.sendStatus(400);
+      });
   },
-
+  get(req, res) {
+    // TODO: add distance logic
+    res.send('Pending distance logic');
+    // Locations.query()
+    //   .then(result => res.send(result))
+    //   .catch((e) => {
+    //     console.log('Error fetching locations:', e);
+    //     res.sendStatus(400);
+    //   });
+  },
 };
