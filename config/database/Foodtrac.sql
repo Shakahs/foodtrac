@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-21 22:57:35.61
+-- Last modification date: 2017-05-21 23:44:41.522
 
 -- tables
 -- Table: BrandComments
@@ -237,6 +237,8 @@ CREATE TABLE Users (
     email varchar(30) NOT NULL,
     is_truck_owner bool NOT NULL,
     auth0_id varchar(30) NOT NULL,
+    UNIQUE INDEX Users_email_unique_index (email),
+    UNIQUE INDEX Users_auth0id_unique_index (auth0_id),
     CONSTRAINT id PRIMARY KEY (id)
 );
 
