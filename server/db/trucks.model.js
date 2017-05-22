@@ -28,12 +28,16 @@ class Trucks extends Model {
           to: 'Brands.id',
         },
       },
-      location_timeline: {
-        relation: Model.HasManyRelation,
-        modelClass: `${__dirname}/locationtimeline.model`,
+      locations: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/locations.model`,
         join: {
           from: 'Trucks.id',
-          to: 'LocationTimeline.location_id',
+          through: {
+            from: 'LocationTimeline.truck_id',
+            to: 'LocationTimeline.location_id',
+          },
+          to: 'Locations.id',
         },
       },
     };

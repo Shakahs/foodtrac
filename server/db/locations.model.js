@@ -22,12 +22,16 @@ class Locations extends Model {
 
   static get relationMappings() {
     return {
-      location_timeline: {
-        relation: Model.HasManyRelation,
-        modelClass: `${__dirname}/locationtimeline.model`,
+      trucks: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/trucks.model`,
         join: {
           from: 'Locations.id',
-          to: 'LocationTimeline.location_id',
+          through: {
+            from: 'LocationTimeline.location_id',
+            to: 'LocationTimeline.truck_id',
+          },
+          to: 'Trucks.id',
         },
       },
     };
