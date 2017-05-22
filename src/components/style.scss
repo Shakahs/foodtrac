@@ -3,6 +3,20 @@ body {
   margin: 10px;
 }
 
-.NavBar  {
+a {
+  text-decoration: none;
+}
+
+.NavBar {
   margin: -10 -10 0 -10;
+}
+
+.searchBar {
+  float: left;
+  margin-right: 90px;
+  margin-top: 13px;
+}
+
+.profileButton {
+  width: 100%;
 }

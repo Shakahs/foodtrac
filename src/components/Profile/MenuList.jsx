@@ -1,11 +1,12 @@
 import React from 'react';
+import { Grid } from 'react-flexbox-grid';
 import MenuItemEntry from './MenuItemEntry';
 
 const MenuList = () => (
-  <div>
-    Menu List
+  <Grid fluid>
+    MENU:
     <MenuItemEntry />
-  </div>
+  </Grid>
 );
 
 export default MenuList;

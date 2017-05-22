@@ -1,17 +1,22 @@
 import React, { Component } from 'react';
 import Geosuggest from 'react-geosuggest';
+import { Redirect } from 'react-router-dom';
 
 
 class SearchBar extends Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      redirect: false,
+    };
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect push to="/map" />;
+    }
     return (
-      <div>
-
+      <div className="searchBar">
         <Geosuggest
           className="midin"
           country="us"
@@ -22,10 +27,10 @@ class SearchBar extends Component {
               address: loc.label,
               lat: loc.location.lat,
               lng: loc.location.lng,
+              redirect: !this.state.redirect,
             });
           }}
         />
-
       </div>
     );
   }
