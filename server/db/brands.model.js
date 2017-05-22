@@ -11,7 +11,7 @@ class Brands extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['owner_id', 'name', 'description'],
+      required: ['owner_id', 'name', 'description', 'food_genre_id'],
 
       properties: {
         id: { type: 'integer' },
