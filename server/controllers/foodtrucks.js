@@ -11,7 +11,7 @@ module.exports = {
       .then(() => res.sendStatus(201))
       .catch((e) => {
         console.log('Error inserting new truck:', e);
-        res.sendStatus(400);
+        res.status(400).send(e.message);
       });
   },
 };

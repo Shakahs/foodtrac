@@ -7,7 +7,7 @@ module.exports = {
       .then(() => res.sendStatus(201))
       .catch((e) => {
         console.log('Error inserting new location:', e);
-        res.sendStatus(400);
+        res.status(400).send(e.message);
       });
   },
   get(req, res) {
