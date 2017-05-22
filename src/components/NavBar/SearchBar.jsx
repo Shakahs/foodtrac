@@ -10,21 +10,21 @@ class SearchBar extends Component {
 
   render() {
     return (
-      <div>Search Bar
+      <div>
 
-    <Geosuggest
-      className="midin"
-      country="us"
-      types={['geocode']}
-      placeholder="Type your address!"
-      onSuggestSelect={(loc) => {
-        this.setState({
-          address: loc.label,
-          lat: loc.location.lat,
-          lng: loc.location.lng,
-        });
-      }}
-    />
+        <Geosuggest
+          className="midin"
+          country="us"
+          types={['geocode']}
+          placeholder="Type your address!"
+          onSuggestSelect={(loc) => {
+            this.setState({
+              address: loc.label,
+              lat: loc.location.lat,
+              lng: loc.location.lng,
+            });
+          }}
+        />
 
       </div>
     );
