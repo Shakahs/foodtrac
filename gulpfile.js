@@ -86,10 +86,11 @@ gulp.task('schema:db', (cb) => {
 
 gulp.task('schema:api', (cb) => {
   const pRename = Promise.promisify(fs.rename);
-  const apiFile = path.join(os.homedir(), 'Downloads', 'swagger20.json');
-  pRename(apiFile, './config/api.json')
+  const apiFileSource = path.join(os.homedir(), 'Downloads', 'swagger20.json');
+  const apiFileTarget = path.join('server', 'api.json');
+  pRename(apiFileSource, apiFileTarget)
     .then(() => {
-      console.log('API file copied from Downloads directory to config/api.json');
+      console.log(`API file copied from Downloads directory to ${apiFileTarget}`);
       cb();
     })
     .catch((err) => { cb(err); });
