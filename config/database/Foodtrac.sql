@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-21 23:44:41.522
+-- Last modification date: 2017-05-22 06:31:23.432
 
 -- tables
 -- Table: BrandComments
@@ -234,7 +234,7 @@ CREATE TABLE UserRewards (
 -- Table: Users
 CREATE TABLE Users (
     id int NOT NULL AUTO_INCREMENT,
-    email varchar(30) NOT NULL,
+    email varchar(100) NOT NULL,
     is_truck_owner bool NOT NULL,
     auth0_id varchar(30) NOT NULL,
     UNIQUE INDEX Users_email_unique_index (email),
