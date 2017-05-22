@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-22 06:31:23.432
+-- Last modification date: 2017-05-22 17:56:47.4
 
 -- tables
 -- Table: BrandComments
@@ -218,7 +218,7 @@ CREATE TABLE UserFollows (
     id int NOT NULL AUTO_INCREMENT,
     user_id int NOT NULL,
     brand_id int NOT NULL,
-    favorite bool NULL,
+    favorite bool NULL DEFAULT false,
     CONSTRAINT UserFollows_pk PRIMARY KEY (id)
 );
 
