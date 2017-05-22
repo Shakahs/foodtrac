@@ -12,8 +12,8 @@ class LocationTimeline extends Model {
 
       properties: {
         id: { type: 'integer' },
-        start: { type: 'integer' },
-        end: { type: 'integer' },
+        start: { type: 'string' },
+        end: { type: 'string' },
         truck_id: { type: 'integer' },
         location_id: { type: 'integer' },
         checked_in: { type: 'boolean', default: 'false' },
