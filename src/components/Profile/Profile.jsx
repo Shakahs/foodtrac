@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Grid, Row } from 'react-flexbox-grid';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
 import TabView from './TabView';
@@ -11,11 +12,15 @@ class Profile extends Component {
 
   render() {
     return (
-      <div>
-        <Cover />
-        <ProfileInfo />
-        <TabView />
-      </div>
+      <Grid fluid>
+        <Row>
+          <Cover />
+        </Row>
+        <Row>
+          <ProfileInfo />
+          <TabView />
+        </Row>
+      </Grid>
     );
   }
 }

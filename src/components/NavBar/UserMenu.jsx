@@ -18,7 +18,7 @@ const UserMenu = props => (
     <Link to="/">
       <MenuItem primaryText="Dashboard" />
     </Link>
-    <Link to="/profile">
+    <Link to="/profile/menu">
       <MenuItem primaryText="Profile" />
     </Link>
     <Link to="/settings">
