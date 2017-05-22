@@ -452,16 +452,13 @@
         "owner_id" : {
           "type" : "integer"
         },
-        "truck_id" : {
-          "type" : "integer"
-        },
         "name" : {
           "type" : "string"
         },
         "description" : {
           "type" : "string"
         },
-        "foodgenre_id" : {
+        "food_genre_id" : {
           "type" : "number"
         },
         "rewards_trigger_count" : {
