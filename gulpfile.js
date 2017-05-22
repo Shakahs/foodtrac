@@ -15,8 +15,11 @@ const Promise = require('bluebird');
 const { Model } = require('objection');
 const knexConfig = require('./knexfile');
 const knex = require('knex');
-const Users = require('./server/db/users.model');
 const Chance = require('chance');
+
+const Users = require('./server/db/users.model');
+const FoodGenres = require('./server/db/foodgenres.model');
+
 
 jsf.extend('chance', () => new Chance());
 
@@ -29,7 +32,7 @@ jsf.extend('chance', () => new Chance());
 */
 
 gulp.task('db', (cb) => {
-  runSequence('db:recreate', 'db:seed:users', cb);
+  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres'], cb);
 });
 
 gulp.task('db:recreate', (cb) => {
@@ -56,6 +59,23 @@ gulp.task('db:seed:users', (cb) => {
   };
   jsf.resolve(userSeedSchema)
     .then(seedData => thisKnex.batchInsert('Users', seedData))
+    .then(() => thisKnex.destroy())
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:foodgenres', (cb) => {
+  const thisKnex = knex(knexConfig.development);
+  Model.knex(thisKnex);
+  const foodGenreSchema = {
+    type: 'array',
+    minItems: 5,
+    maxItems: 6,
+    uniqueItems: true,
+    items: FoodGenres.jsonSchema,
+  };
+  jsf.resolve(foodGenreSchema)
+    .then(seedData => thisKnex.batchInsert('FoodGenres', seedData))
     .then(() => thisKnex.destroy())
     .then(() => { cb(); })
     .catch((err) => { cb(err); });

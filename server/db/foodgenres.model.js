@@ -12,7 +12,14 @@ class FoodGenres extends Model {
 
       properties: {
         id: { type: 'integer' },
-        name: { type: 'string', minLength: 1, maxLength: 20 },
+        name: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 20,
+          chance: {
+            pickone: [['Mexican', 'Korean', 'BBQ', 'Burgers', 'Grilled Cheese', 'Pho']],
+          },
+        },
       },
     };
   }
