@@ -4,7 +4,7 @@ module.exports = {
   post(req, res) {
     Users.query()
       .insert(req.body)
-      .then(() => res.sendStatus(201))
+      .then(newUser => res.status(201).json(newUser))
       .catch(e => console.log('Error inserting new user:', e));
   },
 };
