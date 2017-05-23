@@ -19,6 +19,7 @@ const Faker = require('faker');
 const Users = require('./server/db/users.model');
 const FoodGenres = require('./server/db/foodgenres.model');
 const Brands = require('./server/db/brands.model');
+const Trucks = require('./server/db/trucks.model');
 // const LocationTimelines = require('./server/db/locationtimelines.model');
 
 /*
@@ -51,7 +52,7 @@ const insertSeed = (table, seedData) => {
 };
 
 gulp.task('db', (cb) => {
-  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands', cb);
+  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands', 'db:seed:trucks', cb);
 });
 
 gulp.task('db:recreate', (cb) => {
@@ -132,6 +133,34 @@ gulp.task('db:seed:brands', (cb) => {
       return newSeedData;
     })
     .then(seedData => insertSeed('Brands', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:trucks', (cb) => {
+  const truckSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: Trucks.jsonSchema,
+  };
+  const boundBrands = provideModelWithKnex(Brands);
+  let brandList = [];
+  boundBrands.query()
+    .then((res) => {
+      brandList = res;
+      return boundBrands.knex().destroy();
+    })
+    .then(() => {
+      truckSchema.minItems = brandList.length;
+      truckSchema.maxItems = brandList.length;
+      return jsf.resolve(truckSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+      newSeedDataItem.brand_id = brandList.pop().id;
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('Trucks', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });

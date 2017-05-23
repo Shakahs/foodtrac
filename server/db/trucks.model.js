@@ -12,7 +12,19 @@ class Trucks extends Model {
 
       properties: {
         id: { type: 'integer' },
-        name: { type: 'string', minLength: 1, maxLength: 20 },
+        name: {
+          type: ['string', 'null'],
+          default: null,
+          maxLength: 20,
+          chance: {
+            weighted: [
+              [
+                'Hank', 'Bobby', 'Dale', 'Boomhauer', 'null',
+              ],
+              [1, 1, 1, 1, 8],
+            ],
+          },
+        },
         brand_id: { type: 'integer' },
       },
     };
