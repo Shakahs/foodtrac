@@ -1,7 +1,6 @@
 import { fork } from 'redux-saga/effects';
-
-import { sagas as userSagas } from './UserProfile';
 import { sagas as mapSagas } from './MapSearch';
+import { sagas as userSagas } from './user';
 
 export default function* rootSaga() {
   yield [
