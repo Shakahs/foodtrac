@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-23 00:52:56.557
+-- Last modification date: 2017-05-23 03:02:56.573
 
 -- tables
 -- Table: BrandComments
@@ -111,7 +111,7 @@ CREATE TABLE LocationTimelines (
     end timestamp NOT NULL,
     truck_id int NOT NULL,
     location_id int NOT NULL,
-    checked_in bool NOT NULL,
+    checked_in bool NOT NULL DEFAULT false,
     CONSTRAINT LocationTimelines_pk PRIMARY KEY (id)
 );
 

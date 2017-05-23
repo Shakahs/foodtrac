@@ -427,7 +427,7 @@
                     <Type>bool</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
+                    <DefaultValue>false</DefaultValue>
                     <CheckExpression></CheckExpression>
                     <Properties/>
                 </Column>
