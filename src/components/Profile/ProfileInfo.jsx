@@ -3,14 +3,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
+import PropTypes from 'prop-types';
 
-const ProfileInfo = () => (
+const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
     <Paper zDepth={1}>
       <br />
-      <div className="brandName">Brand Name</div>
+      <div className="brandName">{props.name}</div>
       <br />
-      <div className="brandDescription">description of brand goes here</div>
+      <div className="brandDescription">{props.description}</div>
       <br />
       <div className="brandGenre">Food Genre</div>
       <br />
@@ -41,5 +42,10 @@ const ProfileInfo = () => (
     </Link>
   </Col>
 );
+
+ProfileInfo.propTypes = {
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+};
 
 export default ProfileInfo;
