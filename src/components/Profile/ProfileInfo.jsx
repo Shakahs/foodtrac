@@ -13,7 +13,7 @@ const ProfileInfo = props => (
       <br />
       <div className="brandDescription">{props.description}</div>
       <br />
-      <div className="brandGenre">Food Genre</div>
+      <div className="brandGenre">{props.foodGenre}</div>
       <br />
     </Paper>
     <br />
@@ -46,6 +46,7 @@ const ProfileInfo = props => (
 ProfileInfo.propTypes = {
   name: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  foodGenre: PropTypes.string.isRequired,
 };
 
 export default ProfileInfo;

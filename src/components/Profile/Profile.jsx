@@ -13,12 +13,14 @@ class Profile extends Component {
       brandName: null,
       brandDescription: null,
       trucks: null,
+      foodGenre: null,
     };
   }
 
   componentDidMount() {
     this.getBrandDetail();
     this.getBrandTrucks();
+    this.getFoodGenre();
   }
 
   // need to replace 1 with ${this.props.brandId}
@@ -37,6 +39,12 @@ class Profile extends Component {
       .catch(err => console.log(err));
   }
 
+  getFoodGenre() {
+    axios.get('/api/foodgenre/1')
+      .then(res => this.setState({ foodGenre: res.data[0].name }))
+      .catch(err => console.log(err));
+  }
+
   render() {
     return (
       <Grid fluid>
@@ -47,6 +55,7 @@ class Profile extends Component {
           <ProfileInfo
             name={this.state.brandName}
             description={this.state.brandDescription}
+            foodGenre={this.state.foodGenre}
           />
           <TabView />
         </Row>
