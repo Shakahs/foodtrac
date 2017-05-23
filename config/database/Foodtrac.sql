@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-05-22 17:56:47.4
+-- Last modification date: 2017-05-23 03:02:56.573
 
 -- tables
 -- Table: BrandComments
@@ -83,6 +83,7 @@ CREATE TABLE Events (
 CREATE TABLE FoodGenres (
     id int NOT NULL AUTO_INCREMENT,
     name varchar(20) NOT NULL,
+    UNIQUE INDEX FoodGenres_name_unique_index (name),
     CONSTRAINT FoodGenres_pk PRIMARY KEY (id)
 );
 
@@ -103,15 +104,15 @@ CREATE TABLE LocationComments (
     CONSTRAINT LocationComments_pk PRIMARY KEY (id)
 );
 
--- Table: LocationTimeline
-CREATE TABLE LocationTimeline (
+-- Table: LocationTimelines
+CREATE TABLE LocationTimelines (
     id int NOT NULL AUTO_INCREMENT,
     start timestamp NOT NULL,
     end timestamp NOT NULL,
     truck_id int NOT NULL,
     location_id int NOT NULL,
-    checked_in bool NOT NULL,
-    CONSTRAINT LocationTimeline_pk PRIMARY KEY (id)
+    checked_in bool NOT NULL DEFAULT false,
+    CONSTRAINT LocationTimelines_pk PRIMARY KEY (id)
 );
 
 -- Table: LocationVotes
@@ -327,8 +328,8 @@ ALTER TABLE LocationVotes ADD CONSTRAINT LocationVotes_Users FOREIGN KEY Locatio
 ALTER TABLE LocationComments ADD CONSTRAINT Locations_LocationComments FOREIGN KEY Locations_LocationComments (location_id)
     REFERENCES Locations (id);
 
--- Reference: Locations_LocationTimeline (table: LocationTimeline)
-ALTER TABLE LocationTimeline ADD CONSTRAINT Locations_LocationTimeline FOREIGN KEY Locations_LocationTimeline (location_id)
+-- Reference: Locations_LocationTimelines (table: LocationTimelines)
+ALTER TABLE LocationTimelines ADD CONSTRAINT Locations_LocationTimelines FOREIGN KEY Locations_LocationTimelines (location_id)
     REFERENCES Locations (id);
 
 -- Reference: Menu_Brand (table: MenuItems)
@@ -371,8 +372,8 @@ ALTER TABLE TruckAttendees ADD CONSTRAINT TruckAttendees_Events FOREIGN KEY Truc
 ALTER TABLE TruckAttendees ADD CONSTRAINT TruckAttendees_Truck FOREIGN KEY TruckAttendees_Truck (truck_id)
     REFERENCES Trucks (id);
 
--- Reference: Truck_LocationTimeline (table: LocationTimeline)
-ALTER TABLE LocationTimeline ADD CONSTRAINT Truck_LocationTimeline FOREIGN KEY Truck_LocationTimeline (truck_id)
+-- Reference: Truck_LocationTimelines (table: LocationTimelines)
+ALTER TABLE LocationTimelines ADD CONSTRAINT Truck_LocationTimelines FOREIGN KEY Truck_LocationTimelines (truck_id)
     REFERENCES Trucks (id);
 
 -- Reference: Upvote_Brand (table: Upvotes)

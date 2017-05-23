@@ -15,7 +15,7 @@ class Users extends Model {
         email: {
           type: 'string',
           format: 'email',
-          faker: 'internet.email',
+          chance: 'email',
           maxLength: 100,
         },
         is_truck_owner: {
@@ -25,7 +25,7 @@ class Users extends Model {
               [
                 true, false,
               ],
-              [1, 100],
+              [1, 75],
             ],
           },
         },

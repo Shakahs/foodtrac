@@ -12,16 +12,17 @@ const WebpackDevServer = require('webpack-dev-server');
 const jsf = require('json-schema-faker');
 const axios = require('axios');
 const Promise = require('bluebird');
-const { Model } = require('objection');
 const knexConfig = require('./knexfile');
 const knex = require('knex');
-const Users = require('./server/db/users.model');
 const Chance = require('chance');
-
-jsf.extend('chance', () => {
-  const chance = new Chance();
-  return chance;
-});
+const Faker = require('faker');
+const moment = require('moment');
+const Users = require('./server/db/users.model');
+const FoodGenres = require('./server/db/foodgenres.model');
+const Brands = require('./server/db/brands.model');
+const Trucks = require('./server/db/trucks.model');
+const Locations = require('./server/db/locations.model');
+const LocationTimelines = require('./server/db/locationtimelines.model');
 
 /*
  /
@@ -31,13 +32,34 @@ jsf.extend('chance', () => {
  /
 */
 
+const googleMapsClient = require('@google/maps').createClient({
+  key: process.env.GOOGLE_API_KEY,
+  Promise,
+});
+
+jsf.extend('chance', () => new Chance());
+jsf.extend('faker', () => Faker);
+
+const provideKnex = () => knex(knexConfig.development);
+
+const provideModelWithKnex = (model) => {
+  const thisKnex = provideKnex();
+  return model.bindKnex(thisKnex);
+};
+
+const insertSeed = (table, seedData) => {
+  const thisKnex = provideKnex();
+  return thisKnex.batchInsert(table, seedData)
+    .then(() => thisKnex.destroy());
+};
+
 gulp.task('db', (cb) => {
-  runSequence('db:recreate', 'db:seed:users', cb);
+  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
+    'db:seed:trucks', 'db:seed:locationtimelines', cb);
 });
 
 gulp.task('db:recreate', (cb) => {
-  const thisKnex = knex(knexConfig.development);
-  Model.knex(thisKnex);
+  const thisKnex = provideKnex();
   const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
   thisKnex.raw('DROP DATABASE foodtrac')
     .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
@@ -48,18 +70,163 @@ gulp.task('db:recreate', (cb) => {
 });
 
 gulp.task('db:seed:users', (cb) => {
-  const thisKnex = knex(knexConfig.development);
-  Model.knex(thisKnex);
   const userSeedSchema = {
     type: 'array',
-    minItems: 5000,
-    maxItems: 10000,
+    minItems: 2000,
+    maxItems: 3000,
     uniqueItems: true,
     items: Users.jsonSchema,
   };
   jsf.resolve(userSeedSchema)
-    .then(seedData => thisKnex.batchInsert('Users', seedData))
-    .then(() => thisKnex.destroy())
+    .then(seedData => insertSeed('Users', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:foodgenres', (cb) => {
+  const foodGenreSchema = {
+    type: 'array',
+    minItems: 6,
+    maxItems: 6,
+    uniqueItems: true,
+    items: FoodGenres.jsonSchema,
+  };
+  jsf.resolve(foodGenreSchema)
+    .then(seedData => insertSeed('FoodGenres', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:brands', (cb) => {
+  const brandSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: Brands.jsonSchema,
+  };
+  const boundUsers = provideModelWithKnex(Users);
+  const boundFoodGenres = provideModelWithKnex(FoodGenres);
+  let userList = [];
+  let foodGenres = [];
+  boundUsers.query()
+    .where('is_truck_owner', true)
+    .then((res) => {
+      userList = res;
+      return boundUsers.knex().destroy();
+    })
+    .then(() => boundFoodGenres.query())
+    .then((res) => {
+      foodGenres = res;
+      return boundFoodGenres.knex().destroy();
+    })
+    .then(() => {
+      brandSchema.minItems = userList.length - 1;
+      brandSchema.maxItems = userList.length - 1;
+      return jsf.resolve(brandSchema);
+    })
+    .then((seedData) => {
+      const chance = new Chance();
+      const newSeedData = seedData.map((seedDataItem) => {
+        const newSeedDataItem = Object.assign({}, seedDataItem);
+        newSeedDataItem.owner_id = userList.pop().id;
+        newSeedDataItem.food_genre_id = chance.pickone(foodGenres).id;
+        delete newSeedDataItem.default_coupon_id;
+        newSeedDataItem.name += ' Truck';
+        return newSeedDataItem;
+      });
+      return newSeedData;
+    })
+    .then(seedData => insertSeed('Brands', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:trucks', (cb) => {
+  const truckSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: Trucks.jsonSchema,
+  };
+  const boundBrands = provideModelWithKnex(Brands);
+  let brandList = [];
+  boundBrands.query()
+    .then((res) => {
+      brandList = res;
+      return boundBrands.knex().destroy();
+    })
+    .then(() => {
+      truckSchema.minItems = brandList.length;
+      truckSchema.maxItems = brandList.length;
+      return jsf.resolve(truckSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+      newSeedDataItem.brand_id = brandList.pop().id;
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('Trucks', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:locations', (cb) => {
+  const query = {
+    location: '34.053736,-118.242809', // LA city hall
+    radius: 25000,
+    type: 'parking',
+  };
+  googleMapsClient.placesRadar(query).asPromise()
+    .then((radarData) => {
+      const dataSlice = radarData.json.results.slice(0, 40);
+      return Promise.map(dataSlice, radarPlace =>
+        googleMapsClient.place({ placeid: radarPlace.place_id }).asPromise());
+    })
+    .then(placeData => placeData.map(place => ({
+      name: place.json.result.name,
+      address: place.json.result.formatted_address,
+      lat: place.json.result.geometry.location.lat,
+      lng: place.json.result.geometry.location.lng,
+    })))
+  .then(seedData => insertSeed('Locations', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:locationtimelines', (cb) => {
+  const locationTimelinesSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: LocationTimelines.jsonSchema,
+  };
+  const boundTruck = provideModelWithKnex(Trucks);
+  const boundLocations = provideModelWithKnex(Locations);
+  let truckList = [];
+  let locationList = [];
+  boundTruck.query()
+    .then((res) => {
+      truckList = res;
+      return boundTruck.knex().destroy();
+    })
+    .then(() => boundLocations.query())
+    .then((res) => {
+      locationList = res;
+      return boundLocations.knex().destroy();
+    })
+    .then(() => {
+      locationTimelinesSchema.minItems = truckList.length;
+      locationTimelinesSchema.maxItems = truckList.length;
+      return jsf.resolve(locationTimelinesSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+
+      newSeedDataItem.start = moment().format('YYYY-MM-DD HH:mm:ss');
+      newSeedDataItem.location_id = locationList.pop().id;
+      newSeedDataItem.truck_id = truckList.pop().id;
+      // newSeedDataItem.checked_in = true;
+
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('LocationTimelines', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
@@ -72,11 +239,11 @@ gulp.task('db:seed:users', (cb) => {
  /
 */
 
-gulp.task('schema:db', (cb) => {
-  runSequence('schema:db:download', 'db', cb);
+gulp.task('schema:db:reseed', (cb) => {
+  runSequence('schema:db', 'db', cb);
 });
 
-gulp.task('schema:db:download', (cb) => {
+gulp.task('schema:db', (cb) => {
   const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
 
   axios.all([

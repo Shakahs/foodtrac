@@ -13,10 +13,26 @@ class Brands extends Model {
       properties: {
         id: { type: 'integer' },
         owner_id: { type: 'integer' },
-        name: { type: 'string', minLength: 1, maxLength: 30 },
-        description: { type: 'string', minLength: 1, maxLength: 255 },
+        name: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 30,
+          faker: 'commerce.productName',
+        },
+        description: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 255,
+          faker: 'company.bs',
+        },
         food_genre_id: { type: 'integer' },
-        rewards_trigger: { type: ['integer', 'null'], default: null },
+        rewards_trigger: {
+          type: ['integer', 'null'],
+          default: null,
+          chance: {
+            pickone: [[5, 8, 10, null]],
+          },
+        },
         default_coupon_id: { type: ['integer', 'null'], default: null },
       },
     };
