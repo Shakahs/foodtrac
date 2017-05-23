@@ -16,11 +16,13 @@ const knexConfig = require('./knexfile');
 const knex = require('knex');
 const Chance = require('chance');
 const Faker = require('faker');
+const moment = require('moment');
 const Users = require('./server/db/users.model');
 const FoodGenres = require('./server/db/foodgenres.model');
 const Brands = require('./server/db/brands.model');
 const Trucks = require('./server/db/trucks.model');
-// const LocationTimelines = require('./server/db/locationtimelines.model');
+const Locations = require('./server/db/locations.model');
+const LocationTimelines = require('./server/db/locationtimelines.model');
 
 /*
  /
@@ -52,7 +54,8 @@ const insertSeed = (table, seedData) => {
 };
 
 gulp.task('db', (cb) => {
-  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands', 'db:seed:trucks', cb);
+  runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
+    'db:seed:trucks', 'db:seed:locationtimelines', cb);
 });
 
 gulp.task('db:recreate', (cb) => {
@@ -184,6 +187,46 @@ gulp.task('db:seed:locations', (cb) => {
       lng: place.json.result.geometry.location.lng,
     })))
   .then(seedData => insertSeed('Locations', seedData))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
+
+gulp.task('db:seed:locationtimelines', (cb) => {
+  const locationTimelinesSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: LocationTimelines.jsonSchema,
+  };
+  const boundTruck = provideModelWithKnex(Trucks);
+  const boundLocations = provideModelWithKnex(Locations);
+  let truckList = [];
+  let locationList = [];
+  boundTruck.query()
+    .then((res) => {
+      truckList = res;
+      return boundTruck.knex().destroy();
+    })
+    .then(() => boundLocations.query())
+    .then((res) => {
+      locationList = res;
+      return boundLocations.knex().destroy();
+    })
+    .then(() => {
+      locationTimelinesSchema.minItems = truckList.length;
+      locationTimelinesSchema.maxItems = truckList.length;
+      return jsf.resolve(locationTimelinesSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+
+      newSeedDataItem.start = moment().format('YYYY-MM-DD HH:mm:ss');
+      newSeedDataItem.location_id = locationList.pop().id;
+      newSeedDataItem.truck_id = truckList.pop().id;
+      // newSeedDataItem.checked_in = true;
+
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('LocationTimelines', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
