@@ -16,27 +16,27 @@ const ProfileInfo = () => (
       <br />
     </Paper>
     <br />
-    <Link to="/profile/trucks">
+    <Link to={'/brand/123/trucks'}>
       <RaisedButton label="Food Trucks" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to="/profile/menu">
+    <Link to={'/brand/123/menu'}>
       <RaisedButton label="Menu" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to="/profile/events">
+    <Link to={'/brand/123/events'}>
       <RaisedButton label="Events" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to="/profile/reviews">
+    <Link to={'/brand/123/reviews'}>
       <RaisedButton label="Reviews" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to="/profile/comments">
+    <Link to={'/brand/123/comments'}>
       <RaisedButton label="Comments" className="profileButton" />
     </Link>
   </Col>

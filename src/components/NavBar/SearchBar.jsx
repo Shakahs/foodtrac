@@ -25,12 +25,10 @@ class SearchBar extends Component {
   }
 
   render() {
-    if (this.state.redirect) {
-      return <Redirect push to="/map" />;
-    }
     return (
       // onSuggestSelect axios get trucks near coords of entered address and set on redux store
       <div className="searchBar">
+        {this.state.redirect ? <Redirect push to="/map" /> : null}
         <Geosuggest
           className="midin"
           country="us"

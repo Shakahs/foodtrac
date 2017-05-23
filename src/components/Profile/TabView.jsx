@@ -12,11 +12,11 @@ const TabView = () => (
   <Col xs={12} sm={12} md={9} lg={9}>
     <Paper zDepth={1}>
       <Switch>
-        <Route path="/profile/menu" component={MenuList} />
-        <Route path="/profile/trucks" component={Trucks} />
-        <Route path="/profile/events" component={EventsList} />
-        <Route path="/profile/reviews" component={ReviewsList} />
-        <Route path="/profile/comments" component={CommentsList} />
+        <Route path="/brand/:brandId/menu" component={MenuList} />
+        <Route path="/brand/:brandId/trucks" component={Trucks} />
+        <Route path="/brand/:brandId/events" component={EventsList} />
+        <Route path="/brand/:brandId/reviews" component={ReviewsList} />
+        <Route path="/brand/:brandId/comments" component={CommentsList} />
       </Switch>
     </Paper>
   </Col>
