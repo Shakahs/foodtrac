@@ -19,6 +19,7 @@ const Faker = require('faker');
 const Users = require('./server/db/users.model');
 const FoodGenres = require('./server/db/foodgenres.model');
 const Brands = require('./server/db/brands.model');
+// const LocationTimelines = require('./server/db/locationtimelines.model');
 
 /*
  /
@@ -166,11 +167,11 @@ gulp.task('db:seed:locations', (cb) => {
  /
 */
 
-gulp.task('schema:db', (cb) => {
-  runSequence('schema:db:download', 'db', cb);
+gulp.task('schema:db:reseed', (cb) => {
+  runSequence('schema:db', 'db', cb);
 });
 
-gulp.task('schema:db:download', (cb) => {
+gulp.task('schema:db', (cb) => {
   const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
 
   axios.all([

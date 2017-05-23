@@ -28,8 +28,8 @@ class Locations extends Model {
         join: {
           from: 'Locations.id',
           through: {
-            from: 'LocationTimeline.location_id',
-            to: 'LocationTimeline.truck_id',
+            from: 'LocationTimelines.location_id',
+            to: 'LocationTimelines.truck_id',
           },
           to: 'Trucks.id',
         },

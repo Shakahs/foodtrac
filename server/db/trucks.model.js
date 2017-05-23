@@ -34,8 +34,8 @@ class Trucks extends Model {
         join: {
           from: 'Trucks.id',
           through: {
-            from: 'LocationTimeline.truck_id',
-            to: 'LocationTimeline.location_id',
+            from: 'LocationTimelines.truck_id',
+            to: 'LocationTimelines.location_id',
           },
           to: 'Locations.id',
         },
