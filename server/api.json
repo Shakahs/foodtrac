@@ -12,6 +12,45 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/foodgenre/{brandId}" : {
+      "get" : {
+        "summary" : "Get food genre of specific brand",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Food Genre"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/foodgenre" : {
+      "post" : {
+        "summary" : "Add new food genre",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Food Genre"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
     "/users" : {
       "post" : {
         "summary" : "Add new user",
@@ -436,45 +475,6 @@
         "required" : true,
         "type" : "string"
       } ]
-    },
-    "/foodgenre/{brandId}" : {
-      "get" : {
-        "summary" : "Get food genre of specific brand",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200",
-            "schema" : {
-              "$ref" : "#/definitions/Food Genre"
-            }
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "brandId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/foodgenre" : {
-      "post" : {
-        "summary" : "Add new food genre",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Food Genre"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      }
     }
   },
   "definitions" : {

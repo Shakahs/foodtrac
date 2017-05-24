@@ -11,10 +11,12 @@ class Profile extends Component {
     super(props);
     this.state = {
       brandId: this.props.match.params.brandId,
-      brandName: '',
-      brandDescription: '',
-      foodGenre: '',
-      trucks: [],
+      brand: {
+        name: '',
+        description: '',
+        food_genres: { name: '' },
+        trucks: [],
+      },
     };
   }
 
@@ -25,10 +27,7 @@ class Profile extends Component {
   getBrandDetail() {
     axios.get(`/api/brands/${this.state.brandId}?eager=true`)
       .then((res) => {
-        this.setState({ brandName: res.data.name });
-        this.setState({ brandDescription: res.data.description });
-        this.setState({ foodGenre: res.data.food_genres.name });
-        this.setState({ trucks: res.data.trucks });
+        this.setState({ brand: res.data });
       })
       .catch(err => console.log(err));
   }
@@ -41,13 +40,13 @@ class Profile extends Component {
         </Row>
         <Row>
           <ProfileInfo
-            brandName={this.state.brandName}
-            description={this.state.brandDescription}
-            foodGenre={this.state.foodGenre}
+            brandName={this.state.brand.name}
+            description={this.state.brand.description}
+            foodGenre={this.state.brand.food_genres.name}
           />
           <TabView
-            brandName={this.state.brandName}
-            trucks={this.state.trucks}
+            brandName={this.state.brand.name}
+            trucks={this.state.brand.trucks}
           />
         </Row>
       </Grid>
