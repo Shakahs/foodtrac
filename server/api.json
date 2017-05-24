@@ -542,7 +542,6 @@
       }
     },
     "Food Genre" : {
-<<<<<<< HEAD
       "type" : "object",
       "properties" : {
         "name" : {
@@ -552,9 +551,6 @@
           "type" : "integer"
         }
       }
-=======
-      "type" : "string"
->>>>>>> Add optional eager boolean query to trigger eager loading for brands
     },
     "Location" : {
       "type" : "object",
