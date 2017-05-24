@@ -2,16 +2,19 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actions as userActions } from '../../redux/UserProfile';
+import PropTypes from 'prop-types';
+import { actions as userActions } from '../../redux/user';
+import { actions as authActions } from '../../redux/auth';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
+
 
 class NavBar extends Component {
   constructor() {
     super();
     this.state = {
-      logged: true,
+      logged: false,
     };
     this.handleLogin = this.handleLogin.bind(this);
   }
@@ -28,9 +31,9 @@ class NavBar extends Component {
           iconElementRight={
             <div>
               <SearchBar />
-              {this.state.logged ? (
-                <UserMenu handleLogin={this.handleLogin} />
-              ) : <Login />}
+              {this.props.isLoggedIn ? (
+                <UserMenu handleLogout={this.props.authActions.logout} />
+              ) : <Login onSubmit={this.props.authActions.loginRequest} />}
             </div>
           }
         />
@@ -39,12 +42,19 @@ class NavBar extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  user,
+NavBar.propTypes = {
+  authActions: PropTypes.shape({ logout: PropTypes.func, loginRequest: PropTypes.func }).isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.auth.isLoggedIn,
 });
 
+
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(userActions, dispatch),
+  userActions: bindActionCreators(userActions, dispatch),
+  authActions: bindActionCreators(authActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

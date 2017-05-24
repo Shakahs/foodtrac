@@ -1,6 +1,10 @@
 require('dotenv').config();
 const path = require('path');
 
+if (process.env.NODE_ENV === undefined) {
+  process.env.NODE_ENV = 'development';
+}
+
 const webpackConfig = {
   entry: {
     app: [
@@ -12,12 +16,30 @@ const webpackConfig = {
   output: {
     path: path.resolve(__dirname, './public'),
     filename: 'bundle.js',
+    publicPath: '/',
   },
   module: {
     loaders: [
       { test: /\.js[x]?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader' },
+        loader: 'babel-loader?cacheDirectory',
+        query: {
+          presets: [
+            [
+              'latest', {
+                es2015: {
+                  modules: false,
+                },
+              },
+            ],
+            'react',
+          ],
+          plugins: [
+            'react-hot-loader/babel',
+          ],
+        },
+      },
+
     ],
   },
   resolve: {
@@ -38,6 +60,12 @@ const webpackConfig = {
   },
   devtool: 'eval',
   cache: true,
+  externals: {
+    globalConfig: `{
+     AUTH0_CLIENT_ID: '${process.env.AUTH0_CLIENT_ID}',
+     AUTH0_DOMAIN: '${process.env.AUTH0_DOMAIN}',
+   }`,
+  },
 };
 
 webpackConfig.module.loaders.push({

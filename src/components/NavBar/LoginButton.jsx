@@ -1,11 +1,36 @@
 import React from 'react';
-import FlatButton from 'material-ui/FlatButton';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { Field, reduxForm } from 'redux-form';
+
+// const Login = props => (
+//   {/*<Link to="/login">*/}
+//     {/*<FlatButton {...props} label="Login" />*/}
+//   {/*</Link>*/}
+// );
 
 const Login = props => (
   <Link to="/login">
-    <FlatButton {...props} label="Login" />
+    <form onSubmit={props.handleSubmit}>
+      <div>
+        <label htmlFor="userName">Username</label>
+        <Field name="userName" component="input" type="text" />
+      </div>
+      <div>
+        <label htmlFor="password">Password</label>
+        <Field name="password" component="input" type="text" />
+      </div>
+      <button type="submit" onClick={() => { props.handleSubmit(); }}>Login</button>
+    </form>
   </Link>
-);
+    );
 
-export default Login;
+Login.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+};
+
+const LoginForm = reduxForm({
+  form: 'login', // a unique name for this form
+})(Login);
+
+export default LoginForm;
