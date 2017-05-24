@@ -9,7 +9,7 @@ const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
     <Paper zDepth={1}>
       <br />
-      <div className="brandName">{props.name}</div>
+      <div className="brandName">{props.brandName}</div>
       <br />
       <div className="brandDescription">{props.description}</div>
       <br />
@@ -17,34 +17,34 @@ const ProfileInfo = props => (
       <br />
     </Paper>
     <br />
-    <Link to={'/brand/123/trucks'}>
+    <Link to={'/brand/1/trucks'}>
       <RaisedButton label="Food Trucks" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/123/menu'}>
+    <Link to={'/brand/1/menu'}>
       <RaisedButton label="Menu" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/123/events'}>
+    <Link to={'/brand/1/events'}>
       <RaisedButton label="Events" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/123/reviews'}>
+    <Link to={'/brand/1/reviews'}>
       <RaisedButton label="Reviews" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/123/comments'}>
+    <Link to={'/brand/1/comments'}>
       <RaisedButton label="Comments" className="profileButton" />
     </Link>
   </Col>
 );
 
 ProfileInfo.propTypes = {
-  name: PropTypes.string.isRequired,
+  brandName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   foodGenre: PropTypes.string.isRequired,
 };
