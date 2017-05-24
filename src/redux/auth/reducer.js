@@ -1,3 +1,5 @@
+import { REHYDRATE } from 'redux-persist/constants';
+
 const Immutable = require('seamless-immutable').static;
 
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
@@ -16,6 +18,9 @@ const initialState = {
 
 export default function reducer(state = Immutable(initialState), action) {
   switch (action.type) {
+    case REHYDRATE:
+      if (action.payload.auth) return Immutable.merge(state, action.payload.auth);
+      return state;
     case LOGIN_REQUEST:
       return Immutable.merge(state, { isLoggingIn: true });
     case LOGIN_SUCCESS:
