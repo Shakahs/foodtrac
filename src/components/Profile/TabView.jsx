@@ -11,7 +11,7 @@ import CommentsList from './CommentsList';
 
 const TabView = props => (
   <Col xs={12} sm={12} md={9} lg={9}>
-    <Paper zDepth={1}>
+    <Paper zDepth={1} className="brandTabView">
       <Switch>
         <Route path="/brand/:brandId/menu" component={MenuList} />
         <Route

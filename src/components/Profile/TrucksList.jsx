@@ -4,7 +4,7 @@ import TruckEntry from '../common/TruckEntry';
 
 const TrucksList = props => (
   <div>
-    {props.trucks.map(truck => <TruckEntry truck={truck} />)}
+    {props.trucks.map((truck, i) => <TruckEntry key={truck.concat(i)} truck={truck} />)}
   </div>
 );
 
