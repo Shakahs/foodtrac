@@ -437,29 +437,18 @@
         "type" : "string"
       } ]
     },
-    "/foodgenre/{brandId}" : {
+    "/foodgenres" : {
       "get" : {
-        "summary" : "Get food genre of specific brand",
+        "summary" : "Get all food genres",
         "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "Status 200",
-            "schema" : {
-              "$ref" : "#/definitions/Food Genre"
-            }
+            "description" : "Status 200"
           }
         }
       },
-      "parameters" : [ {
-        "name" : "brandId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/foodgenre" : {
       "post" : {
-        "summary" : "Add new food genre",
+        "summary" : "Add a new food genre",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
@@ -553,7 +542,15 @@
       }
     },
     "Food Genre" : {
-      "type" : "string"
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "integer"
+        }
+      }
     },
     "Location" : {
       "type" : "object",

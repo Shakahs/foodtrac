@@ -11,37 +11,24 @@ class Profile extends Component {
     super(props);
     this.state = {
       brandId: this.props.match.params.brandId,
-      brandName: '',
-      brandDescription: '',
-      foodGenre: '',
-      trucks: [],
+      brand: {
+        name: '',
+        description: '',
+        food_genres: { name: '' },
+        trucks: [],
+      },
     };
   }
 
   componentDidMount() {
     this.getBrandDetail();
-    this.getFoodGenre();
-    this.getBrandTrucks();
   }
 
   getBrandDetail() {
-    axios.get(`/api/brands/${this.state.brandId}`)
+    axios.get(`/api/brands/${this.state.brandId}?eager=true`)
       .then((res) => {
-        this.setState({ brandName: res.data[0].name });
-        this.setState({ brandDescription: res.data[0].description });
+        this.setState({ brand: res.data });
       })
-      .catch(err => console.log(err));
-  }
-
-  getFoodGenre() {
-    axios.get(`/api/foodgenre/${this.state.brandId}`)
-      .then(res => this.setState({ foodGenre: res.data[0].name }))
-      .catch(err => console.log(err));
-  }
-
-  getBrandTrucks() {
-    axios.get(`/api/brands/${this.state.brandId}/trucks`)
-      .then(res => this.setState({ trucks: res.data }))
       .catch(err => console.log(err));
   }
 
@@ -53,13 +40,13 @@ class Profile extends Component {
         </Row>
         <Row>
           <ProfileInfo
-            brandName={this.state.brandName}
-            description={this.state.brandDescription}
-            foodGenre={this.state.foodGenre}
+            brandName={this.state.brand.name}
+            description={this.state.brand.description}
+            foodGenre={this.state.brand.food_genres.name}
           />
           <TabView
-            brandName={this.state.brandName}
-            trucks={this.state.trucks}
+            brandName={this.state.brand.name}
+            trucks={this.state.brand.trucks}
           />
         </Row>
       </Grid>
@@ -70,7 +57,7 @@ class Profile extends Component {
 Profile.propTypes = {
   match: PropTypes.shape({
     params: PropTypes.shape({
-      brandId: PropTypes.number,
+      brandId: PropTypes.string,
     }),
   }).isRequired,
 };
