@@ -3,14 +3,17 @@ const Brands = require('../../db/brands.model');
 module.exports = {
   put(req, res) {
     Brands.query()
-      .where('id', '=', req.params.brandId)
+      .findById(req.params.brandId)
       .update(req.body)
       .then(brand => res.status(200).json(brand))
       .catch(e => console.log('Error updating brand:', e));
   },
   get(req, res) {
+    // brand, food genre, trucks with location
+    const eagerOption = req.query.eager ? '[trucks.locations, food_genres]' : '';
     Brands.query()
-      .where('id', '=', req.params.brandId)
+      .eager(eagerOption)
+      .findById(req.params.brandId)
       .then(brand => res.status(200).json(brand))
       .catch(e => console.log('Error fetching brand:', e));
   },
