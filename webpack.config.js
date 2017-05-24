@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path');
+const webpack = require('webpack');
 
 const webpackConfig = {
   entry: {
@@ -56,6 +57,12 @@ const webpackConfig = {
   },
   devtool: 'eval',
   cache: true,
+  plugins: [
+    new webpack.DefinePlugin({
+      AUTH0_CLIENT_ID: JSON.stringify(process.env.AUTH0_CLIENT_ID),
+      AUTH0_DOMAIN: JSON.stringify(process.env.AUTH0_DOMAIN),
+    }),
+  ],
 };
 
 webpackConfig.module.loaders.push({
