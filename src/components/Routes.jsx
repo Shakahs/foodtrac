@@ -17,7 +17,7 @@ class Routes extends Component {
       <Switch>
         <Route exact path="/" component={DashBoard} />
         <Route path="/map" component={MapPage} />
-        <Route path="/profile" component={Profile} />
+        <Route path="/brand/:brandId" component={Profile} />
         <Route path="/login" component={Login} />
         <Route path="/settings" component={Settings} />
       </Switch>

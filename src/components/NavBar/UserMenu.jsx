@@ -19,7 +19,7 @@ const UserMenu = props => (
     <Link to="/">
       <MenuItem primaryText="Dashboard" />
     </Link>
-    <Link to="/profile/menu">
+    <Link to={'/brand/1/trucks'}>
       <MenuItem primaryText="Profile" />
     </Link>
     <Link to="/settings">
