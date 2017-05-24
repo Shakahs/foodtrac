@@ -1,11 +1,15 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TruckEntry from '../common/TruckEntry';
 
-const TrucksList = () => (
+const TrucksList = props => (
   <div>
-    Trucks List
-    <TruckEntry />
+    {props.trucks.map(truck => <TruckEntry truck={truck} />)}
   </div>
 );
+
+TrucksList.propTypes = {
+  trucks: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default TrucksList;

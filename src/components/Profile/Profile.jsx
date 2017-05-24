@@ -11,10 +11,10 @@ class Profile extends Component {
     super(props);
     this.state = {
       brandId: this.props.match.params.brandId,
-      brandName: null,
-      brandDescription: null,
-      foodGenre: null,
-      trucks: null,
+      brandName: '',
+      brandDescription: '',
+      foodGenre: '',
+      trucks: [],
     };
   }
 
