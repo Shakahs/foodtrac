@@ -9,7 +9,6 @@ import PropTypes from 'prop-types';
 
 const UserMenu = props => (
   <IconMenu
-    {...props}
     iconButtonElement={
       <IconButton><MoreVertIcon /></IconButton>
     }
