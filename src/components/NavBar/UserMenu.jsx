@@ -26,13 +26,13 @@ const UserMenu = props => (
     </Link>
     <Divider />
     <Link to="/">
-      <MenuItem primaryText="Sign out" onClick={() => props.handleLogin()} />
+      <MenuItem primaryText="Sign out" onClick={() => { props.handleLogout(); }} />
     </Link>
   </IconMenu>
 );
 
 UserMenu.propTypes = {
-  handleLogin: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func.isRequired,
 };
 
 export default UserMenu;

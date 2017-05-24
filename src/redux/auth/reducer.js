@@ -7,6 +7,7 @@ export const LOGOUT = 'LOGOUT';
 export const CREDENTIALS_ENTERED = 'CREDENTIALS_ENTERED';
 
 const initialState = {
+  isLoggedIn: false,
   isLoggingIn: false,
   error: null,
   tokenData: null,
@@ -19,12 +20,14 @@ export default function reducer(state = Immutable(initialState), action) {
       return Immutable.merge(state, { isLoggingIn: true });
     case LOGIN_SUCCESS:
       return Immutable.merge(state, {
+        isLoggedIn: true,
         isLoggingIn: false,
         tokenData: action.tokenData,
         profileData: action.profileData,
       });
     case LOGIN_FAILURE:
       return Immutable.merge(state, {
+        isLoggedIn: false,
         isLoggingIn: false,
         error: action.error,
         tokenData: null,
