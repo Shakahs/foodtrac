@@ -8,30 +8,30 @@ export const CREDENTIALS_ENTERED = 'CREDENTIALS_ENTERED';
 
 const initialState = {
   isLoggingIn: false,
-  idToken: null,
-  profile: null,
   error: null,
+  tokenData: null,
+  profileData: null,
 };
 
 export default function reducer(state = Immutable(initialState), action) {
   switch (action.type) {
     case LOGIN_REQUEST:
-      return state.set('isLoggingIn', true);
+      return Immutable.merge(state, { isLoggingIn: true });
     case LOGIN_SUCCESS:
-      return state.merge({
+      return Immutable.merge(state, {
         isLoggingIn: false,
-        idToken: action.idToken,
-        profile: action.profile,
+        tokenData: action.tokenData,
+        profileData: action.profileData,
       });
     case LOGIN_FAILURE:
-      return state.merge({
+      return Immutable.merge(state, {
         isLoggingIn: false,
-        idToken: null,
-        profile: null,
         error: action.error,
+        tokenData: null,
+        profileData: null,
       });
     case LOGOUT:
-      return initialState;
+      return Immutable(initialState);
     default:
       return state;
   }
@@ -44,11 +44,11 @@ export const loginRequest = credential => (
   }
 );
 
-export const loginSuccess = (profile, idToken) => (
+export const loginSuccess = (tokenData, profileData) => (
   {
     type: LOGIN_SUCCESS,
-    profile,
-    idToken,
+    tokenData,
+    profileData,
   }
 );
 
