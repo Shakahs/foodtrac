@@ -69,7 +69,7 @@ class MapView extends Component {
   render() {
     return (
       <div>
-        <div style={{ height: '100%', width: '100%' }}>
+        <div style={{ height: '55%', width: '95%', margin: 'auto' }}>
           <WrappedMap
             containerElement={
               <div style={{ height: '100%', width: '100%' }} />

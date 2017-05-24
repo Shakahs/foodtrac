@@ -8,6 +8,7 @@ import Trucks from './Trucks';
 import EventsList from './EventsList';
 import ReviewsList from './ReviewsList';
 import CommentsList from './CommentsList';
+import ManageBrand from './ManageBrand';
 
 const TabView = props => (
   <Col xs={12} sm={12} md={9} lg={9}>
@@ -25,6 +26,7 @@ const TabView = props => (
         <Route path="/brand/:brandId/events" component={EventsList} />
         <Route path="/brand/:brandId/reviews" component={ReviewsList} />
         <Route path="/brand/:brandId/comments" component={CommentsList} />
+        <Route path="/brand/:brandId/manage" component={ManageBrand} />
       </Switch>
     </Paper>
   </Col>
