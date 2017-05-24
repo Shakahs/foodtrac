@@ -36,10 +36,14 @@ class SearchBar extends Component {
         {this.redirectToMap()}
         <Geosuggest
           className="midin"
+          ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
           country="us"
           types={['geocode']}
           placeholder="Type your address!"
-          onSuggestSelect={this.handleSuggestSelect}
+          onSuggestSelect={(e) => {
+            this.handleSuggestSelect(e);
+            this._geoSuggest.clear();
+          }}
         />
       </div>
     );
