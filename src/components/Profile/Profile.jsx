@@ -17,6 +17,7 @@ class Profile extends Component {
         food_genres: { name: '' },
         trucks: [],
       },
+      markers: [],
     };
   }
 
@@ -27,6 +28,15 @@ class Profile extends Component {
   getBrandDetail() {
     axios.get(`/api/brands/${this.state.brandId}?eager=true`)
       .then((res) => {
+        const markers = res.data.trucks.map(truck => ({
+          position: {
+            lat: truck.locations[0].lat,
+            lng: truck.locations[0].lng,
+          },
+          key: truck.locations[0].id,
+          defaultAnimation: 2,
+        }));
+        this.setState({ markers });
         this.setState({ brand: res.data });
       })
       .catch(err => console.log(err));
@@ -40,6 +50,7 @@ class Profile extends Component {
         </Row>
         <Row>
           <ProfileInfo
+            brandId={this.state.brandId}
             brandName={this.state.brand.name}
             description={this.state.brand.description}
             foodGenre={this.state.brand.food_genres.name}
@@ -47,6 +58,7 @@ class Profile extends Component {
           <TabView
             brandName={this.state.brand.name}
             trucks={this.state.brand.trucks}
+            markers={this.state.markers}
           />
         </Row>
       </Grid>

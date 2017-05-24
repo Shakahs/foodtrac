@@ -4,7 +4,7 @@ import TruckEntry from './TruckEntry';
 
 const TrucksList = props => (
   <div>
-    {props.trucks.map(truck => <TruckEntry truck={truck} />)}
+    {props.trucks.map(truck => <TruckEntry key={truck.id} truck={truck} />)}
   </div>
 );
 

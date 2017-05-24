@@ -8,6 +8,7 @@ import Trucks from './Trucks';
 import EventsList from './EventsList';
 import ReviewsList from './ReviewsList';
 import CommentsList from './CommentsList';
+import ManageBrand from './ManageBrand';
 
 const TabView = props => (
   <Col xs={12} sm={12} md={9} lg={9}>
@@ -16,11 +17,16 @@ const TabView = props => (
         <Route path="/brand/:brandId/menu" component={MenuList} />
         <Route
           path="/brand/:brandId/trucks"
-          render={() => (<Trucks brandName={props.brandName} trucks={props.trucks} />)}
+          render={() => (<Trucks
+            brandName={props.brandName}
+            trucks={props.trucks}
+            markers={props.markers}
+          />)}
         />
         <Route path="/brand/:brandId/events" component={EventsList} />
         <Route path="/brand/:brandId/reviews" component={ReviewsList} />
         <Route path="/brand/:brandId/comments" component={CommentsList} />
+        <Route path="/brand/:brandId/manage" component={ManageBrand} />
       </Switch>
     </Paper>
   </Col>
@@ -28,7 +34,17 @@ const TabView = props => (
 
 TabView.propTypes = {
   brandName: PropTypes.string.isRequired,
-  trucks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  trucks: PropTypes.arrayOf(PropTypes.shape({
+    brand_id: PropTypes.number,
+    id: PropTypes.number,
+    name: PropTypes.string,
+    locations: PropTypes.array,
+  })).isRequired,
+  markers: PropTypes.arrayOf(PropTypes.shape({
+    position: PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
+    key: PropTypes.number,
+    defaultAnimation: PropTypes.number,
+  })).isRequired,
 };
 
 export default TabView;
