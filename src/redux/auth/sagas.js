@@ -2,11 +2,12 @@ import { put, take, call } from 'redux-saga/effects';
 import { actions } from './index';
 
 const auth0 = require('auth0-js');
+const globalConfig = require('globalConfig');  // eslint-disable-line  import/no-unresolved, import/no-extraneous-dependencies, max-len
 const Promise = require('bluebird');
 
 const webAuth = new auth0.WebAuth({
-  domain: 'foodtrac.auth0.com',
-  clientID: '3HQ9cjUcngz4HMydOE6lsPSk6zUJVl49',
+  domain: globalConfig.AUTH0_DOMAIN,
+  clientID: globalConfig.AUTH0_CLIENT_ID,
 });
 
 function* handleReturnedHash() {
@@ -31,7 +32,7 @@ export function* watchLoginRequest() {
       username: credential.userName,
       password: credential.password,
       scope: 'openid',
-      redirectUri: 'http://localhost:3000',
+      redirectUri: window.location.origin,
       responseType: 'token',
     }, (err) => { put(actions.loginFailure(err)); }); // error callback not working
   }
