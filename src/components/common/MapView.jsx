@@ -8,8 +8,7 @@ const WrappedMap = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
     defaultZoom={11}
-    defaultCenter={props.center}
-    onClick={props.onMapClick}
+    center={props.center}
   >
     {props.markers.map(marker => (
       <Marker
@@ -18,7 +17,6 @@ const WrappedMap = withGoogleMap(props => (
     ))}
   </GoogleMap>
 ));
-
 
 class MapView extends Component {
   constructor(props) {
@@ -31,9 +29,9 @@ class MapView extends Component {
     this.calculateCenter = this.calculateCenter.bind(this);
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!_.isEqual(nextProps.markers, this.props.markers)) {
-      this.calculateCenter(nextProps.markers);
+  componentDidUpdate(prevProps) {
+    if (!_.isEqual(prevProps.markers, this.props.markers)) {
+      this.calculateCenter(this.props.markers);
     }
   }
 
@@ -46,7 +44,7 @@ class MapView extends Component {
 
   calculateCenter(markers) {
     // calc average lat and lng to center the map
-    let center = this.state.center;
+    let center = Object.assign({}, this.state.center);
     if (markers.length > 0) {
       center = markers.reduce((coords, location) => {
         const curr = coords;
@@ -61,7 +59,7 @@ class MapView extends Component {
       center.lat /= markers.length;
       center.lng /= markers.length;
     }
-    console.log(center, markers);
+
     this.setState({ center });
   }
 
@@ -77,7 +75,6 @@ class MapView extends Component {
               <div style={{ height: '100%', width: '100%' }} />
             }
             onMapLoad={this.handleMapLoad}
-            onMapClick={this.handleMapClick}
             markers={this.props.markers}
             center={this.state.center}
           />

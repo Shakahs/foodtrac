@@ -6,7 +6,7 @@ module.exports = {
   get(req, res) {
     const boundingBox = getBoundingBox([req.query.lat, req.query.lng], req.query.dist || 50);
     Locations.query()
-      .eager('trucks')
+      .eager('trucks.[brands.food_genres]')
       .whereBetween('lng', [boundingBox[0], boundingBox[2]])
       .andWhereBetween('lat', [boundingBox[1], boundingBox[3]])
       .then(locations => res.status(200).send(locations))

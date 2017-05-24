@@ -177,7 +177,12 @@
     "/brands/{brandId}" : {
       "get" : {
         "summary" : "Display brand details",
-        "parameters" : [ ],
+        "parameters" : [ {
+          "name" : "eager",
+          "in" : "query",
+          "required" : false,
+          "type" : "boolean"
+        } ],
         "responses" : {
           "200" : {
             "description" : "Status 200",
