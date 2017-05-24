@@ -7,24 +7,16 @@ import { actions } from './index';
 function* mapRequest(lat, lng, dist) {
   try {
     const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 50}`);
-    const markers = data.reduce((arr, location) => {
-      const curr = arr;
-      if (location.trucks.length === 0) {
-        return curr;
-      }
-      curr.push({
-        position: {
-          lat: location.lat,
-          lng: location.lng,
-        },
-        key: location.id,
-        defaultAnimation: 2,
-      });
-      return curr;
-    }, []);
-    console.log(markers);
+    const markers = data.map(({ locations }) => ({
+      position: {
+        lat: locations[0].lat,
+        lng: locations[0].lng,
+      },
+      key: locations[0].id,
+      defaultAnimation: 2,
+    }), []);
 
-    yield put(actions.mapSuccess(markers));
+    yield put(actions.mapSuccess(markers, data));
   } catch (e) {
     yield put(actions.mapFailure(e));
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapView from '../common/MapView';
-import TrucksList from './TrucksList';
+import TrucksList from '../common/TrucksList';
 
 const Trucks = props => (
   <div>
