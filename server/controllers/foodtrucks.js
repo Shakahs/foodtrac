@@ -1,15 +1,14 @@
 const Trucks = require('../db/trucks.model');
-const Locations = require('../db/locations.model');
 const { getBoundingBox } = require('../utils');
 
 module.exports = {
   get(req, res) {
     const boundingBox = getBoundingBox([req.query.lat, req.query.lng], req.query.dist || 50);
-    Locations.query()
-      .eager('trucks.[brands.food_genres]')
-      .whereBetween('lng', [boundingBox[0], boundingBox[2]])
-      .andWhereBetween('lat', [boundingBox[1], boundingBox[3]])
-      .then(locations => res.status(200).send(locations))
+    Trucks.query()
+      .eager('[brands.food_genres, locations]')
+      .modifyEager(builder => builder.whereBetween('locations.lng', [boundingBox[0], boundingBox[2]]))
+      .modifyEager(builder => builder.whereBetween('locations.lat', [boundingBox[1], boundingBox[3]]))
+      .then(trucks => res.status(200).send(trucks))
       .catch(e => res.status(400).send(e.message));
   },
   post(req, res) {
