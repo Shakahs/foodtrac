@@ -78,6 +78,11 @@ gulp.task('db:seed:users', (cb) => {
     items: Users.jsonSchema,
   };
   jsf.resolve(userSeedSchema)
+    .then(seedData => seedData.map((seedItem) => {
+      const newSeedItem = Object.assign({}, seedItem);
+      newSeedItem.dummy_password = 'test';
+      return newSeedItem;
+    }))
     .then(seedData => insertSeed('Users', seedData))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
