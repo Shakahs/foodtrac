@@ -40,6 +40,7 @@ class Profile extends Component {
         </Row>
         <Row>
           <ProfileInfo
+            brandId={this.state.brandId}
             brandName={this.state.brand.name}
             description={this.state.brand.description}
             foodGenre={this.state.brand.food_genres.name}

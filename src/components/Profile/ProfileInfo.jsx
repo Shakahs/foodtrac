@@ -17,33 +17,34 @@ const ProfileInfo = props => (
       <br />
     </Paper>
     <br />
-    <Link to={'/brand/1/trucks'}>
+    <Link to={`/brand/${props.brandId}/trucks`}>
       <RaisedButton label="Food Trucks" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/1/menu'}>
+    <Link to={`/brand/${props.brandId}/menu`}>
       <RaisedButton label="Menu" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/1/events'}>
+    <Link to={`/brand/${props.brandId}/events`}>
       <RaisedButton label="Events" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/1/reviews'}>
+    <Link to={`/brand/${props.brandId}/reviews`}>
       <RaisedButton label="Reviews" className="profileButton" />
     </Link>
     <br />
     <br />
-    <Link to={'/brand/1/comments'}>
+    <Link to={`/brand/${props.brandId}/comments`}>
       <RaisedButton label="Comments" className="profileButton" />
     </Link>
   </Col>
 );
 
 ProfileInfo.propTypes = {
+  brandId: PropTypes.string.isRequired,
   brandName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   foodGenre: PropTypes.string.isRequired,
