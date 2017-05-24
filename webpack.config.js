@@ -18,7 +18,24 @@ const webpackConfig = {
     loaders: [
       { test: /\.js[x]?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader' },
+        loader: 'babel-loader?cacheDirectory',
+        query: {
+          presets: [
+            [
+              'latest', {
+                es2015: {
+                  modules: false,
+                },
+              },
+            ],
+            'react',
+          ],
+          plugins: [
+            'react-hot-loader/babel',
+          ],
+        },
+      },
+
     ],
   },
   resolve: {
