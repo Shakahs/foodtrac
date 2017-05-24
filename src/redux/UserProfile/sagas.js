@@ -2,13 +2,13 @@ import { call, put, take } from 'redux-saga/effects';
 import axios from 'axios';
 import { actions } from './index';
 
-function* onUserSuccess(user) {
-  yield put(actions.userSuccess(user));
-}
-
 function* userRequest(userId) {
-  const { data } = yield call(axios.get, `/api/users/${userId}`);
-  yield call(onUserSuccess, data[0]);
+  try {
+    const { data } = yield call(axios.get, `/api/users/${userId}`);
+    yield put(actions.userSuccess(data[0]));
+  } catch (e) {
+    yield put(actions.userFailure(e));
+  }
 }
 
 export default function* watchUserRequest() {
