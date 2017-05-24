@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
-import { connect } from 'react-redux';
 
 const WrappedMap = withGoogleMap(props => (
   <GoogleMap
@@ -92,9 +91,4 @@ MapView.propTypes = {
   })).isRequired,
 };
 
-const mapStateToProps = ({ mapReducer }) => {
-  const { markers } = mapReducer;
-  return { markers };
-};
-
-export default connect(mapStateToProps, null)(MapView);
+export default MapView;
