@@ -5,15 +5,6 @@ import { actions } from './index';
 function* mapRequest(lat, lng, dist) {
   try {
     const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 50}`);
-    // shape data to map expectation
-    // {
-    //   position: {
-    //     lat: 25.0112183,
-    //     lng: 121.52067570000001,
-    //   },
-    //   key: `Taiwan`,
-    //   defaultAnimation: 2,
-    // }
     const markers = data.map(location => ({
       position: {
         lat: location.lat,
