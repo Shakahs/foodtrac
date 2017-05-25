@@ -23,7 +23,6 @@ const ManageBrand = () => (
   </div>
 );
 
-
 const ManageBrandForm = reduxForm({
   form: 'manageBrand',
 })(ManageBrand);
