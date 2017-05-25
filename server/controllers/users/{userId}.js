@@ -4,7 +4,11 @@ module.exports = {
   get(req, res) {
     Users.query()
       .where('id', '=', req.params.userId)
-      .then(user => res.status(200).json(user))
+      .then((user) => {
+        const thisUser = user[0];
+        thisUser.is_truck_owner = Boolean(thisUser.is_truck_owner);
+        res.status(200).json(thisUser);
+      })
       .catch(e => console.log('Error inserting new user:', e));
   },
   put(req, res) {
