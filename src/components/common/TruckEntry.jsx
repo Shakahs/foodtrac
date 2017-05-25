@@ -7,7 +7,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 const TruckEntry = props => (
   <Col xs={12} sm={12} md={6} lg={6}>
-    {console.log('in truck entry', props.truck.brands)}
     <Paper className="truckEntry">
       <p>{props.truck.brands.name}: {props.truck.name !== 'null' ? <em>{props.truck.name}</em> : null}</p>
       <p>Type of food: {props.truck.brands.food_genres.name}</p>
