@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
+import propSchema from '../common/PropTypes';
 
 // const Login = props => (
 //   {/*<Link to="/login">*/}
@@ -26,7 +26,7 @@ const Login = props => (
     );
 
 Login.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  handleSubmit: propSchema.handleSubmit,
 };
 
 const LoginForm = reduxForm({

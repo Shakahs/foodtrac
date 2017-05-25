@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Grid, Row } from 'react-flexbox-grid';
-import PropTypes from 'prop-types';
 import axios from 'axios';
+import propSchema from '../common/PropTypes';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
 import TabView from './TabView';
@@ -74,11 +74,7 @@ class Profile extends Component {
 }
 
 Profile.propTypes = {
-  match: PropTypes.shape({
-    params: PropTypes.shape({
-      brandId: PropTypes.string,
-    }),
-  }).isRequired,
+  match: propSchema.match,
 };
 
 export default Profile;

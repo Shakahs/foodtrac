@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import PropTypes from 'prop-types';
+import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import { actions as authActions } from '../../redux/auth';
 import SearchBar from './SearchBar';
@@ -43,8 +43,8 @@ class NavBar extends Component {
 }
 
 NavBar.propTypes = {
-  authActions: PropTypes.shape({ logout: PropTypes.func, loginRequest: PropTypes.func }).isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
+  authActions: propSchema.authActions,
+  isLoggedIn: propSchema.isLoggedIn,
 };
 
 const mapStateToProps = state => ({

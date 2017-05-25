@@ -4,7 +4,7 @@ module.exports = {
   get(req, res) {
     Users.query()
       .findById(req.params.userId)
-      .eager('brands')
+      .eager('[brands, user_follows]')
       .then((user) => {
         user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
         res.status(200).json(user);

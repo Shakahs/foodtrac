@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import propSchema from '../common/PropTypes';
 import MapView from '../common/MapView';
 import TrucksList from '../common/TrucksList';
 
@@ -12,18 +12,9 @@ const Trucks = props => (
 );
 
 Trucks.propTypes = {
-  brandName: PropTypes.string.isRequired,
-  trucks: PropTypes.arrayOf(PropTypes.shape({
-    brand_id: PropTypes.number,
-    id: PropTypes.number,
-    name: PropTypes.string,
-    locations: PropTypes.array,
-  })).isRequired,
-  markers: PropTypes.arrayOf(PropTypes.shape({
-    position: PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
-    key: PropTypes.number,
-    defaultAnimation: PropTypes.number,
-  })).isRequired,
+  brandName: propSchema.brandName,
+  trucks: propSchema.trucks,
+  markers: propSchema.markers,
 };
 
 export default Trucks;
