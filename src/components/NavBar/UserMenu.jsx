@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import propSchema from '../common/PropTypes';
 
 const UserMenu = props => (
   <IconMenu
@@ -32,7 +32,7 @@ const UserMenu = props => (
 );
 
 UserMenu.propTypes = {
-  handleLogout: PropTypes.func.isRequired,
+  handleLogout: propSchema.handleLogout,
 };
 
 export default UserMenu;

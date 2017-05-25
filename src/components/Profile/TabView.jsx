@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
 import Paper from 'material-ui/Paper';
-import PropTypes from 'prop-types';
+import propSchema from '../common/PropTypes';
 import MenuList from './MenuList';
 import Trucks from './Trucks';
 import EventsList from './EventsList';
@@ -33,18 +33,9 @@ const TabView = props => (
 );
 
 TabView.propTypes = {
-  brandName: PropTypes.string.isRequired,
-  trucks: PropTypes.arrayOf(PropTypes.shape({
-    brand_id: PropTypes.number,
-    id: PropTypes.number,
-    name: PropTypes.string,
-    locations: PropTypes.array,
-  })).isRequired,
-  markers: PropTypes.arrayOf(PropTypes.shape({
-    position: PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
-    key: PropTypes.number,
-    defaultAnimation: PropTypes.number,
-  })).isRequired,
+  brandName: propSchema.brandName,
+  trucks: propSchema.trucks,
+  markers: propSchema.markers,
 };
 
 export default TabView;

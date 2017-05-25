@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Geosuggest from 'react-geosuggest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import { actions as mapActions } from '../../redux/MapSearch';
+import propSchema from '../common/PropTypes';
 
 
 class SearchBar extends Component {
@@ -57,9 +57,7 @@ class SearchBar extends Component {
 }
 
 SearchBar.propTypes = {
-  actions: PropTypes.shape({
-    mapRequest: PropTypes.func,
-  }).isRequired,
+  actions: propSchema.actions,
 };
 
 const mapDispatchToProps = dispatch => ({

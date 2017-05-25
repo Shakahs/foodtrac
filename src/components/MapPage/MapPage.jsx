@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import MapView from '../common/MapView';
 import TrucksList from '../common/TrucksList';
+import propSchema from '../common/PropTypes';
 
 class MapPage extends Component {
   constructor(props) {
@@ -21,18 +21,8 @@ class MapPage extends Component {
 }
 
 MapPage.propTypes = {
-  markers: PropTypes.arrayOf(PropTypes.shape({
-    position: PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
-    key: PropTypes.number,
-    defaultAnimation: PropTypes.number,
-  })).isRequired,
-  trucks: PropTypes.arrayOf(PropTypes.shape({
-    brand_id: PropTypes.number,
-    id: PropTypes.number,
-    name: PropTypes.string,
-    brands: PropTypes.object,
-    locations: PropTypes.array,
-  })).isRequired,
+  markers: propSchema.markers,
+  trucks: propSchema.trucks,
 };
 
 const mapStateToProps = ({ mapReducer }) => {

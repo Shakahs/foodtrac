@@ -1,6 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { TextField, FlatButton } from 'material-ui';
+import propSchema from '../common/PropTypes';
 
 const AddTrucksView = props => (
   <div>
@@ -18,9 +18,9 @@ const AddTrucksView = props => (
 );
 
 AddTrucksView.propTypes = {
-  handleChange: PropTypes.func.isRequired,
-  removeEntry: PropTypes.func.isRequired,
-  val: PropTypes.string.isRequired,
+  handleChange: propSchema.handleChange,
+  removeEntry: propSchema.removeEntry,
+  val: propSchema.val,
 };
 
 export default AddTrucksView;

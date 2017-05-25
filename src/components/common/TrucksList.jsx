@@ -1,24 +1,31 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Grid, Row } from 'react-flexbox-grid';
+import propSchema from './PropTypes';
 import TruckEntry from './TruckEntry';
 
 const TrucksList = props => (
   <Grid fluid>
     <Row>
-      {props.trucks.map(truck => <TruckEntry key={truck.id} truck={truck} />)}
+      {props.trucks.map(truck =>
+        (<TruckEntry
+          key={truck.id}
+          truck={truck}
+          isLoggedIn={props.isLoggedIn}
+          user={props.user}
+        />))}
     </Row>
   </Grid>
 );
 
 TrucksList.propTypes = {
-  trucks: PropTypes.arrayOf(PropTypes.shape({
-    brand_id: PropTypes.number,
-    id: PropTypes.number,
-    name: PropTypes.string,
-    brands: PropTypes.object,
-    locations: PropTypes.array,
-  })).isRequired,
+  user: propSchema.user,
+  trucks: propSchema.trucks,
 };
 
-export default TrucksList;
+const mapStateToProps = ({ auth, user }) => {
+  const isLoggedIn = auth.isLoggedIn;
+  return { isLoggedIn, user };
+};
+
+export default connect(mapStateToProps, null)(TrucksList);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import propSchema from './PropTypes';
 
 const WrappedMap = withGoogleMap(props => (
   <GoogleMap
@@ -88,11 +88,7 @@ class MapView extends Component {
 }
 
 MapView.propTypes = {
-  markers: PropTypes.arrayOf(PropTypes.shape({
-    position: PropTypes.shape({ lat: PropTypes.number, lng: PropTypes.number }),
-    key: PropTypes.number,
-    defaultAnimation: PropTypes.number,
-  })).isRequired,
+  markers: propSchema.markers,
 };
 
 export default MapView;

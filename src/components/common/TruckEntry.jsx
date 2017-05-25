@@ -1,9 +1,9 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
+import propSchema from './PropTypes';
 
 const TruckEntry = props => (
   <Col xs={12} sm={12} md={6} lg={6}>
@@ -14,18 +14,13 @@ const TruckEntry = props => (
       <Link to={`/brand/${props.truck.brand_id}/trucks`}>
         <RaisedButton label="Go to Profile" />
       </Link>
+      <RaisedButton label="Follow" />
     </Paper>
   </Col>
 );
 
 TruckEntry.propTypes = {
-  truck: PropTypes.shape({
-    brand_id: PropTypes.number,
-    id: PropTypes.number,
-    name: PropTypes.string,
-    brands: PropTypes.object,
-    locations: PropTypes.array,
-  }).isRequired,
+  truck: propSchema.truck,
 };
 
 export default TruckEntry;
