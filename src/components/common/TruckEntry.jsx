@@ -11,9 +11,12 @@ const TruckEntry = props => (
       <p>{props.truck.brands.name}: {props.truck.name !== 'null' ? <em>{props.truck.name}</em> : null}</p>
       <p>Type of food: {props.truck.brands.food_genres.name}</p>
       <p>Current locations: {props.truck.locations[0].address}</p>
-      <Link to={`/brand/${props.truck.brand_id}/trucks`}>
-        <RaisedButton label="Go to Profile" />
-      </Link>
+      {props.truck.brands.fromProfile ?
+        null :
+        <Link to={`/brand/${props.truck.brand_id}/trucks`}>
+          <RaisedButton label="Go to Profile" />
+        </Link>
+      }
       <RaisedButton label="Follow" />
     </Paper>
   </Col>

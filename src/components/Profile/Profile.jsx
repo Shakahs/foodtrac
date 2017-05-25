@@ -41,6 +41,7 @@ class Profile extends Component {
             name: res.data.name,
             description: res.data.description,
             food_genres: res.data.food_genres,
+            fromProfile: true,
           };
         });
         this.setState({ markers });
