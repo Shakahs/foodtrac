@@ -64,7 +64,10 @@
         "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "Status 200"
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
           }
         }
       },
@@ -264,14 +267,14 @@
             "schema" : {
               "type" : "array",
               "items" : {
-                "required" : [ "location", "truck" ],
+                "required" : [ "brand", "truck" ],
                 "type" : "object",
                 "properties" : {
                   "truck" : {
                     "$ref" : "#/definitions/Foodtruck"
                   },
-                  "location" : {
-                    "$ref" : "#/definitions/Location"
+                  "brand" : {
+                    "$ref" : "#/definitions/Brand"
                   }
                 }
               }
@@ -443,7 +446,10 @@
         "parameters" : [ ],
         "responses" : {
           "200" : {
-            "description" : "Status 200"
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Food Genre"
+            }
           }
         }
       },
@@ -495,6 +501,9 @@
     "Brand" : {
       "type" : "object",
       "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
         "owner_id" : {
           "type" : "integer"
         },
@@ -513,9 +522,6 @@
         "default_coupon_id" : {
           "type" : "integer"
         },
-        "id" : {
-          "type" : "integer"
-        },
         "trucks" : {
           "type" : "array",
           "items" : {
@@ -532,6 +538,9 @@
         },
         "brand_id" : {
           "type" : "integer"
+        },
+        "location" : {
+          "$ref" : "#/definitions/Location"
         }
       }
     },

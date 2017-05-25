@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import { actions as authActions } from '../../redux/auth';
+import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
@@ -17,6 +18,10 @@ class NavBar extends Component {
       logged: false,
     };
     this.handleLogin = this.handleLogin.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.foodGenresActions.foodGenresRequest();
   }
 
   handleLogin() {
@@ -45,6 +50,7 @@ class NavBar extends Component {
 NavBar.propTypes = {
   authActions: propSchema.authActions,
   isLoggedIn: propSchema.isLoggedIn,
+  foodGenresActions: propSchema.foodGenresActions,
 };
 
 const mapStateToProps = state => ({
@@ -55,6 +61,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
   authActions: bindActionCreators(authActions, dispatch),
+  foodGenresActions: bindActionCreators(foodGenresActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

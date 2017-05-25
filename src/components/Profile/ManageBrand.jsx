@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
+import propSchema from '../common/PropTypes';
 
 class ManageBrand extends Component {
   constructor() {
@@ -12,7 +14,7 @@ class ManageBrand extends Component {
   }
 
   handleSave() {
-    console.log('in handle save', this.state);
+    console.log('in handle save', this.state); // eslint-disable-line no-console
   }
 
   render() {
@@ -40,11 +42,9 @@ class ManageBrand extends Component {
             onChange={(e, val) => this.setState({ foodGenre: val })}
             autoWidth
           >
-            <MenuItem value={1} primaryText="Burgers" />
-            <MenuItem value={2} primaryText="Pho" />
-            <MenuItem value={3} primaryText="Mexican" />
-            <MenuItem value={4} primaryText="BBQ" />
-            <MenuItem value={5} primaryText="Thai" />
+            {this.props.foodGenres.map(genre =>
+              <MenuItem key={genre.id} value={genre.id} primaryText={genre.name} />,
+            )}
           </SelectField>
           <br />
           <br />
@@ -58,4 +58,13 @@ class ManageBrand extends Component {
   }
 }
 
-export default ManageBrand;
+ManageBrand.propTypes = {
+  foodGenres: propSchema.foodGenres,
+};
+
+const mapStateToProps = ({ foodGenresReducer }) => {
+  const { foodGenres } = foodGenresReducer;
+  return { foodGenres };
+};
+
+export default connect(mapStateToProps, null)(ManageBrand);
