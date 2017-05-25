@@ -28,7 +28,7 @@ export function* watchLoginRequest() {
     const { credential } = yield take(actions.LOGIN_REQUEST);
 
     webAuth.redirect.loginWithCredentials({
-      connection: 'Username-Password-Authentication',
+      connection: globalConfig.AUTH0_DB_NAME,
       username: credential.userName,
       password: credential.password,
       scope: 'openid',
