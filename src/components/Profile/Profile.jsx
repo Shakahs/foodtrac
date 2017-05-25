@@ -10,7 +10,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      brandId: this.props.match.params.brandId,
+      brandId: '',
       brand: {
         name: '',
         description: '',
@@ -22,11 +22,15 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.getBrandDetail();
+    this.getBrandDetail(this.props.match.params.brandId);
   }
 
-  getBrandDetail() {
-    axios.get(`/api/brands/${this.state.brandId}?eager=true`)
+  componentWillReceiveProps(nextProps) {
+    this.getBrandDetail(nextProps.match.params.brandId);
+  }
+
+  getBrandDetail(brandId) {
+    axios.get(`/api/brands/${brandId}?eager=true`)
       .then((res) => {
         const markers = res.data.trucks.map(truck => ({
           position: {
@@ -41,8 +45,10 @@ class Profile extends Component {
             name: res.data.name,
             description: res.data.description,
             food_genres: res.data.food_genres,
+            fromProfile: true,
           };
         });
+        this.setState({ brandId: this.props.match.params.brandId });
         this.setState({ markers });
         this.setState({ brand: res.data });
       })
