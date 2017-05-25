@@ -515,6 +515,12 @@
         },
         "id" : {
           "type" : "integer"
+        },
+        "trucks" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Foodtruck"
+          }
         }
       }
     },
