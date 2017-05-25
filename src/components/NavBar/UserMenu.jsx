@@ -19,11 +19,12 @@ const UserMenu = props => (
     <Link to="/">
       <MenuItem primaryText="Dashboard" />
     </Link>
-    {props.user.isTruckOwner ? (
-      <Link to={'/brand/1/trucks'}>
-        <MenuItem primaryText="Your Profile" />
-      </Link>
-    ) : null
+    {props.user.is_truck_owner ?
+      props.user.brands.map(brand =>
+        (<Link key={brand.id} to={`/brand/${brand.id}/trucks`}>
+          <MenuItem primaryText={brand.name} />
+        </Link>),
+      ) : null
     }
     <Link to="/settings">
       <MenuItem primaryText="Settings" />
@@ -39,8 +40,9 @@ UserMenu.propTypes = {
   handleLogout: PropTypes.func.isRequired,
   user: PropTypes.shape({
     email: PropTypes.string,
-    isTruckOwner: PropTypes.boolean,
+    is_truck_owner: PropTypes.boolean,
     userId: PropTypes.number,
+    brands: PropTypes.array,
   }).isRequired,
 };
 

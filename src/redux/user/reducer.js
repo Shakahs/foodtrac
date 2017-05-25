@@ -7,9 +7,14 @@ export const USER_RECEIVED = 'USER_RECEIVED';
 export const USER_FAILURE = 'USER_FAILURE';
 
 const initialState = {
-  userId: null,
+  id: null,
   email: null,
-  isTruckOwner: false,
+  is_truck_owner: false,
+  auth0_id: false,
+  // TODO: remove password later
+  dummy_password: null,
+  user_follows: [],
+  brands: [],
 };
 
 export default function reducer(state = Immutable(initialState), action) {
@@ -18,11 +23,7 @@ export default function reducer(state = Immutable(initialState), action) {
       if (action.payload.user) return Immutable.merge(state, action.payload.user);
       return state;
     case USER_RECEIVED:
-      return Immutable.merge(state, {
-        userId: action.user.id,
-        email: action.user.email,
-        isTruckOwner: action.user.is_truck_owner,
-      });
+      return Immutable.merge(state, action.user);
     // case USER_FAILURE:
     //   return Object.assign({}, state, { fetching: false, error: action.error });
     case authActions.LOGOUT:
