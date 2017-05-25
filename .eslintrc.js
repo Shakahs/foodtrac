@@ -13,5 +13,6 @@ module.exports = {
         "no-underscore-dangle": [2, { "allowAfterThis": true, allow: ["_*"] }],
         "class-methods-use-this": 0,
         "no-static-element-interactions": 0,
+        "no-plusplus": 0,
     }
 };
