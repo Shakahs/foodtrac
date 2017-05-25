@@ -26,7 +26,13 @@ class SearchBar extends Component {
   }
 
   redirectToMap() {
-    return this.state.redirect ? <Redirect push to="/map" /> : null;
+    if (this.state.redirect) {
+      this.setState({
+        redirect: false,
+      });
+      return <Redirect push to="/map" />;
+    }
+    return null;
   }
 
   render() {
