@@ -36,6 +36,13 @@ class Profile extends Component {
           key: truck.locations[0].id,
           defaultAnimation: 2,
         }));
+        res.data.trucks.forEach((truck) => {
+          truck.brands = { // eslint-disable-line no-param-reassign
+            name: res.data.name,
+            description: res.data.description,
+            food_genres: res.data.food_genres,
+          };
+        });
         this.setState({ markers });
         this.setState({ brand: res.data });
       })
