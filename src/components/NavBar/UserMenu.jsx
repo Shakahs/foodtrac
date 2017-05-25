@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
@@ -18,9 +19,12 @@ const UserMenu = props => (
     <Link to="/">
       <MenuItem primaryText="Dashboard" />
     </Link>
-    <Link to={'/brand/1/trucks'}>
-      <MenuItem primaryText="Profile" />
-    </Link>
+    {props.user.isTruckOwner ? (
+      <Link to={'/brand/1/trucks'}>
+        <MenuItem primaryText="Your Profile" />
+      </Link>
+    ) : null
+    }
     <Link to="/settings">
       <MenuItem primaryText="Settings" />
     </Link>
@@ -33,6 +37,15 @@ const UserMenu = props => (
 
 UserMenu.propTypes = {
   handleLogout: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    isTruckOwner: PropTypes.boolean,
+    userId: PropTypes.number,
+  }).isRequired,
 };
 
-export default UserMenu;
+const mapStateToProps = ({ user }) => ({
+  user,
+});
+
+export default connect(mapStateToProps, null)(UserMenu);

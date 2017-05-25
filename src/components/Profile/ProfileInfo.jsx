@@ -6,8 +6,6 @@ import { Col } from 'react-flexbox-grid';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
-// switch isTruckOwner with variable from redux user object
-const isTruckOwner = true;
 
 const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
@@ -46,7 +44,7 @@ const ProfileInfo = props => (
     </Link>
     <br />
     <br />
-    {isTruckOwner ?
+    {props.user.isTruckOwner ?
       <Link to={`/brand/${props.brandId}/manage`}>
         <RaisedButton label="Manage" className="profileButton" />
       </Link>
@@ -61,6 +59,11 @@ ProfileInfo.propTypes = {
   brandName: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   foodGenre: PropTypes.string.isRequired,
+  user: PropTypes.shape({
+    email: PropTypes.string,
+    isTruckOwner: PropTypes.boolean,
+    userId: PropTypes.number,
+  }).isRequired,
 };
 
 const mapStateToProps = ({ user }) => ({
