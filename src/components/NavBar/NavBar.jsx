@@ -29,7 +29,7 @@ class NavBar extends Component {
         <AppBar
           title="foodtrac"
           iconElementRight={
-            <div>
+            <div className="navBarRight">
               <SearchBar />
               {this.props.isLoggedIn ? (
                 <UserMenu handleLogout={this.props.authActions.logout} />

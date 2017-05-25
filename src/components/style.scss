@@ -11,10 +11,35 @@ a {
   margin: -10 -10 0 -10;
 }
 
+.navBarRight a {
+  float: right;
+}
+
 .searchBar {
   float: left;
   margin-right: 90px;
   margin-top: 13px;
+}
+
+.geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}
+
+.geosuggest__item--active {
+  background: #267dc0;
+  color: #fff;
+}
+
+.searchBar ul {
+  position: absolute;
+  background-color: white;
+}
+
+.searchBar li {
+  cursor: pointer;
+  list-style-type: none;
 }
 
 .profileButton {
@@ -27,4 +52,8 @@ a {
 
 .noItems {
   text-align: center;
+}
+
+.truckEntry {
+  min-height: 150px;
 }

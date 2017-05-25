@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Grid, Row } from 'react-flexbox-grid';
 import TruckEntry from './TruckEntry';
 
 const TrucksList = props => (
-  <div>
-    {props.trucks.map(truck => <TruckEntry key={truck.id} truck={truck} />)}
-  </div>
+  <Grid fluid>
+    <Row>
+      {props.trucks.map(truck => <TruckEntry key={truck.id} truck={truck} />)}
+    </Row>
+  </Grid>
 );
 
 TrucksList.propTypes = {
