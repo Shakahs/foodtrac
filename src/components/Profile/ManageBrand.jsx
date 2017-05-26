@@ -48,9 +48,11 @@ class ManageBrand extends Component {
     if (this.state.food_genre_id > 0) {
       update.food_genre_id = this.state.food_genre_id;
     }
-    axios.put(`/api/brands/${this.props.brandId}`, update)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    if (Object.keys(update).length > 0) {
+      axios.put(`/api/brands/${this.props.brandId}`, update)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
   }
 
   handleTruckEdit() {
@@ -58,9 +60,11 @@ class ManageBrand extends Component {
     if (this.state.truckNameEdit.name) {
       update.name = this.state.truckNameEdit.name;
     }
-    axios.put(`/api/foodtrucks/${this.state.truckNameEdit.id}`, update)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    if (Object.keys(update).length > 0) {
+      axios.put(`/api/foodtrucks/${this.state.truckNameEdit.id}`, update)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
   }
 
   handleAddTruck() {
@@ -69,9 +73,11 @@ class ManageBrand extends Component {
     if (this.state.newTruckName !== '') {
       newTruck.name = this.state.newTruckName;
     }
-    axios.post('/api/foodtrucks', newTruck)
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    if (Object.keys(newTruck).length > 1) {
+      axios.post('/api/foodtrucks', newTruck)
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
   }
 
   handleSave() {
