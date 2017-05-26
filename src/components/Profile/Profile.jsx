@@ -10,7 +10,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      brandId: '',
+      brandId: parseInt(this.props.match.params.brandId, 10),
       brand: {
         name: '',
         description: '',
@@ -67,6 +67,7 @@ class Profile extends Component {
             brandName={this.state.brand.name}
             description={this.state.brand.description}
             foodGenre={this.state.brand.food_genres.name}
+            path={this.props.match.path}
           />
           <TabView
             brandId={this.state.brandId}
