@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
+import axios from 'axios';
 import propSchema from '../common/PropTypes';
 
 class ManageBrand extends Component {
@@ -9,12 +11,24 @@ class ManageBrand extends Component {
     this.state = {
       name: '',
       description: '',
-      foodGenre: '',
+      food_genre_id: 0,
     };
   }
 
   handleSave() {
-    console.log('in handle save', this.state); // eslint-disable-line no-console
+    const update = {};
+    if (this.state.name !== '') {
+      update.name = this.state.name;
+    }
+    if (this.state.description !== '') {
+      update.description = this.state.description;
+    }
+    if (this.state.food_genre_id > 0) {
+      update.food_genre_id = this.state.food_genre_id;
+    }
+    axios.put(`/api/brands/${this.props.match.params.brandId}`, update)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   }
 
   render() {
@@ -38,20 +52,22 @@ class ManageBrand extends Component {
           <br />
           <SelectField
             floatingLabelText="Change Food Genre"
-            value={this.state.foodGenre}
-            onChange={(e, val) => this.setState({ foodGenre: val })}
-            autoWidth
+            value={this.state.food_genre_id}
+            onChange={(e, val) => this.setState({ food_genre_id: val })}
           >
+            <MenuItem />
             {this.props.foodGenres.map(genre =>
               <MenuItem key={genre.id} value={genre.id} primaryText={genre.name} />,
             )}
           </SelectField>
           <br />
           <br />
-          <RaisedButton
-            label="Save Changes"
-            onClick={() => this.handleSave()}
-          />
+          <Link to={`/brand/${this.props.match.params.brandId}/trucks`}>
+            <RaisedButton
+              label="Save Changes"
+              onClick={() => this.handleSave()}
+            />
+          </Link>
         </form>
       </div>
     );
@@ -60,6 +76,7 @@ class ManageBrand extends Component {
 
 ManageBrand.propTypes = {
   foodGenres: propSchema.foodGenres,
+  match: propSchema.match,
 };
 
 const mapStateToProps = ({ foodGenresReducer }) => {
