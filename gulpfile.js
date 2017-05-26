@@ -55,6 +55,22 @@ const insertSeed = (table, seedData) => {
     .then(() => thisKnex.destroy());
 };
 
+function SeedingException(message) {
+  this.message = message;
+  this.name = 'SeedingException';
+}
+
+function checkSeededTable(model) {
+  const thisModel = provideModelWithKnex(model);
+  return thisModel.query()
+    .first()
+    .then((res) => {
+      if (res === undefined) {
+        throw new SeedingException(`${thisModel.tableName} is empty: ${res}`);
+      }
+    });
+}
+
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
     'db:seed:trucks', 'db:seed:locationtimelines', cb);
@@ -67,8 +83,8 @@ gulp.task('db:recreate', (cb) => {
     .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
     .then(() => thisKnex.raw(sql))
     .then(() => thisKnex.destroy())
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+    .then(() => cb())
+    .catch(err => cb(err));
 });
 
 gulp.task('db:seed:users', (cb) => {
@@ -77,13 +93,12 @@ gulp.task('db:seed:users', (cb) => {
   const auth0Results = {};
   const userSeedSchema = {
     type: 'array',
-    minItems: 250,
-    maxItems: 300,
+    minItems: 50,
+    maxItems: 100,
     uniqueItems: true,
     items: Users.jsonSchema,
   };
   userSeedSchema.items.required.push('email');
-  console.log(userSeedSchema);
   jsf.resolve(userSeedSchema)
     .then((seedData) => {
       originalSeedData = seedData;
@@ -135,6 +150,7 @@ gulp.task('db:seed:users', (cb) => {
       return newSeedDataItem;
     }))
       .then((finalSeedData) => { insertSeed('Users', finalSeedData); })
+      // .then(() => checkSeededTable(Users))
       .then(() => { cb(); })
       .catch((err) => { cb(err); });
 });
@@ -149,6 +165,7 @@ gulp.task('db:seed:foodgenres', (cb) => {
   };
   jsf.resolve(foodGenreSchema)
     .then(seedData => insertSeed('FoodGenres', seedData))
+    .then(() => checkSeededTable(FoodGenres))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
@@ -192,6 +209,7 @@ gulp.task('db:seed:brands', (cb) => {
       return newSeedData;
     })
     .then(seedData => insertSeed('Brands', seedData))
+    .then(() => checkSeededTable(Brands))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
@@ -220,6 +238,7 @@ gulp.task('db:seed:trucks', (cb) => {
       return newSeedDataItem;
     }))
     .then(seedData => insertSeed('Trucks', seedData))
+    .then(() => checkSeededTable(Trucks))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
@@ -243,6 +262,7 @@ gulp.task('db:seed:locations', (cb) => {
       lng: place.json.result.geometry.location.lng,
     })))
   .then(seedData => insertSeed('Locations', seedData))
+    .then(() => checkSeededTable(Locations))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
@@ -283,6 +303,7 @@ gulp.task('db:seed:locationtimelines', (cb) => {
       return newSeedDataItem;
     }))
     .then(seedData => insertSeed('LocationTimelines', seedData))
+    .then(() => checkSeededTable(LocationTimelines))
     .then(() => { cb(); })
     .catch((err) => { cb(err); });
 });
