@@ -4,6 +4,7 @@ import { Col } from 'react-flexbox-grid';
 import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import propSchema from './PropTypes';
+import FollowButton from './FollowButton';
 
 const TruckEntry = props => (
   <Col xs={12} sm={12} md={6} lg={6}>
@@ -17,13 +18,14 @@ const TruckEntry = props => (
           <RaisedButton label="Go to Profile" />
         </Link>
       }
-      <RaisedButton label="Follow" />
+      <FollowButton brandId={props.truck.brand_id} user={props.user} />
     </Paper>
   </Col>
-);
+    );
 
 TruckEntry.propTypes = {
   truck: propSchema.truck,
+  user: propSchema.user,
 };
 
 export default TruckEntry;
