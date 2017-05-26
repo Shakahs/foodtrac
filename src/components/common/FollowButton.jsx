@@ -12,6 +12,7 @@ class FollowButton extends Component {
 
     this.state = {
       isFollowed: false,
+      buttonText: 'Following',
     };
 
     this.checkIfFollowed = this.checkIfFollowed.bind(this);
@@ -49,16 +50,33 @@ class FollowButton extends Component {
   unFollow() {
     this.toggleFollow();
     axios.delete(`/api/users/${this.props.user.id}/subscribe?brand_id=${this.props.brandId}`)
-      .then(() => this.props.dispatch(userActions.userRemoveFollow(this.props.brandId)));
+      .then(() =>
+        this.props.dispatch(userActions.userRemoveFollow(this.props.brandId)));
   }
 
   render() {
-    return (
-      <RaisedButton
-        label={this.state.isFollowed ? 'Unfollow' : 'Follow'}
-        onClick={this.state.isFollowed ? this.unFollow : this.follow}
-      />
-    );
+    switch (this.props.path) {
+      case '/map':
+        return (
+          <RaisedButton
+            label={this.state.isFollowed ? this.state.buttonText : 'Follow'}
+            onMouseEnter={() => this.setState({ buttonText: 'Unfollow' })}
+            onMouseLeave={() => this.setState({ buttonText: 'Following' })}
+            onClick={this.state.isFollowed ? this.unFollow : this.follow}
+          />
+        );
+      case '/brand/:brandId':
+        return (
+          <RaisedButton
+            label={this.state.isFollowed ? this.state.buttonText : 'Follow'}
+            onMouseEnter={() => this.setState({ buttonText: 'Unfollow' })}
+            onMouseLeave={() => this.setState({ buttonText: 'Following' })}
+            onClick={this.state.isFollowed ? this.unFollow : this.follow}
+          />
+        );
+      default:
+        return null;
+    }
   }
 }
 
@@ -66,6 +84,7 @@ FollowButton.propTypes = {
   brandId: propSchema.brandId,
   user: propSchema.user,
   dispatch: propSchema.dispatch,
+  path: propSchema.path,
 };
 
 const mapDispatchToProps = dispatch => ({ dispatch });

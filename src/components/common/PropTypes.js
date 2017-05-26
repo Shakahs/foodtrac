@@ -44,14 +44,16 @@ export default {
 
   handleLogout: PropTypes.func.isRequired,
   match: PropTypes.shape({
-    params: PropTypes.shape({
-      brandId: PropTypes.string,
-    }),
+    isExact: PropTypes.bool,
+    params: PropTypes.object,
+    path: PropTypes.string,
+    url: PropTypes.string,
   }).isRequired,
 
   brandName: PropTypes.string.isRequired,
   brandId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
+  path: PropTypes.string.isRequired,
 
   foodGenresActions: PropTypes.shape({
     foodGenresRequest: PropTypes.func,
