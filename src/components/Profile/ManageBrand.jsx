@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
 
@@ -12,6 +13,7 @@ class ManageBrand extends Component {
       name: '',
       description: '',
       food_genre_id: 0,
+      addTab: 0,
     };
   }
 
@@ -29,6 +31,20 @@ class ManageBrand extends Component {
     axios.put(`/api/brands/${this.props.match.params.brandId}`, update)
       .then(res => console.log(res))
       .catch(err => console.log(err));
+  }
+
+  handleAddTruck() {
+    const truckTab = [];
+    for (let i = 0; i < this.state.addTab; i++) {
+      truckTab.push(
+        <Tab key={`newtruck${i}`} label="New Truck">
+          <TextField
+            hintText="Name your Food truck"
+          />
+        </Tab>,
+      );
+    }
+    return truckTab || null;
   }
 
   render() {
@@ -60,6 +76,23 @@ class ManageBrand extends Component {
               <MenuItem key={genre.id} value={genre.id} primaryText={genre.name} />,
             )}
           </SelectField>
+          <br />
+          <br />
+          <div>Manage Trucks:</div>
+          <Tabs>
+            <Tab label="Truck 1">
+              <TextField
+                hintText="Name your Food truck"
+              />
+            </Tab>
+            {this.handleAddTruck()}
+            <Tab
+              label="Add Truck"
+              onClick={() =>
+                this.setState({ addTab: this.state.addTab + 1 })
+              }
+            />
+          </Tabs>
           <br />
           <br />
           <Link to={`/brand/${this.props.match.params.brandId}/trucks`}>
