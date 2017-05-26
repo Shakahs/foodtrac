@@ -9,7 +9,7 @@ class ManageTrucks extends Component {
     super();
     this.state = {
       newTrucks: [],
-      truckNameEdit: {},
+      trucksEdit: [],
       addTab: 0,
     };
   }
@@ -19,6 +19,13 @@ class ManageTrucks extends Component {
     val = val === '' ? 'null' : val; // eslint-disable-line no-param-reassign
     trucks[i] = { name: val, brand_id: this.props.brandId };
     this.setState({ newTrucks: trucks });
+  }
+
+  handleEditTruckChange(e, val, i, id) {
+    const trucks = [...this.state.trucksEdit];
+    val = val === '' ? 'null' : val; // eslint-disable-line no-param-reassign
+    trucks[i] = [{ name: val }, id];
+    this.setState({ trucksEdit: trucks });
   }
 
   handleNewTab() {
@@ -37,15 +44,11 @@ class ManageTrucks extends Component {
   }
 
   handleTruckEdit() {
-    const update = {};
-    if (this.state.truckNameEdit.name) {
-      update.name = this.state.truckNameEdit.name;
-    }
-    if (Object.keys(update).length > 0) {
-      axios.put(`/api/foodtrucks/${this.state.truckNameEdit.id}`, update)
+    this.state.trucksEdit.forEach((truck) => {
+      axios.put(`/api/foodtrucks/${truck[1]}`, truck[0])
         .then(res => console.log(res))
         .catch(err => console.log(err));
-    }
+    });
   }
 
   handleAddTruck() {
@@ -78,10 +81,7 @@ class ManageTrucks extends Component {
               <Tab key={truck.id} label={name}>
                 <TextField
                   hintText="Change your Food truck's Name"
-                  onChange={(e, val) => this.setState({
-                    truckNameEdit: { name: val, id: truck.id },
-                  })}
-                  value={this.state.truckNameEdit.name}
+                  onChange={(e, val) => this.handleEditTruckChange(e, val, i, truck.id)}
                 />
               </Tab>
             );
