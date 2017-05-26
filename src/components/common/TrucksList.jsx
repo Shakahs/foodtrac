@@ -13,14 +13,15 @@ const TrucksList = props => (
           truck={truck}
           isLoggedIn={props.isLoggedIn}
           user={props.user}
+          path={props.path}
         />))}
     </Row>
   </Grid>
 );
 
 TrucksList.propTypes = {
-  user: propSchema.user,
   trucks: propSchema.trucks,
+  path: propSchema.path,
 };
 
 const mapStateToProps = ({ auth, user }) => {

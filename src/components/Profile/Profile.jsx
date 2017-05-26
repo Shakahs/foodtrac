@@ -10,7 +10,7 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      brandId: '',
+      brandId: parseInt(this.props.match.params.brandId, 10),
       brand: {
         name: '',
         description: '',
@@ -22,7 +22,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.getBrandDetail(this.props.match.params.brandId);
+    this.getBrandDetail(this.state.brandId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +48,7 @@ class Profile extends Component {
             fromProfile: true,
           };
         });
-        this.setState({ brandId: this.props.match.params.brandId });
+        this.setState({ brandId: this.state.brandId });
         this.setState({ markers });
         this.setState({ brand: res.data });
       })
@@ -67,6 +67,7 @@ class Profile extends Component {
             brandName={this.state.brand.name}
             description={this.state.brand.description}
             foodGenre={this.state.brand.food_genres.name}
+            path={this.props.match.path}
           />
           <TabView
             brandId={this.state.brandId}

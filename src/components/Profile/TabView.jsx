@@ -17,10 +17,11 @@ const TabView = props => (
         <Route path="/brand/:brandId/menu" component={MenuList} />
         <Route
           path="/brand/:brandId/trucks"
-          render={() => (<Trucks
+          render={({ match }) => (<Trucks
             brandName={props.brandName}
             trucks={props.trucks}
             markers={props.markers}
+            path={match.path}
           />)}
         />
         <Route path="/brand/:brandId/events" component={EventsList} />

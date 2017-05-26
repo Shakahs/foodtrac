@@ -14,7 +14,7 @@ class MapPage extends Component {
     return (
       <div>
         <MapView markers={this.props.markers} />
-        <TrucksList trucks={this.props.trucks} />
+        <TrucksList trucks={this.props.trucks} path={this.props.match.path} />
       </div>
     );
   }
@@ -23,6 +23,7 @@ class MapPage extends Component {
 MapPage.propTypes = {
   markers: propSchema.markers,
   trucks: propSchema.trucks,
+  match: propSchema.match,
 };
 
 const mapStateToProps = ({ mapReducer }) => {

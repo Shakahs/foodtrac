@@ -7,7 +7,7 @@ const Trucks = props => (
   <div>
     <div>{props.brandName}&#39;s Food Truck(s)</div>
     <MapView markers={props.markers} />
-    <TrucksList trucks={props.trucks} />
+    <TrucksList trucks={props.trucks} path={props.path} />
   </div>
 );
 
@@ -15,6 +15,7 @@ Trucks.propTypes = {
   brandName: propSchema.brandName,
   trucks: propSchema.trucks,
   markers: propSchema.markers,
+  path: propSchema.path,
 };
 
 export default Trucks;

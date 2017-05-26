@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
-
+import propSchema from '../common/PropTypes';
+import FollowButton from '../common/FollowButton';
 
 const ProfileInfo = (props) => {
   const brands = props.user.brands.map(brand => brand.id);
@@ -19,6 +19,11 @@ const ProfileInfo = (props) => {
         <br />
         <div className="brandGenre">{props.foodGenre}</div>
         <br />
+        <FollowButton
+          brandId={props.brandId}
+          user={props.user}
+          path={props.path}
+        />
       </Paper>
       <br />
       <Link to={`/brand/${props.brandId}/trucks`}>
@@ -56,16 +61,12 @@ const ProfileInfo = (props) => {
 };
 
 ProfileInfo.propTypes = {
-  brandId: PropTypes.string.isRequired,
-  brandName: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  foodGenre: PropTypes.string.isRequired,
-  user: PropTypes.shape({
-    email: PropTypes.string,
-    isTruckOwner: PropTypes.boolean,
-    userId: PropTypes.number,
-    brands: PropTypes.array,
-  }).isRequired,
+  brandId: propSchema.brandId,
+  brandName: propSchema.brandName,
+  description: propSchema.description,
+  foodGenre: propSchema.foodGenre,
+  path: propSchema.path,
+  user: propSchema.user,
 };
 
 const mapStateToProps = ({ user }) => ({
