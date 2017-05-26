@@ -15,9 +15,8 @@ export function* watchCreateAccount() {
     const { newUser } = yield take(actions.CREATE_ACCOUNT);
     newUser.connection = globalConfig.AUTH0_DB_NAME;
     if (newUser.isTruckOwner) { newUser.user_metadata = { signed_up_as_truck_owner: 'true' }; }
-    const signUpRes = yield call(Promise.fromCallback,
+    yield call(Promise.fromCallback,
       callback => webAuth.signup(newUser, callback));
-    console.log(signUpRes);
     yield put(actions.loginRequest({ email: newUser.email, password: newUser.password }));
   }
 }
