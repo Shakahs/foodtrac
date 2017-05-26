@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { Field, reduxForm } from 'redux-form';
 
 const SignUpForm = props => (
   <div>
     <form onSubmit={props.handleSubmit}>
       <div>
-        <label htmlFor="userName">Username</label>
-        <Field name="userName" component="input" type="text" />
+        <label htmlFor="email">Email</label>
+        <Field name="email" component="input" type="text" />
       </div>
       <div>
         <label htmlFor="password">Password</label>

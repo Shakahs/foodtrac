@@ -10,6 +10,17 @@ const webAuth = new auth0.WebAuth({
   clientID: globalConfig.AUTH0_CLIENT_ID,
 });
 
+export function* watchCreateAccount() {
+  while (true) {
+    const { newUser } = yield take(actions.CREATE_ACCOUNT);
+    newUser.connection = globalConfig.AUTH0_DB_NAME;
+    const signUpRes = yield call(Promise.fromCallback,
+      callback => webAuth.signup(newUser, callback));
+    console.log(signUpRes);
+    yield put(actions.loginRequest({ email: newUser.email, password: newUser.password }));
+  }
+}
+
 function* handleReturnedHash() {
   const tokenData = yield call(Promise.fromCallback,
     callback => webAuth.parseHash(window.location.hash, callback));
@@ -29,7 +40,7 @@ export function* watchLoginRequest() {
 
     webAuth.redirect.loginWithCredentials({
       connection: globalConfig.AUTH0_DB_NAME,
-      username: credential.userName,
+      username: credential.email,
       password: credential.password,
       scope: 'openid',
       redirectUri: window.location.origin,
