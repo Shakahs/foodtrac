@@ -54,6 +54,8 @@ export default {
   brandId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   path: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  foodGenre: PropTypes.string.isRequired,
 
   foodGenresActions: PropTypes.shape({
     foodGenresRequest: PropTypes.func,
@@ -63,6 +65,5 @@ export default {
     id: PropTypes.number,
     name: PropTypes.string,
   })).isRequired,
-  brandId: PropTypes.string.isRequired,
 
 };

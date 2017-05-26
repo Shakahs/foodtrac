@@ -48,9 +48,9 @@ class ManageBrand extends Component {
     if (this.state.food_genre_id > 0) {
       update.food_genre_id = this.state.food_genre_id;
     }
-    // axios.put(`/api/brands/${this.props.brandId}`, update)
-    //   .then(res => console.log(res))
-    //   .catch(err => console.log(err));
+    axios.put(`/api/brands/${this.props.brandId}`, update)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
   }
 
   handleTruckEdit() {
