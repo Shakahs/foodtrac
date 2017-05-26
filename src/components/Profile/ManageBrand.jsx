@@ -28,7 +28,7 @@ class ManageBrand extends Component {
     if (this.state.food_genre_id > 0) {
       update.food_genre_id = this.state.food_genre_id;
     }
-    axios.put(`/api/brands/${this.props.match.params.brandId}`, update)
+    axios.put(`/api/brands/${this.props.brandId}`, update)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
@@ -95,7 +95,7 @@ class ManageBrand extends Component {
           </Tabs>
           <br />
           <br />
-          <Link to={`/brand/${this.props.match.params.brandId}/trucks`}>
+          <Link to={`/brand/${this.props.brandId}/trucks`}>
             <RaisedButton
               label="Save Changes"
               onClick={() => this.handleSave()}
@@ -108,8 +108,8 @@ class ManageBrand extends Component {
 }
 
 ManageBrand.propTypes = {
+  brandId: propSchema.brandId,
   foodGenres: propSchema.foodGenres,
-  match: propSchema.match,
 };
 
 const mapStateToProps = ({ foodGenresReducer }) => {

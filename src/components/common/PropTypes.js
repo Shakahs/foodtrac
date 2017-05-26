@@ -59,5 +59,6 @@ export default {
     id: PropTypes.number,
     name: PropTypes.string,
   })).isRequired,
+  brandId: PropTypes.string.isRequired,
 
 };

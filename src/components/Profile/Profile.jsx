@@ -69,6 +69,7 @@ class Profile extends Component {
             foodGenre={this.state.brand.food_genres.name}
           />
           <TabView
+            brandId={this.state.brandId}
             brandName={this.state.brand.name}
             trucks={this.state.brand.trucks}
             markers={this.state.markers}
