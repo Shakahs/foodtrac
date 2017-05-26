@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField, Tabs, Tab, RaisedButton } from 'material-ui';
+import { TextField, Tabs, Tab, RaisedButton, FlatButton } from 'material-ui';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
@@ -15,17 +15,17 @@ class ManageTrucks extends Component {
   }
 
   handleNewTruckChange(e, val, i) {
-    const trucks = [...this.state.newTrucks];
+    const newTrucks = [...this.state.newTrucks];
     val = val === '' ? 'null' : val; // eslint-disable-line no-param-reassign
-    trucks[i] = { name: val, brand_id: this.props.brandId };
-    this.setState({ newTrucks: trucks });
+    newTrucks[i] = { name: val, brand_id: this.props.brandId };
+    this.setState({ newTrucks });
   }
 
   handleEditTruckChange(e, val, i, id) {
-    const trucks = [...this.state.trucksEdit];
+    const trucksEdit = [...this.state.trucksEdit];
     val = val === '' ? 'null' : val; // eslint-disable-line no-param-reassign
-    trucks[i] = [{ name: val }, id];
-    this.setState({ trucksEdit: trucks });
+    trucksEdit[i] = [{ name: val }, id];
+    this.setState({ trucksEdit });
   }
 
   handleNewTab() {
@@ -37,10 +37,24 @@ class ManageTrucks extends Component {
             hintText="Name your Food truck"
             onChange={(e, val) => this.handleNewTruckChange(e, val, i)}
           />
+          <FlatButton
+            label="Remove"
+            type="button"
+            onClick={() => this.removeClick(i)}
+          />
         </Tab>,
       );
     }
     return truckTab || null;
+  }
+
+  removeClick(i) {
+    const newTrucks = [...this.state.newTrucks];
+    newTrucks.splice(i, 1);
+    this.setState({
+      addTab: this.state.addTab - 1,
+      newTrucks,
+    });
   }
 
   handleTruckEdit() {
