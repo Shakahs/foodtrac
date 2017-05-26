@@ -107,6 +107,8 @@ gulp.task('db:seed:users', (cb) => {
         newSeedItem.connection = process.env.AUTH0_DB_NAME;
         newSeedItem.email = seedItem.email;
         newSeedItem.password = 'test';
+        newSeedItem.user_metadata = {};
+        newSeedItem.user_metadata.signed_up_as_truck_owner = (seedItem.is_truck_owner) ? 'true' : false;
         return newSeedItem;
       });
     })
