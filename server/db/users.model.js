@@ -25,7 +25,7 @@ class Users extends Model {
               [
                 true, false,
               ],
-              [1, 75],
+              [1, 3],
             ],
           },
         },

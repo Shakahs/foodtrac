@@ -77,11 +77,13 @@ gulp.task('db:seed:users', (cb) => {
   const auth0Results = {};
   const userSeedSchema = {
     type: 'array',
-    minItems: 50,
-    maxItems: 100,
+    minItems: 250,
+    maxItems: 300,
     uniqueItems: true,
     items: Users.jsonSchema,
   };
+  userSeedSchema.items.required.push('email');
+  console.log(userSeedSchema);
   jsf.resolve(userSeedSchema)
     .then((seedData) => {
       originalSeedData = seedData;
