@@ -50,6 +50,8 @@ export default {
   }).isRequired,
 
   brandName: PropTypes.string.isRequired,
+  brandId: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
 
   foodGenresActions: PropTypes.shape({
     foodGenresRequest: PropTypes.func,
