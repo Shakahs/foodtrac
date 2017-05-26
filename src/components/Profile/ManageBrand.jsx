@@ -53,9 +53,9 @@ class ManageBrand extends Component {
           <SelectField
             floatingLabelText="Change Food Genre"
             value={this.state.food_genre_id}
-            onChange={(e, val) => this.setState({ food_genre_id: val })}
+            onChange={(e, i, val) => this.setState({ food_genre_id: val })}
           >
-            <MenuItem />
+            <MenuItem value={0} />
             {this.props.foodGenres.map(genre =>
               <MenuItem key={genre.id} value={genre.id} primaryText={genre.name} />,
             )}
