@@ -26,13 +26,20 @@ const TabView = props => (
         <Route path="/brand/:brandId/events" component={EventsList} />
         <Route path="/brand/:brandId/reviews" component={ReviewsList} />
         <Route path="/brand/:brandId/comments" component={CommentsList} />
-        <Route path="/brand/:brandId/manage" component={ManageBrand} />
+        <Route
+          path="/brand/:brandId/manage"
+          render={() => (<ManageBrand
+            brandId={props.brandId}
+            trucks={props.trucks}
+          />)}
+        />
       </Switch>
     </Paper>
   </Col>
 );
 
 TabView.propTypes = {
+  brandId: propSchema.brandId,
   brandName: propSchema.brandName,
   trucks: propSchema.trucks,
   markers: propSchema.markers,

@@ -4,7 +4,7 @@ module.exports = {
   put(req, res) {
     Brands.query()
       .findById(req.params.brandId)
-      .update(req.body)
+      .patch(req.body)
       .then(brand => res.status(200).json(brand))
       .catch(e => console.log('Error updating brand:', e));
   },

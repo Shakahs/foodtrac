@@ -12,8 +12,9 @@ module.exports = {
   },
   put(req, res) {
     Trucks.query()
-      .update(req.body)
-      .then(truck => res.status(200).send(truck))
+      .findById(req.params.truckId)
+      .patch(req.body)
+      .then(truck => res.status(200).json(truck))
       .catch((e) => {
         console.log('Error updating truck info:', e);
         res.sendStatus(400);
