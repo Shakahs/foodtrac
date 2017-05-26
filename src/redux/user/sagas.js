@@ -9,7 +9,8 @@ export default function* watchLoginSuccess() {
     const postData = { auth0_id: profileData.user_id };
     console.log(profileData);
     postData.is_truck_owner = !!((profileData.user_metadata &&
-      profileData.user_metadata.signed_up_as_truck_owner));
+      profileData.user_metadata.signed_up_as_truck_owner &&
+      Boolean(Number(profileData.user_metadata.signed_up_as_truck_owner))));
     const userData = yield call(axios.post, '/api/users/', postData);
     yield put(actions.userReceived(userData.data));
   }

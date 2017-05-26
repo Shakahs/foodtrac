@@ -108,7 +108,7 @@ gulp.task('db:seed:users', (cb) => {
         newSeedItem.email = seedItem.email;
         newSeedItem.password = 'test';
         newSeedItem.user_metadata = {};
-        newSeedItem.user_metadata.signed_up_as_truck_owner = (seedItem.is_truck_owner) ? 'true' : false;
+        newSeedItem.user_metadata.signed_up_as_truck_owner = (seedItem.is_truck_owner) ? '1' : '0';
         return newSeedItem;
       });
     })
