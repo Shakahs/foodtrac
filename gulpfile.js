@@ -17,6 +17,8 @@ const knex = require('knex');
 const Chance = require('chance');
 const Faker = require('faker');
 const moment = require('moment');
+const ManagementClient = require('auth0').ManagementClient;
+const Bottleneck = require('bottleneck');
 const Users = require('./server/db/users.model');
 const FoodGenres = require('./server/db/foodgenres.model');
 const Brands = require('./server/db/brands.model');
@@ -70,22 +72,69 @@ gulp.task('db:recreate', (cb) => {
 });
 
 gulp.task('db:seed:users', (cb) => {
+  let auth0SeedData = null;
+  let originalSeedData = null;
+  const auth0Results = {};
   const userSeedSchema = {
     type: 'array',
-    minItems: 2000,
-    maxItems: 3000,
+    minItems: 50,
+    maxItems: 100,
     uniqueItems: true,
     items: Users.jsonSchema,
   };
   jsf.resolve(userSeedSchema)
-    .then(seedData => seedData.map((seedItem) => {
-      const newSeedItem = Object.assign({}, seedItem);
-      newSeedItem.dummy_password = 'test';
-      return newSeedItem;
+    .then((seedData) => {
+      originalSeedData = seedData;
+      return seedData.map((seedItem) => {
+        const newSeedItem = {};
+        newSeedItem.connection = process.env.AUTH0_DB_NAME;
+        newSeedItem.email = seedItem.email;
+        newSeedItem.password = 'test';
+        return newSeedItem;
+      });
+    })
+    .then((seedData) => {
+      auth0SeedData = seedData;
+      fs.writeFileSync('./temp.auth0users.txt', JSON.stringify(auth0SeedData, null, 2));
+
+      const url = `https://${process.env.AUTH0_DOMAIN}/oauth/token`;
+      const config = { headers: { 'content-type': 'application/json' } };
+      const body = { grant_type: 'client_credentials',
+        client_id: process.env.AUTH0_SEEDING_CLIENT_ID,
+        client_secret: process.env.AUTH0_SEEDING_CLIENT_SECRET,
+        audience: `https://${process.env.AUTH0_DOMAIN}/api/v2/` };
+      return axios.post(url, body, config);
+    })
+    .then((tokenRes) => {
+      const auth0Management = new ManagementClient({
+        token: tokenRes.data.access_token,
+        domain: process.env.AUTH0_DOMAIN,
+      });
+
+      const doCreate = function (obj) {
+        return auth0Management.createUser(obj)
+          .then((createResult) => {
+            auth0Results[createResult.email] = createResult;
+          });
+      };
+
+      const limiter = new Bottleneck(0, 25);
+
+      const createThrottled = function (obj) {
+        return limiter.schedule(doCreate, obj);
+      };
+
+      return Promise.map(auth0SeedData, createThrottled);
+    })
+    .then(() => originalSeedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+      newSeedDataItem.auth0_id = auth0Results[newSeedDataItem.email].user_id;
+      delete newSeedDataItem.email;
+      return newSeedDataItem;
     }))
-    .then(seedData => insertSeed('Users', seedData))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+      .then((finalSeedData) => { insertSeed('Users', finalSeedData); })
+      .then(() => { cb(); })
+      .catch((err) => { cb(err); });
 });
 
 gulp.task('db:seed:foodgenres', (cb) => {

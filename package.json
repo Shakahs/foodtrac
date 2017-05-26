@@ -55,11 +55,13 @@
     "swaggerize-express": "^4.0.5"
   },
   "devDependencies": {
+    "auth0": "^2.6.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
     "babel-polyfill": "^6.23.0",
     "babel-preset-latest": "^6.22.0",
     "babel-preset-react": "^6.23.0",
+    "bottleneck": "^1.15.1",
     "chance": "^1.0.8",
     "css-loader": "^0.28.1",
     "eslint": "^3.19.0",
