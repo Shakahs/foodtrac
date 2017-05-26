@@ -8,10 +8,17 @@ class ManageTrucks extends Component {
   constructor() {
     super();
     this.state = {
-      newTruckName: '',
+      newTrucks: [],
       truckNameEdit: {},
       addTab: 0,
     };
+  }
+
+  handleNewTruckChange(e, val, i) {
+    const trucks = [...this.state.newTrucks];
+    val = val === '' ? 'null' : val; // eslint-disable-line no-param-reassign
+    trucks[i] = { name: val, brand_id: this.props.brandId };
+    this.setState({ newTrucks: trucks });
   }
 
   handleNewTab() {
@@ -21,10 +28,7 @@ class ManageTrucks extends Component {
         <Tab key={`newtruck${i}`} label="New Truck">
           <TextField
             hintText="Name your Food truck"
-            onChange={(e, val) => this.setState({
-              newTruckName: val,
-            })}
-            value={this.state.newTruckName}
+            onChange={(e, val) => this.handleNewTruckChange(e, val, i)}
           />
         </Tab>,
       );
@@ -45,16 +49,18 @@ class ManageTrucks extends Component {
   }
 
   handleAddTruck() {
-    const newTruck = {};
-    newTruck.brand_id = this.props.brandId;
-    if (this.state.newTruckName !== '') {
-      newTruck.name = this.state.newTruckName;
-    }
-    if (Object.keys(newTruck).length > 1) {
-      axios.post('/api/foodtrucks', newTruck)
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
-    }
+    this.state.newTrucks.forEach((truck) => {
+      if (truck) {
+        axios.post('/api/foodtrucks', truck)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+      } else {
+        const newTruck = { name: 'null', brand_id: this.props.brandId };
+        axios.post('/api/foodtrucks', newTruck)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+      }
+    });
   }
 
   handleSave() {
