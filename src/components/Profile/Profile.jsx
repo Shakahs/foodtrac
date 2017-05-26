@@ -22,7 +22,7 @@ class Profile extends Component {
   }
 
   componentDidMount() {
-    this.getBrandDetail(this.props.match.params.brandId);
+    this.getBrandDetail(this.state.brandId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -48,7 +48,7 @@ class Profile extends Component {
             fromProfile: true,
           };
         });
-        this.setState({ brandId: this.props.match.params.brandId });
+        this.setState({ brandId: this.state.brandId });
         this.setState({ markers });
         this.setState({ brand: res.data });
       })

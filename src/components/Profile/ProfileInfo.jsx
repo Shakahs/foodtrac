@@ -7,7 +7,6 @@ import Paper from 'material-ui/Paper';
 import propSchema from '../common/PropTypes';
 import FollowButton from '../common/FollowButton';
 
-
 const ProfileInfo = (props) => {
   const brands = props.user.brands.map(brand => brand.id);
   return (
@@ -20,6 +19,11 @@ const ProfileInfo = (props) => {
         <br />
         <div className="brandGenre">{props.foodGenre}</div>
         <br />
+        <FollowButton
+          brandId={props.brandId}
+          user={props.user}
+          path={props.path}
+        />
       </Paper>
       <br />
       <Link to={`/brand/${props.brandId}/trucks`}>
