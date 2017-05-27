@@ -8,15 +8,15 @@ class LocationTimelines extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['start', 'truck_id', 'location_id', 'checked_in'],
+      required: ['start', 'truck_id', 'location_id'],
 
       properties: {
         id: { type: 'integer' },
-        start: { type: 'integer' },
-        end: { type: 'integer' },
+        start: { type: 'string' },
+        end: { type: 'string' },
         truck_id: { type: 'integer' },
         location_id: { type: 'integer' },
-        checked_in: { type: 'boolean', default: 'false' },
+        checked_in: { type: 'boolean', default: false },
       },
     };
   }
