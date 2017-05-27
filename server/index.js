@@ -13,13 +13,14 @@ Model.knex(knex);
 const app = express();
 app.use('/static', express.static('static'));
 app.use(bodyParser.json());
-app.use(history());
 
 delete swaggerSpec.host;
 app.use(swaggerize({
   api: swaggerSpec,
   handlers: './controllers',
 }));
+
+app.use(history());
 
 if (app.get('env') === 'production') {
   app.use(morgan('common', { skip(req, res) { return res.statusCode < 400; }, stream: `${__dirname}/../morgan.log` }));
