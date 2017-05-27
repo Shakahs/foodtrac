@@ -4,6 +4,7 @@ module.exports = {
   post(req, res) {
     Users.query()
       .where('auth0_id', '=', req.body.auth0_id)
+      .eager('[brands]')
       .first()
       .then((newUser) => {
         if (newUser) {
