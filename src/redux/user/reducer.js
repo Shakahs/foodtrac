@@ -8,6 +8,7 @@ export const USER_RECEIVED = 'USER_RECEIVED';
 export const USER_FAILURE = 'USER_FAILURE';
 export const USER_NEW_FOLLOW = 'USER_NEW_FOLLOW';
 export const USER_RM_FOLLOW = 'USER_RM_FOLLOW';
+export const BRAND_INFO_UPDATE = 'BRAND_INFO_UPDATE';
 
 const initialState = {
   id: null,
@@ -29,6 +30,8 @@ export default function reducer(state = Immutable(initialState), action) {
       return Immutable.merge(state, action.user);
     // case USER_FAILURE:
     //   return Object.assign({}, state, { fetching: false, error: action.error });
+    case BRAND_INFO_UPDATE:
+      return Immutable.merge(state, { brands: [...state.brands[0], action.brand] });
     case USER_NEW_FOLLOW:
       return Immutable.merge(state, { user_follows: [...state.user_follows, action.newFollow] });
     case USER_RM_FOLLOW:
@@ -55,6 +58,11 @@ export const userNewFollow = newFollow => ({
 export const userRemoveFollow = brandId => ({
   type: USER_RM_FOLLOW,
   brandId,
+});
+
+export const brandInfoUpdate = brand => ({
+  type: BRAND_INFO_UPDATE,
+  brand,
 });
 
 // export const userFailure = error => ({
