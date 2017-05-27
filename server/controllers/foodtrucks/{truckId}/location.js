@@ -37,7 +37,4 @@ module.exports = {
       })
       .catch(e => res.status(400).send(e.message));
   },
-  put(req, res) {
-    res.send('putput');
-  },
 };
