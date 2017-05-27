@@ -30,7 +30,11 @@ class Locations extends Model {
           through: {
             from: 'LocationTimelines.location_id',
             to: 'LocationTimelines.truck_id',
-            extra: ['start', 'end', 'id'],
+            extra: {
+              start: 'start',
+              end: 'end',
+              timeline_id: 'id',
+            },
           },
           to: 'Trucks.id',
         },
