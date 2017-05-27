@@ -48,6 +48,7 @@ class Trucks extends Model {
           through: {
             from: 'LocationTimelines.truck_id',
             to: 'LocationTimelines.location_id',
+            extra: ['start'],
           },
           to: 'Locations.id',
         },
