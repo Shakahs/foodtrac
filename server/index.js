@@ -34,10 +34,6 @@ if (app.get('env') === 'production') {
 //   next();
 // });
 
-app.get('/hello', (req, res) => {
-  res.send('hello world');
-});
-
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log('node listening on port', port);
