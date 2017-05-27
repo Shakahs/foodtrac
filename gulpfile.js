@@ -194,8 +194,8 @@ gulp.task('db:seed:brands', (cb) => {
       return boundFoodGenres.knex().destroy();
     })
     .then(() => {
-      brandSchema.minItems = userList.length - 1;
-      brandSchema.maxItems = userList.length - 1;
+      brandSchema.minItems = userList.length;
+      brandSchema.maxItems = userList.length;
       return jsf.resolve(brandSchema);
     })
     .then((seedData) => {
