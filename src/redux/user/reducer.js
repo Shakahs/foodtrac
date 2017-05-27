@@ -9,6 +9,8 @@ export const USER_FAILURE = 'USER_FAILURE';
 export const USER_NEW_FOLLOW = 'USER_NEW_FOLLOW';
 export const USER_RM_FOLLOW = 'USER_RM_FOLLOW';
 export const BRAND_INFO_UPDATE = 'BRAND_INFO_UPDATE';
+export const REDIRECT_ADDBRAND_ENABLE = 'REDIRECT_ADDBRAND_ENABLE';
+export const REDIRECT_ADDBRAND_DISABLE = 'REDIRECT_ADDBRAND_DISABLE';
 
 const initialState = {
   id: null,
@@ -19,6 +21,7 @@ const initialState = {
   dummy_password: null,
   user_follows: [],
   brands: [],
+  redirectToAddBrand: false,
 };
 
 export default function reducer(state = Immutable(initialState), action) {
@@ -38,6 +41,10 @@ export default function reducer(state = Immutable(initialState), action) {
       return Immutable.merge(state, {
         user_follows: _.filter(state.user_follows, follow => follow.id !== action.brandId),
       });
+    case REDIRECT_ADDBRAND_ENABLE:
+      return Immutable.merge(state, { redirectToAddBrand: true });
+    case REDIRECT_ADDBRAND_DISABLE:
+      return Immutable.merge(state, { redirectToAddBrand: false });
     case authActions.LOGOUT:
       return Immutable(initialState);
     default:
@@ -63,6 +70,14 @@ export const userRemoveFollow = brandId => ({
 export const brandInfoUpdate = brand => ({
   type: BRAND_INFO_UPDATE,
   brand,
+});
+
+export const redirectAddBrandEnable = () => ({
+  type: REDIRECT_ADDBRAND_ENABLE,
+});
+
+export const redirectAddBrandDisable = () => ({
+  type: REDIRECT_ADDBRAND_DISABLE,
 });
 
 // export const userFailure = error => ({

@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import NavBar from './NavBar/NavBar';
 import Routes from './Routes';
 import './style.scss';
+import Redirector from './Redirects';
 
 class Root extends Component {
   constructor() {
@@ -18,6 +19,7 @@ class Root extends Component {
           <div>
             <NavBar />
             <Routes />
+            <Redirector />
           </div>
         </MuiThemeProvider>
       </BrowserRouter>

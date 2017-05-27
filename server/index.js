@@ -4,6 +4,7 @@ const swaggerize = require('swaggerize-express');
 const swaggerSpec = require('./api.json');
 const morgan = require('morgan');
 const { Model } = require('objection');
+const history = require('connect-history-api-fallback');
 const knexConfig = require('../knexfile');
 const knex = require('knex')(knexConfig.development);
 
@@ -18,6 +19,8 @@ app.use(swaggerize({
   api: swaggerSpec,
   handlers: './controllers',
 }));
+
+app.use(history());
 
 if (app.get('env') === 'production') {
   app.use(morgan('common', { skip(req, res) { return res.statusCode < 400; }, stream: `${__dirname}/../morgan.log` }));
