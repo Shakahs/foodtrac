@@ -13,6 +13,8 @@ export default function* watchLoginSuccess() {
     const userData = yield call(axios.post, '/api/users/', postData);
     userData.data.is_truck_owner = Boolean(userData.data.is_truck_owner);
     yield put(actions.userReceived(userData.data));
+    if (userData.data.is_truck_owner) {
+      yield put(actions.redirectAddBrandEnable());
+    }
   }
 }
-
