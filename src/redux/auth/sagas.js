@@ -12,7 +12,7 @@ const webAuth = new auth0.WebAuth({
 
 export function* watchCreateAccount() {
   while (true) {
-    const { newUser } = yield take(actions.CREATE_ACCOUNT);
+    const { newUser } = yield take(actions.ACCOUNT_CREATE);
     newUser.connection = globalConfig.AUTH0_DB_NAME;
     newUser.user_metadata = {};
     newUser.user_metadata.signed_up_as_truck_owner = (newUser.isTruckOwner) ? '1' : '0';

@@ -8,7 +8,7 @@ import { actions as authActions } from '../../redux/auth';
 const SignUp = props => (
   <div>
     Thanks for signing up!
-    <SignUpForm onSubmit={props.authActions.createAccount} />
+    <SignUpForm onSubmit={props.authActions.accountCreate} />
   </div>
 );
 
