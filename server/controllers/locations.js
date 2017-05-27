@@ -4,8 +4,14 @@ const { getBoundingBox } = require('../utils');
 module.exports = {
   post(req, res) {
     Locations.query()
-      .insert(req.body)
-      .then(() => res.sendStatus(201))
+      .where('address', req.body.address)
+      .then((locations) => {
+        if (locations.length === 0) {
+          return Locations.query.insert(req.body);
+        }
+        return locations[0];
+      })
+      .then(location => res.status(201).send(location))
       .catch((e) => {
         console.log('Error inserting new location:', e);
         res.status(400).send(e.message);

@@ -25,13 +25,13 @@ module.exports = {
           .orWhere('end', '>', currentTime.toISOString())
           .orderBy('start', 'desc');
       })
-      .then((brand) => {
-        brand.trucks = _.filter(brand.trucks, (truck) => { // eslint-disable-line no-param-reassign
+      .then((brand) => { /* eslint-disable no-param-reassign */
+        brand.trucks = _.forEach(brand.trucks, (truck) => {
           if (truck.locations.length > 0) {
-            truck.locations = truck.locations[0]; // eslint-disable-line no-param-reassign
-            return true;
+            truck.locations = truck.locations[0];
+          } else {
+            truck.locations = null;
           }
-          return false;
         });
         res.status(200).json(brand);
       })
