@@ -82,21 +82,30 @@ class ManageTrucks extends Component {
     });
   }
 
-  handleSetCurrentLoc(e, i) {
+  handleSetCurrentLoc(e, i, id) {
     const truckLocations = [...this.state.truckLocations];
     const newLocation = {
-      name: '',
+      name: 'no name',
       address: e.formatted_address,
       lat: e.geometry.location.lat(),
       lng: e.geometry.location.lng(),
     };
-    truckLocations[i] = newLocation;
+    truckLocations[i] = [newLocation, id];
     this.setState({ truckLocations });
-    console.log('IN SET CURRENT LOC STATE', this.state.truckLocations);
   }
 
   handleLocation() {
-    console.log('location', this.state.truckLocations);
+    this.state.truckLocations.forEach((location) => {
+      axios.post('/api/locations', location[0])
+        .then((res) => {
+          // create item to post
+          const timeLine = res;
+          axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
+            .then(resp => console.log(resp))
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    });
   }
 
   handleSave() {
@@ -124,7 +133,7 @@ class ManageTrucks extends Component {
                     types: ['address'],
                     componentRestrictions: { country: 'us' },
                   }}
-                  onPlaceChange={e => this.handleSetCurrentLoc(e, i)}
+                  onPlaceChange={e => this.handleSetCurrentLoc(e, i, truck.id)}
                 />
               </Tab>
             );
