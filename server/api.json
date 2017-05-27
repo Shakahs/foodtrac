@@ -21,24 +21,7 @@
           "in" : "body",
           "required" : true,
           "schema" : {
-            "type" : "object",
-            "required" : [ "auth0_id", "email" ],
-            "properties" : {
-              "email" : {
-                "type" : "string",
-                "maxLength" : 100
-              },
-              "is_truck_owner" : {
-                "type" : "boolean",
-                "default" : false
-              },
-              "auth0_id" : {
-                "type" : "string",
-                "minLength" : 5,
-                "maxLength" : 30,
-                "example" : "auth0|64646784"
-              }
-            }
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
@@ -348,7 +331,24 @@
     },
     "/foodtrucks/{truckId}/location" : {
       "post" : {
-        "summary" : "Update truck location",
+        "summary" : "Add new truck location to timeline",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/LocationTimeline"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Edit a truck location on timeline",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
@@ -546,13 +546,15 @@
     },
     "User" : {
       "type" : "object",
-      "required" : [ "id", "is_truck_owner" ],
       "properties" : {
         "id" : {
           "type" : "integer"
         },
         "is_truck_owner" : {
           "type" : "boolean"
+        },
+        "auth0_id" : {
+          "type" : "string"
         }
       }
     },
