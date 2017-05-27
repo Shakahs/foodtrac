@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Geosuggest from 'react-geosuggest';
+import MuiGeoSuggest from 'material-ui-geosuggest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
@@ -19,7 +19,7 @@ class SearchBar extends Component {
 
   handleSuggestSelect({ location }) {
     const { lat, lng } = location;
-    this.props.actions.mapRequest(lat, lng);
+    this.props.actions.mapRequest(lat(), lng());
     this.setState({
       redirect: true,
     });
@@ -40,15 +40,17 @@ class SearchBar extends Component {
       // onSuggestSelect axios get trucks near coords of entered address and set on redux store
       <div className="searchBar">
         {this.redirectToMap()}
-        <Geosuggest
-          className="midin"
-          ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
-          country="us"
-          types={['geocode']}
-          placeholder="Type your address!"
-          onSuggestSelect={(e) => {
-            this.handleSuggestSelect(e);
-            this._geoSuggest.clear();
+        <MuiGeoSuggest
+          hintText="Type your address!"
+          value={this.state.value}
+          onChange={e => this.setState({ value: e.target.value })}
+          options={{
+            types: ['address'],
+            componentRestrictions: { country: 'us' },
+          }}
+          onPlaceChange={(e) => {
+            this.handleSuggestSelect(e.geometry);
+            this.setState({ value: '' });
           }}
         />
       </div>

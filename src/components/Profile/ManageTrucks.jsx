@@ -100,7 +100,6 @@ class ManageTrucks extends Component {
         .then((res) => {
           const timeLine = {
             start: new Date().toISOString(),
-            // end: '0000-00-00 00:00:00',
             truck_id: location[1],
             location_id: res.data.id,
             checked_in: true,
