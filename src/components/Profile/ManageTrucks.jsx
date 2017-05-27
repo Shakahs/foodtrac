@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { TextField, Tabs, Tab, RaisedButton, FlatButton } from 'material-ui';
+import MuiGeoSuggest from 'material-ui-geosuggest';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
@@ -11,6 +12,7 @@ class ManageTrucks extends Component {
       newTrucks: [],
       trucksEdit: [],
       addTab: 0,
+      truckLocations: [],
     };
   }
 
@@ -80,9 +82,27 @@ class ManageTrucks extends Component {
     });
   }
 
+  handleSetCurrentLoc(e, i) {
+    const truckLocations = [...this.state.truckLocations];
+    const newLocation = {
+      name: '',
+      address: e.formatted_address,
+      lat: e.geometry.location.lat(),
+      lng: e.geometry.location.lng(),
+    };
+    truckLocations[i] = newLocation;
+    this.setState({ truckLocations });
+    console.log('IN SET CURRENT LOC STATE', this.state.truckLocations);
+  }
+
+  handleLocation() {
+    console.log('location', this.state.truckLocations);
+  }
+
   handleSave() {
     this.handleTruckEdit();
     this.handleAddTruck();
+    this.handleLocation();
   }
 
   render() {
@@ -96,6 +116,15 @@ class ManageTrucks extends Component {
                 <TextField
                   hintText="Change your Food truck's Name"
                   onChange={(e, val) => this.handleEditTruckChange(e, val, i, truck.id)}
+                />
+                <br />
+                <MuiGeoSuggest
+                  hintText="Pick your current location"
+                  options={{
+                    types: ['address'],
+                    componentRestrictions: { country: 'us' },
+                  }}
+                  onPlaceChange={e => this.handleSetCurrentLoc(e, i)}
                 />
               </Tab>
             );
