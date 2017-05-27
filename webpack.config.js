@@ -51,6 +51,7 @@ const webpackConfig = {
     inline: true,
     stats: true,
     clientLogLevel: 'info',
+    historyApiFallback: true,
     proxy: [
       {
         context: ['/api'],

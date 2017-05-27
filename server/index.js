@@ -4,6 +4,7 @@ const swaggerize = require('swaggerize-express');
 const swaggerSpec = require('./api.json');
 const morgan = require('morgan');
 const { Model } = require('objection');
+const history = require('connect-history-api-fallback');
 const knexConfig = require('../knexfile');
 const knex = require('knex')(knexConfig.development);
 
@@ -12,6 +13,7 @@ Model.knex(knex);
 const app = express();
 app.use('/static', express.static('static'));
 app.use(bodyParser.json());
+app.use(history());
 
 delete swaggerSpec.host;
 app.use(swaggerize({
