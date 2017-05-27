@@ -20,13 +20,14 @@ module.exports = {
           .orWhere('end', '>', currentTime.toISOString())
           .orderBy('start', 'desc');
       })
-      .then((trucks) => {
-        _.forEach(trucks, (truck) => {
+      .then((trucks) => { /* eslint-disable no-param-reassign */
+        trucks = _.filter(trucks, (truck) => {
           if (truck.locations.length > 0) {
-            truck.locations = truck.locations[0]; // eslint-disable-line no-param-reassign
-          } else {
-            truck.locations = null; // eslint-disable-line no-param-reassign
+            truck.locations = truck.locations[0];
+            return true;
           }
+          truck.locations = null;
+          return false;
         });
         res.status(200).send(trucks);
       })

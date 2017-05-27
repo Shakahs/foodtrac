@@ -48,9 +48,21 @@ class Trucks extends Model {
           through: {
             from: 'LocationTimelines.truck_id',
             to: 'LocationTimelines.location_id',
-            extra: ['start'],
+            extra: {
+              start: 'start',
+              end: 'end',
+              timeline_id: 'id',
+            },
           },
           to: 'Locations.id',
+        },
+      },
+      timelines: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/locationtimelines.model`,
+        join: {
+          from: 'Trucks.id',
+          to: 'LocationTimelines.truck_id',
         },
       },
     };

@@ -33,14 +33,19 @@ class Profile extends Component {
   getBrandDetail(brandId) {
     axios.get(`/api/brands/${brandId}?eager=true`)
       .then((res) => {
-        const markers = res.data.trucks.map(truck => ({
-          position: {
-            lat: truck.locations.lat,
-            lng: truck.locations.lng,
-          },
-          key: truck.locations.id,
-          defaultAnimation: 2,
-        }));
+        const markers = res.data.trucks.reduce((result, truck) => {
+          if (truck.locations) {
+            result.push({
+              position: {
+                lat: truck.locations.lat,
+                lng: truck.locations.lng,
+              },
+              key: truck.locations.id,
+              defaultAnimation: 2,
+            });
+          }
+          return result;
+        }, []);
         res.data.trucks.forEach((truck) => {
           truck.brands = { // eslint-disable-line no-param-reassign
             name: res.data.name,
