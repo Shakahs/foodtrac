@@ -14,7 +14,7 @@ export default function* watchLoginSuccess() {
     userData.data.is_truck_owner = Boolean(userData.data.is_truck_owner);
     yield put(actions.userReceived(userData.data));
     if (userData.data.is_truck_owner &&
-      moment(profileData.created_at).isAfter(moment().subtract(1, 'minute'))) {
+      moment(profileData.created_at).isAfter(moment().subtract(10, 'seconds'))) {
       yield put(actions.redirectAddBrandEnable());
     }
   }
