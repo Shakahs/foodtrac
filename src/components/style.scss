@@ -18,6 +18,28 @@ a {
 .searchBar {
   float: left;
   margin-right: 90px;
+  margin-top: 13px;
+}
+
+.geosuggest__suggests--hidden {
+  max-height: 0;
+  overflow: hidden;
+  border-width: 0;
+}
+
+.geosuggest__item--active {
+  background: #267dc0;
+  color: #fff;
+}
+
+.searchBar ul {
+  position: absolute;
+  background-color: white;
+}
+
+.searchBar li {
+  cursor: pointer;
+  list-style-type: none;
 }
 
 .profileButton {
