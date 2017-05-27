@@ -6,7 +6,7 @@ import { actions } from './index';
 // keep original information in store as well to use in truckslist
 function* mapRequest(lat, lng, dist) {
   try {
-    const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 10}`);
+    const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}`);
     console.log('locations', data);
     const markers = data.map(({ locations }) => ({
       position: {
