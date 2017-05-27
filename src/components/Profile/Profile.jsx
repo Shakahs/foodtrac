@@ -19,6 +19,7 @@ class Profile extends Component {
       },
       markers: [],
     };
+    this.getBrandDetail = this.getBrandDetail.bind(this);
   }
 
   componentDidMount() {
@@ -32,14 +33,19 @@ class Profile extends Component {
   getBrandDetail(brandId) {
     axios.get(`/api/brands/${brandId}?eager=true`)
       .then((res) => {
-        const markers = res.data.trucks.map(truck => ({
-          position: {
-            lat: truck.locations.lat,
-            lng: truck.locations.lng,
-          },
-          key: truck.locations.id,
-          defaultAnimation: 2,
-        }));
+        const markers = res.data.trucks.reduce((result, truck) => {
+          if (truck.locations) {
+            result.push({
+              position: {
+                lat: truck.locations.lat,
+                lng: truck.locations.lng,
+              },
+              key: truck.locations.id,
+              defaultAnimation: 2,
+            });
+          }
+          return result;
+        }, []);
         res.data.trucks.forEach((truck) => {
           truck.brands = { // eslint-disable-line no-param-reassign
             name: res.data.name,
@@ -48,7 +54,7 @@ class Profile extends Component {
             fromProfile: true,
           };
         });
-        this.setState({ brandId: this.state.brandId });
+        this.setState({ brandId: parseInt(this.props.match.params.brandId, 10) });
         this.setState({ markers });
         this.setState({ brand: res.data });
       })
@@ -74,6 +80,7 @@ class Profile extends Component {
             brandName={this.state.brand.name}
             trucks={this.state.brand.trucks}
             markers={this.state.markers}
+            getBrand={this.getBrandDetail}
           />
         </Row>
       </Grid>

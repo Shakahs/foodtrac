@@ -16,23 +16,19 @@ const UserMenu = props => (
     targetOrigin={{ horizontal: 'right', vertical: 'top' }}
     anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
   >
-    <Link to="/">
-      <MenuItem primaryText="Dashboard" />
-    </Link>
+    <MenuItem containerElement={<Link to="/" />} primaryText="Dashboard" />
     {props.user.is_truck_owner ?
       props.user.brands.map(brand =>
-        (<Link key={brand.id} to={`/brand/${brand.id}/trucks`}>
-          <MenuItem primaryText={brand.name} />
-        </Link>),
+        <MenuItem key={brand.id} containerElement={<Link to={`/brand/${brand.id}/trucks`} />} primaryText={brand.name} />,
       ) : null
     }
-    <Link to="/settings">
-      <MenuItem primaryText="Settings" />
-    </Link>
+    <MenuItem containerElement={<Link to="/settings" />} primaryText="Settings" />
     <Divider />
-    <Link to="/">
-      <MenuItem primaryText="Sign out" onClick={() => { props.handleLogout(); }} />
-    </Link>
+    <MenuItem
+      containerElement={<Link to="/" />}
+      primaryText="Sign out"
+      onClick={() => { props.handleLogout(); }}
+    />
   </IconMenu>
 );
 

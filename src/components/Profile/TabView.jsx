@@ -32,6 +32,7 @@ const TabView = props => (
           render={() => (<ManageBrand
             brandId={props.brandId}
             trucks={props.trucks}
+            getBrand={props.getBrand}
           />)}
         />
       </Switch>
@@ -44,6 +45,7 @@ TabView.propTypes = {
   brandName: propSchema.brandName,
   trucks: propSchema.trucks,
   markers: propSchema.markers,
+  getBrand: propSchema.getBrand,
 };
 
 export default TabView;
