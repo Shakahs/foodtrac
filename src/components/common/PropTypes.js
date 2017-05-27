@@ -61,6 +61,10 @@ export default {
     foodGenresRequest: PropTypes.func,
   }).isRequired,
 
+  userActions: PropTypes.shape({
+    brandInfoUpdate: PropTypes.func,
+  }).isRequired,
+
   foodGenres: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,

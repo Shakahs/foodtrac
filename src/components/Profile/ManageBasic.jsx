@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { TextField, SelectField, MenuItem, RaisedButton } from 'material-ui';
 import axios from 'axios';
+import { actions as userActions } from '../../redux/user';
 import propSchema from '../common/PropTypes';
 
 class ManageBasic extends Component {
@@ -31,6 +33,25 @@ class ManageBasic extends Component {
         .then(res => console.log(res))
         .catch(err => console.log(err));
     }
+  }
+
+  handleReduxUpdate() {
+    const newBrandInfo = Object.assign({}, this.props.user.brands[0]);
+    if (this.state.name !== '') {
+      newBrandInfo.name = this.state.name;
+    }
+    if (this.state.description !== '') {
+      newBrandInfo.description = this.state.description;
+    }
+    if (this.state.name > 0) {
+      newBrandInfo.food_genre_id = this.state.food_genre_id;
+    }
+    this.props.userActions.brandInfoUpdate(newBrandInfo);
+  }
+
+  handleSave() {
+    this.handleInfoEdit();
+    this.handleReduxUpdate();
   }
 
   render() {
@@ -63,7 +84,7 @@ class ManageBasic extends Component {
         <Link to={`/brand/${this.props.brandId}/trucks`}>
           <RaisedButton
             label="Save Changes"
-            onClick={() => this.handleInfoEdit()}
+            onClick={() => this.handleSave()}
           />
         </Link>
       </div>
@@ -74,11 +95,17 @@ class ManageBasic extends Component {
 ManageBasic.propTypes = {
   brandId: propSchema.brandId,
   foodGenres: propSchema.foodGenres,
+  user: propSchema.user,
+  userActions: propSchema.userActions,
 };
 
-const mapStateToProps = ({ foodGenresReducer }) => {
+const mapStateToProps = ({ foodGenresReducer, user }) => {
   const { foodGenres } = foodGenresReducer;
-  return { foodGenres };
+  return { foodGenres, user };
 };
 
-export default connect(mapStateToProps, null)(ManageBasic);
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ManageBasic);
