@@ -6,7 +6,14 @@ export default {
     id: PropTypes.number,
     name: PropTypes.string,
     brands: PropTypes.object,
-    locations: PropTypes.array,
+    locations: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      address: PropTypes.string,
+      lat: PropTypes.number,
+      lng: PropTypes.number,
+      food_genres: PropTypes.string,
+    }),
   })).isRequired,
 
   user: PropTypes.shape({
@@ -25,7 +32,14 @@ export default {
     id: PropTypes.number,
     name: PropTypes.string,
     brands: PropTypes.object,
-    locations: PropTypes.array,
+    locations: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+      address: PropTypes.string,
+      lat: PropTypes.number,
+      lng: PropTypes.number,
+      food_genres: PropTypes.string,
+    }),
   }).isRequired,
 
   markers: PropTypes.arrayOf(PropTypes.shape({

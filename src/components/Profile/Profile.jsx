@@ -34,10 +34,10 @@ class Profile extends Component {
       .then((res) => {
         const markers = res.data.trucks.map(truck => ({
           position: {
-            lat: truck.locations[0].lat,
-            lng: truck.locations[0].lng,
+            lat: truck.locations.lat,
+            lng: truck.locations.lng,
           },
-          key: truck.locations[0].id,
+          key: truck.locations.id,
           defaultAnimation: 2,
         }));
         res.data.trucks.forEach((truck) => {

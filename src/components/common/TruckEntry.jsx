@@ -11,7 +11,7 @@ const TruckEntry = props => (
     <Paper className="truckEntry">
       <p>{props.truck.brands.name}: {props.truck.name !== 'null' ? <em>{props.truck.name}</em> : null}</p>
       <p>Type of food: {props.truck.brands.food_genres.name}</p>
-      <p>Current locations: {props.truck.locations[0].address}</p>
+      <p>Current locations: {props.truck.locations.address}</p>
       {props.path === '/brand/:brandId/trucks'
       ? null
       : <Link to={`/brand/${props.truck.brand_id}/trucks`}>
