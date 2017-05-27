@@ -98,8 +98,13 @@ class ManageTrucks extends Component {
     this.state.truckLocations.forEach((location) => {
       axios.post('/api/locations', location[0])
         .then((res) => {
-          // create item to post
-          const timeLine = res;
+          const timeLine = {
+            start: new Date().toISOString(),
+            // end: '0000-00-00 00:00:00',
+            truck_id: location[1],
+            location_id: res.data.id,
+            checked_in: true,
+          };
           axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
             .then(resp => console.log(resp))
             .catch(err => console.log(err));
@@ -112,6 +117,7 @@ class ManageTrucks extends Component {
     this.handleTruckEdit();
     this.handleAddTruck();
     this.handleLocation();
+    this.props.getBrand(this.props.brandId);
   }
 
   render() {
@@ -162,6 +168,7 @@ class ManageTrucks extends Component {
 ManageTrucks.propTypes = {
   trucks: propSchema.trucks,
   brandId: propSchema.brandId,
+  getBrand: propSchema.getBrand,
 };
 
 export default ManageTrucks;
