@@ -43,7 +43,7 @@ class ManageBasic extends Component {
     if (this.state.description !== '') {
       newBrandInfo.description = this.state.description;
     }
-    if (this.state.name > 0) {
+    if (this.state.food_genre_id > 0) {
       newBrandInfo.food_genre_id = this.state.food_genre_id;
     }
     this.props.userActions.brandInfoUpdate(newBrandInfo);
@@ -71,8 +71,8 @@ class ManageBasic extends Component {
         <br />
         <SelectField
           floatingLabelText="Change Food Genre"
-          value={this.state.food_genre_id}
           onChange={(e, i, val) => this.setState({ food_genre_id: val })}
+          value={this.state.food_genre_id}
         >
           <MenuItem value={0} />
           {this.props.foodGenres.map(genre =>

@@ -48,7 +48,7 @@ class Profile extends Component {
             fromProfile: true,
           };
         });
-        this.setState({ brandId: this.state.brandId });
+        this.setState({ brandId: parseInt(this.props.match.params.brandId, 10) });
         this.setState({ markers });
         this.setState({ brand: res.data });
       })
