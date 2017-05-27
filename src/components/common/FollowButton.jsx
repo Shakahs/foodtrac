@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { actions as userActions } from '../../redux/user';
 import propSchema from './PropTypes';
-// add logic to not display if not logged in or if on brand profile page, use auth.isLoggedIn
+
 class FollowButton extends Component {
   constructor(props) {
     super(props);
@@ -57,14 +57,6 @@ class FollowButton extends Component {
   render() {
     switch (this.props.path) {
       case '/map':
-        return (
-          <RaisedButton
-            label={this.state.isFollowed ? this.state.buttonText : 'Follow'}
-            onMouseEnter={() => this.setState({ buttonText: 'Unfollow' })}
-            onMouseLeave={() => this.setState({ buttonText: 'Following' })}
-            onClick={this.state.isFollowed ? this.unFollow : this.follow}
-          />
-        );
       case '/brand/:brandId':
         return (
           <RaisedButton
