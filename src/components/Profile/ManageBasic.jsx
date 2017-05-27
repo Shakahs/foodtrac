@@ -52,6 +52,7 @@ class ManageBasic extends Component {
   handleSave() {
     this.handleInfoEdit();
     this.handleReduxUpdate();
+    this.props.getBrand(this.props.brandId);
   }
 
   render() {
@@ -97,6 +98,7 @@ ManageBasic.propTypes = {
   foodGenres: propSchema.foodGenres,
   user: propSchema.user,
   userActions: propSchema.userActions,
+  getBrand: propSchema.getBrand,
 };
 
 const mapStateToProps = ({ foodGenresReducer, user }) => {

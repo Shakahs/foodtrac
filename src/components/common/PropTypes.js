@@ -70,4 +70,5 @@ export default {
     name: PropTypes.string,
   })).isRequired,
 
+  getBrand: PropTypes.func,
 };

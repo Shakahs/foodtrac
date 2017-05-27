@@ -19,6 +19,7 @@ class Profile extends Component {
       },
       markers: [],
     };
+    this.getBrandDetail = this.getBrandDetail.bind(this);
   }
 
   componentDidMount() {
@@ -74,6 +75,7 @@ class Profile extends Component {
             brandName={this.state.brand.name}
             trucks={this.state.brand.trucks}
             markers={this.state.markers}
+            getBrand={this.getBrandDetail}
           />
         </Row>
       </Grid>
