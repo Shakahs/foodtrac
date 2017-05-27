@@ -2,6 +2,7 @@ import { REHYDRATE } from 'redux-persist/constants';
 
 const Immutable = require('seamless-immutable').static;
 
+export const ACCOUNT_CREATE = 'ACCOUNT_CREATE';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAILURE = 'LOGIN_FAILURE';
@@ -43,6 +44,13 @@ export default function reducer(state = Immutable(initialState), action) {
       return state;
   }
 }
+
+export const accountCreate = newUser => (
+  {
+    type: ACCOUNT_CREATE,
+    newUser,
+  }
+);
 
 export const loginRequest = credential => (
   {

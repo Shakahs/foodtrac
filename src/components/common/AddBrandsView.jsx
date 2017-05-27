@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
 import axios from 'axios';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import propSchema from '../common/PropTypes';
+import { actions as userActions } from '../../redux/user';
 import AddTrucksView from './AddTrucksView';
 
 
@@ -13,6 +17,8 @@ class AddBrandsView extends Component {
       trucks: [],
       count: 1,
     };
+
+    props.userActions.redirectAddBrandDisable();
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.renderAddTruckViews = this.renderAddTruckViews.bind(this);
@@ -96,4 +102,13 @@ class AddBrandsView extends Component {
   }
 }
 
-export default AddBrandsView;
+AddBrandsView.propTypes = {
+  userActions: propSchema.userActions,
+};
+
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(AddBrandsView);
+

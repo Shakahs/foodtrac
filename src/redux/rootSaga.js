@@ -8,6 +8,7 @@ export default function* rootSaga() {
   yield [
     fork(userSagas),
     fork(mapSagas),
+    fork(authSagas.watchCreateAccount),
     fork(authSagas.watchLoginRequest),
     fork(foodGenresSagas),
   ];

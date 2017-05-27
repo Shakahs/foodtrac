@@ -5,6 +5,7 @@ import MapPage from './MapPage/MapPage';
 import Profile from './Profile/Profile';
 import Login from './Login/Login';
 import Settings from './Settings/Settings';
+import SignUp from './SignUp';
 
 class Routes extends Component {
   constructor() {
@@ -20,6 +21,7 @@ class Routes extends Component {
         <Route path="/brand/:brandId" component={Profile} />
         <Route path="/login" component={Login} />
         <Route path="/settings" component={Settings} />
+        <Route path="/signup" component={SignUp} />
       </Switch>
     );
   }

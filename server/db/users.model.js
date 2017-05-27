@@ -8,7 +8,7 @@ class Users extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['email', 'is_truck_owner', 'auth0_id'],
+      required: ['is_truck_owner', 'auth0_id'],
 
       properties: {
         id: { type: 'integer' },
@@ -25,7 +25,7 @@ class Users extends Model {
               [
                 true, false,
               ],
-              [1, 75],
+              [1, 3],
             ],
           },
         },
@@ -33,7 +33,7 @@ class Users extends Model {
           type: 'string',
           minLength: 5,
           maxLength: 30,
-          pattern: String.raw`^(\w+)\|(\d){10,20}$`,
+          pattern: String.raw`^[\w\d]+\|[\w\d]+$`,
         },
       },
     };
