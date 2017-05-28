@@ -68,6 +68,7 @@ class ManageBasic extends Component {
           hintText="Change Brand Description"
           onChange={(e, val) => this.setState({ description: val })}
           value={this.state.description}
+          multiLine
         />
         <br />
         <SelectField

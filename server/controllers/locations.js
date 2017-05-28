@@ -7,7 +7,7 @@ module.exports = {
       .where('address', req.body.address)
       .then((locations) => {
         if (locations.length === 0) {
-          return Locations.query.insert(req.body);
+          return Locations.query().insert(req.body);
         }
         return locations[0];
       })

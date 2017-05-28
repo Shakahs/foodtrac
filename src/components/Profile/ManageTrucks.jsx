@@ -82,27 +82,41 @@ class ManageTrucks extends Component {
     });
   }
 
-  handleSetCurrentLoc(e, i) {
+  handleSetCurrentLoc(e, i, id) {
     const truckLocations = [...this.state.truckLocations];
     const newLocation = {
-      name: '',
+      name: 'no name',
       address: e.formatted_address,
       lat: e.geometry.location.lat(),
       lng: e.geometry.location.lng(),
     };
-    truckLocations[i] = newLocation;
+    truckLocations[i] = [newLocation, id];
     this.setState({ truckLocations });
-    console.log('IN SET CURRENT LOC STATE', this.state.truckLocations);
   }
 
   handleLocation() {
-    console.log('location', this.state.truckLocations);
+    this.state.truckLocations.forEach((location) => {
+      axios.post('/api/locations', location[0])
+        .then((res) => {
+          const timeLine = {
+            start: new Date().toISOString(),
+            truck_id: location[1],
+            location_id: res.data.id,
+            checked_in: true,
+          };
+          axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
+            .then(resp => console.log(resp))
+            .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+    });
   }
 
   handleSave() {
     this.handleTruckEdit();
     this.handleAddTruck();
     this.handleLocation();
+    this.props.getBrand(this.props.brandId);
   }
 
   render() {
@@ -124,7 +138,7 @@ class ManageTrucks extends Component {
                     types: ['address'],
                     componentRestrictions: { country: 'us' },
                   }}
-                  onPlaceChange={e => this.handleSetCurrentLoc(e, i)}
+                  onPlaceChange={e => this.handleSetCurrentLoc(e, i, truck.id)}
                 />
               </Tab>
             );
@@ -153,6 +167,7 @@ class ManageTrucks extends Component {
 ManageTrucks.propTypes = {
   trucks: propSchema.trucks,
   brandId: propSchema.brandId,
+  getBrand: propSchema.getBrand,
 };
 
 export default ManageTrucks;

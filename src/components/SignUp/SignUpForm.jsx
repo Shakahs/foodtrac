@@ -1,27 +1,42 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
+import { Checkbox, TextField } from 'redux-form-material-ui';
 
 const SignUpForm = props => (
   <div>
     <form onSubmit={props.handleSubmit}>
       <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="text" />
+        <Field
+          name="email"
+          component={TextField}
+          type="text"
+          hintText="email"
+          floatingLabelText="email"
+        />
       </div>
       <div>
-        <label htmlFor="password">Password</label>
-        <Field name="password" component="input" type="text" />
+        <Field
+          name="password"
+          component={TextField}
+          type="text"
+          hintText="Password"
+          floatingLabelText="Password"
+        />
       </div>
       <div>
-        <label htmlFor="passwordRepeat">Re-enter Password</label>
-        <Field name="passwordRepeat" component="input" type="text" />
+        <Field
+          name="passwordRepeat"
+          component={TextField}
+          type="text"
+          hintText="Re-enter Password"
+          floatingLabelText="Re-enter Password"
+        />
       </div>
       <div>
-        <label htmlFor="isTruckOwner">Do you own a food truck?</label>
-        <Field name="isTruckOwner" component="input" type="checkbox" />
+        <Field name="isTruckOwner" component={Checkbox} label="Do you own a Food Truck?" />
       </div>
-      <button type="submit" onClick={() => { props.handleSubmit(); }}>Login</button>
+      <button type="submit" onClick={() => { props.handleSubmit(); }}>Submit</button>
     </form>
   </div>
 );

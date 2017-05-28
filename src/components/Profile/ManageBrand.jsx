@@ -7,10 +7,17 @@ import ManageTrucks from './ManageTrucks';
 const ManageBrand = props => (
   <Tabs>
     <Tab label="Change Basic Brand Info">
-      <ManageBasic brandId={props.brandId} getBrand={props.getBrand} />
+      <ManageBasic
+        brandId={props.brandId}
+        getBrand={props.getBrand}
+      />
     </Tab>
     <Tab label="Manage Your Trucks">
-      <ManageTrucks brandId={props.brandId} trucks={props.trucks} />
+      <ManageTrucks
+        brandId={props.brandId}
+        trucks={props.trucks}
+        getBrand={props.getBrand}
+      />
     </Tab>
   </Tabs>
 );
