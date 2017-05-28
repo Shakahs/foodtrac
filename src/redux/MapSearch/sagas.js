@@ -2,8 +2,6 @@ import { call, put, take } from 'redux-saga/effects';
 import axios from 'axios';
 import { actions } from './index';
 
-// eager load brand info to return with trucks and display in trucksentries
-// keep original information in store as well to use in truckslist
 function* mapRequest(lat, lng, dist) {
   try {
     const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}`);
