@@ -5,7 +5,7 @@ import { actions as authActions } from '../auth';
 
 const moment = require('moment');
 
-export default function* watchLoginSuccess() {
+export function* watchLoginSuccess() {
   while (true) {
     const { profileData } = yield take(authActions.LOGIN_SUCCESS);
     const postData = { auth0_id: profileData.user_id };
@@ -17,5 +17,14 @@ export default function* watchLoginSuccess() {
       moment(profileData.created_at).isAfter(moment().subtract(10, 'seconds'))) {
       yield put(actions.redirectAddBrandEnable());
     }
+  }
+}
+
+export function* watchAddBrandRequest() {
+  while (true) {
+    const { body } = yield take(actions.ADD_BRAND_REQUEST);
+    const { data } = yield call(axios.post, '/api/brands', body);
+    console.log('in saga', data);
+    yield put(actions.addBrand(data));
   }
 }

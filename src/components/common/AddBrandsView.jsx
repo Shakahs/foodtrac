@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import _ from 'lodash';
 import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
 import Snackbar from 'material-ui/Snackbar';
-import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import AddTrucksView from './AddTrucksView';
 
@@ -34,11 +33,7 @@ class AddBrandsView extends Component {
       owner_id: this.props.user.id,
       trucks: this.state.trucks,
     };
-    axios.post('/api/brands', body)
-      .then(({ data }) => {
-        this.props.userActions.addBrand(data);
-      })
-      .catch(err => console.log(err));
+    this.props.userActions.addBrandRequest(body);
     this.setState({ name: '', desc: '', trucks: [], count: 1, open: true });
   }
 
@@ -114,7 +109,7 @@ class AddBrandsView extends Component {
         <Snackbar
           open={this.state.open}
           autoHideDuration={3000}
-          message="Fuck fuck fuck"
+          message="Added new brand"
         />
       </div>
     );
