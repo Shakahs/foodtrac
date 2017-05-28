@@ -85,4 +85,5 @@ export default {
   })).isRequired,
 
   getBrand: PropTypes.func,
+  idx: PropTypes.number,
 };
