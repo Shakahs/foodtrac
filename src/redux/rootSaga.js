@@ -6,7 +6,8 @@ import { sagas as foodGenresSagas } from './FoodGenres';
 
 export default function* rootSaga() {
   yield [
-    fork(userSagas),
+    fork(userSagas.watchLoginSuccess),
+    fork(userSagas.watchAddBrandRequest),
     fork(mapSagas),
     fork(authSagas.watchCreateAccount),
     fork(authSagas.watchLoginRequest),

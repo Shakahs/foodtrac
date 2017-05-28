@@ -10,7 +10,6 @@ module.exports = {
       .catch(e => console.log('Error updating brand:', e));
   },
   get(req, res) {
-    // TODO: modify trucks.locations eager to only get current location
     const eagerOption = req.query.eager ? '[trucks.locations, food_genres]' : '';
     const currentTime = new Date();
     const latestValidTime = new Date(currentTime - 28800000);

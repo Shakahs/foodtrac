@@ -12,6 +12,7 @@ export const BRAND_INFO_UPDATE = 'BRAND_INFO_UPDATE';
 export const REDIRECT_ADDBRAND_ENABLE = 'REDIRECT_ADDBRAND_ENABLE';
 export const REDIRECT_ADDBRAND_DISABLE = 'REDIRECT_ADDBRAND_DISABLE';
 export const ADD_BRAND = 'ADD_BRAND';
+export const ADD_BRAND_REQUEST = 'ADD_BRAND_REQUEST';
 
 const initialState = {
   id: null,
@@ -73,6 +74,11 @@ export const userRemoveFollow = brandId => ({
 export const brandInfoUpdate = brand => ({
   type: BRAND_INFO_UPDATE,
   brand,
+});
+
+export const addBrandRequest = body => ({
+  type: ADD_BRAND_REQUEST,
+  body,
 });
 
 export const addBrand = brand => ({
