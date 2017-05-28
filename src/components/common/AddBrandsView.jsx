@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
+import _ from 'lodash';
 import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
+import Snackbar from 'material-ui/Snackbar';
 import axios from 'axios';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import propSchema from '../common/PropTypes';
-import { actions as userActions } from '../../redux/user';
 import AddTrucksView from './AddTrucksView';
 
 
@@ -16,6 +15,8 @@ class AddBrandsView extends Component {
       desc: '',
       trucks: [],
       count: 1,
+      genre: 1,
+      open: false,
     };
 
     props.userActions.redirectAddBrandDisable();
@@ -29,14 +30,16 @@ class AddBrandsView extends Component {
     const body = {
       name: this.state.name,
       description: this.state.desc,
-      // TODO: Replace with id of logged in user, add food genres to select
-      food_genre_id: 1,
-      owner_id: 1,
+      food_genre_id: this.state.genre,
+      owner_id: this.props.user.id,
       trucks: this.state.trucks,
     };
     axios.post('/api/brands', body)
-      .then(() => this.setState({ name: '', desc: '', truck: [], count: 1 }))
+      .then(({ data }) => {
+        this.props.userActions.addBrand(data);
+      })
       .catch(err => console.log(err));
+    this.setState({ name: '', desc: '', trucks: [], count: 1, open: true });
   }
 
   handleTruckChange(i, e, val) {
@@ -63,6 +66,7 @@ class AddBrandsView extends Component {
         <AddTrucksView
           handleChange={handleChangeCopy}
           val={this.state.trucks[i] ? this.state.trucks[i].name : ''}
+          idx={i}
           removeEntry={removeTruckCopy}
         />,
       );
@@ -75,19 +79,29 @@ class AddBrandsView extends Component {
       <div>
         <form onSubmit={this.handleSubmit}>
           <TextField
+            floatingLabelText="Brand Name"
+            name="name"
             hintText="Brand Name"
             onChange={(e, val) => this.setState({ name: val })}
             value={this.state.name}
+            required
           />
           <TextField
+            floatingLabelText="Brand Description"
             hintText="Brand Description"
+            name="description"
             onChange={(e, val) => this.setState({ desc: val })}
             value={this.state.desc}
+            required
           />
           <SelectField
+            name="food_genre_id"
             floatingLabelText="Food Genres"
+            onChange={(e, i, val) => this.setState({ genre: val })}
+            value={this.state.genre}
           >
-            <MenuItem />
+            {_.map(this.props.foodGenres, genre =>
+              <MenuItem value={genre.id} primaryText={genre.name} />)}
           </SelectField>
           {this.renderAddTruckViews()}
           <FlatButton
@@ -97,6 +111,11 @@ class AddBrandsView extends Component {
           />
           <FlatButton label="Submit" type="submit" primary />
         </form>
+        <Snackbar
+          open={this.state.open}
+          autoHideDuration={3000}
+          message="Fuck fuck fuck"
+        />
       </div>
     );
   }
@@ -104,11 +123,9 @@ class AddBrandsView extends Component {
 
 AddBrandsView.propTypes = {
   userActions: propSchema.userActions,
+  user: propSchema.user,
+  foodGenres: propSchema.foodGenres,
 };
 
-const mapDispatchToProps = dispatch => ({
-  userActions: bindActionCreators(userActions, dispatch),
-});
-
-export default connect(null, mapDispatchToProps)(AddBrandsView);
+export default AddBrandsView;
 

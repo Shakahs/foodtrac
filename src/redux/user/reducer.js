@@ -11,6 +11,7 @@ export const USER_RM_FOLLOW = 'USER_RM_FOLLOW';
 export const BRAND_INFO_UPDATE = 'BRAND_INFO_UPDATE';
 export const REDIRECT_ADDBRAND_ENABLE = 'REDIRECT_ADDBRAND_ENABLE';
 export const REDIRECT_ADDBRAND_DISABLE = 'REDIRECT_ADDBRAND_DISABLE';
+export const ADD_BRAND = 'ADD_BRAND';
 
 const initialState = {
   id: null,
@@ -33,6 +34,8 @@ export default function reducer(state = Immutable(initialState), action) {
       return Immutable.merge(state, action.user);
     // case USER_FAILURE:
     //   return Object.assign({}, state, { fetching: false, error: action.error });
+    case ADD_BRAND:
+      return Immutable.merge(state, { brands: [...state.brands, action.brand] });
     case BRAND_INFO_UPDATE:
       return Immutable.merge(state, { brands: [...state.brands[0], action.brand] });
     case USER_NEW_FOLLOW:
@@ -69,6 +72,11 @@ export const userRemoveFollow = brandId => ({
 
 export const brandInfoUpdate = brand => ({
   type: BRAND_INFO_UPDATE,
+  brand,
+});
+
+export const addBrand = brand => ({
+  type: ADD_BRAND,
   brand,
 });
 
