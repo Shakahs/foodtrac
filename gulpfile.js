@@ -26,6 +26,8 @@ const Trucks = require('./server/db/trucks.model');
 const Locations = require('./server/db/locations.model');
 const LocationTimelines = require('./server/db/locationtimelines.model');
 
+const chance = new Chance();
+
 /*
  /
  /
@@ -39,7 +41,7 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise,
 });
 
-jsf.extend('chance', () => new Chance());
+jsf.extend('chance', () => chance);
 jsf.extend('faker', () => Faker);
 
 const provideKnex = () => knex(knexConfig.development);
@@ -194,7 +196,6 @@ gulp.task('db:seed:brands', () => {
       return jsf.resolve(brandSchema);
     })
     .then((seedData) => {
-      const chance = new Chance();
       const newSeedData = seedData.map((seedDataItem) => {
         const newSeedDataItem = Object.assign({}, seedDataItem);
         newSeedDataItem.owner_id = userList.pop().id;
@@ -279,20 +280,38 @@ gulp.task('db:seed:locationtimelines', () => {
       return boundLocations.knex().destroy();
     })
     .then(() => {
-      locationTimelinesSchema.minItems = truckList.length;
-      locationTimelinesSchema.maxItems = truckList.length;
+      locationTimelinesSchema.minItems = truckList.length * 5;
+      locationTimelinesSchema.maxItems = truckList.length * 5;
       return jsf.resolve(locationTimelinesSchema);
     })
-    .then(seedData => seedData.map((seedDataItem) => {
-      const newSeedDataItem = Object.assign({}, seedDataItem);
+    .then((seedData) => {
+      const accumulatedSeedData = [];
+      const startDay = moment().startOf('day');
 
-      newSeedDataItem.start = moment().format('YYYY-MM-DD HH:mm:ss');
-      newSeedDataItem.location_id = locationList.pop().id;
-      newSeedDataItem.truck_id = truckList.pop().id;
-      // newSeedDataItem.checked_in = true;
+      seedData.forEach((seedDataItem, idx, arr) => {
+        if ((idx * 5) % arr.length === 0) {
+          startDay.subtract(1, 'day');
+        }
 
-      return newSeedDataItem;
-    }))
+        const newSeedDataItem = Object.assign({}, seedDataItem);
+
+        newSeedDataItem.start = moment(startDay).add(chance.integer({ min: 10, max: 20 }), 'hours')
+          .add(chance.integer({ min: 0, max: 59 }), 'minutes');
+        if (chance.bool()) {
+          newSeedDataItem.end = moment(newSeedDataItem.start).add(chance.integer({ min: 2, max: 5 }), 'hours')
+            .add(chance.integer({ min: 0, max: 59 }), 'minutes').format('YYYY-MM-DD HH:mm:ss');
+        }
+        newSeedDataItem.start = newSeedDataItem.start.format('YYYY-MM-DD HH:mm:ss');
+
+        newSeedDataItem.location_id = chance.pickone(locationList).id;
+        newSeedDataItem.truck_id = chance.pickone(truckList).id;
+        newSeedDataItem.checked_in = true;
+
+        accumulatedSeedData.push(newSeedDataItem);
+      });
+
+      return accumulatedSeedData;
+    })
     .then(seedData => insertSeed('LocationTimelines', seedData))
     .then(() => checkSeededTable(LocationTimelines));
 });
