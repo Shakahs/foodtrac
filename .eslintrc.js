@@ -3,11 +3,13 @@ module.exports = {
     "plugins": [
         "react",
         "jsx-a11y",
-        "import"
+        "import",
+        "jest"
     ],
     "env": {
         "browser": true,
-        "node": true
+        "node": true,
+        "jest/globals": true
     },
     "rules": {
         "no-underscore-dangle": [2, { "allowAfterThis": true, allow: ["_*"] }],
