@@ -1,15 +1,13 @@
 import React from 'react';
 import { Grid } from 'react-flexbox-grid';
-import ReviewEntry from './ReviewEntry';
+import _ from 'lodash';
+import ReviewListEntry from './ReviewListEntry';
 
-// change tempArr with arrays of reviews
-const tempArr = [];
-
-const ReviewsList = () => (
+const ReviewsList = props => (
   <Grid fluid>
-    {tempArr.lenght > 0 ?
-      tempArr.map(review => <ReviewEntry review={review} />)
-    :
+    {props.reviews.length > 0 ?
+      _.map(props.reviews, review => <ReviewListEntry review={review} />)
+      :
       <div className="noItems">No Reviews</div>
     }
   </Grid>
