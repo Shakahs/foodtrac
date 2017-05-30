@@ -470,6 +470,59 @@
           }
         }
       }
+    },
+    "/menuitems/{menuItemId}" : {
+      "put" : {
+        "summary" : "Edit a menu item",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Menu Item"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Delete a menu item",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "menuItemId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/menuitems" : {
+      "post" : {
+        "summary" : "Add a menu item",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Menu Item"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -569,6 +622,32 @@
         },
         "id" : {
           "type" : "integer"
+        }
+      }
+    },
+    "Menu Item" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "price" : {
+          "type" : "number"
+        },
+        "calories" : {
+          "type" : "number"
+        },
+        "food_type_id" : {
+          "type" : "integer"
+        },
+        "description" : {
+          "type" : "string"
         }
       }
     },
