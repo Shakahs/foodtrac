@@ -260,11 +260,6 @@ gulp.task('db:seed:locations', () => {
 });
 
 gulp.task('db:seed:locationtimelines', () => {
-  const locationTimelinesSchema = {
-    type: 'array',
-    uniqueItems: true,
-    items: LocationTimelines.jsonSchema,
-  };
   const boundTruck = provideModelWithKnex(Trucks);
   const boundLocations = provideModelWithKnex(Locations);
   let truckList = [];
@@ -280,36 +275,23 @@ gulp.task('db:seed:locationtimelines', () => {
       return boundLocations.knex().destroy();
     })
     .then(() => {
-      locationTimelinesSchema.minItems = truckList.length * 5;
-      locationTimelinesSchema.maxItems = truckList.length * 5;
-      return jsf.resolve(locationTimelinesSchema);
-    })
-    .then((seedData) => {
       const accumulatedSeedData = [];
-      const startDay = moment().startOf('day');
-
-      seedData.forEach((seedDataItem, idx, arr) => {
-        if ((idx * 5) % arr.length === 0) {
-          startDay.subtract(1, 'day');
+      truckList.forEach((truck) => {
+        const lastSetStart = moment().startOf('day');
+        for (let i = 0; i < 5; i++) {
+          const newSeedDataItem = {};
+          lastSetStart.subtract(chance.integer({ min: 5, max: 10 }), 'hours')
+            .subtract(chance.integer({ min: 0, max: 59 }), 'minutes');
+          newSeedDataItem.start = moment(lastSetStart);
+          newSeedDataItem.end = (chance.bool()) ? moment(newSeedDataItem.start).add(chance.integer({ min: 2, max: 4 }), 'hours')
+            .add(chance.integer({ min: 0, max: 59 }), 'minutes').format('YYYY-MM-DD HH:mm:ss') : 0;
+          newSeedDataItem.start = newSeedDataItem.start.format('YYYY-MM-DD HH:mm:ss');
+          newSeedDataItem.location_id = chance.pickone(locationList).id;
+          newSeedDataItem.truck_id = truck.id;
+          newSeedDataItem.checked_in = true;
+          accumulatedSeedData.push(newSeedDataItem);
         }
-
-        const newSeedDataItem = Object.assign({}, seedDataItem);
-
-        newSeedDataItem.start = moment(startDay).add(chance.integer({ min: 10, max: 20 }), 'hours')
-          .add(chance.integer({ min: 0, max: 59 }), 'minutes');
-        if (chance.bool()) {
-          newSeedDataItem.end = moment(newSeedDataItem.start).add(chance.integer({ min: 2, max: 5 }), 'hours')
-            .add(chance.integer({ min: 0, max: 59 }), 'minutes').format('YYYY-MM-DD HH:mm:ss');
-        }
-        newSeedDataItem.start = newSeedDataItem.start.format('YYYY-MM-DD HH:mm:ss');
-
-        newSeedDataItem.location_id = chance.pickone(locationList).id;
-        newSeedDataItem.truck_id = chance.pickone(truckList).id;
-        newSeedDataItem.checked_in = true;
-
-        accumulatedSeedData.push(newSeedDataItem);
       });
-
       return accumulatedSeedData;
     })
     .then(seedData => insertSeed('LocationTimelines', seedData))
