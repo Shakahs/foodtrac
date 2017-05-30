@@ -10,7 +10,7 @@ module.exports = {
       .catch(e => console.log('Error updating brand:', e));
   },
   get(req, res) {
-    const eagerOption = req.query.eager ? '[trucks.locations, food_genres]' : '';
+    const eagerOption = req.query.eager ? '[trucks.locations, food_genres, menu_items.food_types, brand_comments, brand_reviews]' : '';
     const currentTime = new Date();
     const latestValidTime = new Date(currentTime - 28800000);
     Brands.query()
