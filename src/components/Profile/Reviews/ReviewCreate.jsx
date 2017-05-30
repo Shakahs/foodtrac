@@ -6,7 +6,7 @@ import { TextField } from 'redux-form-material-ui';
 
 const ReviewEntry = props => (
   <div>
-    <form onSubmit={props.onSubmit}>
+    <form onSubmit={props.handleSubmit}>
       <div>
         <Field
           name="reviewTitle"
@@ -28,13 +28,13 @@ const ReviewEntry = props => (
         />
       </div>
 
-      <button type="submit" onClick={() => { props.onSubmit(); }}>Submit</button>
+      <button type="submit" onClick={props.handleSubmit}>Submit</button>
     </form>
   </div>
 );
 
 ReviewEntry.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default reduxForm({
