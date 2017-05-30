@@ -26,6 +26,8 @@ const Trucks = require('./server/db/trucks.model');
 const Locations = require('./server/db/locations.model');
 const LocationTimelines = require('./server/db/locationtimelines.model');
 
+const chance = new Chance();
+
 /*
  /
  /
@@ -39,7 +41,7 @@ const googleMapsClient = require('@google/maps').createClient({
   Promise,
 });
 
-jsf.extend('chance', () => new Chance());
+jsf.extend('chance', () => chance);
 jsf.extend('faker', () => Faker);
 
 const provideKnex = () => knex(knexConfig.development);
@@ -66,9 +68,10 @@ function checkSeededTable(model) {
     .first()
     .then((res) => {
       if (res === undefined) {
-        throw new SeedingException(`${thisModel.tableName} is empty: ${res}`);
+        throw new SeedingException(`${thisModel.tableName} is empty`);
       }
-    });
+    })
+    .then(() => thisModel.knex().destroy());
 }
 
 gulp.task('db', (cb) => {
@@ -76,18 +79,16 @@ gulp.task('db', (cb) => {
     'db:seed:trucks', 'db:seed:locationtimelines', cb);
 });
 
-gulp.task('db:recreate', (cb) => {
+gulp.task('db:recreate', () => {
   const thisKnex = provideKnex();
   const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
-  thisKnex.raw('DROP DATABASE foodtrac')
+  return thisKnex.raw('DROP DATABASE foodtrac')
     .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
     .then(() => thisKnex.raw(sql))
-    .then(() => thisKnex.destroy())
-    .then(() => cb())
-    .catch(err => cb(err));
+    .then(() => thisKnex.destroy());
 });
 
-gulp.task('db:seed:users', (cb) => {
+gulp.task('db:seed:users', () => {
   let auth0SeedData = null;
   let originalSeedData = null;
   const auth0Results = {};
@@ -99,7 +100,7 @@ gulp.task('db:seed:users', (cb) => {
     items: Users.jsonSchema,
   };
   userSeedSchema.items.required.push('email');
-  jsf.resolve(userSeedSchema)
+  return jsf.resolve(userSeedSchema)
     .then((seedData) => {
       originalSeedData = seedData;
       return seedData.map((seedItem) => {
@@ -151,13 +152,11 @@ gulp.task('db:seed:users', (cb) => {
       delete newSeedDataItem.email;
       return newSeedDataItem;
     }))
-      .then((finalSeedData) => { insertSeed('Users', finalSeedData); })
-      // .then(() => checkSeededTable(Users))
-      .then(() => { cb(); })
-      .catch((err) => { cb(err); });
+      .then(finalSeedData => insertSeed('Users', finalSeedData))
+      .then(() => checkSeededTable(Users));
 });
 
-gulp.task('db:seed:foodgenres', (cb) => {
+gulp.task('db:seed:foodgenres', () => {
   const foodGenreSchema = {
     type: 'array',
     minItems: 6,
@@ -165,14 +164,12 @@ gulp.task('db:seed:foodgenres', (cb) => {
     uniqueItems: true,
     items: FoodGenres.jsonSchema,
   };
-  jsf.resolve(foodGenreSchema)
+  return jsf.resolve(foodGenreSchema)
     .then(seedData => insertSeed('FoodGenres', seedData))
-    .then(() => checkSeededTable(FoodGenres))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+    .then(() => checkSeededTable(FoodGenres));
 });
 
-gulp.task('db:seed:brands', (cb) => {
+gulp.task('db:seed:brands', () => {
   const brandSchema = {
     type: 'array',
     uniqueItems: true,
@@ -182,7 +179,7 @@ gulp.task('db:seed:brands', (cb) => {
   const boundFoodGenres = provideModelWithKnex(FoodGenres);
   let userList = [];
   let foodGenres = [];
-  boundUsers.query()
+  return boundUsers.query()
     .where('is_truck_owner', true)
     .then((res) => {
       userList = res;
@@ -199,7 +196,6 @@ gulp.task('db:seed:brands', (cb) => {
       return jsf.resolve(brandSchema);
     })
     .then((seedData) => {
-      const chance = new Chance();
       const newSeedData = seedData.map((seedDataItem) => {
         const newSeedDataItem = Object.assign({}, seedDataItem);
         newSeedDataItem.owner_id = userList.pop().id;
@@ -211,12 +207,10 @@ gulp.task('db:seed:brands', (cb) => {
       return newSeedData;
     })
     .then(seedData => insertSeed('Brands', seedData))
-    .then(() => checkSeededTable(Brands))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+    .then(() => checkSeededTable(Brands));
 });
 
-gulp.task('db:seed:trucks', (cb) => {
+gulp.task('db:seed:trucks', () => {
   const truckSchema = {
     type: 'array',
     uniqueItems: true,
@@ -224,7 +218,7 @@ gulp.task('db:seed:trucks', (cb) => {
   };
   const boundBrands = provideModelWithKnex(Brands);
   let brandList = [];
-  boundBrands.query()
+  return boundBrands.query()
     .then((res) => {
       brandList = res;
       return boundBrands.knex().destroy();
@@ -240,18 +234,16 @@ gulp.task('db:seed:trucks', (cb) => {
       return newSeedDataItem;
     }))
     .then(seedData => insertSeed('Trucks', seedData))
-    .then(() => checkSeededTable(Trucks))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+    .then(() => checkSeededTable(Trucks));
 });
 
-gulp.task('db:seed:locations', (cb) => {
+gulp.task('db:seed:locations', () => {
   const query = {
     location: '34.053736,-118.242809', // LA city hall
     radius: 25000,
     type: 'parking',
   };
-  googleMapsClient.placesRadar(query).asPromise()
+  return googleMapsClient.placesRadar(query).asPromise()
     .then((radarData) => {
       const dataSlice = radarData.json.results.slice(0, 40);
       return Promise.map(dataSlice, radarPlace =>
@@ -263,23 +255,16 @@ gulp.task('db:seed:locations', (cb) => {
       lat: place.json.result.geometry.location.lat,
       lng: place.json.result.geometry.location.lng,
     })))
-  .then(seedData => insertSeed('Locations', seedData))
-    .then(() => checkSeededTable(Locations))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+    .then(seedData => insertSeed('Locations', seedData))
+    .then(() => checkSeededTable(Locations));
 });
 
-gulp.task('db:seed:locationtimelines', (cb) => {
-  const locationTimelinesSchema = {
-    type: 'array',
-    uniqueItems: true,
-    items: LocationTimelines.jsonSchema,
-  };
+gulp.task('db:seed:locationtimelines', () => {
   const boundTruck = provideModelWithKnex(Trucks);
   const boundLocations = provideModelWithKnex(Locations);
   let truckList = [];
   let locationList = [];
-  boundTruck.query()
+  return boundTruck.query()
     .then((res) => {
       truckList = res;
       return boundTruck.knex().destroy();
@@ -290,24 +275,27 @@ gulp.task('db:seed:locationtimelines', (cb) => {
       return boundLocations.knex().destroy();
     })
     .then(() => {
-      locationTimelinesSchema.minItems = truckList.length;
-      locationTimelinesSchema.maxItems = truckList.length;
-      return jsf.resolve(locationTimelinesSchema);
+      const accumulatedSeedData = [];
+      truckList.forEach((truck) => {
+        const lastSetStart = moment().startOf('day');
+        for (let i = 0; i < 5; i++) {
+          const newSeedDataItem = {};
+          lastSetStart.subtract(chance.integer({ min: 5, max: 10 }), 'hours')
+            .subtract(chance.integer({ min: 0, max: 59 }), 'minutes');
+          newSeedDataItem.start = moment(lastSetStart);
+          newSeedDataItem.end = (chance.bool()) ? moment(newSeedDataItem.start).add(chance.integer({ min: 2, max: 4 }), 'hours')
+            .add(chance.integer({ min: 0, max: 59 }), 'minutes').format('YYYY-MM-DD HH:mm:ss') : 0;
+          newSeedDataItem.start = newSeedDataItem.start.format('YYYY-MM-DD HH:mm:ss');
+          newSeedDataItem.location_id = chance.pickone(locationList).id;
+          newSeedDataItem.truck_id = truck.id;
+          newSeedDataItem.checked_in = true;
+          accumulatedSeedData.push(newSeedDataItem);
+        }
+      });
+      return accumulatedSeedData;
     })
-    .then(seedData => seedData.map((seedDataItem) => {
-      const newSeedDataItem = Object.assign({}, seedDataItem);
-
-      newSeedDataItem.start = moment().format('YYYY-MM-DD HH:mm:ss');
-      newSeedDataItem.location_id = locationList.pop().id;
-      newSeedDataItem.truck_id = truckList.pop().id;
-      // newSeedDataItem.checked_in = true;
-
-      return newSeedDataItem;
-    }))
     .then(seedData => insertSeed('LocationTimelines', seedData))
-    .then(() => checkSeededTable(LocationTimelines))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
+    .then(() => checkSeededTable(LocationTimelines));
 });
 
 /*
@@ -318,35 +306,14 @@ gulp.task('db:seed:locationtimelines', (cb) => {
  /
 */
 
-gulp.task('schema:db:reseed', (cb) => {
-  runSequence('schema:db', 'db', cb);
-});
-
-gulp.task('schema:db', (cb) => {
-  const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
-
-  axios.all([
-    axios.get(`https://my.vertabelo.com/api/sql/${process.env.VERTABELO_MODEL}`, axiosConf),
-    axios.get(`https://my.vertabelo.com/api/xml/${process.env.VERTABELO_MODEL}`, axiosConf),
-  ])
-    .then(axios.spread((sql, xml) => {
-      fs.writeFileSync('config/database/Foodtrac.sql', sql.data);
-      fs.writeFileSync('config/database/Foodtrac.xml', xml.data);
-    }))
-    .then(() => { cb(); })
-    .catch((err) => { cb(err); });
-});
-
-gulp.task('schema:api', (cb) => {
+gulp.task('schema:api', () => {
   const pRename = Promise.promisify(fs.rename);
   const apiFileSource = path.join(os.homedir(), 'Downloads', 'swagger20.json');
   const apiFileTarget = path.join('server', 'api.json');
-  pRename(apiFileSource, apiFileTarget)
+  return pRename(apiFileSource, apiFileTarget)
     .then(() => {
       console.log(`API file copied from Downloads directory to ${apiFileTarget}`); // eslint-disable-line no-console
-      cb();
-    })
-    .catch((err) => { cb(err); });
+    });
 });
 
 /*
