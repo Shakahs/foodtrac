@@ -47,13 +47,13 @@ class ManageBrand extends React.Component {
 
   handleReduxUpdate(data) {
     const newBrandInfo = Object.assign({}, this.props.user.brands[0]);
-    if (data.name !== '') {
+    if (data.name !== '' && data.name) {
       newBrandInfo.name = data.name;
     }
-    if (data.description !== '') {
+    if (data.description !== '' && data.description) {
       newBrandInfo.description = data.description;
     }
-    if (data.food_genre_id > 0) {
+    if (data.food_genre_id > 0 && data.food_genre_id) {
       newBrandInfo.food_genre_id = data.food_genre_id;
     }
     this.props.userActions.brandInfoUpdate(newBrandInfo);

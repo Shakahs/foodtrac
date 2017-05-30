@@ -112,12 +112,14 @@ class ManageTrucks extends Component {
     });
   }
 
-  handleCheckout(id) {
+  handleCheckout(truckId, timelineId) {
+    const end = new Date();
     const endTime = {
-      end: new Date().toISOString(),
+      end: end.toISOString(),
+      id: timelineId,
       checked_in: false,
     };
-    axios.put(`/api/foodtrucks/${id}/location`, endTime)
+    axios.put(`/api/foodtrucks/${truckId}/location`, endTime)
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
@@ -154,7 +156,7 @@ class ManageTrucks extends Component {
                 {truck.locations ?
                   <FlatButton
                     label="Checkout"
-                    onClick={() => this.handleCheckout(truck.id)}
+                    onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
                   /> : null
                 }
               </Tab>
