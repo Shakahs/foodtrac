@@ -84,6 +84,22 @@ class Brands extends Model {
           to: 'MenuItems.brand_id',
         },
       },
+      brand_comments: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/brandcomments.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'BrandComments.brand_id',
+        },
+      },
+      brand_reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/brandreviews.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'BrandReviews.brand_id',
+        },
+      },
     };
   }
 }
