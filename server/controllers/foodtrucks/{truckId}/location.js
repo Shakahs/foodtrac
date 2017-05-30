@@ -26,15 +26,13 @@ module.exports = {
       .catch(e => res.status(400).send(e.message));
   },
   put(req, res) {
+    const id = req.body.id;
+    delete req.body.id;
+    req.body.end = req.body.end.toISOString();
     LocationTimelines.query()
+      .findById(id)
       .patch(req.body)
-      .then(lt => lt.$relatedQuery('locations')
-        .eager('timelines(onlyThisInst)', {
-          onlyThisInst: builder => builder.findById(lt.id),
-        }))
-      .then((location) => {
-        res.status(201).send(location);
-      })
+      .then(() => res.sendStatus(200))
       .catch(e => res.status(400).send(e.message));
   },
 };
