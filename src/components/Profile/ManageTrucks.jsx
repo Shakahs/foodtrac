@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { TextField, Tabs, Tab, RaisedButton, FlatButton } from 'material-ui';
-import MuiGeoSuggest from 'material-ui-geosuggest';
+import Geosuggest from 'react-geosuggest';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
@@ -86,9 +86,9 @@ class ManageTrucks extends Component {
     const truckLocations = [...this.state.truckLocations];
     const newLocation = {
       name: 'no name',
-      address: e.formatted_address,
-      lat: e.geometry.location.lat(),
-      lng: e.geometry.location.lng(),
+      address: e.gmaps.formatted_address,
+      lat: e.location.lat,
+      lng: e.location.lng,
     };
     truckLocations[i] = [newLocation, id];
     this.setState({ truckLocations });
@@ -112,6 +112,18 @@ class ManageTrucks extends Component {
     });
   }
 
+  handleCheckout(truckId, timelineId) {
+    const end = new Date();
+    const endTime = {
+      end: end.toISOString(),
+      id: timelineId,
+      checked_in: false,
+    };
+    axios.put(`/api/foodtrucks/${truckId}/location`, endTime)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
+
   handleSave() {
     this.handleTruckEdit();
     this.handleAddTruck();
@@ -132,14 +144,21 @@ class ManageTrucks extends Component {
                   onChange={(e, val) => this.handleEditTruckChange(e, val, i, truck.id)}
                 />
                 <br />
-                <MuiGeoSuggest
-                  hintText="Pick your current location"
-                  options={{
-                    types: ['address'],
-                    componentRestrictions: { country: 'us' },
+                <Geosuggest
+                  className="midin"
+                  country="us"
+                  types={['geocode']}
+                  placeholder="Pick your current location"
+                  onSuggestSelect={(e) => {
+                    this.handleSetCurrentLoc(e, i, truck.id);
                   }}
-                  onPlaceChange={e => this.handleSetCurrentLoc(e, i, truck.id)}
                 />
+                {truck.locations ?
+                  <FlatButton
+                    label="Checkout"
+                    onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
+                  /> : null
+                }
               </Tab>
             );
           })}

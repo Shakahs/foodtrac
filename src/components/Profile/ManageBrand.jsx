@@ -41,19 +41,19 @@ class ManageBrand extends React.Component {
 
     console.log('newdata', update);
     axios.put(`/api/brands/${this.props.brandId}`, update)
-      .then(res => console.log(res))
+      .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
   }
 
   handleReduxUpdate(data) {
     const newBrandInfo = Object.assign({}, this.props.user.brands[0]);
-    if (data.name !== '') {
+    if (data.name !== '' && data.name) {
       newBrandInfo.name = data.name;
     }
-    if (data.description !== '') {
+    if (data.description !== '' && data.description) {
       newBrandInfo.description = data.description;
     }
-    if (data.food_genre_id > 0) {
+    if (data.food_genre_id > 0 && data.food_genre_id) {
       newBrandInfo.food_genre_id = data.food_genre_id;
     }
     this.props.userActions.brandInfoUpdate(newBrandInfo);
@@ -62,7 +62,6 @@ class ManageBrand extends React.Component {
   handleSave(data) {
     this.handleInfoEdit(data);
     this.handleReduxUpdate(data);
-    this.props.getBrand(this.props.brandId);
   }
 
   render() {
