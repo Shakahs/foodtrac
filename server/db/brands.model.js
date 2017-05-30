@@ -76,6 +76,14 @@ class Brands extends Model {
           to: 'Trucks.brand_id',
         },
       },
+      menu_items: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/menuitems.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'MenuItems.brand_id',
+        },
+      },
     };
   }
 }
