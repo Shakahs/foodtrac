@@ -502,7 +502,7 @@
         "name" : "menuItemId",
         "in" : "path",
         "required" : true,
-        "type" : "string"
+        "type" : "integer"
       } ]
     },
     "/menuitems" : {
@@ -523,6 +523,94 @@
           }
         }
       }
+    },
+    "/reviews" : {
+      "post" : {
+        "summary" : "Add a brand review",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand Review"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/reviews/{reviewId}" : {
+      "put" : {
+        "summary" : "Edit a brand review",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand Review"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "reviewId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/brandcomments" : {
+      "post" : {
+        "summary" : "Add a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/brandcomments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "commentId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
     }
   },
   "definitions" : {
@@ -648,6 +736,43 @@
         },
         "description" : {
           "type" : "string"
+        }
+      }
+    },
+    "Brand Review" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "text" : {
+          "type" : "string"
+        },
+        "score" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Brand Comment" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "text" : {
+          "type" : "string"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
         }
       }
     },
