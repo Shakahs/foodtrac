@@ -76,6 +76,30 @@ class Brands extends Model {
           to: 'Trucks.brand_id',
         },
       },
+      menu_items: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/menuitems.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'MenuItems.brand_id',
+        },
+      },
+      brand_comments: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/brandcomments.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'BrandComments.brand_id',
+        },
+      },
+      brand_reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/brandreviews.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'BrandReviews.brand_id',
+        },
+      },
     };
   }
 }

@@ -61,6 +61,22 @@ class Users extends Model {
           to: 'Brands.owner_id',
         },
       },
+      brand_comments: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/brandcomments.model`,
+        join: {
+          from: 'Users.id',
+          to: 'BrandComments.user_id',
+        },
+      },
+      brand_reviews: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/brandreviews.model`,
+        join: {
+          from: 'Users.id',
+          to: 'BrandReviews.user_id',
+        },
+      },
     };
   }
 }
