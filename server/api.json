@@ -225,6 +225,31 @@
         "type" : "string"
       } ]
     },
+    "/brands/{brandId}/upvote" : {
+      "post" : {
+        "summary" : "Upvote a brand",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Upvote"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "number"
+      } ]
+    },
     "/foodtrucks" : {
       "get" : {
         "summary" : "List all foodtrucks near a coordinate",
@@ -629,6 +654,143 @@
         "required" : true,
         "type" : "integer"
       } ]
+    },
+    "/events" : {
+      "get" : {
+        "summary" : "Get all (nearby) events",
+        "parameters" : [ {
+          "name" : "lat",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "lng",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "distance",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create events",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Event"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/events/{eventId}/user_attendance" : {
+      "post" : {
+        "summary" : "User registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "user_id" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance" : {
+      "post" : {
+        "summary" : "Brand registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "brand_id" : {
+                "type" : "number"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/comments" : {
+      "post" : {
+        "summary" : "Create comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/upvotes" : {
+      "get" : {
+        "summary" : "Get all upvotes",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -786,9 +948,6 @@
         "id" : {
           "type" : "integer"
         },
-        "title" : {
-          "type" : "string"
-        },
         "text" : {
           "type" : "string"
         },
@@ -796,6 +955,52 @@
           "type" : "integer"
         },
         "user_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Event" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "number"
+        },
+        "location_id" : {
+          "type" : "number"
+        },
+        "start" : {
+          "type" : "string"
+        },
+        "end" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "event_owner_id" : {
+          "type" : "number"
+        }
+      }
+    },
+    "Upvote" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "timeline_id" : {
           "type" : "integer"
         }
       }
