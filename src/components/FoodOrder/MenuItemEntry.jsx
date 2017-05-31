@@ -1,7 +1,7 @@
 import React from 'react';
 
 const MenuItemEntry = () => (
-  <div />
+  <div>Some menu item</div>
 );
 
 export default MenuItemEntry;
