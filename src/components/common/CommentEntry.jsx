@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import propSchema from './PropTypes';
 import CommentInput from '../Profile/CommentInput';
+import './CommentEntry.scss';
 
 class CommentEntry extends Component {
   constructor(props) {
