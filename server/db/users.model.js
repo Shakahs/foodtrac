@@ -77,6 +77,14 @@ class Users extends Model {
           to: 'BrandReviews.user_id',
         },
       },
+      upvotes: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/upvotes.model`,
+        join: {
+          from: 'Users.id',
+          to: 'Upvotes.user_id',
+        },
+      },
     };
   }
 }

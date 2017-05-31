@@ -100,6 +100,14 @@ class Brands extends Model {
           to: 'BrandReviews.brand_id',
         },
       },
+      upvotes: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/upvotes.model`,
+        join: {
+          from: 'Brands.id',
+          to: 'Upvotes.brand_id',
+        },
+      },
     };
   }
 }

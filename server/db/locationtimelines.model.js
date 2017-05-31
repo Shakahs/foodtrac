@@ -39,6 +39,14 @@ class LocationTimelines extends Model {
           to: 'Trucks.id',
         },
       },
+      upvotes: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/upvotes.model`,
+        join: {
+          from: 'LocationTimelines.id',
+          to: 'Upvotes.timeline_id',
+        },
+      },
     };
   }
 }
