@@ -6,6 +6,7 @@ import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import ManageBasic from './ManageBasic';
 import ManageTrucks from './ManageTrucks';
+import ManageMenu from './ManageMenu';
 import { actions as userActions } from '../../redux/user';
 
 class ManageBrand extends React.Component {
@@ -81,6 +82,9 @@ class ManageBrand extends React.Component {
             trucks={this.props.trucks}
             getBrand={this.props.getBrand}
           />
+        </Tab>
+        <Tab label="Edit your Menu">
+          <ManageMenu brandId={this.props.brandId} />
         </Tab>
       </Tabs>
     );

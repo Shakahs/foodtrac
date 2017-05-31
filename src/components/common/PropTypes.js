@@ -84,6 +84,17 @@ export default {
     name: PropTypes.string,
   })).isRequired,
 
-  getBrand: PropTypes.func,
-  idx: PropTypes.number,
+  getBrand: PropTypes.func.isRequired,
+  idx: PropTypes.number.isRequired,
+
+  changeItem: PropTypes.func.isRequired,
+  removeMenuItem: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  menuItem: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    price: PropTypes.number,
+    calorie: PropTypes.number,
+    type: PropTypes.number,
+  }).isRequired,
 };

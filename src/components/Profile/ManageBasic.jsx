@@ -1,11 +1,8 @@
 import React from 'react';
-
 import { Link } from 'react-router-dom';
 import { MenuItem, RaisedButton } from 'material-ui';
-
 import { SelectField, TextField } from 'redux-form-material-ui';
 import { Field, reduxForm } from 'redux-form';
-
 import propSchema from '../common/PropTypes';
 
 
