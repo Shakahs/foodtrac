@@ -26,6 +26,7 @@ const Trucks = require('./server/db/trucks.model');
 const Locations = require('./server/db/locations.model');
 const LocationTimelines = require('./server/db/locationtimelines.model');
 const MenuItems = require('./server/db/menuitems.model');
+const BrandComments = require('./server/db/brandcomments.model');
 
 const chance = new Chance();
 
@@ -77,7 +78,7 @@ function checkSeededTable(model) {
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
-    'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', cb);
+    'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
 });
 
 gulp.task('db:recreate', () => {
@@ -324,6 +325,41 @@ gulp.task('db:seed:menuitems', () => {
     }))
     .then(seedData => insertSeed('MenuItems', seedData))
     .then(() => checkSeededTable(MenuItems));
+});
+
+gulp.task('db:seed:brandcomments', () => {
+  const brandCommentsSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: BrandComments.jsonSchema,
+  };
+  const boundUsers = provideModelWithKnex(Users);
+  const boundBrands = provideModelWithKnex(Brands);
+  let usersList = [];
+  let brandsList = [];
+  return boundBrands.query()
+    .then((res) => {
+      brandsList = res;
+      return boundBrands.knex().destroy();
+    })
+    .then(() => boundUsers.query())
+    .then((res) => {
+      usersList = res;
+      return boundUsers.knex().destroy();
+    })
+    .then(() => {
+      brandCommentsSchema.minItems = brandsList.length;
+      brandCommentsSchema.maxItems = brandsList.length;
+      return jsf.resolve(brandCommentsSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+      newSeedDataItem.brand_id = brandsList.pop().id;
+      newSeedDataItem.user_id = usersList.pop().id;
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('BrandComments', seedData))
+    .then(() => checkSeededTable(BrandComments));
 });
 
 /*
