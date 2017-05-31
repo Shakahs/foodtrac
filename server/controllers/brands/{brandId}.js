@@ -28,12 +28,16 @@ module.exports = {
           .orderBy('start', 'desc');
       })
       .then((brand) => { /* eslint-disable no-param-reassign */
-        brand.trucks = _.forEach(brand.trucks, (truck) => {
+        _.forEach(brand.trucks, (truck) => {
           if (truck.locations.length > 0) {
             truck.locations = truck.locations[0];
           } else {
             truck.locations = null;
           }
+        });
+        brand.menu_items = _.map(brand.menu_items, (item) => {
+          item.price /= 100;
+          return item;
         });
         res.status(200).json(brand);
       })
