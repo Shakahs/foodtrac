@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -66,8 +65,4 @@ ProfileInfo.propTypes = {
   user: propSchema.user,
 };
 
-const mapStateToProps = ({ user }) => ({
-  user,
-});
-
-export default connect(mapStateToProps, null)(ProfileInfo);
+export default ProfileInfo;

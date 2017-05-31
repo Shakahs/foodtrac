@@ -561,6 +561,15 @@
           }
         }
       },
+      "delete" : {
+        "summary" : "Remove a brand review",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
       "parameters" : [ {
         "name" : "reviewId",
         "in" : "path",
@@ -599,6 +608,15 @@
             "$ref" : "#/definitions/Brand Comment"
           }
         } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove a brand comment",
+        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "Status 200"
@@ -767,6 +785,9 @@
       "properties" : {
         "id" : {
           "type" : "integer"
+        },
+        "title" : {
+          "type" : "string"
         },
         "text" : {
           "type" : "string"

@@ -88,9 +88,6 @@ export default {
     name: PropTypes.string,
   })).isRequired,
 
-  getBrand: PropTypes.func.isRequired,
-  idx: PropTypes.number.isRequired,
-
   changeItem: PropTypes.func.isRequired,
   removeMenuItem: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
@@ -120,4 +117,30 @@ export default {
     score: PropTypes.number,
     text: PropTypes.string,
   }).isRequired,
+
+  getBrand: PropTypes.func,
+  idx: PropTypes.number,
+  submitComment: PropTypes.func,
+  userId: PropTypes.number,
+  removeComment: PropTypes.func,
+  editComment: PropTypes.func,
+
+  comments: PropTypes.arrayOf(PropTypes.shape({
+    brand_id: PropTypes.number,
+    created_at: PropTypes.string,
+    id: PropTypes.number,
+    text: PropTypes.string,
+    updated_at: PropTypes.string,
+    user_id: PropTypes.number,
+    users: PropTypes.object,
+  })),
+  comment: PropTypes.shape({
+    brand_id: PropTypes.number,
+    created_at: PropTypes.string,
+    id: PropTypes.number,
+    text: PropTypes.string,
+    updated_at: PropTypes.string,
+    user_id: PropTypes.number,
+    users: PropTypes.object,
+  }),
 };
