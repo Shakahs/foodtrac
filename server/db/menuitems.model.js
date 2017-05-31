@@ -21,7 +21,7 @@ class MenuItems extends Model {
         price: {
           type: 'integer',
           minimum: 0,
-          maximum: 2000,
+          maximum: 10000,
         },
         calories: {
           type: 'integer',
