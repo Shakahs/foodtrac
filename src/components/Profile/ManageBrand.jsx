@@ -6,6 +6,7 @@ import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import ManageBasic from './ManageBasic';
 import ManageTrucks from './ManageTrucks';
+import ManageMenu from './ManageMenu';
 import { actions as userActions } from '../../redux/user';
 
 class ManageBrand extends React.Component {
@@ -82,6 +83,13 @@ class ManageBrand extends React.Component {
             getBrand={this.props.getBrand}
           />
         </Tab>
+        <Tab label="Edit your Menu">
+          <ManageMenu
+            brandId={this.props.brandId}
+            menuItems={this.props.menuItems}
+            getBrand={this.props.getBrand}
+          />
+        </Tab>
       </Tabs>
     );
   }
@@ -94,6 +102,7 @@ ManageBrand.propTypes = {
   foodGenres: propSchema.foodGenres,
   userActions: propSchema.userActions,
   user: propSchema.user,
+  menuItems: propSchema.menuItems,
 };
 
 const mapStateToProps = state => ({

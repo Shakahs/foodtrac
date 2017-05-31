@@ -2,7 +2,7 @@ const MenuItems = require('../db/menuitems.model');
 
 module.exports = {
   post(req, res) {
-    // needs seeded FoodTypes table items to work
+    req.body.price *= 100;
     MenuItems.query()
       .insert(req.body)
       .then(item => res.status(201).send(item))

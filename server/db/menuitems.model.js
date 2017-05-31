@@ -18,14 +18,26 @@ class MenuItems extends Model {
           minLength: 1,
           maxLength: 30,
         },
-        price: { type: 'integer' },
-        calories: { type: 'integer' },
+        price: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 2000,
+        },
+        calories: {
+          type: 'integer',
+          minimum: 0,
+          maximum: 2000,
+        },
         description: {
           type: 'string',
           minLength: 1,
-          maxLength: 45,
+          maxLength: 100,
         },
-        food_type_id: { type: 'integer' },
+        food_type_id: {
+          type: 'integer',
+          minimum: 1,
+          maximum: 5,
+        },
       },
     };
   }

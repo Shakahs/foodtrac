@@ -14,7 +14,12 @@ const TabView = props => (
   <Col xs={12} sm={12} md={9} lg={9}>
     <Paper zDepth={1} className="brandTabView">
       <Switch>
-        <Route path="/brand/:brandId/menu" component={MenuList} />
+        <Route
+          path="/brand/:brandId/menu"
+          render={() => (
+            <MenuList menuItems={props.menuItems} />
+          )}
+        />
         <Route
           path="/brand/:brandId/trucks"
           render={({ match }) => (<Trucks
@@ -33,6 +38,7 @@ const TabView = props => (
             brandId={props.brandId}
             trucks={props.trucks}
             getBrand={props.getBrand}
+            menuItems={props.menuItems}
           />)}
         />
       </Switch>
@@ -46,6 +52,7 @@ TabView.propTypes = {
   trucks: propSchema.trucks,
   markers: propSchema.markers,
   getBrand: propSchema.getBrand,
+  menuItems: propSchema.menuItems,
 };
 
 export default TabView;

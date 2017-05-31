@@ -1,21 +1,26 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
+import propSchema from '../common/PropTypes';
 
-const MenuItemEntry = () => (
+const MenuItemEntry = props => (
   <Row>
     <Col xs={3} sm={3} md={3} lg={3}>
-      Food item name
+      {props.item.name}
     </Col>
     <Col xs={3} sm={3} md={3} lg={3}>
-      Food item description
+      {props.item.description}
     </Col>
     <Col xs={3} sm={3} md={3} lg={3}>
-      price: $00.00
+      price: ${props.item.price}
     </Col>
     <Col xs={3} sm={3} md={3} lg={3}>
-      Calories: 000
+      Calories: {props.item.calories}
     </Col>
   </Row>
 );
+
+MenuItemEntry.propTypes = {
+  item: propSchema.item,
+};
 
 export default MenuItemEntry;

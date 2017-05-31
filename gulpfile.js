@@ -25,6 +25,7 @@ const Brands = require('./server/db/brands.model');
 const Trucks = require('./server/db/trucks.model');
 const Locations = require('./server/db/locations.model');
 const LocationTimelines = require('./server/db/locationtimelines.model');
+const MenuItems = require('./server/db/menuitems.model');
 
 const chance = new Chance();
 
@@ -76,7 +77,7 @@ function checkSeededTable(model) {
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
-    'db:seed:trucks', 'db:seed:locationtimelines', cb);
+    'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', cb);
 });
 
 gulp.task('db:recreate', () => {
@@ -296,6 +297,33 @@ gulp.task('db:seed:locationtimelines', () => {
     })
     .then(seedData => insertSeed('LocationTimelines', seedData))
     .then(() => checkSeededTable(LocationTimelines));
+});
+
+gulp.task('db:seed:menuitems', () => {
+  const menuItemsSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: MenuItems.jsonSchema,
+  };
+  const boundBrands = provideModelWithKnex(Brands);
+  let brandList = [];
+  return boundBrands.query()
+    .then((res) => {
+      brandList = res;
+      return boundBrands.knex().destroy();
+    })
+    .then(() => {
+      menuItemsSchema.minItems = brandList.length;
+      menuItemsSchema.maxItems = brandList.length;
+      return jsf.resolve(menuItemsSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+      newSeedDataItem.brand_id = brandList.pop().id;
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('MenuItems', seedData))
+    .then(() => checkSeededTable(MenuItems));
 });
 
 /*
