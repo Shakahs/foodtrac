@@ -9,6 +9,7 @@ import EventsList from './EventsList';
 import ReviewMain from './Reviews';
 import CommentsView from './CommentsView';
 import ManageBrand from './ManageBrand';
+import './TabView.scss';
 
 const TabView = props => (
   <Col xs={12} sm={12} md={9} lg={9}>
