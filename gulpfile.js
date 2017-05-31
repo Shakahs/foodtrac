@@ -279,7 +279,7 @@ gulp.task('db:seed:locationtimelines', () => {
     .then(() => {
       const accumulatedSeedData = [];
       truckList.forEach((truck) => {
-        const lastSetStart = moment();
+        const lastSetStart = moment.utc();
         for (let i = 0; i < 5; i++) {
           const newSeedDataItem = {};
           lastSetStart.subtract(chance.integer({ min: 4, max: 7 }), 'hours')
