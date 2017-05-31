@@ -56,7 +56,7 @@ class MenuList extends Component {
           (<div>
             <h2>Appetizers</h2>
             {this.state.appetizers.map(item =>
-              <MenuItemEntry item={item} />,
+              <MenuItemEntry key={item.id} item={item} />,
             )}
           </div>
           ) : null
@@ -65,7 +65,7 @@ class MenuList extends Component {
           (<div>
             <h2>Entrees</h2>
             {this.state.entrees.map(item =>
-              <MenuItemEntry item={item} />,
+              <MenuItemEntry key={item.id} item={item} />,
             )}
           </div>
           ) : null
@@ -74,7 +74,7 @@ class MenuList extends Component {
           (<div>
             <h2>Desserts</h2>
             {this.state.desserts.map(item =>
-              <MenuItemEntry item={item} />,
+              <MenuItemEntry key={item.id} item={item} />,
             )}
           </div>
           ) : null
@@ -83,7 +83,7 @@ class MenuList extends Component {
           (<div>
             <h2>Sides</h2>
             {this.state.sides.map(item =>
-              <MenuItemEntry item={item} />,
+              <MenuItemEntry key={item.id} item={item} />,
             )}
           </div>
           ) : null
@@ -92,7 +92,7 @@ class MenuList extends Component {
           (<div>
             <h2>Drinks</h2>
             {this.state.drinks.map(item =>
-              <MenuItemEntry item={item} />,
+              <MenuItemEntry key={item.id} item={item} />,
             )}
           </div>
           ) : null

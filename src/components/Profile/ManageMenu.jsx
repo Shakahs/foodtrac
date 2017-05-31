@@ -80,7 +80,7 @@ class ManageMenu extends Component {
         <Grid fluid>
           {this.state.menuItems.map((menuItem, i) =>
             (<ManageMenuItem
-              key={menuItem.id}
+              key={menuItem[0].id}
               index={i}
               new={menuItem[1]}
               removeMenuItem={this.removeMenuItem}

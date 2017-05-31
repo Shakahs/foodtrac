@@ -61,9 +61,11 @@ class ManageTrucks extends Component {
 
   handleTruckEdit() {
     this.state.trucksEdit.forEach((truck) => {
-      axios.put(`/api/foodtrucks/${truck[1]}`, truck[0])
-        .then(res => console.log(res))
-        .catch(err => console.log(err));
+      if (truck) {
+        axios.put(`/api/foodtrucks/${truck[1]}`, truck[0])
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+      }
     });
   }
 
@@ -105,7 +107,7 @@ class ManageTrucks extends Component {
             checked_in: true,
           };
           axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
-            .then(resp => console.log(resp))
+            .then(resp => console.log('IN LOCATION POST', resp))
             .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
