@@ -12,6 +12,32 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
+    "/orders/{truckId}" : {
+      "get" : {
+        "summary" : "Get all orders for a specific truck",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Post new order for a specific truck",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
     "/users" : {
       "post" : {
         "summary" : "Add new user",
@@ -225,6 +251,31 @@
         "type" : "string"
       } ]
     },
+    "/brands/{brandId}/upvote" : {
+      "post" : {
+        "summary" : "Upvote a brand",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Upvote"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "number"
+      } ]
+    },
     "/foodtrucks" : {
       "get" : {
         "summary" : "List all foodtrucks near a coordinate",
@@ -356,6 +407,43 @@
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/LocationTimeline"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/foodtrucks/{truckId}/orders" : {
+      "get" : {
+        "summary" : "Get orders for truck",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Order"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create new order for truck",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Order"
           }
         } ],
         "responses" : {
@@ -629,6 +717,143 @@
         "required" : true,
         "type" : "integer"
       } ]
+    },
+    "/events" : {
+      "get" : {
+        "summary" : "Get all (nearby) events",
+        "parameters" : [ {
+          "name" : "lat",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "lng",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "distance",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create events",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Event"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/events/{eventId}/user_attendance" : {
+      "post" : {
+        "summary" : "User registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "user_id" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance" : {
+      "post" : {
+        "summary" : "Brand registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "brand_id" : {
+                "type" : "number"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/comments" : {
+      "post" : {
+        "summary" : "Create comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/upvotes" : {
+      "get" : {
+        "summary" : "Get all upvotes",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
     }
   },
   "definitions" : {
@@ -786,9 +1011,6 @@
         "id" : {
           "type" : "integer"
         },
-        "title" : {
-          "type" : "string"
-        },
         "text" : {
           "type" : "string"
         },
@@ -797,6 +1019,72 @@
         },
         "user_id" : {
           "type" : "integer"
+        }
+      }
+    },
+    "Event" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "number"
+        },
+        "location_id" : {
+          "type" : "number"
+        },
+        "start" : {
+          "type" : "string"
+        },
+        "end" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "event_owner_id" : {
+          "type" : "number"
+        }
+      }
+    },
+    "Upvote" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "timeline_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Order" : {
+      "type" : "object",
+      "properties" : {
+        "user_id" : {
+          "type" : "integer"
+        },
+        "truck_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "user_coupon_id" : {
+          "type" : "integer"
+        },
+        "ready" : {
+          "type" : "boolean"
         }
       }
     },

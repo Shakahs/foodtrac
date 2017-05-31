@@ -10,13 +10,14 @@ class Orders extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'truck_id', 'date', 'ready'],
+      required: ['user_id', 'truck_id', 'date', 'user_coupon_id', 'ready'],
 
       properties: {
         user_id: { type: 'integer' },
         truck_id: { type: 'integer' },
         date: { type: 'string' },
-        ready: { type: 'boolean' },
+        user_coupon_id: { type: 'integer' },
+        ready: { type: 'boolean', default: false },
       },
     };
   }
@@ -37,6 +38,14 @@ class Orders extends Model {
         join: {
           from: 'Orders.truck_id',
           to: 'Trucks.id',
+        },
+      },
+      orderitems: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/orderitems.model`,
+        join: {
+          from: 'Orders.id',
+          to: 'OrderItems.order_id',
         },
       },
     };

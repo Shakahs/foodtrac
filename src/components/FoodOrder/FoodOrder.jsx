@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { Grid, Row } from 'react-flexbox-grid';
 import MenuItemsList from './MenuItemsList';
-import AvailableCouponsList from './AvailableCouponsList';
+import OrderSummary from './OrderSummary';
 
 class FoodOrder extends Component {
   constructor() {
@@ -10,10 +11,12 @@ class FoodOrder extends Component {
 
   render() {
     return (
-      <div>
-        <MenuItemsList />
-        <AvailableCouponsList />
-      </div>
+      <Grid fluid>
+        <Row>
+          <MenuItemsList />
+          <OrderSummary />
+        </Row>
+      </Grid>
     );
   }
 }
