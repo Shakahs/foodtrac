@@ -15,6 +15,7 @@ const ReviewsListEntry = props => (
     <div>
       <StarRatingComponent
         value={props.review.score}
+        editing={false}
       />
     </div>
     <div>
