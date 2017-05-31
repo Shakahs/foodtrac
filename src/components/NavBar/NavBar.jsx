@@ -10,7 +10,7 @@ import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
-
+import './NavBar.scss';
 
 class NavBar extends Component {
   constructor() {
