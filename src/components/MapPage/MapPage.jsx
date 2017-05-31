@@ -13,7 +13,7 @@ class MapPage extends Component {
   render() {
     return (
       <div>
-        <MapView markers={this.props.markers} />
+        <MapView markers={this.props.markers} path={this.props.match.path} />
         <TrucksList trucks={this.props.trucks} path={this.props.match.path} />
       </div>
     );
