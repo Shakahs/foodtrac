@@ -70,19 +70,17 @@ class ManageTrucks extends Component {
   }
 
   handleAddTruck() {
-    console.log('IN ADD TRUCK BEFORE', this.state.newTrucks);
     this.state.newTrucks.forEach((truck) => {
-      console.log('IN ADD TRUCK', truck);
-      // if (truck) {
-      //   axios.post('/api/foodtrucks', truck)
-      //     .then(res => console.log(res))
-      //     .catch(err => console.log(err));
-      // } else {
-      //   const newTruck = { name: 'null', brand_id: this.props.brandId };
-      //   axios.post('/api/foodtrucks', newTruck)
-      //     .then(res => console.log(res))
-      //     .catch(err => console.log(err));
-      // }
+      if (truck) {
+        axios.post('/api/foodtrucks', truck)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+      } else {
+        const newTruck = { name: 'null', brand_id: this.props.brandId };
+        axios.post('/api/foodtrucks', newTruck)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+      }
     });
   }
 
