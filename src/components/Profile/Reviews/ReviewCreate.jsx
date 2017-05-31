@@ -2,14 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
-
+import StarRatingComponent from 'react-star-rating-component';
 
 const ReviewEntry = props => (
   <div>
     <form onSubmit={props.handleSubmit}>
       <div>
+        <StarRatingComponent
+          name="rating"
+          value={5}
+          onStarClick={props.updateReviewScore}
+        />
+      </div>
+      <div>
         <Field
-          name="reviewTitle"
+          name="title"
           component={TextField}
           type="text"
           hintText="Title of your Review"
@@ -18,13 +25,15 @@ const ReviewEntry = props => (
       </div>
       <div>
         <Field
-          name="reviewText"
+          name="text"
           component={TextField}
           type="text"
           hintText="Write your review"
           floatingLabelText="Write your review"
           fullWidth="true"
           rows="5"
+          rowsMax="5"
+          multiLine
         />
       </div>
 
@@ -35,6 +44,7 @@ const ReviewEntry = props => (
 
 ReviewEntry.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  updateReviewScore: PropTypes.func.isRequired,
 };
 
 export default reduxForm({

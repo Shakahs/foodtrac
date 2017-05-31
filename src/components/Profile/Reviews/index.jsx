@@ -10,9 +10,11 @@ class ReviewMain extends React.Component {
     super(props);
     this.state = {
       reviews: [],
+      newReviewScore: 5,
     };
 
     this.submitReview = this.submitReview.bind(this);
+    this.updateReviewScore = this.updateReviewScore.bind(this);
   }
 
   componentDidMount() {
@@ -30,8 +32,7 @@ class ReviewMain extends React.Component {
     const newReviewObject = Object.assign({}, data);
     newReviewObject.brand_id = this.props.match.params.brandId;
     newReviewObject.user_id = this.props.user.id;
-    newReviewObject.score = 1;
-    console.log('tosubmit', newReviewObject);
+    newReviewObject.score = this.state.newReviewScore;
     axios.post('/api/reviews/', newReviewObject)
       .then(() => {
         this.setState({
@@ -40,11 +41,16 @@ class ReviewMain extends React.Component {
       });
   }
 
+  updateReviewScore(nextValue) {
+    this.setState({ newReviewScore: nextValue });
+  }
+
 
   render() {
     return (
       <div>
-        <ReviewEntry onSubmit={this.submitReview} />
+        <p>Reviews</p>
+        <ReviewEntry onSubmit={this.submitReview} updateReviewScore={this.updateReviewScore} />
         <ReviewList reviews={this.state.reviews} />
       </div>
     );
