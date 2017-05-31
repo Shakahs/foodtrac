@@ -278,13 +278,13 @@ gulp.task('db:seed:locationtimelines', () => {
     .then(() => {
       const accumulatedSeedData = [];
       truckList.forEach((truck) => {
-        const lastSetStart = moment().startOf('day');
+        const lastSetStart = moment();
         for (let i = 0; i < 5; i++) {
           const newSeedDataItem = {};
-          lastSetStart.subtract(chance.integer({ min: 5, max: 10 }), 'hours')
+          lastSetStart.subtract(chance.integer({ min: 4, max: 7 }), 'hours')
             .subtract(chance.integer({ min: 0, max: 59 }), 'minutes');
           newSeedDataItem.start = moment(lastSetStart);
-          newSeedDataItem.end = (chance.bool()) ? moment(newSeedDataItem.start).add(chance.integer({ min: 2, max: 4 }), 'hours')
+          newSeedDataItem.end = (chance.bool()) ? moment(newSeedDataItem.start).add(chance.integer({ min: 1, max: 3 }), 'hours')
             .add(chance.integer({ min: 0, max: 59 }), 'minutes').format('YYYY-MM-DD HH:mm:ss') : 0;
           newSeedDataItem.start = newSeedDataItem.start.format('YYYY-MM-DD HH:mm:ss');
           newSeedDataItem.location_id = chance.pickone(locationList).id;

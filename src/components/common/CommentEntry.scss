@@ -1,0 +1,16 @@
+.icon-container {
+  position: relative;
+  padding-bottom: 10px;
+}
+
+.icon-side {
+  display: inline-block;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  z-index: 1;
+}
+
+button:focus {
+  outline: none;
+}

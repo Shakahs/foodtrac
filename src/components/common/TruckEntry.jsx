@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import propSchema from './PropTypes';
 import FollowButton from './FollowButton';
+import './TruckEntry.scss';
 
 const TruckEntry = props => (
   <Col xs={12} sm={12} md={6} lg={6}>
