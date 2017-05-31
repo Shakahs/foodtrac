@@ -19,8 +19,6 @@ const initialState = {
   email: null,
   is_truck_owner: false,
   auth0_id: null,
-  // TODO: remove password later
-  dummy_password: null,
   user_follows: [],
   brands: [],
   redirectToAddBrand: false,
