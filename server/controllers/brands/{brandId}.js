@@ -17,8 +17,6 @@ module.exports = {
     Brands.query()
       .findById(req.params.brandId)
       .eagerAlgorithm(Brands.WhereInEagerAlgorithm)
-      .eager(eagerOption)
-      .modifyEager('brand_reviews', builder => builder.orderBy('created_at', 'desc'))
       .eager(eagerOption, {
         newestFirst: builder => builder.orderBy('created_at', 'desc'),
       })
