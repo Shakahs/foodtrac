@@ -6,7 +6,7 @@ import propSchema from '../common/PropTypes';
 import MenuList from './MenuList';
 import Trucks from './Trucks';
 import EventsList from './EventsList';
-import ReviewsList from './ReviewsList';
+import ReviewMain from './Reviews';
 import CommentsList from './CommentsList';
 import ManageBrand from './ManageBrand';
 
@@ -30,7 +30,7 @@ const TabView = props => (
           />)}
         />
         <Route path="/brand/:brandId/events" component={EventsList} />
-        <Route path="/brand/:brandId/reviews" component={ReviewsList} />
+        <Route path="/brand/:brandId/reviews" render={routeProps => <ReviewMain {...routeProps} {...props} />} />
         <Route path="/brand/:brandId/comments" component={CommentsList} />
         <Route
           path="/brand/:brandId/manage"

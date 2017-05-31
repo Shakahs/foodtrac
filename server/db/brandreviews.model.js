@@ -12,6 +12,7 @@ class BrandReviews extends Model {
 
       properties: {
         id: { type: 'integer' },
+        title: { type: 'string' },
         text: { type: 'string' },
         score: { type: 'integer' },
         user_id: { type: 'integer' },

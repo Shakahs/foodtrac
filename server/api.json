@@ -745,6 +745,9 @@
         "id" : {
           "type" : "integer"
         },
+        "title" : {
+          "type" : "string"
+        },
         "text" : {
           "type" : "string"
         },

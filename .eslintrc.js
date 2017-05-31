@@ -17,5 +17,6 @@ module.exports = {
         "no-static-element-interactions": 0,
         "no-plusplus": 0,
         "react/require-default-props": 0,
+        "max-len": 1,
     }
 };
