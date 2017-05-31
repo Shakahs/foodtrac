@@ -19,10 +19,7 @@ class Profile extends Component {
         food_genres: { name: '' },
         trucks: [],
         brand_comments: [],
-<<<<<<< HEAD
         menu_items: [],
-=======
->>>>>>> Create comment action helpers and pass user/brand information down to comment components
       },
       markers: [],
     };
