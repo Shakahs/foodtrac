@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import propSchema from '../common/PropTypes';
 import FollowButton from '../common/FollowButton';
+import './ProfileInfo.scss';
 
 const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
