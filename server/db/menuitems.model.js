@@ -23,7 +23,7 @@ class MenuItems extends Model {
         description: {
           type: 'string',
           minLength: 1,
-          maxLength: 45,
+          maxLength: 100,
         },
         food_type_id: { type: 'integer' },
       },

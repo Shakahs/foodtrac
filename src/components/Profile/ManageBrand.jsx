@@ -84,7 +84,10 @@ class ManageBrand extends React.Component {
           />
         </Tab>
         <Tab label="Edit your Menu">
-          <ManageMenu brandId={this.props.brandId} />
+          <ManageMenu
+            brandId={this.props.brandId}
+            menuItems={this.props.menuItems}
+          />
         </Tab>
       </Tabs>
     );
@@ -98,6 +101,7 @@ ManageBrand.propTypes = {
   foodGenres: propSchema.foodGenres,
   userActions: propSchema.userActions,
   user: propSchema.user,
+  menuItems: propSchema.menuItems,
 };
 
 const mapStateToProps = state => ({

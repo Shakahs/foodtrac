@@ -97,4 +97,8 @@ export default {
     calorie: PropTypes.number,
     type: PropTypes.number,
   }).isRequired,
+
+  menuItems: PropTypes.arrayOf(
+    PropTypes.object,
+  ).isRequired,
 };

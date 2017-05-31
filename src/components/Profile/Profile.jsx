@@ -81,6 +81,7 @@ class Profile extends Component {
             trucks={this.state.brand.trucks}
             markers={this.state.markers}
             getBrand={this.getBrandDetail}
+            menuItems={this.state.brand.menu_items}
           />
         </Row>
       </Grid>
