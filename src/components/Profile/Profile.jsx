@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row } from 'react-flexbox-grid';
+import _ from 'lodash';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import propSchema from '../common/PropTypes';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
@@ -16,10 +18,14 @@ class Profile extends Component {
         description: '',
         food_genres: { name: '' },
         trucks: [],
+        brand_comments: [],
       },
       markers: [],
     };
     this.getBrandDetail = this.getBrandDetail.bind(this);
+    this.submitComment = this.submitComment.bind(this);
+    this.editComment = this.editComment.bind(this);
+    this.removeComment = this.removeComment.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +35,7 @@ class Profile extends Component {
   componentWillReceiveProps(nextProps) {
     this.getBrandDetail(nextProps.match.params.brandId);
   }
+
 
   getBrandDetail(brandId) {
     axios.get(`/api/brands/${brandId}?eager=true`)
@@ -61,6 +68,47 @@ class Profile extends Component {
       .catch(err => console.log(err));
   }
 
+  submitComment({ newComment }) {
+    axios.post('/api/brandcomments', {
+      text: newComment,
+      user_id: this.props.user.id,
+      brand_id: this.state.brandId,
+    })
+      .then(({ data }) => {
+        const newBrand = Object.assign({}, this.state.brand, {
+          brand_comments: [data, ...this.state.brand.brand_comments],
+        });
+        this.setState({ brand: newBrand });
+      })
+      .catch(e => console.log('Error adding comment', e));
+  }
+
+  editComment(text, commentId, idx) {
+    axios.put(`/api/brandcomments/${commentId}`, { text })
+      .then(({ data }) => {
+        const newBrand = Object.assign({}, this.state.brand, {
+          brand_comments: [
+            ...this.state.brand.brand_comments.slice(0, idx),
+            data,
+            ...this.state.brand.brand_comments.slice(idx + 1),
+          ],
+        });
+        this.setState({ brand: newBrand });
+      })
+      .catch(e => console.log('Error adding comment', e));
+  }
+
+  removeComment(commentId, idx) {
+    axios.delete(`/api/brandcomments/${commentId}`)
+      .then(() => {
+        const newBrand = Object.assign({}, this.state.brand, {
+          brand_comments: _.filter(this.state.brand.brand_comments, (com, i) => i !== idx),
+        });
+        this.setState({ brand: newBrand });
+      })
+      .catch(e => console.log('Error removing comment:', e));
+  }
+
   render() {
     return (
       <Grid fluid>
@@ -74,15 +122,21 @@ class Profile extends Component {
             description={this.state.brand.description}
             foodGenre={this.state.brand.food_genres.name}
             path={this.props.match.path}
+            user={this.props.user}
           />
           <TabView
             brand={this.state.brand}
             brandId={this.state.brandId}
             brandName={this.state.brand.name}
+            comments={this.state.brand.brand_comments}
             trucks={this.state.brand.trucks}
+            userId={this.props.user.id}
+            removeComment={this.removeComment}
+            editComment={this.editComment}
             markers={this.state.markers}
             getBrand={this.getBrandDetail}
             menuItems={this.state.brand.menu_items}
+            submitComment={this.submitComment}
           />
         </Row>
       </Grid>
@@ -92,6 +146,11 @@ class Profile extends Component {
 
 Profile.propTypes = {
   match: propSchema.match,
+  user: propSchema.user,
 };
 
-export default Profile;
+const mapStateToProps = ({ user }) => ({
+  user,
+});
+
+export default connect(mapStateToProps, null)(Profile);
