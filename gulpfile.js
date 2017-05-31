@@ -27,6 +27,7 @@ const Locations = require('./server/db/locations.model');
 const LocationTimelines = require('./server/db/locationtimelines.model');
 const MenuItems = require('./server/db/menuitems.model');
 const BrandComments = require('./server/db/brandcomments.model');
+const Upvotes = require('./server/db/upvotes.model');
 
 const chance = new Chance();
 
@@ -78,7 +79,7 @@ function checkSeededTable(model) {
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
-    'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
+    'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', 'db:seed:upvotes', cb);
 });
 
 gulp.task('db:recreate', () => {
@@ -360,6 +361,49 @@ gulp.task('db:seed:brandcomments', () => {
     }))
     .then(seedData => insertSeed('BrandComments', seedData))
     .then(() => checkSeededTable(BrandComments));
+});
+
+gulp.task('db:seed:upvotes', () => {
+  const upvotesSchema = {
+    type: 'array',
+    uniqueItems: true,
+    items: Upvotes.jsonSchema,
+  };
+  const boundUsers = provideModelWithKnex(Users);
+  const boundBrands = provideModelWithKnex(Brands);
+  const boundTimelines = provideModelWithKnex(LocationTimelines);
+  let usersList = [];
+  let brandsList = [];
+  let timelinesList = [];
+  return boundBrands.query()
+    .then((res) => {
+      brandsList = res;
+      return boundBrands.knex().destroy();
+    })
+    .then(() => boundUsers.query())
+    .then((res) => {
+      usersList = res;
+      return boundUsers.knex().destroy();
+    })
+    .then(() => boundTimelines.query())
+    .then((res) => {
+      timelinesList = res;
+      return boundTimelines.knex().destroy();
+    })
+    .then(() => {
+      upvotesSchema.minItems = brandsList.length;
+      upvotesSchema.maxItems = brandsList.length;
+      return jsf.resolve(upvotesSchema);
+    })
+    .then(seedData => seedData.map((seedDataItem) => {
+      const newSeedDataItem = Object.assign({}, seedDataItem);
+      newSeedDataItem.brand_id = brandsList.pop().id;
+      newSeedDataItem.user_id = usersList.pop().id;
+      newSeedDataItem.timeline_id = timelinesList.pop().id;
+      return newSeedDataItem;
+    }))
+    .then(seedData => insertSeed('Upvotes', seedData))
+    .then(() => checkSeededTable(Upvotes));
 });
 
 /*
