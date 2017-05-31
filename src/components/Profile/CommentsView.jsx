@@ -1,11 +1,16 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import propSchema from '../common/PropTypes';
 import CommentInput from './CommentInput';
 import CommentsList from './CommentsList';
 
 const CommentsView = props => (
   <div>
-    <CommentInput onSubmit={props.submitComment} name="newComment" />
+    {
+      (props.isLoggedIn)
+      ? <CommentInput onSubmit={props.submitComment} name="newComment" />
+      : null
+    }
     <CommentsList
       comments={props.comments}
       userId={props.userId}
@@ -23,4 +28,10 @@ CommentsView.propTypes = {
   editComment: propSchema.editComment,
 };
 
-export default CommentsView;
+const mapStateToProps = ({ auth }) => ({ isLoggedIn: auth.isLoggedIn });
+
+CommentsView.propTypes = {
+  isLoggedIn: propSchema.isLoggedIn,
+};
+
+export default connect(mapStateToProps, null)(CommentsView);

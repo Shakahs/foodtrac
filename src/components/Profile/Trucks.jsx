@@ -6,7 +6,7 @@ import TrucksList from '../common/TrucksList';
 const Trucks = props => (
   <div>
     <div>{props.brandName}&#39;s Food Truck(s)</div>
-    <MapView markers={props.markers} />
+    <MapView markers={props.markers} path={props.path} />
     <TrucksList trucks={props.trucks} path={props.path} />
   </div>
 );

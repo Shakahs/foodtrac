@@ -11,7 +11,6 @@ module.exports = {
   post(req, res) {
     Users.query()
       .findById(req.params.userId)
-      // TODO: find an findOrCreate equivalent in Objection. this does not handle duplicates
       .then(user => user.$relatedQuery('user_follows').relate(req.body.id))
       .then(() => Users.query().findById(req.params.userId))
       .then(user => user.$relatedQuery('user_follows').findById(req.body.id))

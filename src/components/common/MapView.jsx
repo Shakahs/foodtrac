@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import Paper from 'material-ui/Paper';
+import { Link } from 'react-router-dom';
 import _ from 'lodash';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import propSchema from './PropTypes';
@@ -66,9 +68,25 @@ class MapView extends Component {
     this.setState({ center });
   }
 
-  render() {
+  renderNotFoundMsg() {
     return (
-      <div>
+      <Paper className="center-text" zDepth={3}>
+        <h2>No active trucks found on the map.</h2>
+        {
+          (this.props.path === '/map')
+          ? <div>
+            <h3>Try to broaden your search!</h3>
+            <Link to="/">Click here to return to dashboard</Link>
+          </div>
+          : null
+        }
+      </Paper>
+    );
+  }
+
+  renderMap() {
+    if (this.props.markers.length > 0) {
+      return (
         <div style={{ height: '550px', width: '95%', margin: 'auto' }}>
           <WrappedMap
             containerElement={
@@ -82,13 +100,19 @@ class MapView extends Component {
             center={this.state.center}
           />
         </div>
-      </div>
-    );
+      );
+    }
+    return this.renderNotFoundMsg();
+  }
+
+  render() {
+    return this.renderMap();
   }
 }
 
 MapView.propTypes = {
   markers: propSchema.markers,
+  path: propSchema.path,
 };
 
 export default MapView;

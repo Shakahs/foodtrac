@@ -8,7 +8,6 @@ module.exports = {
     const currentTime = new Date();
     const latestValidTime = new Date(currentTime - 28800000);
     Trucks.query()
-    // TODO: modify to only get trucks with valid location time
       .eagerAlgorithm(Trucks.WhereInEagerAlgorithm)
       .eager('[brands.food_genres, locations]')
       .modifyEager('locations', (builder) => {

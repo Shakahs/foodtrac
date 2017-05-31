@@ -17,8 +17,6 @@ module.exports = {
     Brands.query()
       .findById(req.params.brandId)
       .eagerAlgorithm(Brands.WhereInEagerAlgorithm)
-      .eager(eagerOption)
-      .modifyEager('brand_reviews', builder => builder.orderBy('created_at', 'desc'))
       .eager(eagerOption, {
         newestFirst: builder => builder.orderBy('created_at', 'desc'),
       })
@@ -30,12 +28,16 @@ module.exports = {
           .orderBy('start', 'desc');
       })
       .then((brand) => { /* eslint-disable no-param-reassign */
-        brand.trucks = _.forEach(brand.trucks, (truck) => {
+        _.forEach(brand.trucks, (truck) => {
           if (truck.locations.length > 0) {
             truck.locations = truck.locations[0];
           } else {
             truck.locations = null;
           }
+        });
+        brand.menu_items = _.map(brand.menu_items, (item) => {
+          item.price /= 100;
+          return item;
         });
         res.status(200).json(brand);
       })
