@@ -19,6 +19,7 @@ class Profile extends Component {
         food_genres: { name: '' },
         trucks: [],
         brand_comments: [],
+        menu_items: [],
       },
       markers: [],
     };
