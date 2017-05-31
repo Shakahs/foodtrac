@@ -101,4 +101,11 @@ export default {
   menuItems: PropTypes.arrayOf(
     PropTypes.object,
   ).isRequired,
+
+  item: PropTypes.shape({
+    name: PropTypes.string,
+    description: PropTypes.string,
+    price: PropTypes.number,
+    calories: PropTypes.number,
+  }).isRequired,
 };

@@ -87,6 +87,7 @@ class ManageBrand extends React.Component {
           <ManageMenu
             brandId={this.props.brandId}
             menuItems={this.props.menuItems}
+            getBrand={this.props.getBrand}
           />
         </Tab>
       </Tabs>

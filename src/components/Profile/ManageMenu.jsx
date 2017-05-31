@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FlatButton, RaisedButton } from 'material-ui';
 import { Grid } from 'react-flexbox-grid';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import ManageMenuItem from './ManageMenuItem';
@@ -70,6 +71,7 @@ class ManageMenu extends Component {
           .catch(err => console.log(err));
       }
     });
+    this.props.getBrand(this.props.brandId);
   }
 
   render() {
@@ -94,10 +96,12 @@ class ManageMenu extends Component {
         <br />
         <br />
         {this.state.menuItems.length > 0 ?
-          <RaisedButton
-            label="Save Changes"
-            onClick={this.saveChanges}
-          /> : null
+          <Link to={`/brand/${this.props.brandId}/trucks`}>
+            <RaisedButton
+              label="Save Changes"
+              onClick={this.saveChanges}
+            />
+          </Link> : null
         }
       </div>
     );
@@ -107,6 +111,7 @@ class ManageMenu extends Component {
 ManageMenu.propTypes = {
   brandId: propSchema.brandId,
   menuItems: propSchema.menuItems,
+  getBrand: propSchema.getBrand,
 };
 
 export default ManageMenu;
