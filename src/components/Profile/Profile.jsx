@@ -76,6 +76,7 @@ class Profile extends Component {
             path={this.props.match.path}
           />
           <TabView
+            brand={this.state.brand}
             brandId={this.state.brandId}
             brandName={this.state.brand.name}
             trucks={this.state.brand.trucks}

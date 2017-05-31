@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import ReviewEntry from './ReviewCreate';
 import ReviewList from './ReviewList';
 import propSchema from '../../common/PropTypes';
@@ -9,7 +10,6 @@ class ReviewMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reviews: [],
       newReviewScore: 5,
     };
 
@@ -35,9 +35,7 @@ class ReviewMain extends React.Component {
     newReviewObject.score = this.state.newReviewScore;
     axios.post('/api/reviews/', newReviewObject)
       .then(() => {
-        this.setState({
-          reviews: [...this.state.reviews, newReviewObject],
-        });
+        this.props.getBrand(this.props.brand.id);
       });
   }
 
@@ -51,7 +49,7 @@ class ReviewMain extends React.Component {
       <div>
         <p>Reviews</p>
         <ReviewEntry onSubmit={this.submitReview} updateReviewScore={this.updateReviewScore} />
-        <ReviewList reviews={this.state.reviews} />
+        <ReviewList reviews={this.props.brand.brand_reviews} />
       </div>
     );
   }
@@ -60,6 +58,8 @@ class ReviewMain extends React.Component {
 ReviewMain.propTypes = {
   user: propSchema.user,
   match: propSchema.match,
+  brand: propSchema.brand,
+  getBrand: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({

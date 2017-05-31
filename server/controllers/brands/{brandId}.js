@@ -11,13 +11,17 @@ module.exports = {
   },
   get(req, res) {
     // users need a username to display publically
-    const eagerOption = req.query.eager ? '[trucks.locations, food_genres, menu_items, brand_comments.users, brand_reviews.users]' : '';
+    const eagerOption = req.query.eager ? '[trucks.locations, food_genres, menu_items, brand_comments.users, brand_reviews]' : '';
     const currentTime = new Date();
     const latestValidTime = new Date(currentTime - 28800000);
     Brands.query()
       .findById(req.params.brandId)
       .eagerAlgorithm(Brands.WhereInEagerAlgorithm)
       .eager(eagerOption)
+      .modifyEager('brand_reviews', (builder) => {
+        builder
+          .orderBy('created_at', 'desc');
+      })
       .modifyEager('trucks.locations', (builder) => {
         builder
           .andWhereBetween('start', [latestValidTime.toISOString(), currentTime.toISOString()])

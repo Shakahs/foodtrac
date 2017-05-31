@@ -64,6 +64,10 @@ export default {
     url: PropTypes.string,
   }).isRequired,
 
+  brand: PropTypes.shape({
+    id: PropTypes.number,
+  }).isRequired,
+
   brandName: PropTypes.string.isRequired,
   brandId: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
@@ -107,5 +111,13 @@ export default {
     description: PropTypes.string,
     price: PropTypes.number,
     calories: PropTypes.number,
+  }).isRequired,
+
+  review: PropTypes.shape({
+    created_at: PropTypes.string,
+    title: PropTypes.string,
+    user_id: PropTypes.string,
+    score: PropTypes.number,
+    text: PropTypes.string,
   }).isRequired,
 };

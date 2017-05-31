@@ -36,7 +36,6 @@ const ReviewEntry = props => (
           multiLine
         />
       </div>
-
       <button type="submit" onClick={props.handleSubmit}>Submit</button>
     </form>
   </div>
