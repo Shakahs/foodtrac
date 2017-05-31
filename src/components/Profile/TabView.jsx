@@ -7,7 +7,7 @@ import MenuList from './MenuList';
 import Trucks from './Trucks';
 import EventsList from './EventsList';
 import ReviewMain from './Reviews';
-import CommentsList from './CommentsList';
+import CommentsView from './CommentsView';
 import ManageBrand from './ManageBrand';
 
 const TabView = props => (
@@ -31,7 +31,16 @@ const TabView = props => (
         />
         <Route path="/brand/:brandId/events" component={EventsList} />
         <Route path="/brand/:brandId/reviews" render={routeProps => <ReviewMain {...routeProps} {...props} />} />
-        <Route path="/brand/:brandId/comments" component={CommentsList} />
+        <Route
+          path="/brand/:brandId/comments"
+          render={() => (<CommentsView
+            comments={props.comments}
+            submitComment={props.submitComment}
+            userId={props.userId}
+            removeComment={props.removeComment}
+            editComment={props.editComment}
+          />)}
+        />
         <Route
           path="/brand/:brandId/manage"
           render={() => (<ManageBrand
@@ -53,6 +62,11 @@ TabView.propTypes = {
   markers: propSchema.markers,
   getBrand: propSchema.getBrand,
   menuItems: propSchema.menuItems,
+  comments: propSchema.comments,
+  submitComment: propSchema.submitComment,
+  userId: propSchema.userId,
+  removeComment: propSchema.removeComment,
+  editComment: propSchema.editComment,
 };
 
 export default TabView;
