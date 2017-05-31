@@ -2,6 +2,7 @@ const MenuItems = require('../../db/menuitems.model');
 
 module.exports = {
   put(req, res) {
+    req.body.price *= 100;
     MenuItems.query()
       .findById(req.params.menuItemId)
       .patch(req.body)
