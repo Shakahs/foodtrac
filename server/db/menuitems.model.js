@@ -40,14 +40,6 @@ class MenuItems extends Model {
           to: 'Brands.id',
         },
       },
-      food_types: {
-        relation: Model.BelongsToOneRelation,
-        modelClass: `${__dirname}/foodtypes.model`,
-        join: {
-          from: 'MenuItems.food_type_id',
-          to: 'FoodTypes.id',
-        },
-      },
     };
   }
 }
