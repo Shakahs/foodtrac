@@ -154,10 +154,12 @@ class ManageTrucks extends Component {
                   }}
                 />
                 {truck.locations ?
-                  <FlatButton
-                    label="Checkout"
-                    onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
-                  /> : null
+                  <Link to={`/brand/${this.props.brandId}/trucks`}>
+                    <FlatButton
+                      label="Checkout"
+                      onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
+                    />
+                  </Link> : null
                 }
               </Tab>
             );
