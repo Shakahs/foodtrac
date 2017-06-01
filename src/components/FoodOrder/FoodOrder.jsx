@@ -47,6 +47,7 @@ class FoodOrder extends Component {
             addToOrder={this.addToOrder}
           />
           <OrderSummary
+            truck={this.state.truck}
             currentOrder={this.state.currentOrder}
           />
         </Row>

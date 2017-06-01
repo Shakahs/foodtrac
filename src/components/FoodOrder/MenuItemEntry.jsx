@@ -11,6 +11,7 @@ class MenuItemEntry extends Component {
       name: this.props.menuItem.name,
       price: this.props.menuItem.price,
       quantity: 1,
+      menu_item_id: this.props.menuItem.id,
     };
   }
 

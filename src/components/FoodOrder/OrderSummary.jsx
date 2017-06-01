@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Paper, RaisedButton } from 'material-ui';
 import { Col } from 'react-flexbox-grid';
+import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import CartEntry from './CartEntry';
 
@@ -9,6 +11,7 @@ class OrderSummary extends Component {
     super();
     this.state = {};
     this.calculateTotal = this.calculateTotal.bind(this);
+    this.submitOrder = this.submitOrder.bind(this);
   }
 
   calculateTotal() {
@@ -17,6 +20,25 @@ class OrderSummary extends Component {
       total += item.price * item.quantity;
     });
     return total;
+  }
+
+  submitOrder() {
+    const orderItems = this.props.currentOrder.reduce((acc, item) => {
+      for (let i = 0; i < item.quantity; i++) {
+        acc.push({ menu_item_id: item.menu_item_id });
+      }
+      return acc;
+    }, []);
+    const order = {
+      user_id: this.props.userId,
+      truck_id: this.props.truck.id,
+      date: new Date().toISOString(),
+      ready: false,
+      orderitems: orderItems,
+    };
+    axios.post(`/api/foodtrucks/${this.props.truck.id}/orders`, order)
+      .then(res => console.log(res))
+      .catch(e => console.log(e));
   }
 
   render() {
@@ -34,6 +56,7 @@ class OrderSummary extends Component {
           </div>
           <RaisedButton
             label="Submit Order"
+            onClick={this.submitOrder}
           />
         </Paper>
       </Col>
@@ -43,6 +66,13 @@ class OrderSummary extends Component {
 
 OrderSummary.propTypes = {
   currentOrder: propSchema.currentOrder,
+  truck: propSchema.truck,
+  userId: propSchema.userId,
 };
 
-export default OrderSummary;
+const mapStateToProps = ({ user }) => {
+  const userId = user.id;
+  return { userId };
+};
+
+export default connect(mapStateToProps, null)(OrderSummary);
