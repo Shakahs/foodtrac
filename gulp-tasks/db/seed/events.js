@@ -38,7 +38,7 @@ module.exports = {
             const end = moment.utc(start).add(chance.integer({ min: 0, max: 8 }), 'hours')
               .add(chance.integer({ min: 7200, max: 10800 }), 'second');
             const newEvent = {
-              event_owner_id: brand.owner_id,
+              owner_id: brand.owner_id,
               start: start.toISOString(),
               end: end.toISOString(),
               location_id: chance.pickone(locationList).id,
