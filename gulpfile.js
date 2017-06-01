@@ -52,33 +52,6 @@ gulp.task('db', (cb) => {
     'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
 });
 
-gulp.task('db:seed:trucks', () => {
-  const truckSchema = {
-    type: 'array',
-    uniqueItems: true,
-    items: Trucks.jsonSchema,
-  };
-  const boundBrands = provideModelWithKnex(Brands);
-  let brandList = [];
-  return boundBrands.query()
-    .then((res) => {
-      brandList = res;
-      return boundBrands.knex().destroy();
-    })
-    .then(() => {
-      truckSchema.minItems = brandList.length;
-      truckSchema.maxItems = brandList.length;
-      return jsf.resolve(truckSchema);
-    })
-    .then(seedData => seedData.map((seedDataItem) => {
-      const newSeedDataItem = Object.assign({}, seedDataItem);
-      newSeedDataItem.brand_id = brandList.pop().id;
-      return newSeedDataItem;
-    }))
-    .then(seedData => insertSeed('Trucks', seedData))
-    .then(() => checkSeededTable(Trucks));
-});
-
 gulp.task('db:seed:locations', () => {
   const query = {
     location: '34.053736,-118.242809', // LA city hall
