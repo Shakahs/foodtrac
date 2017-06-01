@@ -102,6 +102,14 @@ class Users extends Model {
           to: 'UserAttendees.user_id',
         },
       },
+      event_comments: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'eventcomments.model'),
+        join: {
+          from: 'Users.id',
+          to: 'EventComments.user_id',
+        },
+      },
     };
   }
 }

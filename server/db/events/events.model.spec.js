@@ -5,6 +5,7 @@ const Users = require('../users.model');
 const Locations = require('../locations.model');
 const UserAttendees = require('./userattendees.model');
 const BrandAttendees = require('./brandattendees.model');
+const EventComments = require('./eventcomments.model');
 const Brands = require('../brands.model');
 const { provideModelWithKnex } = require('../../../dbutil');
 
@@ -14,9 +15,11 @@ const boundLocations = provideModelWithKnex(Locations);
 const boundUserAttendees = provideModelWithKnex(UserAttendees);
 const boundBrandAttendees = provideModelWithKnex(BrandAttendees);
 const boundBrands = provideModelWithKnex(Brands);
+const boundEventComments = provideModelWithKnex(EventComments);
 let newEvent = null;
 let newUserAttendee = null;
 let newBrandAttendee = null;
+let newEventComment = null;
 
 const chance = new Chance();
 
@@ -155,6 +158,49 @@ describe('test the BrandAttendee model', () => {
       }));
 });
 
+describe('test the EventComments model', () => {
+  beforeAll(() => {
+    newEventComment = {
+      id: chance.integer({ min: 10000, max: 100000 }),
+      event_id: newEvent.id,
+      user_id: 1,
+      text: 'excited to come to this event!',
+    };
+    return boundEventComments.query().insert(newEventComment);
+  });
+
+  test('it should insert an EventComment', () => boundEventComments.query()
+    .findById(newEventComment.id)
+    .then((result) => {
+      expect(result).toEqual(newEventComment);
+    }));
+
+  test('it should return an Event and User based on relationship', () =>
+    boundEventComments.query()
+      .findById(newEventComment.id)
+      .eager('[events, users]')
+      .then((result) => {
+        expect(result.events.id).toEqual(newEventComment.event_id);
+        expect(result.users.id).toEqual(newEventComment.user_id);
+      }));
+
+  test('Users should be able to find EventComments by relationship', () =>
+    boundUsers.query()
+      .findById(newEventComment.user_id)
+      .eager('[event_comments]')
+      .then((result) => {
+        expect(result.event_comments).toContainEqual(newEventComment);
+      }));
+
+  test('Events should be able to find EventComments by relationship', () =>
+    boundEvents.query()
+      .findById(newEventComment.event_id)
+      .eager('[comments]')
+      .then((result) => {
+        expect(result.comments).toContainEqual(newEventComment);
+      }));
+});
+
 afterAll(() => {
   boundEvents.knex().destroy();
   boundUsers.knex().destroy();
@@ -162,5 +208,6 @@ afterAll(() => {
   boundUserAttendees.knex().destroy();
   boundBrandAttendees.knex().destroy();
   boundBrands.knex().destroy();
+  boundEventComments.knex().destroy();
 });
 

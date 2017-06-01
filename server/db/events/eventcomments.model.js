@@ -9,7 +9,7 @@ class EventComments extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text', 'user_id', 'brand_id'],
+      required: ['text', 'user_id', 'event_id'],
 
       properties: {
         id: { type: 'integer' },
@@ -26,7 +26,7 @@ class EventComments extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/events.model`,
         join: {
-          from: 'UserAttendees.event_id',
+          from: 'EventComments.event_id',
           to: 'Events.id',
         },
       },
@@ -34,7 +34,7 @@ class EventComments extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: path.resolve(__dirname, '../', 'users.model'),
         join: {
-          from: 'UserAttendees.user_id',
+          from: 'EventComments.user_id',
           to: 'Users.id',
         },
       },

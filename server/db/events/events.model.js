@@ -57,6 +57,14 @@ class Events extends Model {
           to: 'BrandAttendees.event_id',
         },
       },
+      comments: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'eventcomments.model'),
+        join: {
+          from: 'Events.id',
+          to: 'EventComments.event_id',
+        },
+      },
     };
   }
 }
