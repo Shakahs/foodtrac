@@ -1,19 +1,19 @@
-require('dotenv').config({ path: '../../../.env' });
-const { Model } = require('objection');
-const knexConfig = require('../../../knexfile');
-const knex = require('knex')(knexConfig.development);
-
-const Events = require('./events.model');
 const moment = require('moment');
+const Events = require('./events.model');
+const { provideModelWithKnex } = require('../../../dbutil');
 
-Model.knex(knex);
+let boundEvents = null;
+
+beforeAll(() => {
+  boundEvents = provideModelWithKnex(Events);
+});
 
 describe('Events model', () => {
   test('it should insert an event', () => {
     const startTime = moment.utc();
     const endTime = moment.utc().add(1, 'hours');
     const newEvent = {
-      id: 1,
+      id: 2001,
       start: startTime.toISOString(),
       end: endTime.toISOString(),
       name: 'a great event',
@@ -22,12 +22,11 @@ describe('Events model', () => {
       owner_id: 1,
     };
 
-    expect(Events.query().insert(newEvent))
-      .resolves.toEqual(newEvent);
+    return boundEvents.query().insert(newEvent)
+      .then((result) => { expect(result).toEqual(newEvent); });
+      // .finally(() => {});
   });
 });
 
-afterAll(() => Events
-    .query()
-    .deleteById(1)
-    .then(() => Events.knex().destroy()));
+afterAll(() => boundEvents.knex().destroy());
+

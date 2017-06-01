@@ -94,5 +94,11 @@
     "style-loader": "^0.17.0",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.4.1"
+  },
+  "jest": {
+    "verbose": true,
+    "roots": [
+      "server"
+    ]
   }
 }
