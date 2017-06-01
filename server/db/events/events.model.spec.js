@@ -22,8 +22,18 @@ beforeAll(() => {
 describe('Events model', () => {
   test('it should insert an event', () => boundEvents.query().insert(newEvent)
       .then((result) => {
-        delete result.id; // eslint-disable-line no-param-reassign
+        newEvent.id = result.id;
         expect(result).toEqual(newEvent);
+      }));
+
+  test('it should return an owner and location based on relationship', () =>
+    boundEvents.query()
+      .findById(newEvent.id)
+      .eager('[locations, owners]')
+      .then((result) => {
+        console.log(result);
+        expect(result.owners.id).toEqual(newEvent.owner_id);
+        expect(result.locations.id).toEqual(newEvent.location_id);
       }));
 });
 
