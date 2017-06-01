@@ -233,9 +233,9 @@ DROP TABLE IF EXISTS `foodtrac`.`Events` ;
 
 CREATE TABLE IF NOT EXISTS `foodtrac`.`Events` (
   `id` INT NOT NULL AUTO_INCREMENT,
-  `event_owner_id` INT NOT NULL,
-  `start` TIMESTAMP NOT NULL,
-  `end` TIMESTAMP NOT NULL DEFAULT 0,
+  `owner_id` INT NOT NULL,
+  `start` TIMESTAMP(3) NOT NULL,
+  `end` TIMESTAMP(3) NOT NULL DEFAULT 0,
   `location_id` INT NOT NULL,
   `name` VARCHAR(30) NOT NULL,
   `description` TEXT NOT NULL,
