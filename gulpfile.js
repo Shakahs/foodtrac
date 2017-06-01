@@ -32,7 +32,8 @@ jsf.extend('faker', () => Faker);
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
-    'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', 'db:seed:upvotes', cb);
+    'db:seed:trucks', ['db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', 'db:seed:events'],
+    'db:seed:upvotes', cb);
 });
 
 /*
