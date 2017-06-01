@@ -1,7 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'react-flexbox-grid';
-import { FlatButton } from 'material-ui';
+import { FlatButton, TextField } from 'material-ui';
 import propSchema from '../common/PropTypes';
+import './MenuItemEntry.scss';
 
 const MenuItemEntry = props => (
   <Row>
@@ -16,6 +17,13 @@ const MenuItemEntry = props => (
     </Col>
     <Col xs={1} sm={1} md={1} lg={1}>
       <div>{props.menuItem.calories}</div>
+    </Col>
+    <Col xs={1} sm={1} md={1} lg={1}>
+      <TextField
+        className="quantityOrder"
+        floatingLabelText="Quantity"
+        type="number"
+      />
     </Col>
     <Col xs={2} sm={2} md={2} lg={2}>
       <FlatButton
