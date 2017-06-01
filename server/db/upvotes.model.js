@@ -8,7 +8,7 @@ class Upvotes extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'brand_id'],
+      required: ['user_id', 'brand_id', 'date'],
 
       properties: {
         id: { type: 'integer' },
