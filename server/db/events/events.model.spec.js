@@ -1,4 +1,5 @@
-const moment = require('moment');
+import { testEvent } from '../../../testData';
+
 const Chance = require('chance');
 const Events = require('./events.model');
 const Users = require('../users.model');
@@ -16,7 +17,6 @@ const boundUserAttendees = provideModelWithKnex(UserAttendees);
 const boundBrandAttendees = provideModelWithKnex(BrandAttendees);
 const boundBrands = provideModelWithKnex(Brands);
 const boundEventComments = provideModelWithKnex(EventComments);
-let newEvent = null;
 let newUserAttendee = null;
 let newBrandAttendee = null;
 let newEventComment = null;
@@ -24,18 +24,7 @@ let newEventComment = null;
 const chance = new Chance();
 
 beforeAll(() => {
-  const startTime = moment.utc();
-  const endTime = moment.utc().add(1, 'hours');
-  newEvent = {
-    id: chance.integer({ min: 10000, max: 100000 }),
-    start: startTime.toDate(),
-    end: endTime.toDate(),
-    name: 'a great event',
-    description: 'come have fun',
-    location_id: 1,
-    owner_id: 1,
-  };
-  const insertEvent = Object.assign({}, newEvent);
+  const insertEvent = Object.assign({}, testEvent);
   insertEvent.start = insertEvent.start.toISOString();
   insertEvent.end = insertEvent.end.toISOString();
   return boundEvents.query().insert(insertEvent);
@@ -43,34 +32,34 @@ beforeAll(() => {
 
 describe('test the Events model', () => {
   test('it should insert an event', () => boundEvents.query()
-      .findById(newEvent.id)
+      .findById(testEvent.id)
       .then((result) => {
-        expect(result).toEqual(newEvent);
+        expect(result).toEqual(testEvent);
       }));
 
   test('it should return an Owner and Location based on relationship', () =>
     boundEvents.query()
-      .findById(newEvent.id)
+      .findById(testEvent.id)
       .eager('[locations, owners]')
       .then((result) => {
-        expect(result.owners.id).toEqual(newEvent.owner_id);
-        expect(result.locations.id).toEqual(newEvent.location_id);
+        expect(result.owners.id).toEqual(testEvent.owner_id);
+        expect(result.locations.id).toEqual(testEvent.location_id);
       }));
 
   test('owner should be able to find event by relationship', () =>
     boundUsers.query()
-      .findById(newEvent.owner_id)
+      .findById(testEvent.owner_id)
       .eager('[events]')
       .then((result) => {
-        expect(result.events).toContainEqual(newEvent);
+        expect(result.events).toContainEqual(testEvent);
       }));
 
   test('location should be able to find event by relationship', () =>
     boundLocations.query()
-      .findById(newEvent.location_id)
+      .findById(testEvent.location_id)
       .eager('[events]')
       .then((result) => {
-        expect(result.events).toContainEqual(newEvent);
+        expect(result.events).toContainEqual(testEvent);
       }));
 });
 
@@ -78,7 +67,7 @@ describe('test the UserAttendee model', () => {
   beforeAll(() => {
     newUserAttendee = {
       id: chance.integer({ min: 10000, max: 100000 }),
-      event_id: newEvent.id,
+      event_id: testEvent.id,
       user_id: 1,
     };
     return boundUserAttendees.query().insert(newUserAttendee);
@@ -120,7 +109,7 @@ describe('test the BrandAttendee model', () => {
   beforeAll(() => {
     newBrandAttendee = {
       id: chance.integer({ min: 10000, max: 100000 }),
-      event_id: newEvent.id,
+      event_id: testEvent.id,
       brand_id: 1,
     };
     return boundBrandAttendees.query().insert(newBrandAttendee);
@@ -162,7 +151,7 @@ describe('test the EventComments model', () => {
   beforeAll(() => {
     newEventComment = {
       id: chance.integer({ min: 10000, max: 100000 }),
-      event_id: newEvent.id,
+      event_id: testEvent.id,
       user_id: 1,
       text: 'excited to come to this event!',
     };
