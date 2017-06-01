@@ -4,6 +4,7 @@ import _ from 'lodash';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import propSchema from '../common/PropTypes';
+import { actions as profileActions } from '../../redux/CurrentProfile';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
 import TabView from './TabView';
@@ -34,9 +35,10 @@ class Profile extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.getBrandDetail(nextProps.match.params.brandId);
+    if (this.props.upvotes !== nextProps.upvotes) {
+      this.getBrandDetail(nextProps.match.params.brandId);
+    }
   }
-
 
   getBrandDetail(brandId) {
     axios.get(`/api/brands/${brandId}?eager=true`)
@@ -65,6 +67,7 @@ class Profile extends Component {
         this.setState({ brandId: parseInt(this.props.match.params.brandId, 10) });
         this.setState({ markers });
         this.setState({ brand: res.data });
+        this.props.dispatch(profileActions.newBrandProfile(res.data.upvotes));
       })
       .catch(err => console.log(err));
   }
@@ -124,6 +127,7 @@ class Profile extends Component {
             foodGenre={this.state.brand.food_genres.name}
             path={this.props.match.path}
             user={this.props.user}
+            upvotes={this.props.upvotes}
           />
           <TabView
             brand={this.state.brand}
@@ -148,10 +152,15 @@ class Profile extends Component {
 Profile.propTypes = {
   match: propSchema.match,
   user: propSchema.user,
+  upvotes: propSchema.upvotes,
+  dispatch: propSchema.dispatch,
 };
 
-const mapStateToProps = ({ user }) => ({
+const mapStateToProps = ({ user, profile }) => ({
   user,
+  profile,
 });
 
-export default connect(mapStateToProps, null)(Profile);
+const mapDispatchToProps = dispatch => ({ dispatch });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);

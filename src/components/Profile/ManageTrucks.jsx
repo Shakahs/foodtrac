@@ -107,7 +107,7 @@ class ManageTrucks extends Component {
             checked_in: true,
           };
           axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
-            .then(resp => console.log('IN LOCATION POST', resp))
+            .then(() => null)
             .catch(err => console.log(err));
         })
         .catch(err => console.log(err));

@@ -4,6 +4,7 @@ import { Col } from 'react-flexbox-grid';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 import propSchema from '../common/PropTypes';
+import Upvote from '../common/Upvote';
 import FollowButton from '../common/FollowButton';
 import './ProfileInfo.scss';
 
@@ -11,6 +12,7 @@ const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
     <Paper zDepth={1}>
       <br />
+      <Upvote brand_id={props.brandId} upvotes={props.upvotes} />
       <div className="brandName">{props.brandName}</div>
       <br />
       <div className="brandDescription">{props.description}</div>
@@ -61,6 +63,7 @@ ProfileInfo.propTypes = {
   brandId: propSchema.brandId,
   brandName: propSchema.brandName,
   description: propSchema.description,
+  upvotes: propSchema.upvotes,
   foodGenre: propSchema.foodGenre,
   path: propSchema.path,
   user: propSchema.user,
