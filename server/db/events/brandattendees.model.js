@@ -9,7 +9,7 @@ class BrandAttendees extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text', 'user_id', 'brand_id'],
+      required: ['event_id', 'brand_id'],
 
       properties: {
         id: { type: 'integer' },
@@ -25,7 +25,7 @@ class BrandAttendees extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/events.model`,
         join: {
-          from: 'UserAttendees.event_id',
+          from: 'BrandAttendees.event_id',
           to: 'Events.id',
         },
       },
@@ -33,7 +33,7 @@ class BrandAttendees extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: path.resolve(__dirname, '../', 'brands.model'),
         join: {
-          from: 'UserAttendees.user_id',
+          from: 'BrandAttendees.brand_id',
           to: 'Brands.id',
         },
       },

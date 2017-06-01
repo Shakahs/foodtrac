@@ -4,22 +4,23 @@ const Events = require('./events.model');
 const Users = require('../users.model');
 const Locations = require('../locations.model');
 const UserAttendees = require('./userattendees.model');
+const BrandAttendees = require('./brandattendees.model');
+const Brands = require('../brands.model');
 const { provideModelWithKnex } = require('../../../dbutil');
 
-let boundEvents = null;
-let boundUsers = null;
-let boundLocations = null;
-let boundUserAttendees = null;
+const boundEvents = provideModelWithKnex(Events);
+const boundUsers = provideModelWithKnex(Users);
+const boundLocations = provideModelWithKnex(Locations);
+const boundUserAttendees = provideModelWithKnex(UserAttendees);
+const boundBrandAttendees = provideModelWithKnex(BrandAttendees);
+const boundBrands = provideModelWithKnex(Brands);
 let newEvent = null;
 let newUserAttendee = null;
+let newBrandAttendee = null;
 
 const chance = new Chance();
 
 beforeAll(() => {
-  boundEvents = provideModelWithKnex(Events);
-  boundUsers = provideModelWithKnex(Users);
-  boundLocations = provideModelWithKnex(Locations);
-  boundUserAttendees = provideModelWithKnex(UserAttendees);
   const startTime = moment.utc();
   const endTime = moment.utc().add(1, 'hours');
   newEvent = {
@@ -112,10 +113,54 @@ describe('test the UserAttendee model', () => {
       }));
 });
 
+describe('test the BrandAttendee model', () => {
+  beforeAll(() => {
+    newBrandAttendee = {
+      id: chance.integer({ min: 10000, max: 100000 }),
+      event_id: newEvent.id,
+      brand_id: 1,
+    };
+    return boundBrandAttendees.query().insert(newBrandAttendee);
+  });
+
+  test('it should insert a BrandAttendee', () => boundBrandAttendees.query()
+    .findById(newBrandAttendee.id)
+    .then((result) => {
+      expect(result).toEqual(newBrandAttendee);
+    }));
+
+  test('it should return an Event and Brand based on relationship', () =>
+    boundBrandAttendees.query()
+      .findById(newBrandAttendee.id)
+      .eager('[brands, events]')
+      .then((result) => {
+        expect(result.brands.id).toEqual(newBrandAttendee.brand_id);
+        expect(result.events.id).toEqual(newUserAttendee.event_id);
+      }));
+
+  test('Brand should be able to find BrandAttendee by relationship', () =>
+    boundBrands.query()
+      .findById(newBrandAttendee.brand_id)
+      .eager('[events_attending]')
+      .then((result) => {
+        expect(result.events_attending).toContainEqual(newBrandAttendee);
+      }));
+
+  test('Event should be able to find BrandAttendee by relationship', () =>
+    boundEvents.query()
+      .findById(newBrandAttendee.event_id)
+      .eager('[brands_attending]')
+      .then((result) => {
+        expect(result.brands_attending).toContainEqual(newBrandAttendee);
+      }));
+});
+
 afterAll(() => {
   boundEvents.knex().destroy();
   boundUsers.knex().destroy();
   boundLocations.knex().destroy();
   boundUserAttendees.knex().destroy();
+  boundBrandAttendees.knex().destroy();
+  boundBrands.knex().destroy();
 });
 
