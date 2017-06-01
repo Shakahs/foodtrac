@@ -58,6 +58,14 @@ describe('Events model', () => {
       .then((result) => {
         expect(result.events).toContainEqual(newEvent);
       }));
+
+  test('location should be able to find event by relationship', () =>
+    boundLocations.query()
+      .findById(newEvent.location_id)
+      .eager('[events]')
+      .then((result) => {
+        expect(result.events).toContainEqual(newEvent);
+      }));
 });
 
 afterAll(() => {
