@@ -13,14 +13,7 @@ const jsf = require('json-schema-faker');
 const Promise = require('bluebird');
 const Chance = require('chance');
 const Faker = require('faker');
-const Users = require('./server/db/users.model');
-const Brands = require('./server/db/brands.model');
-const BrandComments = require('./server/db/brandcomments.model');
 const gulpRequireTasks = require('gulp-require-tasks');
-
-const { provideModelWithKnex } = require('./dbutil');
-const { insertSeed } = require('./dbutil');
-const { checkSeededTable } = require('./dbutil');
 
 const chance = new Chance();
 gulpRequireTasks();
@@ -42,40 +35,6 @@ gulp.task('db', (cb) => {
     'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
 });
 
-gulp.task('db:seed:brandcomments', () => {
-  const brandCommentsSchema = {
-    type: 'array',
-    uniqueItems: true,
-    items: BrandComments.jsonSchema,
-  };
-  const boundUsers = provideModelWithKnex(Users);
-  const boundBrands = provideModelWithKnex(Brands);
-  let usersList = [];
-  let brandsList = [];
-  return boundBrands.query()
-    .then((res) => {
-      brandsList = res;
-      return boundBrands.knex().destroy();
-    })
-    .then(() => boundUsers.query())
-    .then((res) => {
-      usersList = res;
-      return boundUsers.knex().destroy();
-    })
-    .then(() => {
-      brandCommentsSchema.minItems = brandsList.length;
-      brandCommentsSchema.maxItems = brandsList.length;
-      return jsf.resolve(brandCommentsSchema);
-    })
-    .then(seedData => seedData.map((seedDataItem) => {
-      const newSeedDataItem = Object.assign({}, seedDataItem);
-      newSeedDataItem.brand_id = brandsList.pop().id;
-      newSeedDataItem.user_id = usersList.pop().id;
-      return newSeedDataItem;
-    }))
-    .then(seedData => insertSeed('BrandComments', seedData))
-    .then(() => checkSeededTable(BrandComments));
-});
 
 /*
  /
