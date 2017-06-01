@@ -452,6 +452,23 @@
           }
         }
       },
+      "put" : {
+        "summary" : "Switch orders on or off",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Ordering"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
       "parameters" : [ {
         "name" : "truckId",
         "in" : "path",
@@ -877,6 +894,14 @@
     }
   },
   "definitions" : {
+    "Ordering" : {
+      "type" : "object",
+      "properties" : {
+        "order" : {
+          "type" : "boolean"
+        }
+      }
+    },
     "LocationTimeline" : {
       "type" : "object",
       "properties" : {

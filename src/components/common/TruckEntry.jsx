@@ -19,12 +19,13 @@ const TruckEntry = props => (
         <RaisedButton label="Go to Profile" />
       </Link>}
       <FollowButton brandId={props.truck.brand_id} user={props.user} path={props.path} />
-      {/* temporary order button, switch to only show when order is active*/}
-      <Link to={`/order/${props.truck.id}`}>
-        <RaisedButton
-          label="Order"
-        />
-      </Link>
+      {props.truck.order === 1 ?
+        <Link to={`/order/${props.truck.id}`}>
+          <RaisedButton
+            label="Order"
+          />
+        </Link> : null
+      }
     </Paper>
   </Col>
 );

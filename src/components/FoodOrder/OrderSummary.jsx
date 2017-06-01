@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Paper, RaisedButton, Dialog, FlatButton } from 'material-ui';
-import { Col } from 'react-flexbox-grid';
+import { Grid, Col } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
@@ -64,24 +64,28 @@ class OrderSummary extends Component {
         <Paper>
           <div>Order Summary</div>
           <br />
-          {this.props.currentOrder.map((currentItem, i) =>
-            (<CartEntry
-              key={i + currentItem.menu_item_id} // eslint-disable-line react/no-array-index-key
-              currentItem={currentItem}
-            />),
-          )}
+          <Grid fluid>
+            {this.props.currentOrder.map((currentItem, i) =>
+              (<CartEntry
+                key={i} // eslint-disable-line react/no-array-index-key
+                index={i}
+                currentItem={currentItem}
+                removeFromOrder={this.props.removeFromOrder}
+              />),
+            )}
+          </Grid>
           <br />
           <div>
             TOTAL: ${this.calculateTotal()}
           </div>
-          {this.props.currentOrder > 0 ?
+          {this.props.currentOrder.length > 0 ?
             <RaisedButton
               label="Submit Order"
               onClick={this.submitOrder}
             /> : null
           }
           <Dialog
-            title="Your Order is complete!"
+            title="Your order is complete!"
             actions={actions}
             modal={false}
             open={this.state.open}
@@ -97,6 +101,7 @@ OrderSummary.propTypes = {
   currentOrder: propSchema.currentOrder,
   truck: propSchema.truck,
   userId: propSchema.userId,
+  removeFromOrder: propSchema.removeComment,
 };
 
 const mapStateToProps = ({ user }) => {

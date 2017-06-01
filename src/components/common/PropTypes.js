@@ -160,4 +160,5 @@ export default {
   }).isRequired,
 
   addToOrder: PropTypes.func.isRequired,
+  removeFromOrder: PropTypes.func.isRequired,
 };

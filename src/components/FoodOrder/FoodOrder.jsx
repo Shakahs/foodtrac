@@ -18,6 +18,7 @@ class FoodOrder extends Component {
       currentOrder: [],
     };
     this.addToOrder = this.addToOrder.bind(this);
+    this.removeFromOrder = this.removeFromOrder.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +39,12 @@ class FoodOrder extends Component {
     this.setState({ currentOrder });
   }
 
+  removeFromOrder(i) {
+    const currentOrder = [...this.state.currentOrder];
+    currentOrder.splice(i, 1);
+    this.setState({ currentOrder });
+  }
+
   render() {
     return (
       <Grid fluid>
@@ -49,6 +56,7 @@ class FoodOrder extends Component {
           <OrderSummary
             truck={this.state.truck}
             currentOrder={this.state.currentOrder}
+            removeFromOrder={this.removeFromOrder}
           />
         </Row>
       </Grid>

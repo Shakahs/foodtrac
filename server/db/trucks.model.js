@@ -25,6 +25,10 @@ class Trucks extends Model {
             ],
           },
         },
+        order: {
+          type: 'boolean',
+          default: false,
+        },
         brand_id: { type: 'integer' },
       },
     };
