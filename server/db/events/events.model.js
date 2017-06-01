@@ -9,7 +9,7 @@ class Events extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['start', 'end', 'name', 'description', 'location_id', 'event_owner_id'],
+      required: ['start', 'end', 'name', 'description', 'location_id', 'owner_id'],
 
       properties: {
         id: { type: 'integer' },
@@ -18,7 +18,7 @@ class Events extends Model {
         name: { type: 'string' },
         description: { type: 'string' },
         location_id: { type: 'integer' },
-        event_owner_id: { type: 'integer' },
+        owner_id: { type: 'integer' },
       },
     };
   }

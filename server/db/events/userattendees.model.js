@@ -9,7 +9,7 @@ class UserAttendees extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text', 'user_id', 'brand_id'],
+      required: ['event_id', 'user_id'],
 
       properties: {
         id: { type: 'integer' },

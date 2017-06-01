@@ -19,7 +19,7 @@ describe('Events model', () => {
       name: 'a great event',
       description: 'come have fun',
       location_id: 1,
-      event_owner_id: 1,
+      owner_id: 1,
     };
 
     expect(Events.query().insert(newEvent))
