@@ -10,15 +10,10 @@ const webpack = require('webpack');
 const webpackConfig = require('./webpack.config');
 const WebpackDevServer = require('webpack-dev-server');
 const jsf = require('json-schema-faker');
-const axios = require('axios');
 const Promise = require('bluebird');
-const knexConfig = require('./knexfile');
-const knex = require('knex');
 const Chance = require('chance');
 const Faker = require('faker');
 const moment = require('moment');
-const ManagementClient = require('auth0').ManagementClient;
-const Bottleneck = require('bottleneck');
 const Users = require('./server/db/users.model');
 const FoodGenres = require('./server/db/foodgenres.model');
 const Brands = require('./server/db/brands.model');
@@ -27,8 +22,14 @@ const Locations = require('./server/db/locations.model');
 const LocationTimelines = require('./server/db/locationtimelines.model');
 const MenuItems = require('./server/db/menuitems.model');
 const BrandComments = require('./server/db/brandcomments.model');
+const gulpRequireTasks = require('gulp-require-tasks');
+
+const { provideModelWithKnex } = require('./dbutil');
+const { insertSeed } = require('./dbutil');
+const { checkSeededTable } = require('./dbutil');
 
 const chance = new Chance();
+gulpRequireTasks();
 
 /*
  /
@@ -46,129 +47,10 @@ const googleMapsClient = require('@google/maps').createClient({
 jsf.extend('chance', () => chance);
 jsf.extend('faker', () => Faker);
 
-const provideKnex = () => knex(knexConfig.development);
-
-const provideModelWithKnex = (model) => {
-  const thisKnex = provideKnex();
-  return model.bindKnex(thisKnex);
-};
-
-const insertSeed = (table, seedData) => {
-  const thisKnex = provideKnex();
-  return thisKnex.batchInsert(table, seedData)
-    .then(() => thisKnex.destroy());
-};
-
-function SeedingException(message) {
-  this.message = message;
-  this.name = 'SeedingException';
-}
-
-function checkSeededTable(model) {
-  const thisModel = provideModelWithKnex(model);
-  return thisModel.query()
-    .first()
-    .then((res) => {
-      if (res === undefined) {
-        throw new SeedingException(`${thisModel.tableName} is empty`);
-      }
-    })
-    .then(() => thisModel.knex().destroy());
-}
 
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
     'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
-});
-
-gulp.task('db:recreate', () => {
-  const thisKnex = provideKnex();
-  const sql = fs.readFileSync('./config/database/Foodtrac.sql').toString();
-  return thisKnex.raw('DROP DATABASE foodtrac')
-    .then(() => thisKnex.raw('CREATE DATABASE foodtrac'))
-    .then(() => thisKnex.raw(sql))
-    .then(() => thisKnex.destroy());
-});
-
-gulp.task('db:seed:users', () => {
-  let auth0SeedData = null;
-  let originalSeedData = null;
-  const auth0Results = {};
-  const userSeedSchema = {
-    type: 'array',
-    minItems: 50,
-    maxItems: 100,
-    uniqueItems: true,
-    items: Users.jsonSchema,
-  };
-  userSeedSchema.items.required.push('email');
-  return jsf.resolve(userSeedSchema)
-    .then((seedData) => {
-      originalSeedData = seedData;
-      return seedData.map((seedItem) => {
-        const newSeedItem = {};
-        newSeedItem.connection = process.env.AUTH0_DB_NAME;
-        newSeedItem.email = seedItem.email;
-        newSeedItem.password = 'test';
-        newSeedItem.user_metadata = {};
-        newSeedItem.user_metadata.signed_up_as_truck_owner = (seedItem.is_truck_owner) ? '1' : '0';
-        return newSeedItem;
-      });
-    })
-    .then((seedData) => {
-      auth0SeedData = seedData;
-      fs.writeFileSync('./temp.auth0users.txt', JSON.stringify(auth0SeedData, null, 2));
-
-      const url = `https://${process.env.AUTH0_DOMAIN}/oauth/token`;
-      const config = { headers: { 'content-type': 'application/json' } };
-      const body = { grant_type: 'client_credentials',
-        client_id: process.env.AUTH0_SEEDING_CLIENT_ID,
-        client_secret: process.env.AUTH0_SEEDING_CLIENT_SECRET,
-        audience: `https://${process.env.AUTH0_DOMAIN}/api/v2/` };
-      return axios.post(url, body, config);
-    })
-    .then((tokenRes) => {
-      const auth0Management = new ManagementClient({
-        token: tokenRes.data.access_token,
-        domain: process.env.AUTH0_DOMAIN,
-      });
-
-      const doCreate = function (obj) {
-        return auth0Management.createUser(obj)
-          .then((createResult) => {
-            auth0Results[createResult.email] = createResult;
-          });
-      };
-
-      const limiter = new Bottleneck(0, 25);
-
-      const createThrottled = function (obj) {
-        return limiter.schedule(doCreate, obj);
-      };
-
-      return Promise.map(auth0SeedData, createThrottled);
-    })
-    .then(() => originalSeedData.map((seedDataItem) => {
-      const newSeedDataItem = Object.assign({}, seedDataItem);
-      newSeedDataItem.auth0_id = auth0Results[newSeedDataItem.email].user_id;
-      delete newSeedDataItem.email;
-      return newSeedDataItem;
-    }))
-      .then(finalSeedData => insertSeed('Users', finalSeedData))
-      .then(() => checkSeededTable(Users));
-});
-
-gulp.task('db:seed:foodgenres', () => {
-  const foodGenreSchema = {
-    type: 'array',
-    minItems: 6,
-    maxItems: 6,
-    uniqueItems: true,
-    items: FoodGenres.jsonSchema,
-  };
-  return jsf.resolve(foodGenreSchema)
-    .then(seedData => insertSeed('FoodGenres', seedData))
-    .then(() => checkSeededTable(FoodGenres));
 });
 
 gulp.task('db:seed:brands', () => {
