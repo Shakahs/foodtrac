@@ -9,7 +9,7 @@ module.exports = {
     const latestValidTime = new Date(currentTime - 28800000);
     Trucks.query()
       .eagerAlgorithm(Trucks.WhereInEagerAlgorithm)
-      .eager('[brands.food_genres, locations]')
+      .eager('[brands.[food_genres, menu_items], locations]')
       .modifyEager('locations', (builder) => {
         builder
           .whereBetween('lng', [boundingBox[0], boundingBox[2]])
@@ -27,6 +27,11 @@ module.exports = {
           }
           truck.locations = null;
           return false;
+        });
+        _.each(trucks, (truck) => {
+          _.each(truck.brands.menu_items, (item) => {
+            item.price /= 100;
+          });
         });
         res.status(200).send(trucks);
       })

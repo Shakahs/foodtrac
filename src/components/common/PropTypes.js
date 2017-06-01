@@ -32,6 +32,7 @@ export default {
     id: PropTypes.number,
     name: PropTypes.string,
     brands: PropTypes.object,
+    menu_items: PropTypes.array,
     locations: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,

@@ -20,14 +20,14 @@ const TruckEntry = props => (
       </Link>}
       <FollowButton brandId={props.truck.brand_id} user={props.user} path={props.path} />
       {/* temporary order button, switch to only show when order is active*/}
-      <Link to={`/order/${1}`}>
+      <Link to={`/order/${props.truck.id}`}>
         <RaisedButton
           label="Order"
         />
       </Link>
     </Paper>
   </Col>
-    );
+);
 
 TruckEntry.propTypes = {
   truck: propSchema.truck,
