@@ -9,7 +9,7 @@ module.exports = {
     const latestValidTime = new Date(currentTime - 28800000);
     Trucks.query()
       .eagerAlgorithm(Trucks.WhereInEagerAlgorithm)
-      .eager('[brands.food_genres, locations]')
+      .eager('[brands.[food_genres, upvotes], locations]')
       .modifyEager('locations', (builder) => {
         builder
           .whereBetween('lng', [boundingBox[0], boundingBox[2]])
@@ -23,6 +23,7 @@ module.exports = {
         trucks = _.filter(trucks, (truck) => {
           if (truck.locations.length > 0) {
             truck.locations = truck.locations[0];
+            truck.brands.upvotes = _.filter(truck.brands.upvotes, upvote => upvote.timeline_id === truck.locations.timeline_id);
             return true;
           }
           truck.locations = null;
