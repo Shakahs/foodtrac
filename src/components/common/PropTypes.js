@@ -144,4 +144,18 @@ export default {
     user_id: PropTypes.number,
     users: PropTypes.object,
   }),
+
+  currentOrder: PropTypes.shape({
+    name: PropTypes.string,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
+  }).isRequired,
+
+  currentItem: PropTypes.shape({
+    name: PropTypes.string,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
+  }).isRequired,
+
+  addToOrder: PropTypes.func.isRequired,
 };

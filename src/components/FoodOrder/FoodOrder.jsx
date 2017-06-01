@@ -15,7 +15,9 @@ class FoodOrder extends Component {
         },
         locations: {},
       },
+      currentOrder: [],
     };
+    this.addToOrder = this.addToOrder.bind(this);
   }
 
   componentDidMount() {
@@ -30,12 +32,23 @@ class FoodOrder extends Component {
     });
   }
 
+  addToOrder(item) {
+    const currentOrder = [...this.state.currentOrder];
+    currentOrder.push(item);
+    this.setState({ currentOrder });
+  }
+
   render() {
     return (
       <Grid fluid>
         <Row>
-          <MenuItemsList truck={this.state.truck} />
-          <OrderSummary />
+          <MenuItemsList
+            truck={this.state.truck}
+            addToOrder={this.addToOrder}
+          />
+          <OrderSummary
+            currentOrder={this.state.currentOrder}
+          />
         </Row>
       </Grid>
     );
