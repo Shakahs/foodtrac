@@ -26,8 +26,8 @@ MapPage.propTypes = {
   match: propSchema.match,
 };
 
-const mapStateToProps = ({ mapReducer }) => {
-  const { markers, trucks } = mapReducer;
+const mapStateToProps = ({ map }) => {
+  const { markers, trucks } = map;
   return { markers, trucks };
 };
 
