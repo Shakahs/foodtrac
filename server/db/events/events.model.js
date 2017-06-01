@@ -41,6 +41,14 @@ class Events extends Model {
           to: 'Locations.id',
         },
       },
+      users_attending: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'userattendees.model'),
+        join: {
+          from: 'Events.id',
+          to: 'UserAttendees.event_id',
+        },
+      },
     };
   }
 }

@@ -94,6 +94,14 @@ class Users extends Model {
           to: 'Events.owner_id',
         },
       },
+      events_attending: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'userattendees.model'),
+        join: {
+          from: 'Users.id',
+          to: 'UserAttendees.user_id',
+        },
+      },
     };
   }
 }
