@@ -5,7 +5,6 @@ import { actions } from './index';
 function* mapRequest(lat, lng, dist) {
   try {
     const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}`);
-    console.log('locations', data);
     const markers = data.map(({ locations }) => ({
       position: {
         lat: locations.lat,
@@ -21,7 +20,20 @@ function* mapRequest(lat, lng, dist) {
   }
 }
 
-export default function* watchMapRequest() {
+function* mapTruckUpvoteReq(options, brandId, idx) {
+  // options = { user_id, timeline_id }
+  const { data } = yield call(axios.post, `/api/brands/${brandId}/upvote`, options);
+  yield put(actions.mapTruckUpvote(idx, data));
+}
+
+export function* watchMapTruckUpvoteReq() {
+  while (true) {
+    const { options, brandId, idx } = yield take(actions.MAP_TRUCK_UPVOTE_REQ);
+    yield call(mapTruckUpvoteReq, options, brandId, idx);
+  }
+}
+
+export function* watchMapRequest() {
   while (true) {
     const { lat, lng } = yield take(actions.MAP_REQUEST);
     yield call(mapRequest, lat, lng);

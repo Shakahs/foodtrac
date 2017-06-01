@@ -3,14 +3,16 @@ import { reducer as formReducer } from 'redux-form';
 import { reducer as mapReducer } from './MapSearch';
 import { reducer as userReducer } from './user';
 import { reducer as authReducer } from './auth';
+import { reducer as profileReducer } from './CurrentProfile';
 import { reducer as foodGenresReducer } from './FoodGenres';
 
 const combinedReducer = combineReducers({
-  mapReducer,
+  map: mapReducer,
   foodGenresReducer,
   auth: authReducer,
   user: userReducer,
   form: formReducer,
+  profile: profileReducer,
 });
 
 export default combinedReducer;
