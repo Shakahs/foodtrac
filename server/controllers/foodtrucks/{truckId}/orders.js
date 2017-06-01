@@ -1,5 +1,4 @@
 const Orders = require('../../../db/orders.model');
-// const OrderItems = require('../../../db/orderitems.model');
 
 module.exports = {
   get(req, res) {
@@ -11,8 +10,8 @@ module.exports = {
   },
   post(req, res) {
     Orders.query()
-      .insert(req.body)
-      .then(order => res.status(201).send(order))
-      .catch(e => res.status(400).send(e.message));
+    .insertGraph(req.body)
+    .then(order => res.status(201).send(order))
+    .catch(e => res.status(400).send(e.message));
   },
 };

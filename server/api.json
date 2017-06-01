@@ -443,7 +443,7 @@
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Order"
+            "$ref" : "#/definitions/Full Order"
           }
         } ],
         "responses" : {
@@ -767,6 +767,26 @@
         }
       }
     },
+    "/events/{eventId}" : {
+      "get" : {
+        "summary" : "Get an event",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Event"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
     "/events/{eventId}/user_attendance" : {
       "post" : {
         "summary" : "User registers to attend",
@@ -1043,7 +1063,7 @@
         "description" : {
           "type" : "string"
         },
-        "event_owner_id" : {
+        "owner_id" : {
           "type" : "number"
         }
       }
@@ -1085,6 +1105,43 @@
         },
         "ready" : {
           "type" : "boolean"
+        }
+      }
+    },
+    "Order Item" : {
+      "type" : "object",
+      "properties" : {
+        "order_id" : {
+          "type" : "integer"
+        },
+        "menu_item_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Full Order" : {
+      "type" : "object",
+      "properties" : {
+        "user_id" : {
+          "type" : "integer"
+        },
+        "truck_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "user_coupon_id" : {
+          "type" : "integer"
+        },
+        "ready" : {
+          "type" : "boolean"
+        },
+        "orderitems" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Order Item"
+          }
         }
       }
     },
