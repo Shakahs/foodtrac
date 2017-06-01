@@ -29,7 +29,7 @@ class Events extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: path.resolve(__dirname, '../', 'users.model'),
         join: {
-          from: 'Events.event_owner_id',
+          from: 'Events.owner_id',
           to: 'Users.id',
         },
       },
