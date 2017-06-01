@@ -145,11 +145,13 @@ export default {
     users: PropTypes.object,
   }),
 
-  currentOrder: PropTypes.shape({
-    name: PropTypes.string,
-    price: PropTypes.number,
-    quantity: PropTypes.number,
-  }).isRequired,
+  currentOrder: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      price: PropTypes.number,
+      quantity: PropTypes.number,
+    }),
+  ).isRequired,
 
   currentItem: PropTypes.shape({
     name: PropTypes.string,
