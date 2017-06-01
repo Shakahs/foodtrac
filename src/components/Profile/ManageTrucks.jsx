@@ -126,6 +126,12 @@ class ManageTrucks extends Component {
       .catch(err => console.log(err));
   }
 
+  takeOrders(truckId, takingOrder) {
+    axios.put(`/api/foodtrucks/${truckId}/orders`, { order: takingOrder })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+  }
+
   handleSave() {
     this.handleTruckEdit();
     this.handleAddTruck();
@@ -156,12 +162,29 @@ class ManageTrucks extends Component {
                   }}
                 />
                 {truck.locations ?
-                  <Link to={`/brand/${this.props.brandId}/trucks`}>
-                    <FlatButton
-                      label="Checkout"
-                      onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
-                    />
-                  </Link> : null
+                  <div>
+                    <Link to={`/brand/${this.props.brandId}/trucks`}>
+                      <FlatButton
+                        label="Checkout"
+                        onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
+                      />
+                    </Link>
+                    {truck.order === 0 ?
+                      <Link to={`/brand/${this.props.brandId}/trucks`}>
+                        <FlatButton
+                          label="Take Online Orders"
+                          onClick={() => this.takeOrders(truck.id, true)}
+                        />
+                      </Link>
+                      :
+                      <Link to={`/brand/${this.props.brandId}/trucks`}>
+                        <FlatButton
+                          label="Stop taking Online Orders"
+                          onClick={() => this.takeOrders(truck.id, false)}
+                        />
+                      </Link>
+                    }
+                  </div> : null
                 }
               </Tab>
             );
