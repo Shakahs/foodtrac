@@ -15,7 +15,6 @@ const Chance = require('chance');
 const Faker = require('faker');
 const moment = require('moment');
 const Users = require('./server/db/users.model');
-const FoodGenres = require('./server/db/foodgenres.model');
 const Brands = require('./server/db/brands.model');
 const Trucks = require('./server/db/trucks.model');
 const Locations = require('./server/db/locations.model');
@@ -51,47 +50,6 @@ jsf.extend('faker', () => Faker);
 gulp.task('db', (cb) => {
   runSequence('db:recreate', ['db:seed:users', 'db:seed:foodgenres', 'db:seed:locations'], 'db:seed:brands',
     'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
-});
-
-gulp.task('db:seed:brands', () => {
-  const brandSchema = {
-    type: 'array',
-    uniqueItems: true,
-    items: Brands.jsonSchema,
-  };
-  const boundUsers = provideModelWithKnex(Users);
-  const boundFoodGenres = provideModelWithKnex(FoodGenres);
-  let userList = [];
-  let foodGenres = [];
-  return boundUsers.query()
-    .where('is_truck_owner', true)
-    .then((res) => {
-      userList = res;
-      return boundUsers.knex().destroy();
-    })
-    .then(() => boundFoodGenres.query())
-    .then((res) => {
-      foodGenres = res;
-      return boundFoodGenres.knex().destroy();
-    })
-    .then(() => {
-      brandSchema.minItems = userList.length;
-      brandSchema.maxItems = userList.length;
-      return jsf.resolve(brandSchema);
-    })
-    .then((seedData) => {
-      const newSeedData = seedData.map((seedDataItem) => {
-        const newSeedDataItem = Object.assign({}, seedDataItem);
-        newSeedDataItem.owner_id = userList.pop().id;
-        newSeedDataItem.food_genre_id = chance.pickone(foodGenres).id;
-        delete newSeedDataItem.default_coupon_id;
-        newSeedDataItem.name += ' Truck';
-        return newSeedDataItem;
-      });
-      return newSeedData;
-    })
-    .then(seedData => insertSeed('Brands', seedData))
-    .then(() => checkSeededTable(Brands));
 });
 
 gulp.task('db:seed:trucks', () => {
