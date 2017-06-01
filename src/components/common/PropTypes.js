@@ -124,6 +124,7 @@ export default {
   userId: PropTypes.number,
   removeComment: PropTypes.func,
   editComment: PropTypes.func,
+  timeline_id: PropTypes.number,
 
   comments: PropTypes.arrayOf(PropTypes.shape({
     brand_id: PropTypes.number,
@@ -143,4 +144,15 @@ export default {
     user_id: PropTypes.number,
     users: PropTypes.object,
   }),
+
+  upvotes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    brand_id: PropTypes.number,
+    user_id: PropTypes.number,
+  })).isRequired,
+  mapUpvotes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    brand_id: PropTypes.number,
+    user_id: PropTypes.number,
+  })).isRequired,
 };
