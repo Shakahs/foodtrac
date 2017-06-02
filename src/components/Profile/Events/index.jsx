@@ -3,7 +3,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CreateEventForm from './CreateEventForm';
 import combineDates from './util';
-// import post from '../../../api/event.api';
+import post from '../../../api/event.api';
+import propSchema from '../../common/PropTypes';
 
 // Todo: validate end time is after start time, and perhaps at least a minimum amount later
 
@@ -48,8 +49,15 @@ class EventsMain extends React.Component {
       end: newEventEnd,
       name: data.name,
       description: data.description,
+      owner_id: this.props.user.id,
     };
-    console.log(newEvent);
+    const newLocation = {
+      name: 'a new address',
+      address: this.state.newEventAddress.gmaps.formatted_address,
+      lat: this.state.newEventAddress.location.lat,
+      lng: this.state.newEventAddress.location.lng,
+    };
+    post(newEvent, newLocation);
   }
 
   render() {
@@ -65,6 +73,10 @@ class EventsMain extends React.Component {
     );
   }
 }
+
+EventsMain.propTypes = {
+  user: propSchema.user,
+};
 
 const mapStateToProps = state => ({
   user: state.user,
