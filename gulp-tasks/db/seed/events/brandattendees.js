@@ -1,8 +1,9 @@
 const jsf = require('json-schema-faker');
 const Faker = require('faker');
 const Chance = require('chance');
-const Users = require('../../../../server/db/users.model');
+const Brands = require('../../../../server/db/brands.model');
 const Events = require('../../../../server/db/events/events.model');
+const BrandAttendees = require('../../../../server/db/events/brandattendees.model');
 const { insertSeed, checkSeededTable, provideModelWithKnex } = require('../../../../dbutil');
 
 const chance = new Chance();
@@ -11,14 +12,14 @@ jsf.extend('chance', () => chance);
 
 module.exports = {
   fn() {
-    let userList = [];
+    let brandList = [];
     let eventList = [];
-    const boundUsers = provideModelWithKnex(Users);
+    const boundBrands = provideModelWithKnex(Brands);
     const boundEvents = provideModelWithKnex(Events);
-    return boundUsers.query()
+    return boundBrands.query()
       .then((res) => {
-        userList = res;
-        return boundUsers.knex().destroy();
+        brandList = res;
+        return boundBrands.knex().destroy();
       })
       .then(() => boundEvents.query())
       .then((res) => {
@@ -26,19 +27,19 @@ module.exports = {
         return boundEvents.knex().destroy();
       })
       .then(() => {
-        const seedAttendees = [];
-        userList.forEach((user) => {
+        const seedBrands = [];
+        brandList.forEach((brand) => {
           if (chance.bool()) {
             const attendee = {
               event_id: chance.pickone(eventList).id,
-              user_id: user.id,
+              brand_id: brand.id,
             };
-            seedAttendees.push(attendee);
+            seedBrands.push(attendee);
           }
         });
-        return seedAttendees;
+        return seedBrands;
       })
-      .then(seedData => insertSeed('UserAttendees', seedData))
-      .then(() => checkSeededTable(Users));
+      .then(seedData => insertSeed('BrandAttendees', seedData))
+      .then(() => checkSeededTable(BrandAttendees));
   },
 };
