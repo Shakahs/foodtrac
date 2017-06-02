@@ -12,7 +12,7 @@ module.exports = {
   get(req, res) {
     // users need a username to display publically
     const eagerOption = req.query.eager
-      ? '[trucks.locations, food_genres, menu_items, brand_comments(newestFirst).users, brand_reviews(newestFirst).users, upvotes, events_attending]'
+      ? '[trucks.locations, food_genres, menu_items, brand_comments(newestFirst).users, brand_reviews(newestFirst).users, upvotes, events_attending.events]'
       : '';
     const currentTime = new Date();
     const latestValidTime = new Date(currentTime - 28800000);
