@@ -21,7 +21,7 @@ class OrderSummary extends Component {
   calculateTotal() {
     let total = 0;
     this.props.currentOrder.forEach((item) => {
-      total += item.price * item.quantity;
+      total += (item.price / 100) * item.quantity;
     });
     return total;
   }
@@ -76,7 +76,7 @@ class OrderSummary extends Component {
           </Grid>
           <br />
           <div>
-            TOTAL: ${this.calculateTotal()}
+            TOTAL: ${this.calculateTotal()} + tax
           </div>
           {this.props.currentOrder.length > 0 ?
             <RaisedButton

@@ -9,7 +9,7 @@ const CartEntry = props => (
       {props.currentItem.quantity} X {props.currentItem.name}
     </Col>
     <Col xs={4} sm={4} md={4} lg={4}>
-      ${props.currentItem.price * props.currentItem.quantity}
+      ${(props.currentItem.price / 100) * props.currentItem.quantity}
     </Col>
     <Col xs={2} sm={2} md={2} lg={2}>
       <FlatButton

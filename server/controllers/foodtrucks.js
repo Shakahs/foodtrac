@@ -28,11 +28,6 @@ module.exports = {
           truck.locations = null;
           return false;
         });
-        _.each(trucks, (truck) => {
-          _.each(truck.brands.menu_items, (item) => {
-            item.price /= 100;
-          });
-        });
         res.status(200).send(trucks);
       })
       .catch(e => res.status(400).send(e.message));

@@ -29,7 +29,7 @@ class MenuItemEntry extends Component {
           <div>{this.props.menuItem.description}</div>
         </Col>
         <Col xs={1} sm={1} md={1} lg={1}>
-          <div>${this.props.menuItem.price}</div>
+          <div>${this.props.menuItem.price / 100}</div>
         </Col>
         <Col xs={1} sm={1} md={1} lg={1}>
           <div>{this.props.menuItem.calories}</div>
