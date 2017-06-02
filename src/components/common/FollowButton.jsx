@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { RaisedButton } from 'material-ui';
+import { FlatButton } from 'material-ui';
 import axios from 'axios';
 import _ from 'lodash';
 import { connect } from 'react-redux';
@@ -59,7 +59,7 @@ class FollowButton extends Component {
       case '/map':
       case '/brand/:brandId':
         return (
-          <RaisedButton
+          <FlatButton
             label={this.state.isFollowed ? this.state.buttonText : 'Follow'}
             onMouseEnter={() => this.setState({ buttonText: 'Unfollow' })}
             onMouseLeave={() => this.setState({ buttonText: 'Following' })}

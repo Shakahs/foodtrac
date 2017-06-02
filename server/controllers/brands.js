@@ -1,6 +1,11 @@
 const Brands = require('../db/brands.model');
 
 module.exports = {
+  get(req, res) {
+    Brands.query()
+      .eager('upvotes')
+      .then(result => res.send(result));
+  },
   post(req, res) {
     Brands.query()
       .insertGraph(req.body)

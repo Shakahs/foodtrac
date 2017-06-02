@@ -125,6 +125,7 @@ export default {
   userId: PropTypes.number,
   removeComment: PropTypes.func,
   editComment: PropTypes.func,
+  timeline_id: PropTypes.number,
 
   comments: PropTypes.arrayOf(PropTypes.shape({
     brand_id: PropTypes.number,
@@ -170,4 +171,15 @@ export default {
   getOrders: PropTypes.func.isRequired,
 
   truckId: PropTypes.string.isRequired,
+
+  upvotes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    brand_id: PropTypes.number,
+    user_id: PropTypes.number,
+  })).isRequired,
+  mapUpvotes: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    brand_id: PropTypes.number,
+    user_id: PropTypes.number,
+  })).isRequired,
 };
