@@ -145,20 +145,11 @@
       "get" : {
         "summary" : "Get brands sorted by upvotes in selected timeframe",
         "parameters" : [ {
-          "name" : "day",
+          "name" : "time",
           "in" : "query",
           "required" : false,
-          "type" : "boolean"
-        }, {
-          "name" : "week",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
-        }, {
-          "name" : "month",
-          "in" : "query",
-          "required" : false,
-          "type" : "boolean"
+          "type" : "string",
+          "enum" : [ "month", "week", "day" ]
         } ],
         "responses" : {
           "200" : {
@@ -1160,6 +1151,9 @@
         },
         "ready" : {
           "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
         }
       }
     },
@@ -1199,6 +1193,9 @@
         },
         "ready" : {
           "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
         },
         "orderitems" : {
           "type" : "array",
