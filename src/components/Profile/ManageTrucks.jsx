@@ -129,7 +129,7 @@ class ManageTrucks extends Component {
 
   takeOrders(truckId, takingOrder) {
     axios.put(`/api/foodtrucks/${truckId}/orders`, { order: takingOrder })
-      .then(res => console.log(res))
+      .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
   }
 

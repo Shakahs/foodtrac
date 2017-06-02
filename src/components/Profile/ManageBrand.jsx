@@ -45,17 +45,35 @@ class ManageBrand extends React.Component {
   }
 
   handleReduxUpdate(data) {
-    const newBrandInfo = Object.assign({}, this.props.user.brands[0]);
+    let index;
+    this.props.user.brands.forEach((brand, i) => {
+      if (brand.id === this.props.brandId) {
+        index = i;
+      }
+    });
+    const brandsCopy = [...this.props.user.brands];
+    const newBrands = brandsCopy.map(brand => Object.assign({}, brand));
     if (data.name !== '' && data.name) {
-      newBrandInfo.name = data.name;
+      newBrands[index].name = data.name;
     }
     if (data.description !== '' && data.description) {
-      newBrandInfo.description = data.description;
+      newBrands[index].description = data.description;
     }
     if (data.food_genre_id > 0 && data.food_genre_id) {
-      newBrandInfo.food_genre_id = data.food_genre_id;
+      newBrands[index].food_genre_id = data.food_genre_id;
     }
-    this.props.userActions.brandInfoUpdate(newBrandInfo);
+    console.log('IN MANAGE BRAND', newBrands);
+    // const newBrandInfo = Object.assign({}, this.props.user.brands[index]);
+    // if (data.name !== '' && data.name) {
+    //   newBrandInfo.name = data.name;
+    // }
+    // if (data.description !== '' && data.description) {
+    //   newBrandInfo.description = data.description;
+    // }
+    // if (data.food_genre_id > 0 && data.food_genre_id) {
+    //   newBrandInfo.food_genre_id = data.food_genre_id;
+    // }
+    this.props.userActions.brandInfoUpdate(newBrands);
   }
 
   handleSave(data) {

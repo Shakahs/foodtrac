@@ -36,7 +36,7 @@ export default function reducer(state = Immutable(initialState), action) {
     case ADD_BRAND:
       return Immutable.merge(state, { brands: [...state.brands, action.brand] });
     case BRAND_INFO_UPDATE:
-      return Immutable.merge(state, { brands: [...state.brands[0], action.brand] });
+      return Immutable.merge(state, { brands: action.brands });
     case USER_NEW_FOLLOW:
       return Immutable.merge(state, { user_follows: [...state.user_follows, action.newFollow] });
     case USER_RM_FOLLOW:
@@ -69,9 +69,9 @@ export const userRemoveFollow = brandId => ({
   brandId,
 });
 
-export const brandInfoUpdate = brand => ({
+export const brandInfoUpdate = brands => ({
   type: BRAND_INFO_UPDATE,
-  brand,
+  brands,
 });
 
 export const addBrandRequest = body => ({
