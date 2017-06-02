@@ -7,6 +7,7 @@ import IconButton from 'material-ui/IconButton';
 import { actions as mapActions } from '../../redux/MapSearch';
 import { actions as profileActions } from '../../redux/CurrentProfile';
 import propSchema from './PropTypes';
+import './Upvote.scss';
 
 const Upvote = (props) => {
   const dispatchOptions = { user_id: props.user.id };
@@ -34,14 +35,14 @@ const Upvote = (props) => {
           // within the last 24 hours
           now - new Date(upvote.date) < 86400000 &&
           // and the upvote did not come from a map entry
-          !Object.prototype.hasOwnProperty.call(upvote, 'timeline_id'));
+          upvote.timeline_id !== null);
       break;
     default:
       return null;
   }
 
   return (
-    <div>
+    <div className="upvote">
       <div>
         <IconButton
           onClick={callback}

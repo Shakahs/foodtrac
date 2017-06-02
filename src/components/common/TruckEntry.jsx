@@ -14,20 +14,18 @@ const TruckEntry = (props) => {
   return (
     <Col xs={12} sm={12} md={6} lg={6}>
       <Paper className="truckEntry">
-        <div className="map-upvote">
-          <Upvote
-            timeline_id={timelineId}
-            brand_id={props.truck.brand_id}
-            mapUpvotes={props.truck.brands.upvotes}
-            idx={props.idx}
-          />
-        </div>
+        <Upvote
+          timeline_id={timelineId}
+          brand_id={props.truck.brand_id}
+          mapUpvotes={props.truck.brands.upvotes}
+          idx={props.idx}
+        />
         <div className="truck-entry-body">
           <p>{props.truck.brands.name}: {props.truck.name !== 'null' ? <em>{props.truck.name}</em> : null}</p>
           <p>Type of food: {props.truck.brands.food_genres.name}</p>
           <p>Current location: {props.truck.locations ? props.truck.locations.address : 'Not currently active'}</p>
         </div>
-        <div>
+        <div className="truck-entry-btns">
           {props.path === '/brand/:brandId/trucks'
             ? null
             : <Link to={`/brand/${props.truck.brand_id}/trucks`}>

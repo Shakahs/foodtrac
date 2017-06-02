@@ -11,14 +11,12 @@ import './ProfileInfo.scss';
 const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
     <Paper zDepth={1}>
-      <br />
       <Upvote brand_id={props.brandId} upvotes={props.upvotes} />
-      <div className="brandName">{props.brandName}</div>
-      <br />
-      <div className="brandDescription">{props.description}</div>
-      <br />
-      <div className="brandGenre">{props.foodGenre}</div>
-      <br />
+      <div className="profile-info">
+        <p className="brandName">{props.brandName}</p>
+        <p className="brandDescription">{props.description}</p>
+        <p className="brandGenre">{props.foodGenre}</p>
+      </div>
       <FollowButton
         brandId={props.brandId}
         user={props.user}
