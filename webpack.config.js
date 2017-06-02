@@ -1,4 +1,5 @@
 require('dotenv').config();
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 
 if (process.env.NODE_ENV === undefined) {
@@ -14,7 +15,7 @@ const webpackConfig = {
     ],
   },
   output: {
-    path: path.resolve(__dirname, './public'),
+    path: path.resolve(__dirname, './static'),
     filename: 'bundle.js',
     publicPath: '/',
   },
@@ -51,6 +52,7 @@ const webpackConfig = {
      AUTH0_DB_NAME: '${process.env.AUTH0_DB_NAME}',
    }`,
   },
+  plugins: [new BundleAnalyzerPlugin()],
 };
 
 webpackConfig.module.loaders.push({
