@@ -56,17 +56,19 @@ const ProfileInfo = props => (
     }
     <br />
     <br />
-    {props.trucks.map((truck, i) => {
-      const name = truck.name === 'null' ? `Food Truck ${i + 1}` : truck.name;
-      return (truck.order === 1 ?
-        <div>
-          <Link to={`/brand/${props.brandId}/orders/${truck.id}`}>
-            <RaisedButton label={`Incoming Orders for ${name}`} className="profileButton" />
-          </Link>
-          <br />
-          <br />
-        </div> : null);
-    })}
+    {props.user.brands.map(brand => brand.id).includes(Number(props.brandId)) ?
+      props.trucks.map((truck, i) => {
+        const name = truck.name === 'null' ? `Food Truck ${i + 1}` : truck.name;
+        return (truck.order === 1 ?
+          <div>
+            <Link to={`/brand/${props.brandId}/orders/${truck.id}`}>
+              <RaisedButton label={`Incoming Orders for ${name}`} className="profileButton" />
+            </Link>
+            <br />
+            <br />
+          </div> : null);
+      }) : null
+    }
   </Col>
 );
 
