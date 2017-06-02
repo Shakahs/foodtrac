@@ -69,8 +69,8 @@ FoodOrder.propTypes = {
   trucks: propSchema.trucks,
 };
 
-const mapStateToProps = ({ mapReducer }) => {
-  const trucks = mapReducer.trucks;
+const mapStateToProps = ({ map }) => {
+  const trucks = map.trucks;
   return { trucks };
 };
 

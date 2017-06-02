@@ -7,9 +7,10 @@ import TruckEntry from './TruckEntry';
 const TrucksList = props => (
   <Grid fluid>
     <Row>
-      {props.trucks.map(truck =>
+      {props.trucks.map((truck, idx) =>
         (<TruckEntry
           key={truck.id}
+          idx={idx}
           truck={truck}
           isLoggedIn={props.isLoggedIn}
           user={props.user}
@@ -29,4 +30,4 @@ const mapStateToProps = ({ auth, user }) => {
   return { isLoggedIn, user };
 };
 
-export default connect(mapStateToProps, null)(TrucksList);
+export default connect(mapStateToProps)(TrucksList);

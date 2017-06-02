@@ -6,7 +6,7 @@ import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import SettingsSideBar from './SettingsSideBar';
 import AddBrandsView from '../common/AddBrandsView';
-
+// TODO: only display addbrandsview if user is truck owner, else have option for them to become a truck owner
 const Settings = props => (
   <div>
     <p>Settings</p>

@@ -5,14 +5,17 @@ import _ from 'lodash';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import propSchema from './PropTypes';
 
+const topMarkerColors = ['FFD700', 'C0C0C0', 'CD7F32'];
+
 const WrappedMap = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
     defaultZoom={11}
     center={props.center}
   >
-    {props.markers.map(marker => (
+    {props.markers.map((marker, idx) => (
       <Marker
+        icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
         {...marker}
       />
     ))}
@@ -87,7 +90,7 @@ class MapView extends Component {
   renderMap() {
     if (this.props.markers.length > 0) {
       return (
-        <div style={{ height: '550px', width: '95%', margin: 'auto' }}>
+        <div style={{ height: '550px', width: '90%', margin: 'auto' }}>
           <WrappedMap
             containerElement={
               <div style={{ height: '100%', width: '100%' }} />

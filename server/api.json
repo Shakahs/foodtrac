@@ -148,7 +148,8 @@
           "name" : "time",
           "in" : "query",
           "required" : false,
-          "type" : "string"
+          "type" : "string",
+          "enum" : [ "month", "week", "day" ]
         } ],
         "responses" : {
           "200" : {
