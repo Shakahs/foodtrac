@@ -5,6 +5,14 @@ import { actions as authActions } from '../auth';
 
 const moment = require('moment');
 
+export function* watchBecomeOwnerReq() {
+  while (true) {
+    const { id } = yield take(actions.USER_BECOME_OWNER_REQ);
+    const { data } = yield call(axios.put, `/api/users/${id}`, { is_truck_owner: true });
+    yield put(actions.userReceived(data));
+  }
+}
+
 export function* watchLoginSuccess() {
   while (true) {
     const { profileData } = yield take(authActions.LOGIN_SUCCESS);
@@ -24,7 +32,6 @@ export function* watchAddBrandRequest() {
   while (true) {
     const { body } = yield take(actions.ADD_BRAND_REQUEST);
     const { data } = yield call(axios.post, '/api/brands', body);
-    console.log('in saga', data);
     yield put(actions.addBrand(data));
   }
 }
