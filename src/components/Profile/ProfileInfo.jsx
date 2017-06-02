@@ -54,6 +54,19 @@ const ProfileInfo = props => (
         <RaisedButton label="Manage" className="profileButton" />
       </Link> : null
     }
+    <br />
+    <br />
+    {props.trucks.map((truck, i) => {
+      const name = truck.name === 'null' ? `Food Truck ${i + 1}` : truck.name;
+      return (truck.order === 1 ?
+        <div>
+          <Link to={`/brand/${props.brandId}/orders/${truck.id}`}>
+            <RaisedButton label={`Incoming Orders for ${name}`} className="profileButton" />
+          </Link>
+          <br />
+          <br />
+        </div> : null);
+    })}
   </Col>
 );
 
@@ -64,6 +77,13 @@ ProfileInfo.propTypes = {
   foodGenre: propSchema.foodGenre,
   path: propSchema.path,
   user: propSchema.user,
+  trucks: propSchema.trucks,
 };
 
 export default ProfileInfo;
+
+    // {props.trucks.map(truck => truck.order).includes(1) ?
+    //   <Link to={`/brand/${props.brandId}/orders`}>
+    //     <RaisedButton label="Incoming Orders" className="profileButton" />
+    //   </Link> : null
+    // }

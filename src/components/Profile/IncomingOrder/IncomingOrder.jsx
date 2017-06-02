@@ -9,7 +9,10 @@ class IncomingOrder extends Component {
 
   render() {
     return (
-      <OrderList />
+      <div>
+        <div>Incoming Orders</div>
+        <OrderList />
+      </div>
     );
   }
 }

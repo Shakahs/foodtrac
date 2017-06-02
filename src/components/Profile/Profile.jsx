@@ -124,6 +124,7 @@ class Profile extends Component {
             foodGenre={this.state.brand.food_genres.name}
             path={this.props.match.path}
             user={this.props.user}
+            trucks={this.state.brand.trucks}
           />
           <TabView
             brand={this.state.brand}

@@ -124,6 +124,7 @@ class ManageTrucks extends Component {
     axios.put(`/api/foodtrucks/${truckId}/location`, endTime)
       .then(res => console.log(res))
       .catch(err => console.log(err));
+    this.takeOrders(truckId, false);
   }
 
   takeOrders(truckId, takingOrder) {
