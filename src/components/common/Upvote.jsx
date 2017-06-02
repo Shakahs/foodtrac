@@ -33,9 +33,7 @@ const Upvote = (props) => {
           // if user has upvoted already
           upvote.user_id === props.user.id &&
           // within the last 24 hours
-          now - new Date(upvote.date) < 86400000 &&
-          // and the upvote came from a map entry
-          upvote.timeline_id !== null);
+          now - new Date(upvote.date) < 86400000);
       break;
     default:
       return null;
