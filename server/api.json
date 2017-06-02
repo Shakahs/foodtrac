@@ -142,6 +142,20 @@
       } ]
     },
     "/brands" : {
+      "get" : {
+        "summary" : "Get brands sorted by upvotes in selected timeframe",
+        "parameters" : [ {
+          "name" : "time",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
       "post" : {
         "summary" : "Create a brand",
         "consumes" : [ ],
@@ -734,7 +748,7 @@
     },
     "/events" : {
       "get" : {
-        "summary" : "Get all (nearby) events",
+        "summary" : "Get all events",
         "parameters" : [ {
           "name" : "lat",
           "in" : "query",
@@ -877,17 +891,6 @@
         "required" : true,
         "type" : "string"
       } ]
-    },
-    "/upvotes" : {
-      "get" : {
-        "summary" : "Get all upvotes",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      }
     },
     "/orders/{orderId}" : {
       "put" : {
@@ -1104,6 +1107,9 @@
         },
         "owner_id" : {
           "type" : "number"
+        },
+        "locations" : {
+          "$ref" : "#/definitions/Location"
         }
       }
     },
@@ -1144,6 +1150,9 @@
         },
         "ready" : {
           "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
         }
       }
     },
@@ -1183,6 +1192,9 @@
         },
         "ready" : {
           "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
         },
         "orderitems" : {
           "type" : "array",

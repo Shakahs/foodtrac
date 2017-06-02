@@ -10,13 +10,14 @@ class Orders extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['user_id', 'truck_id', 'date', 'ready'],
+      required: ['user_id', 'truck_id', 'date', 'ready', 'name'],
 
       properties: {
         user_id: { type: 'integer' },
         truck_id: { type: 'integer' },
         date: { type: 'string' },
         ready: { type: 'boolean', default: false },
+        name: { type: 'string' },
       },
     };
   }

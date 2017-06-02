@@ -28,7 +28,7 @@ class OrderEntry extends Component {
   render() {
     return (
       <Paper>
-        Order placed at: {this.props.order.date}
+        Order placed by: {this.props.order.name}
         {this.props.order.orderitems.map(({ menu_item }) =>
           <div>{menu_item.name}</div>,
         )}
