@@ -5,7 +5,7 @@ module.exports = {
   get(req, res) {
     Orders.query()
       .where('truck_id', '=', req.params.truckId)
-      .eager('orderitems')
+      .eager('orderitems.menu_item')
       .then(order => res.status(200).json(order))
       .catch(e => console.log('Error getting orders:', e));
   },

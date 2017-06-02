@@ -12,32 +12,6 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/orders/{truckId}" : {
-      "get" : {
-        "summary" : "Get all orders for a specific truck",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Post new order for a specific truck",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "truckId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
     "/users" : {
       "post" : {
         "summary" : "Add new user",
@@ -476,6 +450,29 @@
         "type" : "string"
       } ]
     },
+    "/foodtrucks/{truckId}/events" : {
+      "get" : {
+        "summary" : "Get events this foodtruck is attending",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
     "/locations" : {
       "get" : {
         "summary" : "Get locations near a coordinate",
@@ -891,17 +888,34 @@
           }
         }
       }
+    },
+    "/orders/{orderId}" : {
+      "put" : {
+        "summary" : "Mark the order as ready",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Order"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "orderId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
     }
   },
   "definitions" : {
-    "Ordering" : {
-      "type" : "object",
-      "properties" : {
-        "order" : {
-          "type" : "boolean"
-        }
-      }
-    },
     "LocationTimeline" : {
       "type" : "object",
       "properties" : {
@@ -1129,6 +1143,14 @@
           "type" : "integer"
         },
         "ready" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "Ordering" : {
+      "type" : "object",
+      "properties" : {
+        "order" : {
           "type" : "boolean"
         }
       }

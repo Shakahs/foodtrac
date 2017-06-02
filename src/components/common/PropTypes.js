@@ -161,4 +161,13 @@ export default {
 
   addToOrder: PropTypes.func.isRequired,
   removeFromOrder: PropTypes.func.isRequired,
+
+  order: PropTypes.shape({
+    date: PropTypes.string,
+    orderitems: PropTypes.array,
+  }).isRequired,
+
+  getOrders: PropTypes.func.isRequired,
+
+  truckId: PropTypes.string.isRequired,
 };
