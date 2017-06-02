@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import EventInfo from './EventInfo';
 import AttendeesList from './AttendeesList';
-import CommentsList from './CommentsList';
+// import CommentsList from './CommentsList';
 
 class Event extends Component {
   constructor() {
@@ -14,7 +14,7 @@ class Event extends Component {
       <div>
         <EventInfo />
         <AttendeesList />
-        <CommentsList />
+        {/* <CommentsList />*/}
       </div>
     );
   }

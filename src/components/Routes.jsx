@@ -7,6 +7,7 @@ import Login from './Login/Login';
 import Settings from './Settings/Settings';
 import FoodOrder from './FoodOrder/FoodOrder';
 import SignUp from './SignUp';
+import Events from './Events';
 
 class Routes extends Component {
   constructor() {
@@ -24,6 +25,7 @@ class Routes extends Component {
         <Route path="/settings" component={Settings} />
         <Route path="/signup" component={SignUp} />
         <Route path="/order/:truckId" component={FoodOrder} />
+        <Route path="/events" component={Events} />
       </Switch>
     );
   }

@@ -1,7 +1,7 @@
 import React from 'react';
 
 const EventInfo = () => (
-  <div />
+  <div>a cool event</div>
 );
 
 export default EventInfo;
