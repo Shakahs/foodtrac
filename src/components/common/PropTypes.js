@@ -182,4 +182,9 @@ export default {
     brand_id: PropTypes.number,
     user_id: PropTypes.number,
   })).isRequired,
+  event: PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  }),
+
 };

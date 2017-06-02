@@ -2,7 +2,7 @@ import React from 'react';
 
 const EventInfo = () => (
   <div>
-    {/* <CommentsList />*/}
+    event detail
   </div>
 );
 

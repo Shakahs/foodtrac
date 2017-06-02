@@ -50,6 +50,7 @@
     "react-google-maps": "^7.0.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-redux": "^5.0.5",
+    "react-refetch": "^1.0.0",
     "react-router-dom": "^4.1.1",
     "react-star-rating-component": "^1.2.4",
     "react-tap-event-plugin": "^2.0.1",

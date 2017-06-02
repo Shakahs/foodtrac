@@ -4,6 +4,7 @@ import { Col } from 'react-flexbox-grid';
 import Paper from 'material-ui/Paper';
 import CreateEvent from './CreateEvent';
 import EventsList from './EventsList';
+import EventDetail from './EventDetail';
 
 class Event extends Component {
   constructor() {
@@ -16,6 +17,7 @@ class Event extends Component {
       <Col xs={12} sm={12} md={9} lg={9}>
         <Paper zDepth={1} className="brandTabView">
           <Switch>
+            <Route path="/events/:eventId" component={EventDetail} />
             <Route path="/events/create" component={CreateEvent} />
             <Route path="/events" component={EventsList} />
           </Switch>
