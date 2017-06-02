@@ -5,7 +5,7 @@ import Paper from 'material-ui/Paper';
 import propSchema from '../common/PropTypes';
 import MenuList from './MenuList';
 import Trucks from './Trucks';
-import EventsList from './EventsList';
+import EventsList from './Events';
 import ReviewMain from './Reviews';
 import CommentsView from './CommentsView';
 import ManageBrand from './ManageBrand';
