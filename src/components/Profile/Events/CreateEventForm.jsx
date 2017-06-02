@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import DatePicker from 'react-datepicker';
 import TimePicker from 'rc-time-picker';
+import Geosuggest from 'react-geosuggest';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'rc-time-picker/assets/index.css';
 
@@ -24,6 +25,16 @@ const CreateEventForm = props => (
         End: <TimePicker
           onChange={props.selectTimeEnd}
           use12Hours
+        />
+      </div>
+      <div>
+        Where is your event?
+        <Geosuggest
+          className="midin"
+          country="us"
+          types={['geocode']}
+          placeholder="Type in an address"
+          onSuggestSelect={props.selectAddress}
         />
       </div>
       <div>
@@ -59,6 +70,7 @@ CreateEventForm.propTypes = {
   selectTimeEnd: PropTypes.func.isRequired,
   selectTimeStart: PropTypes.func.isRequired,
   selectDate: PropTypes.func.isRequired,
+  selectAddress: PropTypes.func.isRequired,
 };
 
 export default reduxForm({
