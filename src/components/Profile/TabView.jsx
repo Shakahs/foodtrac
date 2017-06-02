@@ -5,7 +5,7 @@ import Paper from 'material-ui/Paper';
 import propSchema from '../common/PropTypes';
 import MenuList from './MenuList';
 import Trucks from './Trucks';
-import EventsList from './Events';
+import EventsMain from './Events';
 import ReviewMain from './Reviews';
 import CommentsView from './CommentsView';
 import ManageBrand from './ManageBrand';
@@ -31,7 +31,7 @@ const TabView = props => (
             path={match.path}
           />)}
         />
-        <Route path="/brand/:brandId/events" component={EventsList} />
+        <Route path="/brand/:brandId/events" render={routeProps => <EventsMain {...routeProps} {...props} />} />
         <Route path="/brand/:brandId/reviews" render={routeProps => <ReviewMain {...routeProps} {...props} />} />
         <Route
           path="/brand/:brandId/comments"

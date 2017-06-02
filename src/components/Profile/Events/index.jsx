@@ -1,10 +1,12 @@
 import moment from 'moment';
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import { connect } from 'react-redux';
 import CreateEventForm from './CreateEventForm';
 import combineDates from './util';
 import post from '../../../api/event.api';
 import propSchema from '../../common/PropTypes';
+import EventsList from './EventsList';
 
 // Todo: validate end time is after start time, and perhaps at least a minimum amount later
 
@@ -62,14 +64,23 @@ class EventsMain extends React.Component {
 
   render() {
     return (
-      <CreateEventForm
-        newEventDate={this.state.newEventDate}
-        selectDate={this.selectDate}
-        selectTimeStart={this.selectTimeStart}
-        selectTimeEnd={this.selectTimeEnd}
-        selectAddress={this.selectAddress}
-        onSubmit={this.submitForm}
-      />
+      <Switch>
+        <Route
+          path="/brand/:brandId/events/create"
+          render={routeProps =>
+          (<CreateEventForm
+            {...routeProps}
+            {...this.props}
+            newEventDate={this.state.newEventDate}
+            selectDate={this.selectDate}
+            selectTimeStart={this.selectTimeStart}
+            selectTimeEnd={this.selectTimeEnd}
+            selectAddress={this.selectAddress}
+            onSubmit={this.submitForm}
+          />)}
+        />
+        <Route path="/brand/:brandId/events" render={routeProps => <EventsList {...routeProps} {...this.props} />} />
+      </Switch>
     );
   }
 }
