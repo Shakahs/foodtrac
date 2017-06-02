@@ -1,7 +1,9 @@
 import React from 'react';
 
 const EventInfo = () => (
-  <div>a cool event</div>
+  <div>
+    {/* <CommentsList />*/}
+  </div>
 );
 
 export default EventInfo;
