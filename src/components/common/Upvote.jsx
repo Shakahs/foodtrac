@@ -2,6 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import FontIcon from 'material-ui/FontIcon';
+import IconButton from 'material-ui/IconButton';
 import { actions as mapActions } from '../../redux/MapSearch';
 import { actions as profileActions } from '../../redux/CurrentProfile';
 import propSchema from './PropTypes';
@@ -40,7 +42,14 @@ const Upvote = (props) => {
 
   return (
     <div>
-      <button onClick={callback} disabled={disabled}>Upvote</button>
+      <div>
+        <IconButton
+          onClick={callback}
+          disabled={disabled}
+        >
+          <FontIcon className="fa fa-caret-up" hoverColor="#00bcd4" />
+        </IconButton>
+      </div>
       <span>{upvoteCount}</span>
     </div>
   );
