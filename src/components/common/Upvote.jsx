@@ -34,7 +34,7 @@ const Upvote = (props) => {
           upvote.user_id === props.user.id &&
           // within the last 24 hours
           now - new Date(upvote.date) < 86400000 &&
-          // and the upvote did not come from a map entry
+          // and the upvote came from a map entry
           upvote.timeline_id !== null);
       break;
     default:

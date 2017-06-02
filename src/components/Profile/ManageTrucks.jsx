@@ -127,6 +127,7 @@ class ManageTrucks extends Component {
   }
 
   handleSave() {
+    // TODO: refactor all the async methods here to use promise.all and chain off each other
     this.handleTruckEdit();
     this.handleAddTruck();
     this.handleLocation();

@@ -13,7 +13,7 @@ const TruckEntry = (props) => {
   if (props.path === '/map') timelineId = props.truck.locations.timeline_id;
   return (
     <Col xs={12} sm={12} md={6} lg={6}>
-      <Paper className="truckEntry">
+      <Paper className="truckEntry" zDepth={3}>
         <Upvote
           timeline_id={timelineId}
           brand_id={props.truck.brand_id}

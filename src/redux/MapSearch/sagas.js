@@ -5,6 +5,7 @@ import { actions } from './index';
 function* mapRequest(lat, lng, dist) {
   try {
     const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}`);
+    data.sort((a, b) => b.brands.upvotes.length - a.brands.upvotes.length);
     const markers = data.map(({ locations }) => ({
       position: {
         lat: locations.lat,
