@@ -6,7 +6,7 @@ const chance = new Chance();
 const startTime = moment.utc();
 const endTime = moment.utc().add(1, 'hours');
 
-export const testEvent = {
+module.exports.testEvent = {
   id: chance.integer({ min: 10000, max: 100000 }),
   start: startTime.toDate(),
   end: endTime.toDate(),
@@ -16,6 +16,3 @@ export const testEvent = {
   owner_id: 1,
 };
 
-export const placeHolder = {
-  // nothing
-};
