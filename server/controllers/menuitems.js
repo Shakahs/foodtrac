@@ -2,7 +2,7 @@ const MenuItems = require('../db/menuitems.model');
 
 module.exports = {
   post(req, res) {
-    req.body.price *= 100;
+    req.body.price = Math.round(req.body.price * 100);
     MenuItems.query()
       .insert(req.body)
       .then(item => res.status(201).send(item))

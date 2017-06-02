@@ -35,7 +35,6 @@ gulp.task('db', (cb) => {
     'db:seed:trucks', 'db:seed:locationtimelines', 'db:seed:menuitems', 'db:seed:brandcomments', cb);
 });
 
-
 /*
  /
  /

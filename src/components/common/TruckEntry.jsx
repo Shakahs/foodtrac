@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import propSchema from './PropTypes';
 import FollowButton from './FollowButton';
+import OrderButton from './OrderButton';
 import './TruckEntry.scss';
 
 const TruckEntry = props => (
@@ -19,9 +20,12 @@ const TruckEntry = props => (
         <RaisedButton label="Go to Profile" />
       </Link>}
       <FollowButton brandId={props.truck.brand_id} user={props.user} path={props.path} />
+      {props.truck.order === 1 ?
+        <OrderButton truck={props.truck} user={props.user} /> : null
+      }
     </Paper>
   </Col>
-    );
+);
 
 TruckEntry.propTypes = {
   truck: propSchema.truck,

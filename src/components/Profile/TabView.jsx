@@ -9,6 +9,7 @@ import EventsList from './EventsList';
 import ReviewMain from './Reviews';
 import CommentsView from './CommentsView';
 import ManageBrand from './ManageBrand';
+import IncomingOrder from './IncomingOrder/IncomingOrder';
 import './TabView.scss';
 
 const TabView = props => (
@@ -51,6 +52,7 @@ const TabView = props => (
             menuItems={props.menuItems}
           />)}
         />
+        <Route path="/brand/:brandId/orders/:truckId" component={IncomingOrder} />
       </Switch>
     </Paper>
   </Col>

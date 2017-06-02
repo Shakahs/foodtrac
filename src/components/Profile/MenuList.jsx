@@ -42,11 +42,13 @@ class MenuList extends Component {
         drinks.push(item);
       }
     });
-    this.setState({ appetizers });
-    this.setState({ entrees });
-    this.setState({ desserts });
-    this.setState({ sides });
-    this.setState({ drinks });
+    this.setState({
+      appetizers,
+      entrees,
+      desserts,
+      sides,
+      drinks,
+    });
   }
 
   render() {

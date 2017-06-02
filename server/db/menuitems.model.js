@@ -8,7 +8,7 @@ class MenuItems extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['brand_id', 'name', 'price', 'calories', 'description', 'food_type_id'],
+      required: ['brand_id', 'name', 'price', 'description', 'food_type_id'],
 
       properties: {
         id: { type: 'integer' },

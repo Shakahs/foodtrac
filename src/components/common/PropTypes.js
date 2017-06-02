@@ -32,6 +32,7 @@ export default {
     id: PropTypes.number,
     name: PropTypes.string,
     brands: PropTypes.object,
+    menu_items: PropTypes.array,
     locations: PropTypes.shape({
       id: PropTypes.number,
       name: PropTypes.string,
@@ -143,4 +144,30 @@ export default {
     user_id: PropTypes.number,
     users: PropTypes.object,
   }),
+
+  currentOrder: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string,
+      price: PropTypes.number,
+      quantity: PropTypes.number,
+    }),
+  ).isRequired,
+
+  currentItem: PropTypes.shape({
+    name: PropTypes.string,
+    price: PropTypes.number,
+    quantity: PropTypes.number,
+  }).isRequired,
+
+  addToOrder: PropTypes.func.isRequired,
+  removeFromOrder: PropTypes.func.isRequired,
+
+  order: PropTypes.shape({
+    date: PropTypes.string,
+    orderitems: PropTypes.array,
+  }).isRequired,
+
+  getOrders: PropTypes.func.isRequired,
+
+  truckId: PropTypes.string.isRequired,
 };

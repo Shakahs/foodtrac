@@ -142,6 +142,20 @@
       } ]
     },
     "/brands" : {
+      "get" : {
+        "summary" : "Get brands sorted by upvotes in selected timeframe",
+        "parameters" : [ {
+          "name" : "time",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
       "post" : {
         "summary" : "Create a brand",
         "consumes" : [ ],
@@ -223,6 +237,31 @@
         "in" : "path",
         "required" : true,
         "type" : "string"
+      } ]
+    },
+    "/brands/{brandId}/upvote" : {
+      "post" : {
+        "summary" : "Upvote a brand",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Upvote"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "number"
       } ]
     },
     "/foodtrucks" : {
@@ -361,6 +400,83 @@
         "responses" : {
           "200" : {
             "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/foodtrucks/{truckId}/orders" : {
+      "get" : {
+        "summary" : "Get orders for truck",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Order"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create new order for truck",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Full Order"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "put" : {
+        "summary" : "Switch orders on or off",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Ordering"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "truckId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/foodtrucks/{truckId}/events" : {
+      "get" : {
+        "summary" : "Get events this foodtruck is attending",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
           }
         }
       },
@@ -629,6 +745,177 @@
         "required" : true,
         "type" : "integer"
       } ]
+    },
+    "/events" : {
+      "get" : {
+        "summary" : "Get all events",
+        "parameters" : [ {
+          "name" : "lat",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "lng",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "distance",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create events",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Event"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/events/{eventId}" : {
+      "get" : {
+        "summary" : "Get an event",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Event"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/user_attendance" : {
+      "post" : {
+        "summary" : "User registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "user_id" : {
+                "type" : "string"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance" : {
+      "post" : {
+        "summary" : "Brand registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "brand_id" : {
+                "type" : "number"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/comments" : {
+      "post" : {
+        "summary" : "Create comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/orders/{orderId}" : {
+      "put" : {
+        "summary" : "Mark the order as ready",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Order"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "orderId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
     }
   },
   "definitions" : {
@@ -786,9 +1073,6 @@
         "id" : {
           "type" : "integer"
         },
-        "title" : {
-          "type" : "string"
-        },
         "text" : {
           "type" : "string"
         },
@@ -797,6 +1081,126 @@
         },
         "user_id" : {
           "type" : "integer"
+        }
+      }
+    },
+    "Event" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "number"
+        },
+        "location_id" : {
+          "type" : "number"
+        },
+        "start" : {
+          "type" : "string"
+        },
+        "end" : {
+          "type" : "string"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "description" : {
+          "type" : "string"
+        },
+        "owner_id" : {
+          "type" : "number"
+        },
+        "locations" : {
+          "$ref" : "#/definitions/Location"
+        }
+      }
+    },
+    "Upvote" : {
+      "type" : "object",
+      "properties" : {
+        "id" : {
+          "type" : "integer"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "timeline_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Order" : {
+      "type" : "object",
+      "properties" : {
+        "user_id" : {
+          "type" : "integer"
+        },
+        "truck_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "user_coupon_id" : {
+          "type" : "integer"
+        },
+        "ready" : {
+          "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
+        }
+      }
+    },
+    "Ordering" : {
+      "type" : "object",
+      "properties" : {
+        "order" : {
+          "type" : "boolean"
+        }
+      }
+    },
+    "Order Item" : {
+      "type" : "object",
+      "properties" : {
+        "order_id" : {
+          "type" : "integer"
+        },
+        "menu_item_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Full Order" : {
+      "type" : "object",
+      "properties" : {
+        "user_id" : {
+          "type" : "integer"
+        },
+        "truck_id" : {
+          "type" : "integer"
+        },
+        "date" : {
+          "type" : "string"
+        },
+        "user_coupon_id" : {
+          "type" : "integer"
+        },
+        "ready" : {
+          "type" : "boolean"
+        },
+        "name" : {
+          "type" : "string"
+        },
+        "orderitems" : {
+          "type" : "array",
+          "items" : {
+            "$ref" : "#/definitions/Order Item"
+          }
         }
       }
     },

@@ -17,7 +17,6 @@ const ManageMenuItem = props => (
       <TextField
         floatingLabelText="Description"
         hintText="Description"
-        multiLine
         onChange={(e, val) => props.changeItem(val, 'description', props.index)}
         value={props.menuItem.description}
       />

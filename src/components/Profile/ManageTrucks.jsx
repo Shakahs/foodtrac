@@ -107,7 +107,7 @@ class ManageTrucks extends Component {
             checked_in: true,
           };
           axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
-            .then(resp => console.log('IN LOCATION POST', resp))
+            .then(resp => console.log(resp))
             .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
@@ -122,6 +122,13 @@ class ManageTrucks extends Component {
       checked_in: false,
     };
     axios.put(`/api/foodtrucks/${truckId}/location`, endTime)
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
+    this.takeOrders(truckId, false);
+  }
+
+  takeOrders(truckId, takingOrder) {
+    axios.put(`/api/foodtrucks/${truckId}/orders`, { order: takingOrder })
       .then(res => console.log(res))
       .catch(err => console.log(err));
   }
@@ -156,12 +163,29 @@ class ManageTrucks extends Component {
                   }}
                 />
                 {truck.locations ?
-                  <Link to={`/brand/${this.props.brandId}/trucks`}>
-                    <FlatButton
-                      label="Checkout"
-                      onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
-                    />
-                  </Link> : null
+                  <div>
+                    <Link to={`/brand/${this.props.brandId}/trucks`}>
+                      <FlatButton
+                        label="Checkout"
+                        onClick={() => this.handleCheckout(truck.id, truck.locations.timeline_id)}
+                      />
+                    </Link>
+                    {truck.order === 0 ?
+                      <Link to={`/brand/${this.props.brandId}/trucks`}>
+                        <FlatButton
+                          label="Take Online Orders"
+                          onClick={() => this.takeOrders(truck.id, true)}
+                        />
+                      </Link>
+                      :
+                      <Link to={`/brand/${this.props.brandId}/trucks`}>
+                        <FlatButton
+                          label="Stop taking Online Orders"
+                          onClick={() => this.takeOrders(truck.id, false)}
+                        />
+                      </Link>
+                    }
+                  </div> : null
                 }
               </Tab>
             );

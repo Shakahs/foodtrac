@@ -39,8 +39,6 @@ class ManageBrand extends React.Component {
         .then(res => console.log(res))
         .catch(err => console.log(err));
     }
-
-    console.log('newdata', update);
     axios.put(`/api/brands/${this.props.brandId}`, update)
       .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
