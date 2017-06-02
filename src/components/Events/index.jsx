@@ -17,8 +17,8 @@ class Event extends Component {
       <Col xs={12} sm={12} md={9} lg={9}>
         <Paper zDepth={1} className="brandTabView">
           <Switch>
-            <Route path="/events/:eventId" component={EventDetail} />
             <Route path="/events/create" component={CreateEvent} />
+            <Route path="/events/:eventId" component={EventDetail} />
             <Route path="/events" component={EventsList} />
           </Switch>
         </Paper>
