@@ -8,8 +8,8 @@ module.exports = {
   //   .catch(e => console.log('Error getting events:', e));
   // },
   post(req, res) {
-    Events.query()
-      .insert(req.body)
+    return Events.query()
+      .insertGraph(req.body)
       .then(newEvent => res.status(201).send(newEvent))
       .catch(e => console.log('Error creating new event:', e));
   },

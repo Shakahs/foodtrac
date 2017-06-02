@@ -1,4 +1,4 @@
-import { testEvent } from '../../../testData';
+import { testEventGenerator } from '../../../testData';
 
 const Chance = require('chance');
 const Events = require('./events.model');
@@ -22,6 +22,8 @@ let newBrandAttendee = null;
 let newEventComment = null;
 
 const chance = new Chance();
+
+const testEvent = testEventGenerator();
 
 beforeAll(() => {
   const insertEvent = Object.assign({}, testEvent);

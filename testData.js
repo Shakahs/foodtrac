@@ -6,7 +6,7 @@ const chance = new Chance();
 const startTime = moment.utc();
 const endTime = moment.utc().add(1, 'hours');
 
-module.exports.testEvent = {
+module.exports.testEventGenerator = () => ({
   id: chance.integer({ min: 10000, max: 100000 }),
   start: startTime.toDate(),
   end: endTime.toDate(),
@@ -14,5 +14,12 @@ module.exports.testEvent = {
   description: 'come have fun',
   location_id: 1,
   owner_id: 1,
-};
+});
 
+module.exports.testLocation = {
+  id: chance.integer({ min: 10000, max: 100000 }),
+  name: 'a random location',
+  address: '123 fake st',
+  location_id: chance.integer({ min: 10000, max: 100000 }),
+  owner_id: chance.integer({ min: 10000, max: 100000 }),
+};

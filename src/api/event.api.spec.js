@@ -1,10 +1,11 @@
-import { testEvent } from '../../testData';
+import { testEventGenerator } from '../../testData';
 import post from './event.api';
 
 const Events = require('../../server/db/events/events.model');
 const { provideModelWithKnex } = require('../../dbutil');
 
 const boundEvents = provideModelWithKnex(Events);
+const testEvent = testEventGenerator();
 
 describe('test the Events API', () => {
   test('it should post an event', () => {
