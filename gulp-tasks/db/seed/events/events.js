@@ -2,12 +2,10 @@ const moment = require('moment');
 const jsf = require('json-schema-faker');
 const Faker = require('faker');
 const Chance = require('chance');
-const Events = require('../../../server/db/events/events.model');
-const Brands = require('../../../server/db/brands.model');
-const Locations = require('../../../server/db/locations.model');
-const { insertSeed } = require('../../../dbutil');
-const { checkSeededTable } = require('../../../dbutil');
-const { provideModelWithKnex } = require('../../../dbutil');
+const Events = require('../../../../server/db/events/events.model');
+const Brands = require('../../../../server/db/brands.model');
+const Locations = require('../../../../server/db/locations.model');
+const { provideModelWithKnex, checkSeededTable, insertSeed } = require('../../../../dbutil');
 
 const chance = new Chance();
 jsf.extend('faker', () => Faker);
@@ -42,8 +40,8 @@ module.exports = {
               start: start.toISOString(),
               end: end.toISOString(),
               location_id: chance.pickone(locationList).id,
-              name: 'a great event',
-              description: 'so much fun',
+              name: `${Faker.name.firstName()}'s ${Faker.commerce.productAdjective()} ${Faker.company.bsAdjective()} ${chance.pickone(['meetup', 'foodtruck meet'])}`,
+              description: chance.paragraph({ sentences: 6 }),
             };
             resultEvents.push(newEvent);
           }
