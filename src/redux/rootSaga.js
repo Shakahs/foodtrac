@@ -10,7 +10,6 @@ export default function* rootSaga() {
     fork(userSagas.watchLoginSuccess),
     fork(userSagas.watchAddBrandRequest),
     fork(mapSagas.watchMapRequest),
-    fork(mapSagas.watchMapRequest),
     fork(mapSagas.watchMapTruckUpvoteReq),
     fork(profileSagas),
     fork(authSagas.watchCreateAccount),
