@@ -6,11 +6,11 @@ import CreateEventForm from './CreateEventForm';
 import combineDates from './util';
 import post from '../../../api/event.api';
 import propSchema from '../../common/PropTypes';
-import EventsList from './EventsList';
+import EventsList from './EventsAttendingList';
 
 // Todo: validate end time is after start time, and perhaps at least a minimum amount later
 
-class EventsMain extends React.Component {
+class EventsAttendingMain extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -85,7 +85,7 @@ class EventsMain extends React.Component {
   }
 }
 
-EventsMain.propTypes = {
+EventsAttendingMain.propTypes = {
   user: propSchema.user,
 };
 
@@ -94,4 +94,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps)(EventsMain);
+export default connect(mapStateToProps)(EventsAttendingMain);

@@ -2,10 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from 'react-flexbox-grid';
 import _ from 'lodash';
-import EventsListEntry from './EventsListEntry';
+import EventsListEntry from './EventsAttendingListEntry';
 import propSchema from '../../common/PropTypes';
 
-const EventsList = props => (
+const EventsAttendingList = props => (
 
   <Grid fluid>
     <div>
@@ -19,8 +19,8 @@ const EventsList = props => (
   </Grid>
 );
 
-EventsList.propTypes = {
+EventsAttendingList.propTypes = {
   brand: propSchema.brands,
 };
 
-export default EventsList;
+export default EventsAttendingList;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid } from 'react-flexbox-grid';
 
-const EventsListEntry = () => (
+const EventsAttendingListEntry = () => (
   <Grid fluid>
     <div>attending truck</div>
   </Grid>
 );
 
-export default EventsListEntry;
+export default EventsAttendingListEntry;
