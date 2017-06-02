@@ -16,10 +16,10 @@ module.exports.testEventGenerator = () => ({
   owner_id: 1,
 });
 
-module.exports.testLocation = {
+module.exports.testLocationGenerator = () => ({
   id: chance.integer({ min: 10000, max: 100000 }),
   name: 'a random location',
   address: '123 fake st',
   location_id: chance.integer({ min: 10000, max: 100000 }),
   owner_id: chance.integer({ min: 10000, max: 100000 }),
-};
+});
