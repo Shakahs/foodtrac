@@ -8,18 +8,26 @@ class IncomingOrder extends Component {
     super();
     this.state = {
       orders: [],
+      update: null,
     };
     this.getOrders = this.getOrders.bind(this);
   }
 
   componentDidMount() {
     this.getOrders(this.props.match.params.truckId);
+    this.state.update = setInterval(() => {
+      this.getOrders(this.props.match.params.truckId);
+    }, 60000);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.match.params.truckId !== this.props.match.params.truckId) {
       this.getOrders(nextProps.match.params.truckId);
     }
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.state.update);
   }
 
   getOrders(truckId) {
