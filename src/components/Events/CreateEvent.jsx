@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import CreateEventForm from './CreateEventForm';
 import combineDates from './util';
-import post from '../../api/event.api';
+import { eventAPI } from '../../api';
 import propSchema from '../common/PropTypes';
 
 // Todo: validate end time is after start time, and perhaps at least a minimum amount later
@@ -57,7 +57,7 @@ class CreateEvents extends React.Component {
       lat: this.state.newEventAddress.location.lat,
       lng: this.state.newEventAddress.location.lng,
     };
-    post(newEvent, newLocation);
+    eventAPI.createEvent(newEvent, newLocation);
   }
 
   render() {
