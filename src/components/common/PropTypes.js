@@ -171,6 +171,7 @@ export default {
   getOrders: PropTypes.func.isRequired,
 
   truckId: PropTypes.string.isRequired,
+  is_truck_owner: PropTypes.bool.isRequired,
 
   upvotes: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.number,

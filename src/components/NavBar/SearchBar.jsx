@@ -37,7 +37,7 @@ class SearchBar extends Component {
 
   render() {
     return (
-      // onSuggestSelect axios get trucks near coords of entered address and set on redux store
+      // TODO: add distance, genre, review/maybe upvote filtering
       <div className="searchBar">
         {this.redirectToMap()}
         <Geosuggest
