@@ -14,6 +14,7 @@ module.exports = {
       uniqueItems: true,
       items: Upvotes.jsonSchema,
     };
+    const now = new Date().toISOString();
     const boundUsers = provideModelWithKnex(Users);
     const boundBrands = provideModelWithKnex(Brands);
     const boundTimelines = provideModelWithKnex(LocationTimelines);
@@ -45,6 +46,7 @@ module.exports = {
       newSeedDataItem.brand_id = brandsList.pop().id;
       newSeedDataItem.user_id = usersList.pop().id;
       newSeedDataItem.timeline_id = timelinesList.pop().id;
+      newSeedDataItem.date = now;
       return newSeedDataItem;
     }))
     .then(seedData => insertSeed('Upvotes', seedData))
