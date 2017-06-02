@@ -17,7 +17,7 @@ class IncomingOrder extends Component {
     this.getOrders(this.props.match.params.truckId);
     this.state.update = setInterval(() => {
       this.getOrders(this.props.match.params.truckId);
-    }, 60000);
+    }, 5000);
   }
 
   componentWillReceiveProps(nextProps) {

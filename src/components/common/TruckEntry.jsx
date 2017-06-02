@@ -5,6 +5,7 @@ import Paper from 'material-ui/Paper';
 import RaisedButton from 'material-ui/RaisedButton';
 import propSchema from './PropTypes';
 import FollowButton from './FollowButton';
+import OrderButton from './OrderButton';
 import './TruckEntry.scss';
 
 const TruckEntry = props => (
@@ -20,11 +21,7 @@ const TruckEntry = props => (
       </Link>}
       <FollowButton brandId={props.truck.brand_id} user={props.user} path={props.path} />
       {props.truck.order === 1 ?
-        <Link to={`/order/${props.truck.id}`}>
-          <RaisedButton
-            label="Order"
-          />
-        </Link> : null
+        <OrderButton truck={props.truck} user={props.user} /> : null
       }
     </Paper>
   </Col>
