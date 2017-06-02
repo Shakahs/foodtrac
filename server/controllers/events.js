@@ -2,11 +2,11 @@ const Events = require('../db/events/events.model');
 // const { getBoundingBox } = require('../utils');
 
 module.exports = {
-  // get(req, res) {
-  //   Events.query()
-  //   .then(data => res.status(200).send(data))
-  //   .catch(e => console.log('Error getting events:', e));
-  // },
+  get(req, res) {
+    Events.query()
+    .then(data => res.status(200).send(data))
+    .catch(e => console.log('Error getting events:', e));
+  },
   post(req, res) {
     return Events.query()
       .insertGraph(req.body)
