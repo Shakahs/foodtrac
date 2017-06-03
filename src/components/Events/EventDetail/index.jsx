@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-refetch';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
-import { withGoogleMap, GoogleMap } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import _ from 'lodash';
 import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -11,6 +11,8 @@ import BrandAttendeesList from './BrandAttendeesList';
 import CommentsList from './CommentsList';
 import { eventAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
+
+const FontAwesome = require('react-fontawesome');
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -26,6 +28,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   UserRegisterButton() {
     return (<RaisedButton
+      icon={<FontAwesome name="calendar" />}
       label="Attend this event"
       onTouchTap={() => eventAPI.userRegisterAttendEvent(this.props.eventId, this.props.user.id)
           .then(() => { this.props.refreshEvent(); })
@@ -35,6 +38,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   UserUnregisterButton() {
     return (<RaisedButton
+      icon={<FontAwesome name="calendar" />}
       label="Do not attend this event"
       onTouchTap={() => eventAPI.userUnregisterAttendEvent(this.props.eventId, this.props.user.id)
         .then(() => { this.props.refreshEvent(); })
@@ -51,6 +55,8 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   BrandRegisterButton() {
     return (<RaisedButton
+      icon={<FontAwesome name="truck" />}
+      secondary
       label="Attend this event"
       onTouchTap={() => eventAPI.brandRegisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
         .then(() => { this.props.refreshEvent(); })
@@ -60,6 +66,8 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   BrandUnregisterButton() {
     return (<RaisedButton
+      icon={<FontAwesome name="truck" />}
+      secondary
       label="Do not attend this event"
       onTouchTap={() => eventAPI.brandUnregisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
         .then(() => { this.props.refreshEvent(); })
@@ -80,17 +88,16 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     if (eventFetch.fulfilled) {
       const GettingStartedGoogleMap = withGoogleMap(() => (
         <GoogleMap
-          ref={_.noop}
-          defaultZoom={3}
-          defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
-          onClick={_.noop}
+          defaultZoom={12}
+          defaultCenter={{
+            lat: eventFetch.value.locations.lat,
+            lng: eventFetch.value.locations.lng }}
         >
-          {/* {props.markers.map((marker, index) => (*/}
-          {/* <Marker*/}
-          {/* {...marker}*/}
-          {/* onRightClick={() => props.onMarkerRightClick(index)}*/}
-          {/* />*/}
-          {/* ))}*/}
+          <Marker
+            position={{
+              lat: eventFetch.value.locations.lat,
+              lng: eventFetch.value.locations.lng }}
+          />
         </GoogleMap>
       ));
 
@@ -102,20 +109,17 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                 {eventFetch.value.name}
               </h2>
               <h4>
+                {eventFetch.value.locations.address}
+              </h4>
+              <div>
+                <this.UserToggleRegistrationButton />
+                {this.props.user.is_truck_owner && <this.BrandToggleRegistrationButton />}
+              </div>
+              <h4>
                 {eventFetch.value.description}
               </h4>
-              <Grid fluid>
-                <Col xs={8} sm={8} md={8} lg={8}>
-                  Users: <this.UserToggleRegistrationButton />
-                  {this.props.user.is_truck_owner &&
-                  <div>
-                    Brand Owners: <this.BrandToggleRegistrationButton />
-                  </div>}
-                </Col>
-              </Grid>
             </Col>
             <Col xs={12} sm={12} md={7} lg={7}>
-
               <div style={{ height: '300px', width: '90%', margin: 'auto' }}>
                 <GettingStartedGoogleMap
                   containerElement={
@@ -124,10 +128,6 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                   mapElement={
                     <div style={{ height: '100%', width: '100%' }} />
                   }
-                  onMapLoad={_.noop}
-                  onMapClick={_.noop}
-                  // markers={markers}
-                  onMarkerRightClick={_.noop}
                 />
               </div>
             </Col>
@@ -135,7 +135,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
           <Row>
             <Col xs={12} sm={12} md={12} lg={12}>
               <Tabs>
-                <Tab label={`${String(this.props.eventFetch.value.comments.length)} Comments`} >
+                <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
                   <div>
                     <h2>Comments</h2>
                     <p>
@@ -143,7 +143,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                     </p>
                   </div>
                 </Tab>
-                <Tab label={`${String(this.props.eventFetch.value.brands_attending.length)} Users Attending`} >
+                <Tab label={`${String(eventFetch.value.brands_attending.length)} Users Attending`} >
                   <div>
                     <h2>Brands Attending</h2>
                     <p>
@@ -151,7 +151,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                     </p>
                   </div>
                 </Tab>
-                <Tab label={`${String(this.props.eventFetch.value.users_attending.length)} Users Attending`} >
+                <Tab label={`${String(eventFetch.value.users_attending.length)} Users Attending`} >
                   <div>
                     <h2>Users Attending</h2>
                     <p>
