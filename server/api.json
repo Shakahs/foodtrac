@@ -570,9 +570,25 @@
         }
       }
       },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/brands/{brandId}/reward/{couponId}" : {
       "put" : {
-        "summary" : "Update reward trigger and/or coupon",
-        "parameters" : [ ],
+        "summary" : "Update coupon and/or reward trigger",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Reward Coupon"
+          }
+        } ],
         "responses" : {
           "200" : {
             "description" : "Status 200"
@@ -581,6 +597,11 @@
       },
       "parameters" : [ {
         "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      }, {
+        "name" : "couponId",
         "in" : "path",
         "required" : true,
         "type" : "string"

@@ -6,7 +6,6 @@ module.exports = {
     Coupons.query()
       .insert(req.body.coupon)
       .then((coupon) => {
-        res.status(201).send(coupon);
         req.body.reward.default_coupon_id = coupon.id;
         Brands.query()
           .findById(req.params.brandId)
