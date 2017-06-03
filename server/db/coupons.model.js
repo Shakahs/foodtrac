@@ -20,7 +20,7 @@ class Coupons extends Model {
     return {
       brands: {
         relation: Model.HasManyRelation,
-        modelClass: `${__dirname}/orderitems.model`,
+        modelClass: `${__dirname}/brands.model`,
         join: {
           from: 'Coupons.id',
           to: 'Brands.default_coupon_id',

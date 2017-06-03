@@ -550,15 +550,17 @@
           }
         }
       },
+    "/brands/{brandId}/reward" : {
       "post" : {
-        "summary" : "Add a new food genre",
+        "summary" : "Post a new coupon",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Food Genre"
+            "$ref" : "#/definitions/Food Genre",
+            "$ref" : "#/definitions/Reward Coupon"
           }
         } ],
         "responses" : {
@@ -567,6 +569,22 @@
           }
         }
       }
+      },
+      "put" : {
+        "summary" : "Update reward trigger and/or coupon",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
     },
     "/foodtrucks" : {
       "get" : {
