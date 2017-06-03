@@ -14,6 +14,9 @@ class ManageTrucks extends Component {
       addTab: 0,
       truckLocations: [],
     };
+    this.handleTruckEdit = this.handleTruckEdit.bind(this);
+    this.handleAddTruck = this.handleAddTruck.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   handleNewTruckChange(e, val, i) {
@@ -107,7 +110,7 @@ class ManageTrucks extends Component {
             checked_in: true,
           };
           axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
-            .then(() => null)
+            .then(() => this.props.getBrand(this.props.brandId))
             .catch(err => console.log(err));
         })
         .catch(err => console.log(err));

@@ -41,7 +41,7 @@ class ManageMenu extends Component {
   removeMenuItem(index) {
     if (!this.state.menuItems[index][1]) {
       axios.delete(`/api/menuitems/${this.state.menuItems[index][0].id}`)
-        .then(res => console.log(res))
+        .then(() => this.props.getBrand(this.props.brandId))
         .catch(err => console.log(err));
     }
     const menuItems = [...this.state.menuItems];
