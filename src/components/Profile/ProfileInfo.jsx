@@ -60,7 +60,7 @@ const ProfileInfo = props => (
       props.trucks.map((truck, i) => {
         const name = truck.name === 'null' ? `Food Truck ${i + 1}` : truck.name;
         return (truck.order === 1 ?
-          <div>
+          <div key={truck.id}>
             <Link to={`/brand/${props.brandId}/orders/${truck.id}`}>
               <RaisedButton label={`Incoming Orders for ${name}`} className="profileButton" />
             </Link>

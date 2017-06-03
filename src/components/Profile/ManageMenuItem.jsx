@@ -8,7 +8,7 @@ const ManageMenuItem = props => (
     <Col xs={3} sm={3} md={3} lg={3}>
       <TextField
         floatingLabelText="Food Item"
-        hintText="Food Item's name"
+        hintText="Name"
         onChange={(e, val) => props.changeItem(val, 'name', props.index)}
         value={props.menuItem.name}
       />

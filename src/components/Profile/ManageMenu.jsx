@@ -41,7 +41,7 @@ class ManageMenu extends Component {
   removeMenuItem(index) {
     if (!this.state.menuItems[index][1]) {
       axios.delete(`/api/menuitems/${this.state.menuItems[index][0].id}`)
-        .then(res => console.log(res))
+        .then(() => this.props.getBrand(this.props.brandId))
         .catch(err => console.log(err));
     }
     const menuItems = [...this.state.menuItems];
@@ -63,15 +63,14 @@ class ManageMenu extends Component {
     this.state.menuItems.forEach((item) => {
       if (item[1]) {
         axios.post('/api/menuitems', item[0])
-          .then(res => console.log(res))
+          .then(() => this.props.getBrand(this.props.brandId))
           .catch(err => console.log(err));
       } else {
         axios.put(`/api/menuitems/${item[0].id}`, item[0])
-          .then(res => console.log(res))
+          .then(() => this.props.getBrand(this.props.brandId))
           .catch(err => console.log(err));
       }
     });
-    this.props.getBrand(this.props.brandId);
   }
 
   render() {

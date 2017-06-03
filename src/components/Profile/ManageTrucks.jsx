@@ -14,6 +14,9 @@ class ManageTrucks extends Component {
       addTab: 0,
       truckLocations: [],
     };
+    this.handleTruckEdit = this.handleTruckEdit.bind(this);
+    this.handleAddTruck = this.handleAddTruck.bind(this);
+    this.handleLocation = this.handleLocation.bind(this);
   }
 
   handleNewTruckChange(e, val, i) {
@@ -60,9 +63,9 @@ class ManageTrucks extends Component {
   }
 
   handleTruckEdit() {
-    this.state.trucksEdit.forEach((truck) => {
+    this.state.trucksEdit.forEach((truck) => { // eslint-disable-line consistent-return
       if (truck) {
-        axios.put(`/api/foodtrucks/${truck[1]}`, truck[0])
+        return axios.put(`/api/foodtrucks/${truck[1]}`, truck[0])
           .then(res => console.log(res))
           .catch(err => console.log(err));
       }
@@ -72,15 +75,14 @@ class ManageTrucks extends Component {
   handleAddTruck() {
     this.state.newTrucks.forEach((truck) => {
       if (truck) {
-        axios.post('/api/foodtrucks', truck)
-          .then(res => console.log(res))
-          .catch(err => console.log(err));
-      } else {
-        const newTruck = { name: 'null', brand_id: this.props.brandId };
-        axios.post('/api/foodtrucks', newTruck)
+        return axios.post('/api/foodtrucks', truck)
           .then(res => console.log(res))
           .catch(err => console.log(err));
       }
+      const newTruck = { name: 'null', brand_id: this.props.brandId };
+      return axios.post('/api/foodtrucks', newTruck)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
     });
   }
 
@@ -97,8 +99,7 @@ class ManageTrucks extends Component {
   }
 
   handleLocation() {
-    this.state.truckLocations.forEach((location) => {
-      axios.post('/api/locations', location[0])
+    this.state.truckLocations.forEach(location => axios.post('/api/locations', location[0])
         .then((res) => {
           const timeLine = {
             start: new Date().toISOString(),
@@ -106,12 +107,11 @@ class ManageTrucks extends Component {
             location_id: res.data.id,
             checked_in: true,
           };
-          axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
-            .then(() => null)
+          return axios.post(`/api/foodtrucks/${location[1]}/location`, timeLine)
+            .then(() => this.props.getBrand(this.props.brandId))
             .catch(err => console.log(err));
         })
-        .catch(err => console.log(err));
-    });
+        .catch(err => console.log(err)));
   }
 
   handleCheckout(truckId, timelineId) {
@@ -122,23 +122,23 @@ class ManageTrucks extends Component {
       checked_in: false,
     };
     axios.put(`/api/foodtrucks/${truckId}/location`, endTime)
-      .then(res => console.log(res))
+      .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
     this.takeOrders(truckId, false);
   }
 
   takeOrders(truckId, takingOrder) {
     axios.put(`/api/foodtrucks/${truckId}/orders`, { order: takingOrder })
-      .then(res => console.log(res))
+      .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
   }
 
   handleSave() {
-    // TODO: refactor all the async methods here to use promise.all and chain off each other
-    this.handleTruckEdit();
-    this.handleAddTruck();
-    this.handleLocation();
-    this.props.getBrand(this.props.brandId);
+    Promise.all([
+      this.handleTruckEdit(),
+      this.handleAddTruck(),
+      this.handleLocation(),
+    ]).then(() => this.props.getBrand(this.props.brandId));
   }
 
   render() {

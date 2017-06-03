@@ -38,6 +38,9 @@ class Profile extends Component {
     if (this.props.upvotes !== nextProps.upvotes) {
       this.getBrandDetail(nextProps.match.params.brandId);
     }
+    if (nextProps.match.params.brandId !== this.props.match.params.brandId) {
+      this.getBrandDetail(nextProps.match.params.brandId);
+    }
   }
 
   getBrandDetail(brandId) {
