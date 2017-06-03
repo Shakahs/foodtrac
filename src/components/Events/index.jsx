@@ -14,8 +14,8 @@ class Event extends Component {
 
   render() {
     return (
-      <Col xs={12} sm={12} md={9} lg={9}>
-        <Paper zDepth={1} className="brandTabView">
+      <Col xs={12} sm={12} md={12} lg={12}>
+        <Paper zDepth={1} >
           <Switch>
             <Route path="/events/create" component={CreateEvent} />
             <Route path="/events/:eventId" component={EventDetail} />
