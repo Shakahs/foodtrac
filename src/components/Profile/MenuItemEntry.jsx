@@ -13,9 +13,11 @@ const MenuItemEntry = props => (
     <Col xs={3} sm={3} md={3} lg={3}>
       price: ${props.item.price}
     </Col>
-    <Col xs={3} sm={3} md={3} lg={3}>
-      Calories: {props.item.calories}
-    </Col>
+    {props.item.calories !== 0 ?
+      <Col xs={3} sm={3} md={3} lg={3}>
+        Calories: {props.item.calories}
+      </Col> : null
+    }
   </Row>
 );
 

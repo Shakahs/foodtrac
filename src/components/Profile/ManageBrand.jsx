@@ -1,6 +1,7 @@
 import React from 'react';
 import { Tabs, Tab } from 'material-ui';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
@@ -16,6 +17,7 @@ class ManageBrand extends React.Component {
       name: '',
       description: '',
       food_genre_id: 0,
+      redirect: false,
     };
 
     this.handleInfoEdit = this.handleInfoEdit.bind(this);
@@ -68,11 +70,23 @@ class ManageBrand extends React.Component {
   handleSave(data) {
     this.handleInfoEdit(data);
     this.handleReduxUpdate(data);
+    this.setState({ redirect: true });
+  }
+
+  redirectToMap() {
+    if (this.state.redirect) {
+      this.setState({
+        redirect: false,
+      });
+      return <Redirect push to={`/brand/${this.props.brandId}/trucks`} />;
+    }
+    return null;
   }
 
   render() {
     return (
       <Tabs>
+        {this.redirectToMap()}
         <Tab label="Change Basic Brand Info">
           <ManageBasic
             brandId={this.props.brandId}
