@@ -19,13 +19,15 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     this.UserRegisterButton = this.UserRegisterButton.bind(this);
     this.UserUnregisterButton = this.UserUnregisterButton.bind(this);
     this.UserToggleRegistrationButton = this.UserToggleRegistrationButton.bind(this);
+    this.BrandRegisterButton = this.BrandRegisterButton.bind(this);
+    this.BrandUnregisterButton = this.BrandUnregisterButton.bind(this);
+    this.BrandToggleRegistrationButton = this.BrandToggleRegistrationButton.bind(this);
   }
 
   UserRegisterButton() {
     return (<RaisedButton
       label="Attend this event"
       onTouchTap={() => eventAPI.userRegisterAttendEvent(this.props.eventId, this.props.user.id)
-          // .then((res) => { console.log(res); });
           .then(() => { this.props.refreshEvent(); })
           .catch(() => { this.props.refreshEvent(); })}
     />);
@@ -45,6 +47,31 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     { user_id: this.props.user.id })
     ? this.UserUnregisterButton()
     : this.UserRegisterButton());
+  }
+
+  BrandRegisterButton() {
+    return (<RaisedButton
+      label="Attend this event"
+      onTouchTap={() => eventAPI.brandRegisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
+        .then(() => { this.props.refreshEvent(); })
+        .catch(() => { this.props.refreshEvent(); })}
+    />);
+  }
+
+  BrandUnregisterButton() {
+    return (<RaisedButton
+      label="Do not attend this event"
+      onTouchTap={() => eventAPI.brandUnregisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
+        .then(() => { this.props.refreshEvent(); })
+        .catch(() => { this.props.refreshEvent(); })}
+    />);
+  }
+
+  BrandToggleRegistrationButton() {
+    return (this.props.user.is_truck_owner && _.some(this.props.eventFetch.value.brands_attending,
+      { brand_id: this.props.user.brands[0].id })
+      ? this.BrandUnregisterButton()
+      : this.BrandRegisterButton());
   }
 
   render() {
@@ -90,6 +117,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
               <h4>
                 {eventFetch.value.description}
                 <this.UserToggleRegistrationButton />
+                {this.props.user.is_truck_owner && <this.BrandToggleRegistrationButton /> }
               </h4>
               <Grid fluid>
                 <Col xs={8} sm={8} md={8} lg={8}>
