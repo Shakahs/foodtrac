@@ -88,7 +88,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     if (eventFetch.fulfilled) {
       const GettingStartedGoogleMap = withGoogleMap(() => (
         <GoogleMap
-          defaultZoom={12}
+          defaultZoom={15}
           defaultCenter={{
             lat: eventFetch.value.locations.lat,
             lng: eventFetch.value.locations.lng }}
