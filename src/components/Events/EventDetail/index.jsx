@@ -3,14 +3,14 @@ import { connect } from 'react-refetch';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
-import Paper from 'material-ui/Paper';
 import _ from 'lodash';
 import { RaisedButton } from 'material-ui';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import UserAttendeesList from './UserAttendeesList';
 import BrandAttendeesList from './BrandAttendeesList';
+import CommentsList from './CommentsList';
 import { eventAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
-
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -78,19 +78,6 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     const { eventFetch } = this.props;
 
     if (eventFetch.fulfilled) {
-      const UserCount = () =>
-        (<Paper>
-          {this.props.eventFetch.value.users_attending.length} attending
-        </Paper>);
-
-      const TruckCount = () =>
-        (<Paper>
-          {this.props.eventFetch.value.brands_attending.length} trucks
-        </Paper>);
-
-
-      // const userToggleRegistrationButton = () => userRegisterButton()
-
       const GettingStartedGoogleMap = withGoogleMap(() => (
         <GoogleMap
           ref={_.noop}
@@ -124,10 +111,6 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                   <div>
                     Brand Owners: <this.BrandToggleRegistrationButton />
                   </div>}
-                  <UserCount />
-                </Col>
-                <Col xs={4} sm={4} md={4} lg={4}>
-                  <TruckCount />
                 </Col>
               </Grid>
             </Col>
@@ -150,12 +133,34 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
             </Col>
           </Row>
           <Row>
-            <div><br />
-              <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
-            </div>
-            <div><br />
-              <UserAttendeesList attendees={eventFetch.value.users_attending} />
-            </div>
+            <Col xs={12} sm={12} md={12} lg={12}>
+              <Tabs>
+                <Tab label={`${String(this.props.eventFetch.value.comments.length)} Comments`} >
+                  <div>
+                    <h2>Comments</h2>
+                    <p>
+                      <CommentsList comments={eventFetch.value.comments} />
+                    </p>
+                  </div>
+                </Tab>
+                <Tab label={`${String(this.props.eventFetch.value.brands_attending.length)} Users Attending`} >
+                  <div>
+                    <h2>Brands Attending</h2>
+                    <p>
+                      <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
+                    </p>
+                  </div>
+                </Tab>
+                <Tab label={`${String(this.props.eventFetch.value.users_attending.length)} Users Attending`} >
+                  <div>
+                    <h2>Users Attending</h2>
+                    <p>
+                      <UserAttendeesList attendees={eventFetch.value.users_attending} />
+                    </p>
+                  </div>
+                </Tab>
+              </Tabs>
+            </Col>
           </Row>
         </Grid>
       );
