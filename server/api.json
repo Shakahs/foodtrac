@@ -839,14 +839,17 @@
           }
         }
       },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "number"
+      } ]
+    },
+    "/events/{eventId}/user_attendance/{userId}" : {
       "delete" : {
         "summary" : "Unregister to attend",
-        "parameters" : [ {
-          "name" : "userId",
-          "in" : "query",
-          "required" : false,
-          "type" : "number"
-        } ],
+        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "Status 200"
@@ -857,7 +860,12 @@
         "name" : "eventId",
         "in" : "path",
         "required" : true,
-        "type" : "number"
+        "type" : "integer"
+      }, {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
       } ]
     },
     "/events/{eventId}/brand_attendance" : {
