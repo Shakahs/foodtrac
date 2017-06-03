@@ -534,6 +534,7 @@ CREATE TABLE IF NOT EXISTS `foodtrac`.`UserAttendees` (
   PRIMARY KEY (`id`),
   INDEX `UserAttendees_Events` (`event_id` ASC),
   INDEX `UserAttendees_Users` (`user_id` ASC),
+  UNIQUE INDEX `UserAttendees_Unique` (`event_id` ASC, `user_id` ASC),
   CONSTRAINT `UserAttendees_Events`
     FOREIGN KEY (`event_id`)
     REFERENCES `foodtrac`.`Events` (`id`),
