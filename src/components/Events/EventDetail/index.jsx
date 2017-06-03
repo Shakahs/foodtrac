@@ -116,13 +116,15 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
               </h2>
               <h4>
                 {eventFetch.value.description}
-                <this.UserToggleRegistrationButton />
-                {this.props.user.is_truck_owner && <this.BrandToggleRegistrationButton /> }
               </h4>
               <Grid fluid>
                 <Col xs={8} sm={8} md={8} lg={8}>
+                  Users: <this.UserToggleRegistrationButton />
+                  {this.props.user.is_truck_owner &&
+                  <div>
+                    Brand Owners: <this.BrandToggleRegistrationButton />
+                  </div>}
                   <UserCount />
-
                 </Col>
                 <Col xs={4} sm={4} md={4} lg={4}>
                   <TruckCount />
