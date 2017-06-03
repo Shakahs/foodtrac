@@ -8,6 +8,7 @@ import propSchema from '../common/PropTypes';
 import ManageBasic from './ManageBasic';
 import ManageTrucks from './ManageTrucks';
 import ManageMenu from './ManageMenu';
+import ManageReward from './ManageReward';
 import { actions as userActions } from '../../redux/user';
 
 class ManageBrand extends React.Component {
@@ -106,6 +107,12 @@ class ManageBrand extends React.Component {
           <ManageMenu
             brandId={this.props.brandId}
             menuItems={this.props.menuItems}
+            getBrand={this.props.getBrand}
+          />
+        </Tab>
+        <Tab label="Manage your Rewards">
+          <ManageReward
+            brandId={this.props.brandId}
             getBrand={this.props.getBrand}
           />
         </Tab>

@@ -205,4 +205,11 @@ export default {
     subscribePush: PropTypes.func,
     unsubscribePush: PropTypes.func,
   }),
+  setValues: PropTypes.func.isRequired,
+  setType: PropTypes.func.isRequired,
+  trigger: PropTypes.number.isRequired,
+  type: PropTypes.number.isRequired,
+  flatRate: PropTypes.string.isRequired,
+  percentRate: PropTypes.string.isRequired,
+
 };
