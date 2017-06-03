@@ -122,14 +122,14 @@ class ManageTrucks extends Component {
       checked_in: false,
     };
     axios.put(`/api/foodtrucks/${truckId}/location`, endTime)
-      .then(res => console.log(res))
+      .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
     this.takeOrders(truckId, false);
   }
 
   takeOrders(truckId, takingOrder) {
     axios.put(`/api/foodtrucks/${truckId}/orders`, { order: takingOrder })
-      .then(res => console.log(res))
+      .then(() => this.props.getBrand(this.props.brandId))
       .catch(err => console.log(err));
   }
 
