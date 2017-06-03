@@ -848,7 +848,7 @@
     },
     "/events/{eventId}/user_attendance/{userId}" : {
       "delete" : {
-        "summary" : "Unregister to attend",
+        "summary" : "User unregister to attend",
         "parameters" : [ ],
         "responses" : {
           "200" : {
@@ -879,7 +879,7 @@
           "schema" : {
             "type" : "object",
             "properties" : {
-              "brand_id" : {
+              "brandId" : {
                 "type" : "number"
               }
             }
@@ -895,7 +895,7 @@
         "name" : "eventId",
         "in" : "path",
         "required" : true,
-        "type" : "string"
+        "type" : "integer"
       } ]
     },
     "/events/{eventId}/comments" : {
@@ -913,6 +913,28 @@
         "in" : "path",
         "required" : true,
         "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance/{brandId}" : {
+      "delete" : {
+        "summary" : "Brand unregister to attend event",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
       } ]
     },
     "/orders/{orderId}" : {
