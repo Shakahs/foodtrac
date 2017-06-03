@@ -10,20 +10,21 @@ import propSchema from '../common/PropTypes';
 // );
 
 const Login = props => (
-  <Link to="/login">
-    <form onSubmit={props.handleSubmit}>
-      <div>
-        <label htmlFor="email">Email</label>
-        <Field name="email" component="input" type="text" />
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <Field name="password" component="input" type="text" />
-      </div>
-      <button type="submit" onClick={() => { props.handleSubmit(); }}>Login</button>
-    </form>
-  </Link>
-    );
+  <form onSubmit={props.handleSubmit}>
+    <div>
+      <label htmlFor="email">Email</label>
+      <Field name="email" component="input" type="text" />
+    </div>
+    <div>
+      <label htmlFor="password">Password</label>
+      <Field name="password" component="input" type="text" />
+    </div>
+    <button type="submit" onClick={() => { props.handleSubmit(); }}>Login</button>
+    <Link to="/signup">
+      <p>Sign Up</p>
+    </Link>
+  </form>
+);
 
 Login.propTypes = {
   handleSubmit: propSchema.handleSubmit,
