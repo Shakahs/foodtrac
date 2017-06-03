@@ -827,11 +827,25 @@
           "schema" : {
             "type" : "object",
             "properties" : {
-              "user_id" : {
-                "type" : "string"
+              "userId" : {
+                "type" : "number"
               }
             }
           }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Unregister to attend",
+        "parameters" : [ {
+          "name" : "userId",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
         } ],
         "responses" : {
           "200" : {
@@ -843,7 +857,7 @@
         "name" : "eventId",
         "in" : "path",
         "required" : true,
-        "type" : "string"
+        "type" : "number"
       } ]
     },
     "/events/{eventId}/brand_attendance" : {
