@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const path = require('path');
 
 class Locations extends Model {
   static get tableName() {
@@ -45,6 +46,14 @@ class Locations extends Model {
         join: {
           from: 'Locations.id',
           to: 'LocationTimelines.location_id',
+        },
+      },
+      events: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'events.model'),
+        join: {
+          from: 'Locations.id',
+          to: 'Events.location_id',
         },
       },
     };

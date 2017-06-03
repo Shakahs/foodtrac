@@ -7,6 +7,7 @@ module.exports = {
       password: 'foodtracdata',
       database: 'foodtrac',
       multipleStatements: true,
+      timezone: 'utc',
     },
   },
 };

@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const path = require('path');
 
 class Users extends Model {
   static get tableName() {
@@ -83,6 +84,30 @@ class Users extends Model {
         join: {
           from: 'Users.id',
           to: 'Upvotes.user_id',
+        },
+      },
+      events: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'events.model'),
+        join: {
+          from: 'Users.id',
+          to: 'Events.owner_id',
+        },
+      },
+      events_attending: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'userattendees.model'),
+        join: {
+          from: 'Users.id',
+          to: 'UserAttendees.user_id',
+        },
+      },
+      event_comments: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'eventcomments.model'),
+        join: {
+          from: 'Users.id',
+          to: 'EventComments.user_id',
         },
       },
     };

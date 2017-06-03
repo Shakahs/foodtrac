@@ -1,4 +1,5 @@
 const { Model } = require('objection');
+const path = require('path');
 
 class Brands extends Model {
   static get tableName() {
@@ -106,6 +107,14 @@ class Brands extends Model {
         join: {
           from: 'Brands.id',
           to: 'Upvotes.brand_id',
+        },
+      },
+      events_attending: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'events/', 'brandattendees.model'),
+        join: {
+          from: 'Brands.id',
+          to: 'BrandAttendees.brand_id',
         },
       },
     };

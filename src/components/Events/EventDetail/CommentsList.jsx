@@ -1,5 +1,5 @@
 import React from 'react';
-import CommentEntry from '../common/CommentEntry';
+import CommentEntry from '../../common/CommentEntry';
 
 const CommentsList = () => (
   <CommentEntry />

@@ -813,7 +813,7 @@
         "name" : "eventId",
         "in" : "path",
         "required" : true,
-        "type" : "string"
+        "type" : "integer"
       } ]
     },
     "/events/{eventId}/user_attendance" : {
