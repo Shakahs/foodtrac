@@ -5,40 +5,81 @@ import PropTypes from 'prop-types';
 import { withGoogleMap, GoogleMap } from 'react-google-maps';
 import Paper from 'material-ui/Paper';
 import _ from 'lodash';
+import { RaisedButton } from 'material-ui';
 import UserAttendeesList from './UserAttendeesList';
 import BrandAttendeesList from './BrandAttendeesList';
+import { eventAPI } from '../../../api';
+import propSchema from '../../common/PropTypes';
 
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  constructor(props) {
+    super(props);
+
+    this.UserRegisterButton = this.UserRegisterButton.bind(this);
+    this.UserUnregisterButton = this.UserUnregisterButton.bind(this);
+    this.UserToggleRegistrationButton = this.UserToggleRegistrationButton.bind(this);
+  }
+
+  UserRegisterButton() {
+    return (<RaisedButton
+      label="Attend this event"
+      onTouchTap={() => eventAPI.userRegisterAttendEvent(this.props.eventId, this.props.user.id)
+          // .then((res) => { console.log(res); });
+          .then(() => { this.props.refreshEvent(); })
+          .catch(() => { this.props.refreshEvent(); })}
+    />);
+  }
+
+  UserUnregisterButton() {
+    return (<RaisedButton
+      label="Do not attend this event"
+      onTouchTap={() => eventAPI.userUnregisterAttendEvent(this.props.eventId, this.props.user.id)
+        .then(() => { this.props.refreshEvent(); })
+        .catch(() => { this.props.refreshEvent(); })}
+    />);
+  }
+
+  UserToggleRegistrationButton() {
+    return (_.some(this.props.eventFetch.value.users_attending,
+    { user_id: this.props.user.id })
+    ? this.UserUnregisterButton()
+    : this.UserRegisterButton());
+  }
+
   render() {
     const { eventFetch } = this.props;
-
-    const GettingStartedGoogleMap = withGoogleMap(() => (
-      <GoogleMap
-        ref={_.noop}
-        defaultZoom={3}
-        defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
-        onClick={_.noop}
-      >
-        {/* {props.markers.map((marker, index) => (*/}
-        {/* <Marker*/}
-        {/* {...marker}*/}
-        {/* onRightClick={() => props.onMarkerRightClick(index)}*/}
-        {/* />*/}
-        {/* ))}*/}
-      </GoogleMap>
-    ));
-
 
     if (eventFetch.fulfilled) {
       const UserCount = () =>
         (<Paper>
           {this.props.eventFetch.value.users_attending.length} attending
         </Paper>);
+
       const TruckCount = () =>
         (<Paper>
           {this.props.eventFetch.value.brands_attending.length} trucks
         </Paper>);
+
+
+      // const userToggleRegistrationButton = () => userRegisterButton()
+
+      const GettingStartedGoogleMap = withGoogleMap(() => (
+        <GoogleMap
+          ref={_.noop}
+          defaultZoom={3}
+          defaultCenter={{ lat: -25.363882, lng: 131.044922 }}
+          onClick={_.noop}
+        >
+          {/* {props.markers.map((marker, index) => (*/}
+          {/* <Marker*/}
+          {/* {...marker}*/}
+          {/* onRightClick={() => props.onMarkerRightClick(index)}*/}
+          {/* />*/}
+          {/* ))}*/}
+        </GoogleMap>
+      ));
+
       return (
         <Grid fluid>
           <Row>
@@ -48,10 +89,12 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
               </h2>
               <h4>
                 {eventFetch.value.description}
+                <this.UserToggleRegistrationButton />
               </h4>
               <Grid fluid>
-                <Col xs={4} sm={4} md={4} lg={4}>
+                <Col xs={8} sm={8} md={8} lg={8}>
                   <UserCount />
+
                 </Col>
                 <Col xs={4} sm={4} md={4} lg={4}>
                   <TruckCount />
@@ -95,8 +138,21 @@ EventDetail.propTypes = {
   eventFetch: PropTypes.shape({
     value: PropTypes.array,
   }),
+  refreshEvent: PropTypes.func.isRequired,
+  user: propSchema.user,
+  eventId: PropTypes.number.isRequired,
 };
 
-export default connect(props => ({
-  eventFetch: `/api/events/${props.match.params.eventId}`,
-}))(EventDetail);
+export default connect((props) => {
+  const url = `/api/events/${props.eventId}`;
+  return {
+    eventFetch: url,
+    refreshEvent: () => ({
+      eventFetch: {
+        url,
+        force: true,
+        refreshing: true,
+      },
+    }),
+  };
+})(EventDetail);
