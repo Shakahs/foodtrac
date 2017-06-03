@@ -9,20 +9,24 @@ module.exports = {
         user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
         res.status(200).json(user);
       })
-      .catch(e => console.log('Error inserting new user:', e));
+      .catch(e => res.status(400).send(e.message));
   },
   put(req, res) {
     Users.query()
       .findById(req.params.userId)
       .patch(req.body)
-      .then(user => res.status(200).json(user))
-      .catch(e => console.log('Error updating user:', e));
+      .then(() => Users.query().findById(req.params.userId))
+      .then((user) => {
+        user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
+        res.status(200).send(user);
+      })
+      .catch(e => res.status(400).send(e.message));
   },
   delete(req, res) {
     Users.query()
       .findById(req.params.userId)
       .delete()
       .then(() => res.status(200))
-      .catch(e => console.log('Error deleting user:', e));
+      .catch(e => res.status(400).send(e.message));
   },
 };

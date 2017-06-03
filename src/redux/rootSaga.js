@@ -9,6 +9,7 @@ export default function* rootSaga() {
   yield [
     fork(userSagas.watchLoginSuccess),
     fork(userSagas.watchAddBrandRequest),
+    fork(userSagas.watchBecomeOwnerReq),
     fork(mapSagas.watchMapRequest),
     fork(mapSagas.watchMapTruckUpvoteReq),
     fork(profileSagas),

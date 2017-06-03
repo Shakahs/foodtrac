@@ -13,6 +13,7 @@ export const REDIRECT_ADDBRAND_ENABLE = 'REDIRECT_ADDBRAND_ENABLE';
 export const REDIRECT_ADDBRAND_DISABLE = 'REDIRECT_ADDBRAND_DISABLE';
 export const ADD_BRAND = 'ADD_BRAND';
 export const ADD_BRAND_REQUEST = 'ADD_BRAND_REQUEST';
+export const USER_BECOME_OWNER_REQ = 'USER_BECOME_OWNER_REQ';
 
 const initialState = {
   id: null,
@@ -67,6 +68,11 @@ export const userNewFollow = newFollow => ({
 export const userRemoveFollow = brandId => ({
   type: USER_RM_FOLLOW,
   brandId,
+});
+
+export const userBecomeOwnerReq = id => ({
+  type: USER_BECOME_OWNER_REQ,
+  id,
 });
 
 export const brandInfoUpdate = brands => ({

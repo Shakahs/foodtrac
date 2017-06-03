@@ -6,7 +6,7 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import propSchema from './PropTypes';
 
 const topMarkerColors = ['FFD700', 'C0C0C0', 'CD7F32'];
-
+// TODO: refactor to set marker colors on multiple markers if they have same upvote score and only color if on /map
 const WrappedMap = withGoogleMap(props => (
   <GoogleMap
     ref={props.onMapLoad}
