@@ -14,6 +14,7 @@ const Promise = require('bluebird');
 const Chance = require('chance');
 const Faker = require('faker');
 const gulpRequireTasks = require('gulp-require-tasks');
+const axios = require('axios');
 
 const chance = new Chance();
 gulpRequireTasks();
@@ -43,6 +44,21 @@ gulp.task('db', (cb) => {
  /
  /
 */
+
+gulp.task('schema:db', (cb) => {
+  const axiosConf = { auth: { username: process.env.VERTABELO_KEY } };
+
+  axios.all([
+    axios.get(`https://my.vertabelo.com/api/sql/${process.env.VERTABELO_MODEL}`, axiosConf),
+    axios.get(`https://my.vertabelo.com/api/xml/${process.env.VERTABELO_MODEL}`, axiosConf),
+  ])
+    .then(axios.spread((sql, xml) => {
+      fs.writeFileSync('config/database/Foodtrac.sql', sql.data);
+      fs.writeFileSync('config/database/Foodtrac.xml', xml.data);
+    }))
+    .then(() => { cb(); })
+    .catch((err) => { cb(err); });
+});
 
 gulp.task('schema:api', () => {
   const pRename = Promise.promisify(fs.rename);
