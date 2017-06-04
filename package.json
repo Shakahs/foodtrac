@@ -61,7 +61,8 @@
     "redux-persist": "^4.8.0",
     "redux-saga": "^0.15.3",
     "seamless-immutable": "^7.1.2",
-    "swaggerize-express": "^4.0.5"
+    "swaggerize-express": "^4.0.5",
+    "web-push": "^3.2.2"
   },
   "devDependencies": {
     "auth0": "^2.6.0",
