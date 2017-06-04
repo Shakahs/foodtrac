@@ -20,6 +20,10 @@ class ManageReward extends Component {
     this.saveChanges = this.saveChanges.bind(this);
   }
 
+  componentDidMount() {
+    this.defaultChecked();
+  }
+
   setValues(val, key) {
     this.setState({ [key]: val });
   }
@@ -32,31 +36,42 @@ class ManageReward extends Component {
     });
   }
 
+  defaultChecked() {
+    if (this.props.rewardTrigger) {
+      this.setState({ checked: true });
+    }
+  }
+
   handleCheck() {
+    if (this.state.checked) {
+      const reward = {
+        reward: { rewards_trigger: null },
+      };
+      axios.put(`/api/brands/${this.props.brandId}/reward/${this.props.defaultCouponId}`, reward)
+        .then(() => this.props.getBrand(this.props.brandId))
+        .catch(err => console.log(err));
+    }
     this.setState({ checked: !this.state.checked });
-    // put reward trigger to null if checker is false
   }
 
   saveChanges() {
+    const reward = {
+      coupon: {
+        percent_discount: this.state.percentRate === '' ? null : this.state.percentRate,
+        flat_discount: this.state.flatRate === '' ? null : Number(this.state.flatRate),
+      },
+      reward: {
+        rewards_trigger: this.state.trigger,
+      },
+    };
     if (!this.props.defaultCouponId) {
-      const reward = {
-        coupon: {},
-        reward: {
-          rewards_trigger: this.state.trigger,
-        },
-      };
-      if (this.state.percentRate !== '') {
-        reward.coupon.percent_discount = this.state.percentRate;
-      }
-      if (this.state.flatRate !== '') {
-        reward.coupon.flat_discount = this.state.flatRate;
-      }
-      console.log('IN SAVE', reward);
       axios.post(`/api/brands/${this.props.brandId}/reward`, reward)
-        .then(() => this.getBrand(this.props.brandId))
+        .then(() => this.props.getBrand(this.props.brandId))
         .catch(err => console.log(err));
     } else {
-      // put
+      axios.put(`/api/brands/${this.props.brandId}/reward/${this.props.defaultCouponId}`, reward)
+        .then(() => this.props.getBrand(this.props.brandId))
+        .catch(err => console.log(err));
     }
   }
 
@@ -65,6 +80,7 @@ class ManageReward extends Component {
       <div>
         <Checkbox
           label={'Enable your Reward Program'}
+          checked={this.state.checked}
           onCheck={this.handleCheck}
         />
         {this.state.checked ?
@@ -86,6 +102,8 @@ class ManageReward extends Component {
 ManageReward.propTypes = {
   defaultCouponId: propSchema.defaultCouponId,
   brandId: propSchema.brandId,
+  rewardTrigger: propSchema.rewardTrigger,
+  getBrand: propSchema.getBrand,
 };
 
 export default ManageReward;
