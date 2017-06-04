@@ -9,5 +9,14 @@
 }
 
 .emblemRight {
+text-align: center;
+}
 
+$a-tags: 'a, a:active, a:hover, a:visited';
+
+.truckOwnerByline {
+  font-size: 0.8em;
+  #{$a-tags} {
+    color: purple;
+  }
 }
