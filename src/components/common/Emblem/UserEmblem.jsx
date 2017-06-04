@@ -18,14 +18,16 @@ class UserEmblem extends React.Component { // eslint-disable-line react/prefer-s
     />);
     return (
       <Emblem avatar={userAvatar}>
-        {user.first_name} {user.last_name}
-        {user.is_truck_owner &&
-        <div className="truckOwnerByline">
+        <div className="userName">{user.first_name} {user.last_name}</div>
+        {!!user.is_truck_owner && (<div className="truckOwnerByline">
           <Link to={`/brand/${user.brands[0].id}`} >
             <FontIcon className="fa fa-truck" style={{ fontSize: '1.2em' }} /> {user.brands[0].name}
           </Link>
           </div>
-        }
+        )}
+        <div>
+          <FontIcon className="fa fa-star" style={{ fontSize: '1.2em' }} /> {user.brand_reviews.length} Reviews
+        </div>
       </Emblem>)
     ;
   }
