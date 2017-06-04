@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-03 23:57:43.341
+-- Last modification date: 2017-06-04 01:20:29.348
 
 -- tables
 -- Table: BrandAttendees
@@ -211,19 +211,6 @@ CREATE TABLE MenuItems (
 
 CREATE INDEX Menu_Brand ON MenuItems (brand_id);
 
--- Table: Notifications
-CREATE TABLE Notifications (
-    id int NOT NULL AUTO_INCREMENT,
-    text varchar(100) NOT NULL,
-    user_id int NOT NULL,
-    brand_id int NOT NULL,
-    CONSTRAINT Notifications_pk PRIMARY KEY (id)
-);
-
-CREATE INDEX Notifications_Brand ON Notifications (brand_id);
-
-CREATE INDEX Notifications_Users ON Notifications (user_id);
-
 -- Table: OrderItems
 CREATE TABLE OrderItems (
     id int NOT NULL AUTO_INCREMENT,
@@ -319,6 +306,18 @@ CREATE TABLE UserFollows (
 CREATE INDEX UserFollows_Brand ON UserFollows (brand_id);
 
 CREATE INDEX UserFollows_Users ON UserFollows (user_id);
+
+-- Table: UserPushInfo
+CREATE TABLE UserPushInfo (
+    id int NOT NULL AUTO_INCREMENT,
+    endpoint text NOT NULL,
+    auth varchar(100) NOT NULL,
+    p256dh text NOT NULL,
+    user_id int NOT NULL,
+    CONSTRAINT Notifications_pk PRIMARY KEY (id)
+);
+
+CREATE INDEX Notifications_Users ON UserPushInfo (user_id);
 
 -- Table: UserRewards
 CREATE TABLE UserRewards (
@@ -447,12 +446,8 @@ ALTER TABLE LocationTimelines ADD CONSTRAINT Locations_LocationTimelines FOREIGN
 ALTER TABLE MenuItems ADD CONSTRAINT Menu_Brand FOREIGN KEY Menu_Brand (brand_id)
     REFERENCES Brands (id);
 
--- Reference: Notifications_Brand (table: Notifications)
-ALTER TABLE Notifications ADD CONSTRAINT Notifications_Brand FOREIGN KEY Notifications_Brand (brand_id)
-    REFERENCES Brands (id);
-
--- Reference: Notifications_Users (table: Notifications)
-ALTER TABLE Notifications ADD CONSTRAINT Notifications_Users FOREIGN KEY Notifications_Users (user_id)
+-- Reference: Notifications_Users (table: UserPushInfo)
+ALTER TABLE UserPushInfo ADD CONSTRAINT Notifications_Users FOREIGN KEY Notifications_Users (user_id)
     REFERENCES Users (id);
 
 -- Reference: OrderItems_MenuItems (table: OrderItems)

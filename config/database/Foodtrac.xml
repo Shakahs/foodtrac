@@ -14,7 +14,7 @@
         </Counter>
         <Counter>
             <Name>column</Name>
-            <Value>121</Value>
+            <Value>123</Value>
             <Prefix>c</Prefix>
         </Counter>
         <Counter>
@@ -1515,7 +1515,7 @@
             <Properties/>
         </Table>
         <Table Id="t18">
-            <Name>Notifications</Name>
+            <Name>UserPushInfo</Name>
             <Description></Description>
             <Columns>
                 <Column Id="c82">
@@ -1533,8 +1533,26 @@
                     </Properties>
                 </Column>
                 <Column Id="c83">
-                    <Name>text</Name>
+                    <Name>endpoint</Name>
+                    <Type>text</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
+                <Column Id="c122">
+                    <Name>auth</Name>
                     <Type>varchar(100)</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
+                <Column Id="c123">
+                    <Name>p256dh</Name>
+                    <Type>text</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
                     <DefaultValue></DefaultValue>
@@ -1543,15 +1561,6 @@
                 </Column>
                 <Column Id="c84">
                     <Name>user_id</Name>
-                    <Type>int</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
-                <Column Id="c85">
-                    <Name>brand_id</Name>
                     <Type>int</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
@@ -1568,17 +1577,6 @@
             </PrimaryKey>
             <AlternateKeys/>
             <Indexes>
-                <Index Id="i27">
-                    <Name>Notifications_Brand</Name>
-                    <Description></Description>
-                    <Columns>
-                        <Column>
-                            <Column>c85</Column>
-                            <Ascending>true</Ascending>
-                        </Column>
-                    </Columns>
-                    <Properties/>
-                </Index>
                 <Index Id="i28">
                     <Name>Notifications_Users</Name>
                     <Description></Description>
@@ -2762,25 +2760,6 @@
             <OnDeleteAction>None</OnDeleteAction>
             <Properties/>
         </Reference>
-        <Reference Id="r26">
-            <Name>Notifications_Brand</Name>
-            <Description></Description>
-            <PKTable>t5</PKTable>
-            <FKTable>t18</FKTable>
-            <PKRole></PKRole>
-            <FKRole></FKRole>
-            <ReferenceColumns>
-                <ReferenceColumn>
-                    <PKColumn>c18</PKColumn>
-                    <FKColumn>c85</FKColumn>
-                </ReferenceColumn>
-            </ReferenceColumns>
-            <Cardinality>0..*</Cardinality>
-            <Mandatory>true</Mandatory>
-            <OnUpdateAction>None</OnUpdateAction>
-            <OnDeleteAction>None</OnDeleteAction>
-            <Properties/>
-        </Reference>
         <Reference Id="r27">
             <Name>Notifications_Users</Name>
             <Description></Description>
@@ -2794,7 +2773,7 @@
                     <FKColumn>c84</FKColumn>
                 </ReferenceColumn>
             </ReferenceColumns>
-            <Cardinality>0..*</Cardinality>
+            <Cardinality>1..1</Cardinality>
             <Mandatory>true</Mandatory>
             <OnUpdateAction>None</OnUpdateAction>
             <OnDeleteAction>None</OnDeleteAction>
@@ -3340,8 +3319,8 @@
         <TableDisplay Id="td18">
             <X>4504.5</X>
             <Y>4887.5</Y>
-            <Width>136.0</Width>
-            <Height>88.0</Height>
+            <Width>180.0</Width>
+            <Height>116.0</Height>
             <LineColor>#000000</LineColor>
             <FillColor>#ffffff</FillColor>
             <Table>t18</Table>
@@ -3933,27 +3912,6 @@
             <PkTableDisplay>td4</PkTableDisplay>
             <FkTableDisplay>td17</FkTableDisplay>
             <Reference>r25</Reference>
-        </ReferenceDisplay>
-        <ReferenceDisplay Id="rd26">
-            <Color>#000000</Color>
-            <Type>Cross_3CP</Type>
-            <ControlPoints>
-                <ControlPoint>
-                    <X>4962.5</X>
-                    <Y>5205.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4962.5</X>
-                    <Y>4932.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4560.5</X>
-                    <Y>4932.5</Y>
-                </ControlPoint>
-            </ControlPoints>
-            <PkTableDisplay>td5</PkTableDisplay>
-            <FkTableDisplay>td18</FkTableDisplay>
-            <Reference>r26</Reference>
         </ReferenceDisplay>
         <ReferenceDisplay Id="rd27">
             <Color>#000000</Color>
