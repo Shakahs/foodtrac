@@ -10,8 +10,8 @@ class Coupons extends Model {
       type: 'object',
 
       properties: {
-        percent_discount: { type: 'integer' },
-        flat_discount: { type: 'integer' },
+        percent_discount: { type: ['integer', 'null'] },
+        flat_discount: { type: ['integer', 'null'] },
       },
     };
   }

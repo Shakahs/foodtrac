@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, SelectField, MenuItem } from 'material-ui';
+import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
 import propSchema from '../common/PropTypes';
 
 const ManageRewardEntry = props => (
@@ -53,6 +53,12 @@ const ManageRewardEntry = props => (
         <MenuItem value={35} primaryText="35%" />
       </SelectField>
     }
+    <br />
+    <br />
+    <FlatButton
+      label="Save Changes"
+      onClick={props.saveChanges}
+    />
   </div>
 );
 
@@ -63,6 +69,7 @@ ManageRewardEntry.propTypes = {
   type: propSchema.type,
   flatRate: propSchema.flatRate,
   percentRate: propSchema.percentRate,
+  saveChanges: propSchema.saveChanges,
 };
 
 export default ManageRewardEntry;

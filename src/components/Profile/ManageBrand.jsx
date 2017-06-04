@@ -114,6 +114,8 @@ class ManageBrand extends React.Component {
           <ManageReward
             brandId={this.props.brandId}
             getBrand={this.props.getBrand}
+            defaultCouponId={this.props.defaultCouponId}
+            rewardTrigger={this.props.rewardTrigger}
           />
         </Tab>
       </Tabs>
@@ -129,6 +131,8 @@ ManageBrand.propTypes = {
   userActions: propSchema.userActions,
   user: propSchema.user,
   menuItems: propSchema.menuItems,
+  defaultCouponId: propSchema.defaultCouponId,
+  rewardTrigger: propSchema.rewardTrigger,
 };
 
 const mapStateToProps = state => ({

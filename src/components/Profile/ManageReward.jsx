@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Checkbox } from 'material-ui';
+import axios from 'axios';
+import propSchema from '../common/PropTypes';
 import ManageRewardEntry from './ManageRewardEntry';
 
 class ManageReward extends Component {
@@ -15,6 +17,7 @@ class ManageReward extends Component {
     this.handleCheck = this.handleCheck.bind(this);
     this.setValues = this.setValues.bind(this);
     this.setType = this.setType.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
   }
 
   setValues(val, key) {
@@ -34,6 +37,29 @@ class ManageReward extends Component {
     // put reward trigger to null if checker is false
   }
 
+  saveChanges() {
+    if (!this.props.defaultCouponId) {
+      const reward = {
+        coupon: {},
+        reward: {
+          rewards_trigger: this.state.trigger,
+        },
+      };
+      if (this.state.percentRate !== '') {
+        reward.coupon.percent_discount = this.state.percentRate;
+      }
+      if (this.state.flatRate !== '') {
+        reward.coupon.flat_discount = this.state.flatRate;
+      }
+      console.log('IN SAVE', reward);
+      axios.post(`/api/brands/${this.props.brandId}/reward`, reward)
+        .then(() => this.getBrand(this.props.brandId))
+        .catch(err => console.log(err));
+    } else {
+      // put
+    }
+  }
+
   render() {
     return (
       <div>
@@ -49,11 +75,17 @@ class ManageReward extends Component {
             percentRate={this.state.percentRate}
             setValues={this.setValues}
             setType={this.setType}
+            saveChanges={this.saveChanges}
           /> : null
         }
       </div>
     );
   }
 }
+
+ManageReward.propTypes = {
+  defaultCouponId: propSchema.defaultCouponId,
+  brandId: propSchema.brandId,
+};
 
 export default ManageReward;

@@ -210,6 +210,9 @@ export default {
   trigger: PropTypes.number.isRequired,
   type: PropTypes.number.isRequired,
   flatRate: PropTypes.string.isRequired,
-  percentRate: PropTypes.string.isRequired,
+  percentRate: PropTypes.number.isRequired,
+  defaultCouponId: PropTypes.number.isRequired,
+  rewardTrigger: PropTypes.number.isRequired,
+  saveChanges: PropTypes.func.isRequired,
 
 };

@@ -142,6 +142,8 @@ class Profile extends Component {
             getBrand={this.getBrandDetail}
             menuItems={this.state.brand.menu_items}
             submitComment={this.submitComment}
+            defaultCouponId={this.state.brand.default_coupon_id}
+            rewardTrigger={this.state.brand.rewards_trigger}
           />
         </Row>
       </Grid>
