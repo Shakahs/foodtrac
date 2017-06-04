@@ -9,10 +9,20 @@ class Users extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['is_truck_owner', 'auth0_id'],
+      required: ['is_truck_owner', 'auth0_id', 'first_name', 'last_name'],
 
       properties: {
         id: { type: 'integer' },
+        first_name: {
+          type: 'string',
+          chance: 'first',
+          maxLength: 30,
+        },
+        last_name: {
+          type: 'string',
+          chance: 'last',
+          maxLength: 30,
+        },
         email: {
           type: 'string',
           format: 'email',

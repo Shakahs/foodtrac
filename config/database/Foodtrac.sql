@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-03 20:27:54.189
+-- Last modification date: 2017-06-03 23:57:43.341
 
 -- tables
 -- Table: BrandAttendees
@@ -338,6 +338,8 @@ CREATE TABLE Users (
     id int NOT NULL AUTO_INCREMENT,
     auth0_id varchar(30) NOT NULL,
     is_truck_owner tinyint NOT NULL DEFAULT 0,
+    first_name varchar(30) NOT NULL,
+    last_name varchar(30) NOT NULL,
     UNIQUE INDEX Users_auth0id_unique_index (auth0_id),
     CONSTRAINT Users_pk PRIMARY KEY (id)
 );
