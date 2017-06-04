@@ -827,37 +827,7 @@
           "schema" : {
             "type" : "object",
             "properties" : {
-              "user_id" : {
-                "type" : "string"
-              }
-            }
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/events/{eventId}/brand_attendance" : {
-      "post" : {
-        "summary" : "Brand registers to attend",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "type" : "object",
-            "properties" : {
-              "brand_id" : {
+              "userId" : {
                 "type" : "number"
               }
             }
@@ -873,7 +843,59 @@
         "name" : "eventId",
         "in" : "path",
         "required" : true,
-        "type" : "string"
+        "type" : "number"
+      } ]
+    },
+    "/events/{eventId}/user_attendance/{userId}" : {
+      "delete" : {
+        "summary" : "User unregister to attend",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance" : {
+      "post" : {
+        "summary" : "Brand registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "brandId" : {
+                "type" : "number"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
       } ]
     },
     "/events/{eventId}/comments" : {
@@ -891,6 +913,28 @@
         "in" : "path",
         "required" : true,
         "type" : "string"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance/{brandId}" : {
+      "delete" : {
+        "summary" : "Brand unregister to attend event",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
       } ]
     },
     "/orders/{orderId}" : {
