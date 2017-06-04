@@ -29,12 +29,12 @@
         </Counter>
         <Counter>
             <Name>table_check</Name>
-            <Value>0</Value>
+            <Value>1</Value>
             <Prefix>tc</Prefix>
         </Counter>
         <Counter>
             <Name>alternate_key</Name>
-            <Value>4</Value>
+            <Value>7</Value>
             <Prefix>a</Prefix>
         </Counter>
         <Counter>
@@ -1570,15 +1570,24 @@
                 </Column>
             </Columns>
             <PrimaryKey>
-                <Name>Notifications_pk</Name>
+                <Name>UserPushInfo_pk</Name>
                 <Columns>
                     <Column>c82</Column>
                 </Columns>
             </PrimaryKey>
-            <AlternateKeys/>
+            <AlternateKeys>
+                <AlternateKey Id="a7">
+                    <Name>UserPushInfo_ak_1</Name>
+                    <Description></Description>
+                    <Columns>
+                        <Column>c84</Column>
+                    </Columns>
+                    <Properties/>
+                </AlternateKey>
+            </AlternateKeys>
             <Indexes>
                 <Index Id="i28">
-                    <Name>Notifications_Users</Name>
+                    <Name>UserPushInfo_Users</Name>
                     <Description></Description>
                     <Columns>
                         <Column>
@@ -2761,7 +2770,7 @@
             <Properties/>
         </Reference>
         <Reference Id="r27">
-            <Name>Notifications_Users</Name>
+            <Name>UserPushInfo_Users</Name>
             <Description></Description>
             <PKTable>t4</PKTable>
             <FKTable>t18</FKTable>

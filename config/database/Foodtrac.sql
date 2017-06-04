@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-04 01:20:29.348
+-- Last modification date: 2017-06-04 02:46:28.119
 
 -- tables
 -- Table: BrandAttendees
@@ -314,10 +314,11 @@ CREATE TABLE UserPushInfo (
     auth varchar(100) NOT NULL,
     p256dh text NOT NULL,
     user_id int NOT NULL,
-    CONSTRAINT Notifications_pk PRIMARY KEY (id)
+    UNIQUE INDEX UserPushInfo_ak_1 (user_id),
+    CONSTRAINT UserPushInfo_pk PRIMARY KEY (id)
 );
 
-CREATE INDEX Notifications_Users ON UserPushInfo (user_id);
+CREATE INDEX UserPushInfo_Users ON UserPushInfo (user_id);
 
 -- Table: UserRewards
 CREATE TABLE UserRewards (
@@ -446,10 +447,6 @@ ALTER TABLE LocationTimelines ADD CONSTRAINT Locations_LocationTimelines FOREIGN
 ALTER TABLE MenuItems ADD CONSTRAINT Menu_Brand FOREIGN KEY Menu_Brand (brand_id)
     REFERENCES Brands (id);
 
--- Reference: Notifications_Users (table: UserPushInfo)
-ALTER TABLE UserPushInfo ADD CONSTRAINT Notifications_Users FOREIGN KEY Notifications_Users (user_id)
-    REFERENCES Users (id);
-
 -- Reference: OrderItems_MenuItems (table: OrderItems)
 ALTER TABLE OrderItems ADD CONSTRAINT OrderItems_MenuItems FOREIGN KEY OrderItems_MenuItems (menu_item_id)
     REFERENCES MenuItems (id);
@@ -508,6 +505,10 @@ ALTER TABLE UserFollows ADD CONSTRAINT UserFollows_Brand FOREIGN KEY UserFollows
 
 -- Reference: UserFollows_Users (table: UserFollows)
 ALTER TABLE UserFollows ADD CONSTRAINT UserFollows_Users FOREIGN KEY UserFollows_Users (user_id)
+    REFERENCES Users (id);
+
+-- Reference: UserPushInfo_Users (table: UserPushInfo)
+ALTER TABLE UserPushInfo ADD CONSTRAINT UserPushInfo_Users FOREIGN KEY UserPushInfo_Users (user_id)
     REFERENCES Users (id);
 
 -- Reference: UserRewards_Brand (table: UserRewards)
