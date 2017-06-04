@@ -1,7 +1,14 @@
 import React from 'react';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
-import CommentEntry from '../../common/CommentEntry.scss';
+
+const CommentEntry = props => (
+  <div>{props.comment.users.first_name} {props.comment.text}</div>
+);
+
+CommentEntry.propTypes = {
+  comment: PropTypes.object.isRequired, //eslint-disable-line react/forbid-prop-types
+};
 
 const CommentsList = props => (
   <div>

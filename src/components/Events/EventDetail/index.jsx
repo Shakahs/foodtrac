@@ -138,9 +138,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                 <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
                   <div>
                     <h2>Comments</h2>
-                    <p>
-                      <CommentsList comments={eventFetch.value.comments} />
-                    </p>
+                    <CommentsList comments={eventFetch.value.comments} />
                   </div>
                 </Tab>
                 <Tab label={`${String(eventFetch.value.brands_attending.length)} Users Attending`} >
