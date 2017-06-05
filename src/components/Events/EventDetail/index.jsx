@@ -6,13 +6,13 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import _ from 'lodash';
 import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import FontIcon from 'material-ui/FontIcon';
+import 'font-awesome/css/font-awesome.min.css';
 import UserAttendeesList from './UserAttendeesList';
 import BrandAttendeesList from './BrandAttendeesList';
 import { eventAPI, commentAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
 import CommentsView from '../../common/Comments';
-
-const FontAwesome = require('react-fontawesome');
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -31,7 +31,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   UserRegisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="calendar" />}
+      icon={<FontIcon className="fa fa-calendar" />}
       label="Attend this event"
       onTouchTap={() => eventAPI.userRegisterAttendEvent(this.props.eventId, this.props.user.id)
           .then(() => { this.props.refreshEvent(); })
@@ -41,7 +41,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   UserUnregisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="calendar" />}
+      icon={<FontIcon className="fa fa-calendar" />}
       label="Do not attend this event"
       onTouchTap={() => eventAPI.userUnregisterAttendEvent(this.props.eventId, this.props.user.id)
         .then(() => { this.props.refreshEvent(); })
@@ -58,7 +58,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   BrandRegisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="truck" />}
+      icon={<FontIcon className="fa fa-truck" />}
       secondary
       label="Attend this event"
       onTouchTap={() => eventAPI.brandRegisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
@@ -69,7 +69,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   BrandUnregisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="truck" />}
+      icon={<FontIcon className="fa fa-truck" />}
       secondary
       label="Do not attend this event"
       onTouchTap={() => eventAPI.brandUnregisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
