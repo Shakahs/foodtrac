@@ -195,4 +195,14 @@ export default {
     name: PropTypes.string,
   }),
 
+  sw: PropTypes.shape({
+    swReg: PropTypes.object,
+    subscription: PropTypes.object,
+    vapidPubKey: PropTypes.object,
+  }),
+  swActions: PropTypes.shape({
+    registeredServiceWorker: PropTypes.func,
+    subscribePush: PropTypes.func,
+    unsubscribePush: PropTypes.func,
+  }),
 };
