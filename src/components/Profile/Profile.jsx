@@ -76,7 +76,7 @@ class Profile extends Component {
   }
 
   submitComment({ newComment }) {
-    axios.post('/api/brandcomments', {
+    axios.post(`/api/brands/${this.state.brandId}/comments`, {
       text: newComment,
       user_id: this.props.user.id,
       brand_id: this.state.brandId,
@@ -91,7 +91,7 @@ class Profile extends Component {
   }
 
   editComment(text, commentId, idx) {
-    axios.put(`/api/brandcomments/${commentId}`, { text })
+    axios.put(`/api/brands/${this.state.brandId}/comments/${commentId}`, { text })
       .then(({ data }) => {
         const newBrand = Object.assign({}, this.state.brand, {
           brand_comments: [
@@ -106,7 +106,7 @@ class Profile extends Component {
   }
 
   removeComment(commentId, idx) {
-    axios.delete(`/api/brandcomments/${commentId}`)
+    axios.delete(`/api/brands/${this.state.brandId}/comments/${commentId}`)
       .then(() => {
         const newBrand = Object.assign({}, this.state.brand, {
           brand_comments: _.filter(this.state.brand.brand_comments, (com, i) => i !== idx),
