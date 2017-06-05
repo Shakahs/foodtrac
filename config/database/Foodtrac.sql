@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-05 03:28:20.395
+-- Last modification date: 2017-06-05 07:01:06.352
 
 -- tables
 -- Table: BrandAttendees
@@ -83,13 +83,21 @@ CREATE TABLE Comments (
     event_id int NULL,
     created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CHECK (COALESCE(brand_id,event_id) IS NOT NULL),
     CONSTRAINT Comments_pk PRIMARY KEY (id)
 );
 
 CREATE INDEX Comment_Brands ON Comments (brand_id);
 
 CREATE INDEX Comment_Users ON Comments (user_id);
+
+CREATE TRIGGER `test_before_insert` BEFORE INSERT ON `Comments`
+FOR EACH ROW
+BEGIN
+    IF coalesce(NEW.brand_id, NEW.event_id) is null THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'No brand or event id';
+    END IF;
+END;
 
 -- Table: Coupons
 CREATE TABLE Coupons (

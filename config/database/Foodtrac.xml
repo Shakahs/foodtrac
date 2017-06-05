@@ -587,16 +587,17 @@
                     <Properties/>
                 </Index>
             </Indexes>
-            <TableChecks>
-                <TableCheck Id="tc3">
-                    <Name>check_1</Name>
-                    <Description></Description>
-                    <CheckExpression>COALESCE(brand_id,event_id) IS NOT NULL</CheckExpression>
-                    <Properties/>
-                </TableCheck>
-            </TableChecks>
+            <TableChecks/>
             <AdditionalSQLBefore></AdditionalSQLBefore>
-            <AdditionalSQLAfter></AdditionalSQLAfter>
+            <AdditionalSQLAfter>CREATE TRIGGER `test_before_insert` BEFORE INSERT ON `Comments`
+FOR EACH ROW
+BEGIN
+    IF coalesce(NEW.brand_id, NEW.event_id) is null THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'No brand or event id';
+    END IF;
+END
+</AdditionalSQLAfter>
             <Properties/>
         </Table>
         <Table Id="t7">
@@ -3121,8 +3122,8 @@
             <FixedSize>false</FixedSize>
         </TableDisplay>
         <TableDisplay Id="td6">
-            <X>5004.5</X>
-            <Y>4726.5</Y>
+            <X>5001.5</X>
+            <Y>4761.5</Y>
             <Width>167.0</Width>
             <Height>145.0</Height>
             <LineColor>#000000</LineColor>
@@ -3396,11 +3397,11 @@
                 </ControlPoint>
                 <ControlPoint>
                     <X>4950.5</X>
-                    <Y>4803.5</Y>
+                    <Y>4838.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>5121.5</X>
-                    <Y>4803.5</Y>
+                    <X>5118.5</X>
+                    <Y>4838.5</Y>
                 </ControlPoint>
             </ControlPoints>
             <PkTableDisplay>td5</PkTableDisplay>
@@ -3417,11 +3418,11 @@
                 </ControlPoint>
                 <ControlPoint>
                     <X>5018.5</X>
-                    <Y>4747.5</Y>
+                    <Y>4782.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>5134.5</X>
-                    <Y>4747.5</Y>
+                    <X>5131.5</X>
+                    <Y>4782.5</Y>
                 </ControlPoint>
             </ControlPoints>
             <PkTableDisplay>td4</PkTableDisplay>
@@ -4214,12 +4215,12 @@
                     <Y>5031.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>5083.5</X>
+                    <X>5080.5</X>
                     <Y>5031.5</Y>
                 </ControlPoint>
                 <ControlPoint>
-                    <X>5083.5</X>
-                    <Y>4810.5</Y>
+                    <X>5080.5</X>
+                    <Y>4845.5</Y>
                 </ControlPoint>
             </ControlPoints>
             <PkTableDisplay>td12</PkTableDisplay>
