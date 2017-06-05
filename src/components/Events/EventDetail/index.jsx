@@ -136,26 +136,13 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
             <Col xs={12} sm={12} md={12} lg={12}>
               <Tabs>
                 <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
-                  <div>
-                    <h2>Comments</h2>
-                    <CommentsList comments={eventFetch.value.comments} />
-                  </div>
+                  <CommentsList comments={eventFetch.value.comments} />
                 </Tab>
-                <Tab label={`${String(eventFetch.value.brands_attending.length)} Users Attending`} >
-                  <div>
-                    <h2>Brands Attending</h2>
-                    <p>
-                      <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
-                    </p>
-                  </div>
+                <Tab label={`${String(eventFetch.value.brands_attending.length)} Trucks Attending`} >
+                  <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
                 </Tab>
                 <Tab label={`${String(eventFetch.value.users_attending.length)} Users Attending`} >
-                  <div>
-                    <h2>Users Attending</h2>
-                    <p>
-                      <UserAttendeesList attendees={eventFetch.value.users_attending} />
-                    </p>
-                  </div>
+                  <UserAttendeesList attendees={eventFetch.value.users_attending} />
                 </Tab>
               </Tabs>
             </Col>
