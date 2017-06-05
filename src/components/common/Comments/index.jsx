@@ -5,7 +5,7 @@ import CommentInput from './CommentsInput';
 import CommentsList from './CommentsList';
 import './index.scss';
 
-const CommentsView = props => (
+const Comments = props => (
   <div>
     {
       (props.auth.isLoggedIn)
@@ -21,7 +21,7 @@ const CommentsView = props => (
   </div>
 );
 
-CommentsView.propTypes = {
+Comments.propTypes = {
   user: propSchema.user,
   auth: propSchema.auth,
   submitComment: propSchema.func,
@@ -35,8 +35,8 @@ const mapStateToProps = state => ({
   auth: state.auth,
 });
 
-CommentsView.propTypes = {
+Comments.propTypes = {
   isLoggedIn: propSchema.isLoggedIn,
 };
 
-export default connect(mapStateToProps, null)(CommentsView);
+export default connect(mapStateToProps, null)(Comments);

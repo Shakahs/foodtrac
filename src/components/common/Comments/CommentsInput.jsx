@@ -4,7 +4,7 @@ import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
 import propSchema from '../PropTypes';
 
-const CommentInput = props => (
+const CommentsInput = props => (
   <form onSubmit={props.handleSubmit}>
     <Field
       name={props.name}
@@ -22,9 +22,9 @@ const CommentInput = props => (
   </form>
 );
 
-CommentInput.propTypes = {
+CommentsInput.propTypes = {
   name: propSchema.name,
   handleSubmit: propSchema.handleSubmit,
 };
 
-export default reduxForm({ form: 'comment' })(CommentInput);
+export default reduxForm({ form: 'comment' })(CommentsInput);

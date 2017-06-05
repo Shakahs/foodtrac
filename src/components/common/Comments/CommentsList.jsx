@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Grid } from 'react-flexbox-grid';
 import propSchema from '../PropTypes';
-import CommentEntry from './CommentsListEntry';
+import CommentsListEntry from './CommentsListEntry';
 
 // change tempArr with arrays of menu items
 
@@ -10,7 +10,7 @@ const CommentsList = props => (
   <Grid fluid>
     {props.comments.length > 0 ?
       _.map(props.comments, (comment, idx) =>
-        (<CommentEntry
+        (<CommentsListEntry
           comment={comment}
           key={idx}
           idx={idx}

@@ -3,9 +3,9 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import propSchema from '../PropTypes';
-import CommentInput from './CommentsInput';
+import CommentsInput from './CommentsInput';
 
-class CommentEntry extends Component {
+class CommentsListEntry extends Component {
   constructor(props) {
     super(props);
 
@@ -15,7 +15,7 @@ class CommentEntry extends Component {
   renderInputOrText() {
     if (this.state.open) {
       return (
-        <CommentInput
+        <CommentsInput
           name="editComment"
           onSubmit={({ editComment }) => {
             this.props.editComment(editComment, this.props.comment.id, this.props.idx);
@@ -66,7 +66,7 @@ class CommentEntry extends Component {
   }
 }
 
-CommentEntry.propTypes = {
+CommentsListEntry.propTypes = {
   editComment: propSchema.editComment,
   comment: propSchema.comment,
   idx: propSchema.idx,
@@ -74,5 +74,5 @@ CommentEntry.propTypes = {
   removeComment: propSchema.removeComment,
 };
 
-export default CommentEntry;
+export default CommentsListEntry;
 // this.props.editComment(this.props.comment.id, this.props.idx)
