@@ -18,7 +18,7 @@ class UserEmblem extends React.Component { // eslint-disable-line react/prefer-s
     />);
     return (
       <Emblem avatar={userAvatar}>
-        <div className="userName">{user.first_name} {user.last_name}</div>
+        <div className="name">{user.first_name} {user.last_name}</div>
         {user.is_truck_owner > 0 && user.brands && (<div className="truckOwnerByline">
           <Link to={`/brand/${user.brands[0].id}`} >
             <FontIcon className="fa fa-truck" style={{ fontSize: '1.2em' }} /> {user.brands[0].name}
