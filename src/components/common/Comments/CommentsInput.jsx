@@ -2,7 +2,7 @@ import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import { TextField } from 'redux-form-material-ui';
 import RaisedButton from 'material-ui/RaisedButton';
-import propSchema from '../common/PropTypes';
+import propSchema from '../PropTypes';
 
 const CommentInput = props => (
   <form onSubmit={props.handleSubmit}>

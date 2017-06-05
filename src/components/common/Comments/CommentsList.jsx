@@ -1,8 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import { Grid } from 'react-flexbox-grid';
-import propSchema from '../common/PropTypes';
-import CommentEntry from '../common/CommentEntry';
+import propSchema from '../PropTypes';
+import CommentEntry from './CommentsListEntry';
 
 // change tempArr with arrays of menu items
 

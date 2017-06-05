@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import propSchema from '../common/PropTypes';
-import CommentInput from './CommentInput';
+import propSchema from '../PropTypes';
+import CommentInput from './CommentsInput';
 import CommentsList from './CommentsList';
+import './index.scss';
 
 const CommentsView = props => (
   <div>

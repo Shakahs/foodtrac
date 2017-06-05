@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-import propSchema from './PropTypes';
-import CommentInput from '../Profile/CommentInput';
-import './CommentEntry.scss';
+import propSchema from '../PropTypes';
+import CommentInput from './CommentsInput';
 
 class CommentEntry extends Component {
   constructor(props) {
