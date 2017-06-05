@@ -3,6 +3,7 @@ import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import 'font-awesome/css/font-awesome.min.css';
 import propSchema from '../PropTypes';
 import CommentsInput from './CommentsInput';
 import UserEmblem from '../Emblem/UserEmblem';
