@@ -10,9 +10,9 @@ class ManageReward extends Component {
     this.state = {
       checked: false,
       type: 1,
-      trigger: 1,
+      trigger: 0,
       flatRate: '',
-      percentRate: '',
+      percentRate: 0,
     };
     this.handleCheck = this.handleCheck.bind(this);
     this.setValues = this.setValues.bind(this);
@@ -32,12 +32,12 @@ class ManageReward extends Component {
     this.setState({
       type: val,
       flatRate: '',
-      percentRate: '',
+      percentRate: 0,
     });
   }
 
   defaultChecked() {
-    if (this.props.rewardTrigger) {
+    if (this.props.rewardTrigger > 0) {
       this.setState({ checked: true });
     }
   }
@@ -45,7 +45,11 @@ class ManageReward extends Component {
   handleCheck() {
     if (this.state.checked) {
       const reward = {
-        reward: { rewards_trigger: null },
+        coupon: {
+          percent_discount: this.state.percentRate === '' ? 0 : this.state.percentRate,
+          flat_discount: this.state.flatRate === '' ? 0 : Number(this.state.flatRate),
+        },
+        reward: { rewards_trigger: 0 },
       };
       axios.put(`/api/brands/${this.props.brandId}/reward/${this.props.defaultCouponId}`, reward)
         .then(() => this.props.getBrand(this.props.brandId))
@@ -57,13 +61,14 @@ class ManageReward extends Component {
   saveChanges() {
     const reward = {
       coupon: {
-        percent_discount: this.state.percentRate === '' ? null : this.state.percentRate,
-        flat_discount: this.state.flatRate === '' ? null : Number(this.state.flatRate),
+        percent_discount: this.state.percentRate,
+        flat_discount: this.state.flatRate === '' ? 0 : Number(this.state.flatRate),
       },
       reward: {
         rewards_trigger: this.state.trigger,
       },
     };
+    console.log('IN SAVE', reward);
     if (!this.props.defaultCouponId) {
       axios.post(`/api/brands/${this.props.brandId}/reward`, reward)
         .then(() => this.props.getBrand(this.props.brandId))

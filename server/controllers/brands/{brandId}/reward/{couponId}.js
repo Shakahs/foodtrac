@@ -6,13 +6,12 @@ module.exports = {
     Coupons.query()
       .findById(req.params.couponId)
       .patch(req.body.coupon)
-      .then(() => {
+      .then(() =>
         Brands.query()
           .findById(req.params.brandId)
-          .patch(req.body.reward)
-          .then(brand => res.sendStatus(200).send(brand))
-          .catch(e => res.sendStatus(400).send(e.message));
-      })
+          .patch(req.body.reward) // eslint-disable-line comma-dangle
+      )
+      .then(() => res.sendStatus(200))
       .catch(e => res.sendStatus(400).send(e.message));
   },
 };
