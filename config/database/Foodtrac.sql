@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-05 07:01:06.352
+-- Last modification date: 2017-06-05 16:45:00.316
 
 -- tables
 -- Table: BrandAttendees
@@ -307,9 +307,7 @@ CREATE INDEX UserFollows_Users ON UserFollows (user_id);
 -- Table: UserPushInfo
 CREATE TABLE UserPushInfo (
     id int NOT NULL AUTO_INCREMENT,
-    endpoint text NOT NULL,
-    auth varchar(100) NOT NULL,
-    p256dh text NOT NULL,
+    subscription text NOT NULL,
     user_id int NOT NULL,
     UNIQUE INDEX UserPushInfo_ak_1 (user_id),
     CONSTRAINT UserPushInfo_pk PRIMARY KEY (id)

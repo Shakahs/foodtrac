@@ -1479,15 +1479,9 @@
     },
     "User Push Info" : {
       "type" : "object",
-      "required" : [ "auth", "endpoint", "p256h" ],
+      "required" : [ "subscription" ],
       "properties" : {
-        "endpoint" : {
-          "type" : "string"
-        },
-        "auth" : {
-          "type" : "string"
-        },
-        "p256h" : {
+        "subscription" : {
           "type" : "string"
         }
       }

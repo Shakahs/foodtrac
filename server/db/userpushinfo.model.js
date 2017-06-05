@@ -10,13 +10,11 @@ class UserPushInfo extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['endpoint', 'auth', 'p256dh', 'user_id'],
+      required: ['subscription', 'user_id'],
 
       properties: {
         id: { type: 'integer' },
-        endpoint: { type: 'string' },
-        auth: { type: 'string' },
-        p256dh: { type: 'string' },
+        subscription: { type: 'string' },
         user_id: { type: 'integer' },
       },
     };

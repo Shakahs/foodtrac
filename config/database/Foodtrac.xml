@@ -1467,26 +1467,8 @@ END
                         </Property>
                     </Properties>
                 </Column>
-                <Column Id="c83">
-                    <Name>endpoint</Name>
-                    <Type>text</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
-                <Column Id="c122">
-                    <Name>auth</Name>
-                    <Type>varchar(100)</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
                 <Column Id="c123">
-                    <Name>p256dh</Name>
+                    <Name>subscription</Name>
                     <Type>text</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
