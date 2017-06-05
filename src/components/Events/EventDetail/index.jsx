@@ -25,6 +25,8 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     this.BrandUnregisterButton = this.BrandUnregisterButton.bind(this);
     this.BrandToggleRegistrationButton = this.BrandToggleRegistrationButton.bind(this);
     this.submitComment = this.submitComment.bind(this);
+    this.editComment = this.editComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   UserRegisterButton() {
@@ -88,6 +90,16 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       .then(() => (this.props.refreshEvent()));
   }
 
+  editComment(text, commentId) {
+    commentAPI.editEventComment(text, commentId, this.props.eventId)
+      .then(() => (this.props.refreshEvent()));
+  }
+
+  deleteComment(commentId) {
+    commentAPI.deleteEventComment(commentId, this.props.eventId)
+      .then(() => (this.props.refreshEvent()));
+  }
+
   render() {
     const { eventFetch } = this.props;
 
@@ -145,8 +157,8 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                   <CommentsView
                     comments={eventFetch.value.comments}
                     submitComment={this.submitComment}
-                    removeComment={_.noop}
-                    editComment={_.noop}
+                    removeComment={this.deleteComment}
+                    editComment={this.editComment}
                   />
                 </Tab>
                 <Tab label={`${String(eventFetch.value.brands_attending.length)} Trucks Attending`} >
