@@ -12,70 +12,6 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/brands/{brandId}/comments" : {
-      "post" : {
-        "summary" : "Add a brand comment",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Comment"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "brandId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
-    "/brands/{brandId}/comments/{commentId}" : {
-      "put" : {
-        "summary" : "Edit a brand comment",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Comment"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Remove a brand comment",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "brandId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      }, {
-        "name" : "commentId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
     "/brands" : {
       "get" : {
         "summary" : "Get brands sorted by upvotes in selected timeframe",
@@ -255,6 +191,70 @@
         "type" : "integer"
       } ]
     },
+    "/brands/{brandId}/comments" : {
+      "post" : {
+        "summary" : "Add a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/brands/{brandId}/comments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove a brand comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "commentId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
     "/comments" : {
       "post" : {
         "summary" : "Add a comment",
@@ -276,7 +276,7 @@
     },
     "/comments/{commentId}" : {
       "put" : {
-        "summary" : "Edit a brand comment",
+        "summary" : "Edit a comment",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
@@ -293,7 +293,7 @@
         }
       },
       "delete" : {
-        "summary" : "Remove a brand comment",
+        "summary" : "Remove a comment",
         "parameters" : [ ],
         "responses" : {
           "200" : {
@@ -459,23 +459,6 @@
         "type" : "integer"
       } ]
     },
-    "/events/{eventId}/comments" : {
-      "post" : {
-        "summary" : "Create comment",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
     "/events/{eventId}/brand_attendance/{brandId}" : {
       "delete" : {
         "summary" : "Brand unregister to attend event",
@@ -493,6 +476,62 @@
         "type" : "integer"
       }, {
         "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/comments" : {
+      "post" : {
+        "summary" : "Create an event comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/comments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit an event comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove an event comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "commentId",
         "in" : "path",
         "required" : true,
         "type" : "integer"

@@ -1,3 +1,4 @@
 import * as eventAPI from './events/event.api';
+import * as commentAPI from './comments/comments.api';
 
-export { eventAPI }; // eslint-disable-line import/prefer-default-export
+export { eventAPI, commentAPI }; // eslint-disable-line import/prefer-default-export

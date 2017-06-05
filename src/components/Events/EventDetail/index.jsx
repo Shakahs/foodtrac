@@ -8,7 +8,7 @@ import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import UserAttendeesList from './UserAttendeesList';
 import BrandAttendeesList from './BrandAttendeesList';
-import { eventAPI } from '../../../api';
+import { eventAPI, commentAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
 import CommentsView from '../../common/Comments';
 
@@ -24,6 +24,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     this.BrandRegisterButton = this.BrandRegisterButton.bind(this);
     this.BrandUnregisterButton = this.BrandUnregisterButton.bind(this);
     this.BrandToggleRegistrationButton = this.BrandToggleRegistrationButton.bind(this);
+    this.submitComment = this.submitComment.bind(this);
   }
 
   UserRegisterButton() {
@@ -82,6 +83,11 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       : this.BrandRegisterButton());
   }
 
+  submitComment({ text }) {
+    commentAPI.createEventComment(text, this.props.user.id, Number(this.props.eventId))
+      .then(() => (this.props.refreshEvent()));
+  }
+
   render() {
     const { eventFetch } = this.props;
 
@@ -138,7 +144,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                 <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
                   <CommentsView
                     comments={eventFetch.value.comments}
-                    submitComment={_.noop}
+                    submitComment={this.submitComment}
                     removeComment={_.noop}
                     editComment={_.noop}
                   />
