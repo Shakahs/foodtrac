@@ -8,13 +8,13 @@ import './index.scss';
 const CommentsView = props => (
   <div>
     {
-      (props.isLoggedIn)
+      (props.auth.isLoggedIn)
       ? <CommentInput onSubmit={props.submitComment} name="newComment" />
       : null
     }
     <CommentsList
       comments={props.comments}
-      userId={props.userId}
+      user={props.user}
       removeComment={props.removeComment}
       editComment={props.editComment}
     />
@@ -22,14 +22,18 @@ const CommentsView = props => (
 );
 
 CommentsView.propTypes = {
+  user: propSchema.user,
+  auth: propSchema.auth,
   submitComment: propSchema.func,
-  userId: propSchema.userId,
   comments: propSchema.comments,
   removeComment: propSchema.removeComment,
   editComment: propSchema.editComment,
 };
 
-const mapStateToProps = ({ auth }) => ({ isLoggedIn: auth.isLoggedIn });
+const mapStateToProps = state => ({
+  user: state.user,
+  auth: state.auth,
+});
 
 CommentsView.propTypes = {
   isLoggedIn: propSchema.isLoggedIn,

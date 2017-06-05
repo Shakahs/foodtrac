@@ -23,6 +23,13 @@ export default {
     auth0_id: PropTypes.string,
   }).isRequired,
 
+  auth: PropTypes.shape({
+    isLoggedIn: PropTypes.bool,
+    isLoggingIn: PropTypes.bool,
+    tokenData: PropTypes.object,
+    profileData: PropTypes.object,
+  }).isRequired,
+
   handleChange: PropTypes.func.isRequired,
   removeEntry: PropTypes.func.isRequired,
   val: PropTypes.string.isRequired,
