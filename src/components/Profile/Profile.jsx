@@ -75,38 +75,34 @@ class Profile extends Component {
       .catch(err => console.log(err));
   }
 
-  submitComment({ newComment }) {
-    axios.post('/api/brandcomments', {
-      text: newComment,
+  submitComment({ text }) {
+    axios.post(`/api/brands/${this.state.brandId}/comments`, {
+      text,
       user_id: this.props.user.id,
       brand_id: this.state.brandId,
     })
       .then(({ data }) => {
-        const newBrand = Object.assign({}, this.state.brand, {
-          brand_comments: [data, ...this.state.brand.brand_comments],
-        });
+        const modifiedData = data;
+        const newBrand = _.cloneDeep(this.state.brand);
+        modifiedData.brand_reviews = this.props.user.brand_reviews;
+        newBrand.brand_comments = [modifiedData, ...newBrand.brand_comments];
         this.setState({ brand: newBrand });
       })
       .catch(e => console.log('Error adding comment', e));
   }
 
   editComment(text, commentId, idx) {
-    axios.put(`/api/brandcomments/${commentId}`, { text })
+    axios.put(`/api/brands/${this.state.brandId}/comments/${commentId}`, { text })
       .then(({ data }) => {
-        const newBrand = Object.assign({}, this.state.brand, {
-          brand_comments: [
-            ...this.state.brand.brand_comments.slice(0, idx),
-            data,
-            ...this.state.brand.brand_comments.slice(idx + 1),
-          ],
-        });
+        const newBrand = _.cloneDeep(this.state.brand);
+        newBrand.brand_comments[idx] = _.merge(newBrand.brand_comments[idx], data);
         this.setState({ brand: newBrand });
       })
-      .catch(e => console.log('Error adding comment', e));
+      .catch(e => console.log('Error editing comment', e));
   }
 
   removeComment(commentId, idx) {
-    axios.delete(`/api/brandcomments/${commentId}`)
+    axios.delete(`/api/brands/${this.state.brandId}/comments/${commentId}`)
       .then(() => {
         const newBrand = Object.assign({}, this.state.brand, {
           brand_comments: _.filter(this.state.brand.brand_comments, (com, i) => i !== idx),

@@ -87,10 +87,10 @@ class Brands extends Model {
       },
       brand_comments: {
         relation: Model.HasManyRelation,
-        modelClass: `${__dirname}/brandcomments.model`,
+        modelClass: `${__dirname}/comments.model`,
         join: {
           from: 'Brands.id',
-          to: 'BrandComments.brand_id',
+          to: 'Comments.brand_id',
         },
       },
       brand_reviews: {

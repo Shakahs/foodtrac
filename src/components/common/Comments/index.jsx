@@ -1,37 +1,42 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import propSchema from '../common/PropTypes';
-import CommentInput from './CommentInput';
+import propSchema from '../PropTypes';
+import CommentInput from './CommentsInput';
 import CommentsList from './CommentsList';
+import './index.scss';
 
-const CommentsView = props => (
+const Comments = props => (
   <div>
     {
-      (props.isLoggedIn)
-      ? <CommentInput onSubmit={props.submitComment} name="newComment" />
+      (props.auth.isLoggedIn)
+      ? <CommentInput onSubmit={props.submitComment} />
       : null
     }
     <CommentsList
       comments={props.comments}
-      userId={props.userId}
+      user={props.user}
       removeComment={props.removeComment}
       editComment={props.editComment}
     />
   </div>
 );
 
-CommentsView.propTypes = {
+Comments.propTypes = {
+  user: propSchema.user,
+  auth: propSchema.auth,
   submitComment: propSchema.func,
-  userId: propSchema.userId,
   comments: propSchema.comments,
   removeComment: propSchema.removeComment,
   editComment: propSchema.editComment,
 };
 
-const mapStateToProps = ({ auth }) => ({ isLoggedIn: auth.isLoggedIn });
+const mapStateToProps = state => ({
+  user: state.user,
+  auth: state.auth,
+});
 
-CommentsView.propTypes = {
+Comments.propTypes = {
   isLoggedIn: propSchema.isLoggedIn,
 };
 
-export default connect(mapStateToProps, null)(CommentsView);
+export default connect(mapStateToProps, null)(Comments);

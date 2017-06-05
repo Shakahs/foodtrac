@@ -1,6 +1,8 @@
 require('dotenv').config();
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
+// const ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 
 if (process.env.NODE_ENV === undefined) {
   process.env.NODE_ENV = 'development';
@@ -52,12 +54,20 @@ const webpackConfig = {
      AUTH0_DB_NAME: '${process.env.AUTH0_DB_NAME}',
    }`,
   },
-  plugins: [new BundleAnalyzerPlugin()],
+  plugins: [
+    new BundleAnalyzerPlugin(),
+    // new ExtractTextPlugin('bundle.css'),
+  ],
 };
 
 webpackConfig.module.loaders.push({
   test: /\.(scss|css)$/,
   loaders: ['style-loader', 'css-loader', 'sass-loader'],
+});
+
+webpackConfig.module.loaders.push({
+  test: /\.(eot|svg|ttf|woff(2)?)(\?v=\d+\.\d+\.\d+)?/,
+  loaders: ['url-loader'],
 });
 
 module.exports = webpackConfig;

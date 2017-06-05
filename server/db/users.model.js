@@ -74,10 +74,20 @@ class Users extends Model {
       },
       brand_comments: {
         relation: Model.HasManyRelation,
-        modelClass: `${__dirname}/brandcomments.model`,
+        modelClass: `${__dirname}/comments.model`,
+        filter: query => query.whereNotNull('Comments.brand_id'),
         join: {
           from: 'Users.id',
-          to: 'BrandComments.user_id',
+          to: 'Comments.user_id',
+        },
+      },
+      event_comments: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/comments.model`,
+        filter: query => query.whereNotNull('Comments.event_id'),
+        join: {
+          from: 'Users.id',
+          to: 'Comments.user_id',
         },
       },
       brand_reviews: {
@@ -110,14 +120,6 @@ class Users extends Model {
         join: {
           from: 'Users.id',
           to: 'UserAttendees.user_id',
-        },
-      },
-      event_comments: {
-        relation: Model.HasManyRelation,
-        modelClass: path.resolve(__dirname, 'events/', 'eventcomments.model'),
-        join: {
-          from: 'Users.id',
-          to: 'EventComments.user_id',
         },
       },
     };

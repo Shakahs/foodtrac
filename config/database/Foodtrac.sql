@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-03 23:57:43.341
+-- Last modification date: 2017-06-05 07:01:06.352
 
 -- tables
 -- Table: BrandAttendees
@@ -14,21 +14,6 @@ CREATE TABLE BrandAttendees (
 CREATE INDEX BrandAttendees_Events ON BrandAttendees (event_id);
 
 CREATE INDEX BrandAttendees_Brands ON BrandAttendees (brand_id);
-
--- Table: BrandComments
-CREATE TABLE BrandComments (
-    id int NOT NULL AUTO_INCREMENT,
-    text text NOT NULL,
-    brand_id int NOT NULL,
-    user_id int NOT NULL,
-    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT BrandComments_pk PRIMARY KEY (id)
-);
-
-CREATE INDEX BrandComment_Brand ON BrandComments (brand_id);
-
-CREATE INDEX BrandComment_Users ON BrandComments (user_id);
 
 -- Table: BrandImages
 CREATE TABLE BrandImages (
@@ -89,6 +74,31 @@ CREATE INDEX Brand_FoodGenre ON Brands (food_genre_id);
 
 CREATE INDEX Users_Brand ON Brands (owner_id);
 
+-- Table: Comments
+CREATE TABLE Comments (
+    id int NOT NULL AUTO_INCREMENT,
+    user_id int NOT NULL,
+    text text NOT NULL,
+    brand_id int NULL,
+    event_id int NULL,
+    created_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT Comments_pk PRIMARY KEY (id)
+);
+
+CREATE INDEX Comment_Brands ON Comments (brand_id);
+
+CREATE INDEX Comment_Users ON Comments (user_id);
+
+CREATE TRIGGER `test_before_insert` BEFORE INSERT ON `Comments`
+FOR EACH ROW
+BEGIN
+    IF coalesce(NEW.brand_id, NEW.event_id) is null THEN
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'No brand or event id';
+    END IF;
+END;
+
 -- Table: Coupons
 CREATE TABLE Coupons (
     id int NOT NULL AUTO_INCREMENT,
@@ -96,19 +106,6 @@ CREATE TABLE Coupons (
     flat_discount int NULL,
     CONSTRAINT Coupons_pk PRIMARY KEY (id)
 );
-
--- Table: EventComments
-CREATE TABLE EventComments (
-    id int NOT NULL AUTO_INCREMENT,
-    user_id int NOT NULL,
-    event_id int NOT NULL,
-    text text NOT NULL,
-    CONSTRAINT EventComments_pk PRIMARY KEY (id)
-);
-
-CREATE INDEX EventComment_Events ON EventComments (event_id);
-
-CREATE INDEX EventComment_Users ON EventComments (user_id);
 
 -- Table: Events
 CREATE TABLE Events (
@@ -211,19 +208,6 @@ CREATE TABLE MenuItems (
 
 CREATE INDEX Menu_Brand ON MenuItems (brand_id);
 
--- Table: Notifications
-CREATE TABLE Notifications (
-    id int NOT NULL AUTO_INCREMENT,
-    text varchar(100) NOT NULL,
-    user_id int NOT NULL,
-    brand_id int NOT NULL,
-    CONSTRAINT Notifications_pk PRIMARY KEY (id)
-);
-
-CREATE INDEX Notifications_Brand ON Notifications (brand_id);
-
-CREATE INDEX Notifications_Users ON Notifications (user_id);
-
 -- Table: OrderItems
 CREATE TABLE OrderItems (
     id int NOT NULL AUTO_INCREMENT,
@@ -320,6 +304,19 @@ CREATE INDEX UserFollows_Brand ON UserFollows (brand_id);
 
 CREATE INDEX UserFollows_Users ON UserFollows (user_id);
 
+-- Table: UserPushInfo
+CREATE TABLE UserPushInfo (
+    id int NOT NULL AUTO_INCREMENT,
+    endpoint text NOT NULL,
+    auth varchar(100) NOT NULL,
+    p256dh text NOT NULL,
+    user_id int NOT NULL,
+    UNIQUE INDEX UserPushInfo_ak_1 (user_id),
+    CONSTRAINT UserPushInfo_pk PRIMARY KEY (id)
+);
+
+CREATE INDEX UserPushInfo_Users ON UserPushInfo (user_id);
+
 -- Table: UserRewards
 CREATE TABLE UserRewards (
     id int NOT NULL AUTO_INCREMENT,
@@ -357,14 +354,6 @@ ALTER TABLE BrandAttendees ADD CONSTRAINT BrandAttendees_Events FOREIGN KEY Bran
     ON DELETE RESTRICT
     ON UPDATE RESTRICT;
 
--- Reference: BrandComment_Brand (table: BrandComments)
-ALTER TABLE BrandComments ADD CONSTRAINT BrandComment_Brand FOREIGN KEY BrandComment_Brand (brand_id)
-    REFERENCES Brands (id);
-
--- Reference: BrandComment_Users (table: BrandComments)
-ALTER TABLE BrandComments ADD CONSTRAINT BrandComment_Users FOREIGN KEY BrandComment_Users (user_id)
-    REFERENCES Users (id);
-
 -- Reference: BrandComments_Brand (table: BrandReviews)
 ALTER TABLE BrandReviews ADD CONSTRAINT BrandComments_Brand FOREIGN KEY BrandComments_Brand (brand_id)
     REFERENCES Brands (id);
@@ -401,13 +390,17 @@ ALTER TABLE Brands ADD CONSTRAINT Brand_FoodGenre FOREIGN KEY Brand_FoodGenre (f
 ALTER TABLE Trucks ADD CONSTRAINT Brand_Truck FOREIGN KEY Brand_Truck (brand_id)
     REFERENCES Brands (id);
 
--- Reference: EventComment_Events (table: EventComments)
-ALTER TABLE EventComments ADD CONSTRAINT EventComment_Events FOREIGN KEY EventComment_Events (event_id)
-    REFERENCES Events (id);
+-- Reference: Comment_Brand (table: Comments)
+ALTER TABLE Comments ADD CONSTRAINT Comment_Brand FOREIGN KEY Comment_Brand (brand_id)
+    REFERENCES Brands (id);
 
--- Reference: EventComment_Users (table: EventComments)
-ALTER TABLE EventComments ADD CONSTRAINT EventComment_Users FOREIGN KEY EventComment_Users (user_id)
+-- Reference: Comment_Users (table: Comments)
+ALTER TABLE Comments ADD CONSTRAINT Comment_Users FOREIGN KEY Comment_Users (user_id)
     REFERENCES Users (id);
+
+-- Reference: Comments_Events (table: Comments)
+ALTER TABLE Comments ADD CONSTRAINT Comments_Events FOREIGN KEY Comments_Events (event_id)
+    REFERENCES Events (id);
 
 -- Reference: Events_Locations (table: Events)
 ALTER TABLE Events ADD CONSTRAINT Events_Locations FOREIGN KEY Events_Locations (location_id)
@@ -446,14 +439,6 @@ ALTER TABLE LocationTimelines ADD CONSTRAINT Locations_LocationTimelines FOREIGN
 -- Reference: Menu_Brand (table: MenuItems)
 ALTER TABLE MenuItems ADD CONSTRAINT Menu_Brand FOREIGN KEY Menu_Brand (brand_id)
     REFERENCES Brands (id);
-
--- Reference: Notifications_Brand (table: Notifications)
-ALTER TABLE Notifications ADD CONSTRAINT Notifications_Brand FOREIGN KEY Notifications_Brand (brand_id)
-    REFERENCES Brands (id);
-
--- Reference: Notifications_Users (table: Notifications)
-ALTER TABLE Notifications ADD CONSTRAINT Notifications_Users FOREIGN KEY Notifications_Users (user_id)
-    REFERENCES Users (id);
 
 -- Reference: OrderItems_MenuItems (table: OrderItems)
 ALTER TABLE OrderItems ADD CONSTRAINT OrderItems_MenuItems FOREIGN KEY OrderItems_MenuItems (menu_item_id)
@@ -513,6 +498,10 @@ ALTER TABLE UserFollows ADD CONSTRAINT UserFollows_Brand FOREIGN KEY UserFollows
 
 -- Reference: UserFollows_Users (table: UserFollows)
 ALTER TABLE UserFollows ADD CONSTRAINT UserFollows_Users FOREIGN KEY UserFollows_Users (user_id)
+    REFERENCES Users (id);
+
+-- Reference: UserPushInfo_Users (table: UserPushInfo)
+ALTER TABLE UserPushInfo ADD CONSTRAINT UserPushInfo_Users FOREIGN KEY UserPushInfo_Users (user_id)
     REFERENCES Users (id);
 
 -- Reference: UserRewards_Brand (table: UserRewards)

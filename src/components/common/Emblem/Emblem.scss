@@ -1,0 +1,25 @@
+.emblem {
+  height: 75px;
+  width: 250px;
+}
+
+.emblemLeft {
+  float: left;
+  padding: 15px;
+}
+
+.emblemRight {
+  text-align: center;
+  font-size: 0.9em;
+}
+
+.emblem .userName{
+  font-size: 1.1em;
+}
+
+$a-tags: 'a, a:active, a:hover, a:visited';
+.emblem .truckOwnerByline {
+  #{$a-tags} {
+    color: purple;
+  }
+}

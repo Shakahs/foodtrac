@@ -6,13 +6,13 @@ import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import _ from 'lodash';
 import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
+import FontIcon from 'material-ui/FontIcon';
+import 'font-awesome/css/font-awesome.min.css';
 import UserAttendeesList from './UserAttendeesList';
 import BrandAttendeesList from './BrandAttendeesList';
-import CommentsList from './CommentsList';
-import { eventAPI } from '../../../api';
+import { eventAPI, commentAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
-
-const FontAwesome = require('react-fontawesome');
+import CommentsView from '../../common/Comments';
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -24,11 +24,14 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     this.BrandRegisterButton = this.BrandRegisterButton.bind(this);
     this.BrandUnregisterButton = this.BrandUnregisterButton.bind(this);
     this.BrandToggleRegistrationButton = this.BrandToggleRegistrationButton.bind(this);
+    this.submitComment = this.submitComment.bind(this);
+    this.editComment = this.editComment.bind(this);
+    this.deleteComment = this.deleteComment.bind(this);
   }
 
   UserRegisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="calendar" />}
+      icon={<FontIcon className="fa fa-calendar" />}
       label="Attend this event"
       onTouchTap={() => eventAPI.userRegisterAttendEvent(this.props.eventId, this.props.user.id)
           .then(() => { this.props.refreshEvent(); })
@@ -38,7 +41,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   UserUnregisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="calendar" />}
+      icon={<FontIcon className="fa fa-calendar" />}
       label="Do not attend this event"
       onTouchTap={() => eventAPI.userUnregisterAttendEvent(this.props.eventId, this.props.user.id)
         .then(() => { this.props.refreshEvent(); })
@@ -55,7 +58,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   BrandRegisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="truck" />}
+      icon={<FontIcon className="fa fa-truck" />}
       secondary
       label="Attend this event"
       onTouchTap={() => eventAPI.brandRegisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
@@ -66,7 +69,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   BrandUnregisterButton() {
     return (<RaisedButton
-      icon={<FontAwesome name="truck" />}
+      icon={<FontIcon className="fa fa-truck" />}
       secondary
       label="Do not attend this event"
       onTouchTap={() => eventAPI.brandUnregisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
@@ -80,6 +83,21 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       { brand_id: this.props.user.brands[0].id })
       ? this.BrandUnregisterButton()
       : this.BrandRegisterButton());
+  }
+
+  submitComment({ text }) {
+    commentAPI.createEventComment(text, this.props.user.id, Number(this.props.eventId))
+      .then(() => (this.props.refreshEvent()));
+  }
+
+  editComment(text, commentId) {
+    commentAPI.editEventComment(text, commentId, this.props.eventId)
+      .then(() => (this.props.refreshEvent()));
+  }
+
+  deleteComment(commentId) {
+    commentAPI.deleteEventComment(commentId, this.props.eventId)
+      .then(() => (this.props.refreshEvent()));
   }
 
   render() {
@@ -136,28 +154,18 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
             <Col xs={12} sm={12} md={12} lg={12}>
               <Tabs>
                 <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
-                  <div>
-                    <h2>Comments</h2>
-                    <p>
-                      <CommentsList comments={eventFetch.value.comments} />
-                    </p>
-                  </div>
+                  <CommentsView
+                    comments={eventFetch.value.comments}
+                    submitComment={this.submitComment}
+                    removeComment={this.deleteComment}
+                    editComment={this.editComment}
+                  />
                 </Tab>
-                <Tab label={`${String(eventFetch.value.brands_attending.length)} Users Attending`} >
-                  <div>
-                    <h2>Brands Attending</h2>
-                    <p>
-                      <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
-                    </p>
-                  </div>
+                <Tab label={`${String(eventFetch.value.brands_attending.length)} Trucks Attending`} >
+                  <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
                 </Tab>
                 <Tab label={`${String(eventFetch.value.users_attending.length)} Users Attending`} >
-                  <div>
-                    <h2>Users Attending</h2>
-                    <p>
-                      <UserAttendeesList attendees={eventFetch.value.users_attending} />
-                    </p>
-                  </div>
+                  <UserAttendeesList attendees={eventFetch.value.users_attending} />
                 </Tab>
               </Tabs>
             </Col>

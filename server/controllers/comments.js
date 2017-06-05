@@ -1,8 +1,8 @@
-const BrandComments = require('../../server/db/brandcomments.model');
+const Comments = require('../db/comments.model');
 
 module.exports = {
   post(req, res) {
-    BrandComments.query()
+    Comments.query()
       .insert(req.body)
       .eager('users')
       .then(comment => res.status(201).send(comment))

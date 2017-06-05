@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
+import 'font-awesome/css/font-awesome.min.css';
 import { actions as mapActions } from '../../redux/MapSearch';
 import { actions as profileActions } from '../../redux/CurrentProfile';
 import propSchema from './PropTypes';
