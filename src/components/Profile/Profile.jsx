@@ -82,9 +82,10 @@ class Profile extends Component {
       brand_id: this.state.brandId,
     })
       .then(({ data }) => {
-        const newBrand = Object.assign({}, this.state.brand, {
-          brand_comments: [data, ...this.state.brand.brand_comments],
-        });
+        const modifiedData = data;
+        const newBrand = _.cloneDeep(this.state.brand);
+        modifiedData.brand_reviews = this.props.user.brand_reviews;
+        newBrand.brand_comments = [modifiedData, ...newBrand.brand_comments];
         this.setState({ brand: newBrand });
       })
       .catch(e => console.log('Error adding comment', e));

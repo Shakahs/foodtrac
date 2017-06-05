@@ -8,9 +8,9 @@ import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import UserAttendeesList from './UserAttendeesList';
 import BrandAttendeesList from './BrandAttendeesList';
-import CommentsList from './CommentsList';
 import { eventAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
+import CommentsView from '../../common/Comments';
 
 const FontAwesome = require('react-fontawesome');
 
@@ -136,7 +136,12 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
             <Col xs={12} sm={12} md={12} lg={12}>
               <Tabs>
                 <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
-                  <CommentsList comments={eventFetch.value.comments} />
+                  <CommentsView
+                    comments={eventFetch.value.comments}
+                    submitComment={_.noop}
+                    removeComment={_.noop}
+                    editComment={_.noop}
+                  />
                 </Tab>
                 <Tab label={`${String(eventFetch.value.brands_attending.length)} Trucks Attending`} >
                   <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
