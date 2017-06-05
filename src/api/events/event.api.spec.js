@@ -1,8 +1,8 @@
-import { testEventGenerator, testLocationGenerator } from '../../testData';
+import { testEventGenerator, testLocationGenerator } from '../../../testData';
 import post from './event.api';
 
-const Events = require('../../server/db/events/events.model');
-const { provideModelWithKnex } = require('../../dbutil');
+const Events = require('../../../server/db/events/events.model');
+const { provideModelWithKnex } = require('../../../dbutil');
 
 const boundEvents = provideModelWithKnex(Events);
 

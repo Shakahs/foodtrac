@@ -59,10 +59,10 @@ class Events extends Model {
       },
       comments: {
         relation: Model.HasManyRelation,
-        modelClass: path.resolve(__dirname, 'eventcomments.model'),
+        modelClass: path.resolve(__dirname, '../', 'comments.model'),
         join: {
           from: 'Events.id',
-          to: 'EventComments.event_id',
+          to: 'Comments.event_id',
         },
       },
     };

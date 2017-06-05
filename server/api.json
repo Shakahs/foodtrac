@@ -12,169 +12,6 @@
   "consumes" : [ "application/json" ],
   "produces" : [ "application/json" ],
   "paths" : {
-    "/users" : {
-      "post" : {
-        "summary" : "Add new user",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "Status 201",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          },
-          "400" : {
-            "description" : "Status 400",
-            "schema" : {
-              "type" : "string",
-              "default" : "Bad request"
-            }
-          }
-        }
-      }
-    },
-    "/users/{userId}" : {
-      "get" : {
-        "summary" : "Get user detail",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200",
-            "schema" : {
-              "$ref" : "#/definitions/User"
-            }
-          }
-        }
-      },
-      "put" : {
-        "summary" : "Edit user detail",
-        "consumes" : [ "application/json" ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Remove user",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "userId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/users/{userId}/subscribe" : {
-      "get" : {
-        "summary" : "Get all brands a user subscribes to",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200",
-            "schema" : {
-              "type" : "array",
-              "items" : {
-                "$ref" : "#/definitions/Brand"
-              }
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Subscribe to a brand",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Brand"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Unsubscribe from a brand",
-        "parameters" : [ {
-          "name" : "brand_id",
-          "in" : "query",
-          "required" : false,
-          "type" : "integer"
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "userId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/users/{userId}/push" : {
-      "post" : {
-        "summary" : "Create push subscription for a user",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/User Push Info"
-          }
-        } ],
-        "responses" : {
-          "201" : {
-            "description" : "Status 201"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Unsubscribe user from push notifications",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "userId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
     "/brands" : {
       "get" : {
         "summary" : "Get brands sorted by upvotes in selected timeframe",
@@ -353,6 +190,383 @@
         "required" : true,
         "type" : "integer"
       } ]
+    },
+    "/brands/{brandId}/comments" : {
+      "post" : {
+        "summary" : "Add a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/brands/{brandId}/comments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove a brand comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "commentId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/comments" : {
+      "post" : {
+        "summary" : "Add a comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/comments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit a comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove a comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "commentId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events" : {
+      "get" : {
+        "summary" : "Get all events",
+        "parameters" : [ {
+          "name" : "lat",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "lng",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        }, {
+          "name" : "distance",
+          "in" : "query",
+          "required" : false,
+          "type" : "number"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "type" : "array",
+              "items" : {
+                "$ref" : "#/definitions/Event"
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Create events",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Event"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/events/{eventId}" : {
+      "get" : {
+        "summary" : "Get an event",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Event"
+            }
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/user_attendance" : {
+      "post" : {
+        "summary" : "User registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "userId" : {
+                "type" : "number"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "number"
+      } ]
+    },
+    "/events/{eventId}/user_attendance/{userId}" : {
+      "delete" : {
+        "summary" : "User unregister to attend",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance" : {
+      "post" : {
+        "summary" : "Brand registers to attend",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "brandId" : {
+                "type" : "number"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/brand_attendance/{brandId}" : {
+      "delete" : {
+        "summary" : "Brand unregister to attend event",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/comments" : {
+      "post" : {
+        "summary" : "Create an event comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/events/{eventId}/comments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit an event comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove an event comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "eventId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "commentId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/foodgenres" : {
+      "get" : {
+        "summary" : "Get all food genres",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/Food Genre"
+            }
+          }
+        }
+      },
+      "post" : {
+        "summary" : "Add a new food genre",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Food Genre"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
     },
     "/foodtrucks" : {
       "get" : {
@@ -646,37 +860,6 @@
         "type" : "string"
       } ]
     },
-    "/foodgenres" : {
-      "get" : {
-        "summary" : "Get all food genres",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200",
-            "schema" : {
-              "$ref" : "#/definitions/Food Genre"
-            }
-          }
-        }
-      },
-      "post" : {
-        "summary" : "Add a new food genre",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Food Genre"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      }
-    },
     "/menuitems/{menuItemId}" : {
       "put" : {
         "summary" : "Edit a menu item",
@@ -729,6 +912,31 @@
           }
         }
       }
+    },
+    "/orders/{orderId}" : {
+      "put" : {
+        "summary" : "Mark the order as ready",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Order"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "orderId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
     },
     "/reviews" : {
       "post" : {
@@ -783,35 +991,57 @@
         "type" : "integer"
       } ]
     },
-    "/brandcomments" : {
+    "/users" : {
       "post" : {
-        "summary" : "Add a brand comment",
+        "summary" : "Add new user",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Brand Comment"
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
-          "200" : {
-            "description" : "Status 200"
+          "201" : {
+            "description" : "Status 201",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          },
+          "400" : {
+            "description" : "Status 400",
+            "schema" : {
+              "type" : "string",
+              "default" : "Bad request"
+            }
           }
         }
       }
     },
-    "/brandcomments/{commentId}" : {
+    "/users/{userId}" : {
+      "get" : {
+        "summary" : "Get user detail",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200",
+            "schema" : {
+              "$ref" : "#/definitions/User"
+            }
+          }
+        }
+      },
       "put" : {
-        "summary" : "Edit a brand comment",
-        "consumes" : [ ],
+        "summary" : "Edit user detail",
+        "consumes" : [ "application/json" ],
         "parameters" : [ {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Brand Comment"
+            "$ref" : "#/definitions/User"
           }
         } ],
         "responses" : {
@@ -821,7 +1051,7 @@
         }
       },
       "delete" : {
-        "summary" : "Remove a brand comment",
+        "summary" : "Remove user",
         "parameters" : [ ],
         "responses" : {
           "200" : {
@@ -830,96 +1060,37 @@
         }
       },
       "parameters" : [ {
-        "name" : "commentId",
+        "name" : "userId",
         "in" : "path",
         "required" : true,
-        "type" : "integer"
+        "type" : "string"
       } ]
     },
-    "/events" : {
+    "/users/{userId}/subscribe" : {
       "get" : {
-        "summary" : "Get all events",
-        "parameters" : [ {
-          "name" : "lat",
-          "in" : "query",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "lng",
-          "in" : "query",
-          "required" : false,
-          "type" : "number"
-        }, {
-          "name" : "distance",
-          "in" : "query",
-          "required" : false,
-          "type" : "number"
-        } ],
+        "summary" : "Get all brands a user subscribes to",
+        "parameters" : [ ],
         "responses" : {
           "200" : {
             "description" : "Status 200",
             "schema" : {
               "type" : "array",
               "items" : {
-                "$ref" : "#/definitions/Event"
+                "$ref" : "#/definitions/Brand"
               }
             }
           }
         }
       },
       "post" : {
-        "summary" : "Create events",
+        "summary" : "Subscribe to a brand",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
           "in" : "body",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/Event"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      }
-    },
-    "/events/{eventId}" : {
-      "get" : {
-        "summary" : "Get an event",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200",
-            "schema" : {
-              "$ref" : "#/definitions/Event"
-            }
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
-    "/events/{eventId}/user_attendance" : {
-      "post" : {
-        "summary" : "User registers to attend",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "type" : "object",
-            "properties" : {
-              "userId" : {
-                "type" : "number"
-              }
-            }
+            "$ref" : "#/definitions/Brand"
           }
         } ],
         "responses" : {
@@ -928,16 +1099,47 @@
           }
         }
       },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "number"
-      } ]
-    },
-    "/events/{eventId}/user_attendance/{userId}" : {
       "delete" : {
-        "summary" : "User unregister to attend",
+        "summary" : "Unsubscribe from a brand",
+        "parameters" : [ {
+          "name" : "brand_id",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
+    },
+    "/users/{userId}/push" : {
+      "post" : {
+        "summary" : "Create push subscription for a user",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User Push Info"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Status 201"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Unsubscribe user from push notifications",
         "parameters" : [ ],
         "responses" : {
           "200" : {
@@ -946,109 +1148,10 @@
         }
       },
       "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      }, {
         "name" : "userId",
         "in" : "path",
         "required" : true,
         "type" : "integer"
-      } ]
-    },
-    "/events/{eventId}/brand_attendance" : {
-      "post" : {
-        "summary" : "Brand registers to attend",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "type" : "object",
-            "properties" : {
-              "brandId" : {
-                "type" : "number"
-              }
-            }
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
-    "/events/{eventId}/comments" : {
-      "post" : {
-        "summary" : "Create comment",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
-      } ]
-    },
-    "/events/{eventId}/brand_attendance/{brandId}" : {
-      "delete" : {
-        "summary" : "Brand unregister to attend event",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "eventId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      }, {
-        "name" : "brandId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
-    "/orders/{orderId}" : {
-      "put" : {
-        "summary" : "Mark the order as ready",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Order"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "orderId",
-        "in" : "path",
-        "required" : true,
-        "type" : "string"
       } ]
     }
   },
@@ -1081,6 +1184,20 @@
     "Auth0 header" : {
       "type" : "string"
     },
+    "Foodtruck" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "location" : {
+          "$ref" : "#/definitions/Location"
+        }
+      }
+    },
     "Brand" : {
       "type" : "object",
       "properties" : {
@@ -1110,20 +1227,6 @@
           "items" : {
             "$ref" : "#/definitions/Foodtruck"
           }
-        }
-      }
-    },
-    "Foodtruck" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string"
-        },
-        "brand_id" : {
-          "type" : "integer"
-        },
-        "location" : {
-          "$ref" : "#/definitions/Location"
         }
       }
     },
@@ -1201,7 +1304,7 @@
         }
       }
     },
-    "Brand Comment" : {
+    "Comment" : {
       "type" : "object",
       "properties" : {
         "id" : {
@@ -1211,6 +1314,9 @@
           "type" : "string"
         },
         "brand_id" : {
+          "type" : "integer"
+        },
+        "event_id" : {
           "type" : "integer"
         },
         "user_id" : {

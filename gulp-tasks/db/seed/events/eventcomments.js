@@ -1,12 +1,10 @@
 const jsf = require('json-schema-faker');
 const Faker = require('faker');
 const Chance = require('chance');
-const Users = require('../../../server/db/users.model');
-const Brands = require('../../../server/db/brands.model');
-const Comments = require('../../../server/db/comments.model');
-const { insertSeed } = require('../../../dbutil');
-const { checkSeededTable } = require('../../../dbutil');
-const { provideModelWithKnex } = require('../../../dbutil');
+const Users = require('../../../../server/db/users.model');
+const Events = require('../../../../server/db/events/events.model');
+const Comments = require('../../../../server/db/comments.model');
+const { insertSeed, checkSeededTable, provideModelWithKnex } = require('../../../../dbutil');
 
 const chance = new Chance();
 jsf.extend('faker', () => Faker);
@@ -15,26 +13,25 @@ jsf.extend('chance', () => chance);
 module.exports = {
   fn() {
     const boundUsers = provideModelWithKnex(Users);
-    const boundBrands = provideModelWithKnex(Brands);
+    const boundEvents = provideModelWithKnex(Events);
     let usersList = [];
-    let brandsList = [];
-    return boundBrands.query()
+    let eventsList = [];
+    return boundEvents.query()
       .then((res) => {
-        brandsList = res;
-        return boundBrands.knex().destroy();
+        eventsList = res;
+        return boundEvents.knex().destroy();
       })
       .then(() => boundUsers.query())
       .then((res) => {
         usersList = res;
         return boundUsers.knex().destroy();
       })
-      .then(() => brandsList)
       .then(() => {
         const newSeedData = [];
-        brandsList.forEach((brand) => {
+        eventsList.forEach((event) => {
           for (let i = 0; i < chance.integer({ min: 0, max: 8 }); i++) {
             const newSeedDataItem = {};
-            newSeedDataItem.brand_id = brand.id;
+            newSeedDataItem.event_id = event.id;
             newSeedDataItem.user_id = chance.pickone(usersList).id;
             newSeedDataItem.text = chance.sentence({ sentences: chance.integer({ min: 1, max: 4 }) });
             newSeedData.push(newSeedDataItem);
