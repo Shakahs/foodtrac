@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
+import RaisedButton from 'material-ui/RaisedButton';
 import propSchema from '../PropTypes';
 import CommentsInput from './CommentsInput';
 import UserEmblem from '../Emblem/UserEmblem';
@@ -14,6 +15,13 @@ class CommentsListEntry extends Component {
   }
 
   renderInputOrText() {
+    const CancelButton = () => (<RaisedButton
+      type="submit"
+      secondary
+      label="Cancel"
+      onClick={() => { this.setState({ open: false }); }}
+    />);
+
     if (this.state.open) {
       return (
         <CommentsInput
@@ -22,7 +30,9 @@ class CommentsListEntry extends Component {
             this.props.editComment(editComment, this.props.comment.id, this.props.idx);
             this.setState({ open: false });
           }}
-        />
+        >
+          <CancelButton />
+        </CommentsInput>
       );
     }
     return <CardText>{this.props.comment.text}</CardText>;
