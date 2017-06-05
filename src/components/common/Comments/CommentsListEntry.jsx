@@ -4,6 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import { Card, CardHeader, CardText } from 'material-ui/Card';
 import propSchema from '../PropTypes';
 import CommentsInput from './CommentsInput';
+import UserEmblem from '../Emblem/UserEmblem';
 
 class CommentsListEntry extends Component {
   constructor(props) {
@@ -53,11 +54,9 @@ class CommentsListEntry extends Component {
     return (
       <div className="icon-container">
         <Card>
-          <CardHeader
-            title={this.props.comment.users.auth0_id}
-            subtitle={this.props.comment.created_at}
-            avatar="https://ih1.redbubble.net/image.116421576.5606/sticker,375x360.u2.png"
-          />
+          <CardHeader>
+            <UserEmblem user={this.props.comment.users} />
+          </CardHeader>
           {this.renderInputOrText()}
         </Card>
         {this.renderButtons()}

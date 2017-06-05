@@ -93,16 +93,11 @@ class Profile extends Component {
   editComment(text, commentId, idx) {
     axios.put(`/api/brands/${this.state.brandId}/comments/${commentId}`, { text })
       .then(({ data }) => {
-        const newBrand = Object.assign({}, this.state.brand, {
-          brand_comments: [
-            ...this.state.brand.brand_comments.slice(0, idx),
-            data,
-            ...this.state.brand.brand_comments.slice(idx + 1),
-          ],
-        });
+        const newBrand = _.cloneDeep(this.state.brand);
+        newBrand.brand_comments[idx] = _.merge(newBrand.brand_comments[idx], data);
         this.setState({ brand: newBrand });
       })
-      .catch(e => console.log('Error adding comment', e));
+      .catch(e => console.log('Error editing comment', e));
   }
 
   removeComment(commentId, idx) {
