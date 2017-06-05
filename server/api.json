@@ -141,6 +141,40 @@
         "type" : "string"
       } ]
     },
+    "/users/{userId}/push" : {
+      "post" : {
+        "summary" : "Create push subscription for a user",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User Push Info"
+          }
+        } ],
+        "responses" : {
+          "201" : {
+            "description" : "Status 201"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Unsubscribe user from push notifications",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "userId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
     "/brands" : {
       "get" : {
         "summary" : "Get brands sorted by upvotes in selected timeframe",
@@ -263,6 +297,125 @@
         "in" : "path",
         "required" : true,
         "type" : "number"
+      } ]
+    },
+    "/brands/{brandId}/reward" : {
+      "post" : {
+        "summary" : "Post a new coupon",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Reward Coupon"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/brands/{brandId}/reward/{couponId}" : {
+      "put" : {
+        "summary" : "Update coupon and/or reward trigger",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Reward Coupon"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "couponId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/brands/{brandId}/comments" : {
+      "post" : {
+        "summary" : "Add a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
+    },
+    "/brands/{brandId}/comments/{commentId}" : {
+      "put" : {
+        "summary" : "Edit a brand comment",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/Brand Comment"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "delete" : {
+        "summary" : "Remove a brand comment",
+        "parameters" : [ ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      }, {
+        "name" : "commentId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
       } ]
     },
     "/foodtrucks" : {
@@ -694,59 +847,6 @@
         "type" : "integer"
       } ]
     },
-    "/brandcomments" : {
-      "post" : {
-        "summary" : "Add a brand comment",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Brand Comment"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      }
-    },
-    "/brandcomments/{commentId}" : {
-      "put" : {
-        "summary" : "Edit a brand comment",
-        "consumes" : [ ],
-        "parameters" : [ {
-          "name" : "body",
-          "in" : "body",
-          "required" : true,
-          "schema" : {
-            "$ref" : "#/definitions/Brand Comment"
-          }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "delete" : {
-        "summary" : "Remove a brand comment",
-        "parameters" : [ ],
-        "responses" : {
-          "200" : {
-            "description" : "Status 200"
-          }
-        }
-      },
-      "parameters" : [ {
-        "name" : "commentId",
-        "in" : "path",
-        "required" : true,
-        "type" : "integer"
-      } ]
-    },
     "/events" : {
       "get" : {
         "summary" : "Get all events",
@@ -992,6 +1092,20 @@
     "Auth0 header" : {
       "type" : "string"
     },
+    "Foodtruck" : {
+      "type" : "object",
+      "properties" : {
+        "name" : {
+          "type" : "string"
+        },
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "location" : {
+          "$ref" : "#/definitions/Location"
+        }
+      }
+    },
     "Brand" : {
       "type" : "object",
       "properties" : {
@@ -1021,20 +1135,6 @@
           "items" : {
             "$ref" : "#/definitions/Foodtruck"
           }
-        }
-      }
-    },
-    "Foodtruck" : {
-      "type" : "object",
-      "properties" : {
-        "name" : {
-          "type" : "string"
-        },
-        "brand_id" : {
-          "type" : "integer"
-        },
-        "location" : {
-          "$ref" : "#/definitions/Location"
         }
       }
     },
@@ -1246,6 +1346,54 @@
           "items" : {
             "$ref" : "#/definitions/Order Item"
           }
+        }
+      }
+    },
+    "Reward Coupon" : {
+      "type" : "object",
+      "properties" : {
+        "coupon" : {
+          "$ref" : "#/definitions/Coupon"
+        },
+        "reward" : {
+          "$ref" : "#/definitions/Reward"
+        }
+      }
+    },
+    "Reward" : {
+      "type" : "object",
+      "properties" : {
+        "rewards_trigger" : {
+          "type" : "integer"
+        },
+        "default_coupon_id" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "Coupon" : {
+      "type" : "object",
+      "properties" : {
+        "percent_discount" : {
+          "type" : "integer"
+        },
+        "flat_discount" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "User Push Info" : {
+      "type" : "object",
+      "required" : [ "auth", "endpoint", "p256h" ],
+      "properties" : {
+        "endpoint" : {
+          "type" : "string"
+        },
+        "auth" : {
+          "type" : "string"
+        },
+        "p256h" : {
+          "type" : "string"
         }
       }
     },
