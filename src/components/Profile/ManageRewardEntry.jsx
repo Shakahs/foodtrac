@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
 import propSchema from '../common/PropTypes';
 
@@ -55,10 +56,12 @@ const ManageRewardEntry = props => (
     }
     <br />
     <br />
-    <FlatButton
-      label="Save Changes"
-      onClick={props.saveChanges}
-    />
+    <Link to={`/brand/${props.brandId}/trucks`}>
+      <FlatButton
+        label="Save Changes"
+        onClick={props.saveChanges}
+      />
+    </Link>
   </div>
 );
 
@@ -70,6 +73,7 @@ ManageRewardEntry.propTypes = {
   flatRate: propSchema.flatRate,
   percentRate: propSchema.percentRate,
   saveChanges: propSchema.saveChanges,
+  brandId: propSchema.brandId,
 };
 
 export default ManageRewardEntry;

@@ -214,5 +214,9 @@ export default {
   defaultCouponId: PropTypes.number.isRequired,
   rewardTrigger: PropTypes.number.isRequired,
   saveChanges: PropTypes.func.isRequired,
+  coupon: PropTypes.shape({
+    flat_discount: PropTypes.number,
+    percent_discount: PropTypes.number,
+  }).isRequired,
 
 };

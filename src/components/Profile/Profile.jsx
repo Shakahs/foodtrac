@@ -144,6 +144,7 @@ class Profile extends Component {
             submitComment={this.submitComment}
             defaultCouponId={this.state.brand.default_coupon_id}
             rewardTrigger={this.state.brand.rewards_trigger}
+            coupon={this.state.brand.coupon}
           />
         </Row>
       </Grid>

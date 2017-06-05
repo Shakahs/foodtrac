@@ -21,7 +21,7 @@ class ManageReward extends Component {
   }
 
   componentDidMount() {
-    this.defaultChecked();
+    this.setDefault();
   }
 
   setValues(val, key) {
@@ -36,9 +36,21 @@ class ManageReward extends Component {
     });
   }
 
-  defaultChecked() {
+  setDefault() {
     if (this.props.rewardTrigger > 0) {
-      this.setState({ checked: true });
+      this.setState({
+        checked: true,
+        trigger: this.props.rewardTrigger,
+      });
+    }
+    if (this.props.coupon) {
+      this.setState({
+        flatRate: this.props.coupon.flat_discount,
+        percentRate: this.props.coupon.percent_discount,
+      });
+      if (this.props.coupon.flat_discount === 0) {
+        this.setState({ type: 2 });
+      }
     }
   }
 
@@ -68,7 +80,6 @@ class ManageReward extends Component {
         rewards_trigger: this.state.trigger,
       },
     };
-    console.log('IN SAVE', reward);
     if (!this.props.defaultCouponId) {
       axios.post(`/api/brands/${this.props.brandId}/reward`, reward)
         .then(() => this.props.getBrand(this.props.brandId))
@@ -90,6 +101,7 @@ class ManageReward extends Component {
         />
         {this.state.checked ?
           <ManageRewardEntry
+            brandId={this.props.brandId}
             type={this.state.type}
             trigger={this.state.trigger}
             flatRate={this.state.flatRate}
@@ -109,6 +121,7 @@ ManageReward.propTypes = {
   brandId: propSchema.brandId,
   rewardTrigger: propSchema.rewardTrigger,
   getBrand: propSchema.getBrand,
+  coupon: propSchema.coupon,
 };
 
 export default ManageReward;

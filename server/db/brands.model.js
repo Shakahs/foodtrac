@@ -117,6 +117,14 @@ class Brands extends Model {
           to: 'BrandAttendees.brand_id',
         },
       },
+      coupon: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: `${__dirname}/coupons.model`,
+        join: {
+          from: 'Brands.default_coupon_id',
+          to: 'Coupons.id',
+        },
+      },
     };
   }
 }
