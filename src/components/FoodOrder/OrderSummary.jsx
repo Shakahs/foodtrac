@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { Paper, RaisedButton, Dialog, FlatButton, TextField } from 'material-ui';
 import { Grid, Col } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import CartEntry from './CartEntry';
+import { actions as userActions } from '../../redux/user';
 
 class OrderSummary extends Component {
   constructor() {
@@ -50,6 +52,47 @@ class OrderSummary extends Component {
     axios.post(`/api/foodtrucks/${this.props.truck.id}/orders`, order)
       .then(() => this.orderComplete())
       .catch(e => console.log(e));
+    this.handleRewards();
+  }
+
+  handleRewards() {
+    let userReward = null;
+    let index;
+    const rewardsCopy = [...this.props.userRewards];
+    this.props.userRewards.forEach((reward, i) => {
+      if (reward.brand_id === this.props.truck.brands.id) {
+        userReward = Object.assign({}, reward);
+        index = i;
+      }
+    });
+
+    if (this.props.truck.brands.rewards_trigger > 0) {
+      if (userReward) {
+        const newCount = userReward;
+        if ((this.props.truck.brands.rewards_trigger - newCount.count) === 1) {
+          newCount.count = 0;
+          // give user coupon
+        } else {
+          newCount.count += 1;
+        }
+        axios.post('/api/rewards', newCount)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+        rewardsCopy[index] = newCount;
+        this.props.userActions.updateUserRewards(rewardsCopy);
+      } else {
+        const newReward = {
+          brand_id: this.props.truck.brands.id,
+          user_id: this.props.userId,
+          count: 1,
+        };
+        axios.post('/api/rewards', newReward)
+          .then(res => console.log(res))
+          .catch(err => console.log(err));
+        rewardsCopy.push(newReward);
+        this.props.userActions.updateUserRewards(rewardsCopy);
+      }
+    }
   }
 
   orderComplete() {
@@ -118,11 +161,18 @@ OrderSummary.propTypes = {
   truck: propSchema.truck,
   userId: propSchema.userId,
   removeFromOrder: propSchema.removeComment,
+  userRewards: propSchema.userRewards,
+  userActions: propSchema.userActions,
 };
 
 const mapStateToProps = ({ user }) => {
   const userId = user.id;
-  return { userId };
+  const userRewards = user.user_rewards;
+  return { userId, userRewards };
 };
 
-export default connect(mapStateToProps, null)(OrderSummary);
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(OrderSummary);

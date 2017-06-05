@@ -89,6 +89,7 @@ export default {
 
   userActions: PropTypes.shape({
     brandInfoUpdate: PropTypes.func,
+    updateUserRewards: PropTypes.func,
   }).isRequired,
 
   foodGenres: PropTypes.arrayOf(PropTypes.shape({
@@ -218,5 +219,10 @@ export default {
     flat_discount: PropTypes.number,
     percent_discount: PropTypes.number,
   }).isRequired,
+  userRewards: PropTypes.arrayOf(PropTypes.shape({
+    brand_id: PropTypes.number,
+    user_id: PropTypes.number,
+    count: PropTypes.number,
+  })).isRequired,
 
 };
