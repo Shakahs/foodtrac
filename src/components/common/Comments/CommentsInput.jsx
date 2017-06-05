@@ -8,7 +8,7 @@ import propSchema from '../PropTypes';
 const CommentsInput = props => (
   <form onSubmit={props.handleSubmit}>
     <Field
-      name={props.name}
+      name="text"
       component={TextField}
       type="text"
       hintText="Leave a comment!"
@@ -25,7 +25,6 @@ const CommentsInput = props => (
 );
 
 CommentsInput.propTypes = {
-  name: propSchema.name,
   handleSubmit: propSchema.handleSubmit,
   children: PropTypes.element,
 };

@@ -25,11 +25,11 @@ class CommentsListEntry extends Component {
     if (this.state.open) {
       return (
         <CommentsInput
-          name="editComment"
-          onSubmit={({ editComment }) => {
-            this.props.editComment(editComment, this.props.comment.id, this.props.idx);
+          onSubmit={({ text }) => {
+            this.props.editComment(text, this.props.comment.id, this.props.idx);
             this.setState({ open: false });
           }}
+          initialValues={{ text: this.props.comment.text }}
         >
           <CancelButton />
         </CommentsInput>

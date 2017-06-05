@@ -9,7 +9,7 @@ const Comments = props => (
   <div>
     {
       (props.auth.isLoggedIn)
-      ? <CommentInput onSubmit={props.submitComment} name="newComment" />
+      ? <CommentInput onSubmit={props.submitComment} />
       : null
     }
     <CommentsList

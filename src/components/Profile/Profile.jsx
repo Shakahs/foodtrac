@@ -75,9 +75,9 @@ class Profile extends Component {
       .catch(err => console.log(err));
   }
 
-  submitComment({ newComment }) {
+  submitComment({ text }) {
     axios.post(`/api/brands/${this.state.brandId}/comments`, {
-      text: newComment,
+      text,
       user_id: this.props.user.id,
       brand_id: this.state.brandId,
     })
