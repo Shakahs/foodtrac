@@ -3,7 +3,7 @@ const Faker = require('faker');
 const Chance = require('chance');
 const Users = require('../../../server/db/users.model');
 const Brands = require('../../../server/db/brands.model');
-const BrandComments = require('../../../server/db/brandcomments.model');
+const Comments = require('../../../server/db/comments.model');
 const { insertSeed } = require('../../../dbutil');
 const { checkSeededTable } = require('../../../dbutil');
 const { provideModelWithKnex } = require('../../../dbutil');
@@ -14,11 +14,6 @@ jsf.extend('chance', () => chance);
 
 module.exports = {
   fn() {
-    const brandCommentsSchema = {
-      type: 'array',
-      uniqueItems: true,
-      items: BrandComments.jsonSchema,
-    };
     const boundUsers = provideModelWithKnex(Users);
     const boundBrands = provideModelWithKnex(Brands);
     let usersList = [];
@@ -33,18 +28,21 @@ module.exports = {
         usersList = res;
         return boundUsers.knex().destroy();
       })
+      .then(() => brandsList)
       .then(() => {
-        brandCommentsSchema.minItems = brandsList.length;
-        brandCommentsSchema.maxItems = brandsList.length;
-        return jsf.resolve(brandCommentsSchema);
+        const newSeedData = [];
+        brandsList.forEach((brand) => {
+          for (let i = 0; i < chance.integer({ min: 0, max: 8 }); i++) {
+            const newSeedDataItem = {};
+            newSeedDataItem.brand_id = brand.id;
+            newSeedDataItem.user_id = chance.pickone(usersList).id;
+            newSeedDataItem.text = chance.sentence({ sentences: chance.integer({ min: 1, max: 4 }) });
+            newSeedData.push(newSeedDataItem);
+          }
+        });
+        return newSeedData;
       })
-      .then(seedData => seedData.map((seedDataItem) => {
-        const newSeedDataItem = Object.assign({}, seedDataItem);
-        newSeedDataItem.brand_id = brandsList.pop().id;
-        newSeedDataItem.user_id = usersList.pop().id;
-        return newSeedDataItem;
-      }))
-      .then(seedData => insertSeed('BrandComments', seedData))
-      .then(() => checkSeededTable(BrandComments));
+      .then(seedData => insertSeed('Comments', seedData))
+      .then(() => checkSeededTable(Comments));
   },
 };

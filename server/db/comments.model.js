@@ -1,8 +1,9 @@
 const { Model } = require('objection');
+const path = require('path');
 
-class BrandComments extends Model {
+class Comments extends Model {
   static get tableName() {
-    return 'BrandComments';
+    return 'Comments';
   }
 
   $beforeInsert() {
@@ -16,13 +17,14 @@ class BrandComments extends Model {
   static get jsonSchema() {
     return {
       type: 'object',
-      required: ['text', 'user_id', 'brand_id'],
+      required: ['text', 'user_id'],
 
       properties: {
         id: { type: 'integer' },
         text: { type: 'string' },
         user_id: { type: 'integer' },
         brand_id: { type: 'integer' },
+        event_id: { type: 'integer' },
       },
     };
   }
@@ -33,15 +35,23 @@ class BrandComments extends Model {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/brands.model`,
         join: {
-          from: 'BrandComments.brand_id',
+          from: 'Comments.brand_id',
           to: 'Brands.id',
+        },
+      },
+      events: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: path.resolve(__dirname, 'events', 'events.model'),
+        join: {
+          from: 'Comments.event_id',
+          to: 'Events.id',
         },
       },
       users: {
         relation: Model.BelongsToOneRelation,
         modelClass: `${__dirname}/users.model`,
         join: {
-          from: 'BrandComments.user_id',
+          from: 'Comments.user_id',
           to: 'Users.id',
         },
       },
@@ -49,4 +59,4 @@ class BrandComments extends Model {
   }
 }
 
-module.exports = BrandComments;
+module.exports = Comments;

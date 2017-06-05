@@ -3,7 +3,7 @@ const Faker = require('faker');
 const Chance = require('chance');
 const Users = require('../../../../server/db/users.model');
 const Events = require('../../../../server/db/events/events.model');
-const EventComments = require('../../../../server/db/events/eventcomments.model');
+const Comments = require('../../../../server/db/comments.model');
 const { insertSeed, checkSeededTable, provideModelWithKnex } = require('../../../../dbutil');
 
 const chance = new Chance();
@@ -39,7 +39,7 @@ module.exports = {
         });
         return newSeedData;
       })
-      .then(seedData => insertSeed('EventComments', seedData))
-      .then(() => checkSeededTable(EventComments));
+      .then(seedData => insertSeed('Comments', seedData))
+      .then(() => checkSeededTable(Comments));
   },
 };

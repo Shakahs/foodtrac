@@ -1,4 +1,4 @@
-const BrandComments = require('../../server/db/brandcomments.model');
+const BrandComments = require('../db/comments.model');
 
 module.exports = {
   post(req, res) {

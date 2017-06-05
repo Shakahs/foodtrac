@@ -14,7 +14,7 @@
         </Counter>
         <Counter>
             <Name>column</Name>
-            <Value>121</Value>
+            <Value>125</Value>
             <Prefix>c</Prefix>
         </Counter>
         <Counter>
@@ -24,17 +24,17 @@
         </Counter>
         <Counter>
             <Name>reference</Name>
-            <Value>46</Value>
+            <Value>47</Value>
             <Prefix>r</Prefix>
         </Counter>
         <Counter>
             <Name>table_check</Name>
-            <Value>0</Value>
+            <Value>3</Value>
             <Prefix>tc</Prefix>
         </Counter>
         <Counter>
             <Name>alternate_key</Name>
-            <Value>4</Value>
+            <Value>7</Value>
             <Prefix>a</Prefix>
         </Counter>
         <Counter>
@@ -79,7 +79,7 @@
         </Counter>
         <Counter>
             <Name>referenceDisplay</Name>
-            <Value>46</Value>
+            <Value>47</Value>
             <Prefix>rd</Prefix>
         </Counter>
     </Counters>
@@ -484,7 +484,7 @@
             <Properties/>
         </Table>
         <Table Id="t6">
-            <Name>BrandComments</Name>
+            <Name>Comments</Name>
             <Description></Description>
             <Columns>
                 <Column Id="c25">
@@ -501,6 +501,15 @@
                         </Property>
                     </Properties>
                 </Column>
+                <Column Id="c28">
+                    <Name>user_id</Name>
+                    <Type>int</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
                 <Column Id="c26">
                     <Name>text</Name>
                     <Type>text</Type>
@@ -514,16 +523,16 @@
                     <Name>brand_id</Name>
                     <Type>int</Type>
                     <Description></Description>
-                    <Nullable>false</Nullable>
+                    <Nullable>true</Nullable>
                     <DefaultValue></DefaultValue>
                     <CheckExpression></CheckExpression>
                     <Properties/>
                 </Column>
-                <Column Id="c28">
-                    <Name>user_id</Name>
+                <Column Id="c124">
+                    <Name>event_id</Name>
                     <Type>int</Type>
                     <Description></Description>
-                    <Nullable>false</Nullable>
+                    <Nullable>true</Nullable>
                     <DefaultValue></DefaultValue>
                     <CheckExpression></CheckExpression>
                     <Properties/>
@@ -548,7 +557,7 @@
                 </Column>
             </Columns>
             <PrimaryKey>
-                <Name>BrandComments_pk</Name>
+                <Name>Comments_pk</Name>
                 <Columns>
                     <Column>c25</Column>
                 </Columns>
@@ -556,7 +565,7 @@
             <AlternateKeys/>
             <Indexes>
                 <Index Id="i6">
-                    <Name>BrandComment_Brand</Name>
+                    <Name>Comment_Brands</Name>
                     <Description></Description>
                     <Columns>
                         <Column>
@@ -567,7 +576,7 @@
                     <Properties/>
                 </Index>
                 <Index Id="i7">
-                    <Name>BrandComment_Users</Name>
+                    <Name>Comment_Users</Name>
                     <Description></Description>
                     <Columns>
                         <Column>
@@ -578,7 +587,14 @@
                     <Properties/>
                 </Index>
             </Indexes>
-            <TableChecks/>
+            <TableChecks>
+                <TableCheck Id="tc3">
+                    <Name>check_1</Name>
+                    <Description></Description>
+                    <CheckExpression>COALESCE(brand_id,event_id) IS NOT NULL</CheckExpression>
+                    <Properties/>
+                </TableCheck>
+            </TableChecks>
             <AdditionalSQLBefore></AdditionalSQLBefore>
             <AdditionalSQLAfter></AdditionalSQLAfter>
             <Properties/>
@@ -1086,88 +1102,6 @@
             <AdditionalSQLAfter></AdditionalSQLAfter>
             <Properties/>
         </Table>
-        <Table Id="t13">
-            <Name>EventComments</Name>
-            <Description></Description>
-            <Columns>
-                <Column Id="c60">
-                    <Name>id</Name>
-                    <Type>int</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties>
-                        <Property>
-                            <Name>auto_increment</Name>
-                            <Value>true</Value>
-                        </Property>
-                    </Properties>
-                </Column>
-                <Column Id="c61">
-                    <Name>user_id</Name>
-                    <Type>int</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
-                <Column Id="c62">
-                    <Name>event_id</Name>
-                    <Type>int</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
-                <Column Id="c63">
-                    <Name>text</Name>
-                    <Type>text</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
-            </Columns>
-            <PrimaryKey>
-                <Name>EventComments_pk</Name>
-                <Columns>
-                    <Column>c60</Column>
-                </Columns>
-            </PrimaryKey>
-            <AlternateKeys/>
-            <Indexes>
-                <Index Id="i17">
-                    <Name>EventComment_Events</Name>
-                    <Description></Description>
-                    <Columns>
-                        <Column>
-                            <Column>c62</Column>
-                            <Ascending>true</Ascending>
-                        </Column>
-                    </Columns>
-                    <Properties/>
-                </Index>
-                <Index Id="i18">
-                    <Name>EventComment_Users</Name>
-                    <Description></Description>
-                    <Columns>
-                        <Column>
-                            <Column>c61</Column>
-                            <Ascending>true</Ascending>
-                        </Column>
-                    </Columns>
-                    <Properties/>
-                </Index>
-            </Indexes>
-            <TableChecks/>
-            <AdditionalSQLBefore></AdditionalSQLBefore>
-            <AdditionalSQLAfter></AdditionalSQLAfter>
-            <Properties/>
-        </Table>
         <Table Id="t14">
             <Name>LocationComments</Name>
             <Description></Description>
@@ -1515,7 +1449,7 @@
             <Properties/>
         </Table>
         <Table Id="t18">
-            <Name>Notifications</Name>
+            <Name>UserPushInfo</Name>
             <Description></Description>
             <Columns>
                 <Column Id="c82">
@@ -1533,8 +1467,26 @@
                     </Properties>
                 </Column>
                 <Column Id="c83">
-                    <Name>text</Name>
+                    <Name>endpoint</Name>
+                    <Type>text</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
+                <Column Id="c122">
+                    <Name>auth</Name>
                     <Type>varchar(100)</Type>
+                    <Description></Description>
+                    <Nullable>false</Nullable>
+                    <DefaultValue></DefaultValue>
+                    <CheckExpression></CheckExpression>
+                    <Properties/>
+                </Column>
+                <Column Id="c123">
+                    <Name>p256dh</Name>
+                    <Type>text</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>
                     <DefaultValue></DefaultValue>
@@ -1550,37 +1502,26 @@
                     <CheckExpression></CheckExpression>
                     <Properties/>
                 </Column>
-                <Column Id="c85">
-                    <Name>brand_id</Name>
-                    <Type>int</Type>
-                    <Description></Description>
-                    <Nullable>false</Nullable>
-                    <DefaultValue></DefaultValue>
-                    <CheckExpression></CheckExpression>
-                    <Properties/>
-                </Column>
             </Columns>
             <PrimaryKey>
-                <Name>Notifications_pk</Name>
+                <Name>UserPushInfo_pk</Name>
                 <Columns>
                     <Column>c82</Column>
                 </Columns>
             </PrimaryKey>
-            <AlternateKeys/>
-            <Indexes>
-                <Index Id="i27">
-                    <Name>Notifications_Brand</Name>
+            <AlternateKeys>
+                <AlternateKey Id="a7">
+                    <Name>UserPushInfo_ak_1</Name>
                     <Description></Description>
                     <Columns>
-                        <Column>
-                            <Column>c85</Column>
-                            <Ascending>true</Ascending>
-                        </Column>
+                        <Column>c84</Column>
                     </Columns>
                     <Properties/>
-                </Index>
+                </AlternateKey>
+            </AlternateKeys>
+            <Indexes>
                 <Index Id="i28">
-                    <Name>Notifications_Users</Name>
+                    <Name>UserPushInfo_Users</Name>
                     <Description></Description>
                     <Columns>
                         <Column>
@@ -2364,7 +2305,7 @@
             <Properties/>
         </Reference>
         <Reference Id="r5">
-            <Name>BrandComment_Brand</Name>
+            <Name>Comment_Brand</Name>
             <Description></Description>
             <PKTable>t5</PKTable>
             <FKTable>t6</FKTable>
@@ -2377,13 +2318,13 @@
                 </ReferenceColumn>
             </ReferenceColumns>
             <Cardinality>0..*</Cardinality>
-            <Mandatory>true</Mandatory>
+            <Mandatory>false</Mandatory>
             <OnUpdateAction>None</OnUpdateAction>
             <OnDeleteAction>None</OnDeleteAction>
             <Properties/>
         </Reference>
         <Reference Id="r6">
-            <Name>BrandComment_Users</Name>
+            <Name>Comment_Users</Name>
             <Description></Description>
             <PKTable>t4</PKTable>
             <FKTable>t6</FKTable>
@@ -2572,44 +2513,6 @@
             <OnDeleteAction>None</OnDeleteAction>
             <Properties/>
         </Reference>
-        <Reference Id="r16">
-            <Name>EventComment_Events</Name>
-            <Description></Description>
-            <PKTable>t12</PKTable>
-            <FKTable>t13</FKTable>
-            <PKRole></PKRole>
-            <FKRole></FKRole>
-            <ReferenceColumns>
-                <ReferenceColumn>
-                    <PKColumn>c53</PKColumn>
-                    <FKColumn>c62</FKColumn>
-                </ReferenceColumn>
-            </ReferenceColumns>
-            <Cardinality>0..*</Cardinality>
-            <Mandatory>true</Mandatory>
-            <OnUpdateAction>None</OnUpdateAction>
-            <OnDeleteAction>None</OnDeleteAction>
-            <Properties/>
-        </Reference>
-        <Reference Id="r17">
-            <Name>EventComment_Users</Name>
-            <Description></Description>
-            <PKTable>t4</PKTable>
-            <FKTable>t13</FKTable>
-            <PKRole></PKRole>
-            <FKRole></FKRole>
-            <ReferenceColumns>
-                <ReferenceColumn>
-                    <PKColumn>c15</PKColumn>
-                    <FKColumn>c61</FKColumn>
-                </ReferenceColumn>
-            </ReferenceColumns>
-            <Cardinality>0..*</Cardinality>
-            <Mandatory>true</Mandatory>
-            <OnUpdateAction>None</OnUpdateAction>
-            <OnDeleteAction>None</OnDeleteAction>
-            <Properties/>
-        </Reference>
         <Reference Id="r18">
             <Name>Locations_LocationComments</Name>
             <Description></Description>
@@ -2762,27 +2665,8 @@
             <OnDeleteAction>None</OnDeleteAction>
             <Properties/>
         </Reference>
-        <Reference Id="r26">
-            <Name>Notifications_Brand</Name>
-            <Description></Description>
-            <PKTable>t5</PKTable>
-            <FKTable>t18</FKTable>
-            <PKRole></PKRole>
-            <FKRole></FKRole>
-            <ReferenceColumns>
-                <ReferenceColumn>
-                    <PKColumn>c18</PKColumn>
-                    <FKColumn>c85</FKColumn>
-                </ReferenceColumn>
-            </ReferenceColumns>
-            <Cardinality>0..*</Cardinality>
-            <Mandatory>true</Mandatory>
-            <OnUpdateAction>None</OnUpdateAction>
-            <OnDeleteAction>None</OnDeleteAction>
-            <Properties/>
-        </Reference>
         <Reference Id="r27">
-            <Name>Notifications_Users</Name>
+            <Name>UserPushInfo_Users</Name>
             <Description></Description>
             <PKTable>t4</PKTable>
             <FKTable>t18</FKTable>
@@ -2794,7 +2678,7 @@
                     <FKColumn>c84</FKColumn>
                 </ReferenceColumn>
             </ReferenceColumns>
-            <Cardinality>0..*</Cardinality>
+            <Cardinality>1..1</Cardinality>
             <Mandatory>true</Mandatory>
             <OnUpdateAction>None</OnUpdateAction>
             <OnDeleteAction>None</OnDeleteAction>
@@ -3161,6 +3045,25 @@
             <OnDeleteAction>None</OnDeleteAction>
             <Properties/>
         </Reference>
+        <Reference Id="r47">
+            <Name>Comments_Events</Name>
+            <Description></Description>
+            <PKTable>t12</PKTable>
+            <FKTable>t6</FKTable>
+            <PKRole></PKRole>
+            <FKRole></FKRole>
+            <ReferenceColumns>
+                <ReferenceColumn>
+                    <PKColumn>c53</PKColumn>
+                    <FKColumn>c124</FKColumn>
+                </ReferenceColumn>
+            </ReferenceColumns>
+            <Cardinality>0..*</Cardinality>
+            <Mandatory>false</Mandatory>
+            <OnUpdateAction>None</OnUpdateAction>
+            <OnDeleteAction>None</OnDeleteAction>
+            <Properties/>
+        </Reference>
     </References>
     <Sequences/>
     <Notes/>
@@ -3219,9 +3122,9 @@
         </TableDisplay>
         <TableDisplay Id="td6">
             <X>5004.5</X>
-            <Y>4727.5</Y>
-            <Width>160.0</Width>
-            <Height>120.0</Height>
+            <Y>4726.5</Y>
+            <Width>167.0</Width>
+            <Height>145.0</Height>
             <LineColor>#000000</LineColor>
             <FillColor>#ffffff</FillColor>
             <Table>t6</Table>
@@ -3287,16 +3190,6 @@
             <Table>t12</Table>
             <FixedSize>false</FixedSize>
         </TableDisplay>
-        <TableDisplay Id="td13">
-            <X>4909.5</X>
-            <Y>5556.5</Y>
-            <Width>104.0</Width>
-            <Height>88.0</Height>
-            <LineColor>#000000</LineColor>
-            <FillColor>#ffffff</FillColor>
-            <Table>t13</Table>
-            <FixedSize>false</FixedSize>
-        </TableDisplay>
         <TableDisplay Id="td14">
             <X>4868.5</X>
             <Y>4528.5</Y>
@@ -3340,8 +3233,8 @@
         <TableDisplay Id="td18">
             <X>4504.5</X>
             <Y>4887.5</Y>
-            <Width>136.0</Width>
-            <Height>88.0</Height>
+            <Width>180.0</Width>
+            <Height>116.0</Height>
             <LineColor>#000000</LineColor>
             <FillColor>#ffffff</FillColor>
             <Table>t18</Table>
@@ -3503,11 +3396,11 @@
                 </ControlPoint>
                 <ControlPoint>
                     <X>4950.5</X>
-                    <Y>4804.5</Y>
+                    <Y>4803.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>5121.5</X>
-                    <Y>4804.5</Y>
+                    <Y>4803.5</Y>
                 </ControlPoint>
             </ControlPoints>
             <PkTableDisplay>td5</PkTableDisplay>
@@ -3524,11 +3417,11 @@
                 </ControlPoint>
                 <ControlPoint>
                     <X>5018.5</X>
-                    <Y>4748.5</Y>
+                    <Y>4747.5</Y>
                 </ControlPoint>
                 <ControlPoint>
                     <X>5134.5</X>
-                    <Y>4748.5</Y>
+                    <Y>4747.5</Y>
                 </ControlPoint>
             </ControlPoints>
             <PkTableDisplay>td4</PkTableDisplay>
@@ -3724,48 +3617,6 @@
             <FkTableDisplay>td12</FkTableDisplay>
             <Reference>r15</Reference>
         </ReferenceDisplay>
-        <ReferenceDisplay Id="rd16">
-            <Color>#000000</Color>
-            <Type>Cross_3CP</Type>
-            <ControlPoints>
-                <ControlPoint>
-                    <X>4783.5</X>
-                    <Y>5052.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4783.5</X>
-                    <Y>5593.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4934.5</X>
-                    <Y>5593.5</Y>
-                </ControlPoint>
-            </ControlPoints>
-            <PkTableDisplay>td12</PkTableDisplay>
-            <FkTableDisplay>td13</FkTableDisplay>
-            <Reference>r16</Reference>
-        </ReferenceDisplay>
-        <ReferenceDisplay Id="rd17">
-            <Color>#000000</Color>
-            <Type>Cross_3CP</Type>
-            <ControlPoints>
-                <ControlPoint>
-                    <X>5020.5</X>
-                    <Y>5437.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>5020.5</X>
-                    <Y>5611.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4933.5</X>
-                    <Y>5611.5</Y>
-                </ControlPoint>
-            </ControlPoints>
-            <PkTableDisplay>td4</PkTableDisplay>
-            <FkTableDisplay>td13</FkTableDisplay>
-            <Reference>r17</Reference>
-        </ReferenceDisplay>
         <ReferenceDisplay Id="rd18">
             <Color>#000000</Color>
             <Type>Cross_3CP</Type>
@@ -3933,27 +3784,6 @@
             <PkTableDisplay>td4</PkTableDisplay>
             <FkTableDisplay>td17</FkTableDisplay>
             <Reference>r25</Reference>
-        </ReferenceDisplay>
-        <ReferenceDisplay Id="rd26">
-            <Color>#000000</Color>
-            <Type>Cross_3CP</Type>
-            <ControlPoints>
-                <ControlPoint>
-                    <X>4962.5</X>
-                    <Y>5205.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4962.5</X>
-                    <Y>4932.5</Y>
-                </ControlPoint>
-                <ControlPoint>
-                    <X>4560.5</X>
-                    <Y>4932.5</Y>
-                </ControlPoint>
-            </ControlPoints>
-            <PkTableDisplay>td5</PkTableDisplay>
-            <FkTableDisplay>td18</FkTableDisplay>
-            <Reference>r26</Reference>
         </ReferenceDisplay>
         <ReferenceDisplay Id="rd27">
             <Color>#000000</Color>
@@ -4374,6 +4204,27 @@
             <PkTableDisplay>td5</PkTableDisplay>
             <FkTableDisplay>td1</FkTableDisplay>
             <Reference>r46</Reference>
+        </ReferenceDisplay>
+        <ReferenceDisplay Id="rd47">
+            <Color>#000000</Color>
+            <Type>Cross_3CP</Type>
+            <ControlPoints>
+                <ControlPoint>
+                    <X>4782.5</X>
+                    <Y>5031.5</Y>
+                </ControlPoint>
+                <ControlPoint>
+                    <X>5083.5</X>
+                    <Y>5031.5</Y>
+                </ControlPoint>
+                <ControlPoint>
+                    <X>5083.5</X>
+                    <Y>4810.5</Y>
+                </ControlPoint>
+            </ControlPoints>
+            <PkTableDisplay>td12</PkTableDisplay>
+            <FkTableDisplay>td6</FkTableDisplay>
+            <Reference>r47</Reference>
         </ReferenceDisplay>
     </ReferenceDisplays>
     <Properties>
