@@ -28,7 +28,7 @@ class CommentEntry extends Component {
   }
 
   renderButtons() {
-    if (this.props.userId === this.props.comment.user_id) {
+    if (this.props.user.id === this.props.comment.user_id) {
       return (
         <div className="icon-side">
           <IconButton
@@ -70,7 +70,7 @@ CommentEntry.propTypes = {
   editComment: propSchema.editComment,
   comment: propSchema.comment,
   idx: propSchema.idx,
-  userId: propSchema.userId,
+  user: propSchema.user,
   removeComment: propSchema.removeComment,
 };
 

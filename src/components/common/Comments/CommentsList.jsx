@@ -14,7 +14,7 @@ const CommentsList = props => (
           comment={comment}
           key={idx}
           idx={idx}
-          userId={props.userId}
+          user={props.user}
           removeComment={props.removeComment}
           editComment={props.editComment}
         />))
