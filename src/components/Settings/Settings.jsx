@@ -6,6 +6,7 @@ import { FlatButton, Card } from 'material-ui';
 import { Col } from 'react-flexbox-grid';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
+import NotificationSubBtn from './NotificationSubBtn';
 import SettingsSideBar from './SettingsSideBar';
 import AddBrandsView from '../common/AddBrandsView';
 // TODO: only display addbrandsview if user is truck owner, else have option for them to become a truck owner
@@ -45,6 +46,10 @@ const Settings = props => (
                 />
               </div>
               : null)}
+          />
+          <Route
+            path="/settings/notifications"
+            component={NotificationSubBtn}
           />
         </Switch>
       </Card>
