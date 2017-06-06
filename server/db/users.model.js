@@ -122,6 +122,14 @@ class Users extends Model {
           to: 'UserAttendees.user_id',
         },
       },
+      user_push_info: {
+        relation: Model.HasOneRelation,
+        modelClass: path.resolve(__dirname, 'userpushinfo.model'),
+        join: {
+          from: 'Users.id',
+          to: 'UserPushInfo.user_id',
+        },
+      },
     };
   }
 }

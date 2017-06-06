@@ -1,3 +1,16 @@
+const _ = require('lodash');
+const webpush = require('web-push');
+const Promise = require('bluebird');
+
+exports.notifyFollowers = (brand, message) =>
+  Promise.all(_.reduce(brand.user_follows, (promises, user) => {
+    const pushInfo = user.user_push_info;
+    if (pushInfo) {
+      promises.push(webpush.sendNotification(JSON.parse(pushInfo.subscription), message));
+    }
+    return promises;
+  }, []));
+
 /* eslint-disable */
 exports.getBoundingBox = function (centerPoint, distance) {
   /**

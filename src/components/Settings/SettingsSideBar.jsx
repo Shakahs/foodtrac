@@ -22,6 +22,9 @@ const SettingsSideBar = props => (
           : <Link to="/settings/becomeOwner">
             <ListItem primaryText="Become a Brand Owner" />
           </Link>}
+        <Link to="/settings/notifications">
+          <ListItem primaryText="Notifications" />
+        </Link>
       </List>
     </Card>
   </Col>
