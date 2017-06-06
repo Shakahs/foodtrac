@@ -10,9 +10,9 @@ class SelectCoupons extends Component {
 
   renderSelectCoupon(coupon, i) {
     if (coupon.coupons[0].percent_discount > 0) {
-      return <MenuItem key={i} value={`${coupon.coupons[0].percent_discount}%`} primaryText={`${coupon.coupons[0].percent_discount}% off`} />;
+      return <MenuItem key={i + 1} value={`${coupon.coupons[0].percent_discount}%`} primaryText={`${coupon.coupons[0].percent_discount}% off`} />;
     }
-    return <MenuItem key={i} value={`$${coupon.coupons[0].flat_discount}`} primaryText={`$${coupon.coupons[0].flat_discount} off`} />;
+    return <MenuItem key={i + 1} value={`$${coupon.coupons[0].flat_discount}`} primaryText={`$${coupon.coupons[0].flat_discount} off`} />;
   }
 
   render() {
@@ -22,6 +22,7 @@ class SelectCoupons extends Component {
         value={this.props.discount}
         onChange={(e, i, val) => this.props.handleDiscount(val)}
       >
+        <MenuItem key={0} value={''} />
         {this.props.coupons.map((coupon, i) => // eslint-disable-line no-confusing-arrow
           coupon.redeemed === 0 ? this.renderSelectCoupon(coupon, i) : null,
         )}
