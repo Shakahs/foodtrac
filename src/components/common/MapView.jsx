@@ -1,74 +1,84 @@
 import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
-import _ from 'lodash';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
 import propSchema from './PropTypes';
+import TruckEmblem from '../common/Emblem/TruckEmblem';
 
 const topMarkerColors = ['FFD700', 'C0C0C0', 'CD7F32'];
 // TODO: refactor to set marker colors on multiple markers if they have same upvote score and only color if on /map
-const WrappedMap = withGoogleMap(props => (
-  <GoogleMap
-    ref={props.onMapLoad}
-    defaultZoom={11}
-    center={props.center}
-  >
-    {props.markers.map((marker, idx) => (
-      <Marker
-        icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
-        {...marker}
-      />
-    ))}
-  </GoogleMap>
-));
+// const WrappedMap = withGoogleMap(props => (
+//   <GoogleMap
+//     ref={props.onMapLoad}
+//     defaultZoom={11}
+//     // center={props.center}
+//   >
+//     {props.trucks.map((truck, idx) => (
+//       <Marker
+//         icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
+//         position={{
+//           lat: truck.locations.lat,
+//           lng: truck.locations.lng }}
+//       />
+//     ))}
+//   </GoogleMap>
+// ));
 
 class MapView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      center: { lat: 0, lng: 0 },
+      // center: { lat: 0, lng: 0 },
+      visibleTruckInfo: [],
     };
 
-    this.handleMapLoad = this.handleMapLoad.bind(this);
-    this.calculateCenter = this.calculateCenter.bind(this);
+    // this.handleMapLoad = this.handleMapLoad.bind(this);
+    // this.calculateCenter = this.calculateCenter.bind(this);
+    this.showTruckInfo = this.showTruckInfo.bind(this);
   }
 
   componentDidMount() {
-    this.calculateCenter(this.props.markers);
+    // this.calculateCenter(this.state.markers);
   }
 
-  componentDidUpdate(prevProps) {
-    if (!_.isEqual(prevProps.markers, this.props.markers)) {
-      this.calculateCenter(this.props.markers);
-    }
-  }
+  // componentDidUpdate(prevProps) {
+  //   if (!_.isEqual(prevProps.trucks, this.props.trucks)) {
+  //     this.calculateCenter(this.props.markers);
+  //   }
+  // }
 
-  handleMapLoad(map) {
-    this._mapComponent = map;
-    if (map) {
-      console.log(map.getZoom());
-    }
-  }
+  // handleMapLoad(map) {
+  //   this._mapComponent = map;
+  //   if (map) {
+  //     console.log(map.getZoom());
+  //   }
+  // }
 
-  calculateCenter(markers) {
-    // calc average lat and lng to center the map
-    let center = Object.assign({}, this.state.center);
-    if (markers.length > 0) {
-      center = markers.reduce((coords, location) => {
-        const curr = coords;
-        curr.lat += location.position.lat;
-        curr.lng += location.position.lng;
-        return curr;
-      }, {
-        lat: 0,
-        lng: 0,
-      });
+  // calculateCenter(markers) {
+  //   // calc average lat and lng to center the map
+  //   let center = Object.assign({}, this.state.center);
+  //   if (markers.length > 0) {
+  //     center = markers.reduce((coords, location) => {
+  //       const curr = coords;
+  //       curr.lat += location.position.lat;
+  //       curr.lng += location.position.lng;
+  //       return curr;
+  //     }, {
+  //       lat: 0,
+  //       lng: 0,
+  //     });
+  //
+  //     center.lat /= markers.length;
+  //     center.lng /= markers.length;
+  //   }
+  //
+  //   this.setState({ center });
+  // }
 
-      center.lat /= markers.length;
-      center.lng /= markers.length;
-    }
-
-    this.setState({ center });
+  showTruckInfo(truck) {
+    const newShowList = this.state.visibleTruckInfo.slice();
+    newShowList.push(truck.id);
+    this.setState({ visibleTruckInfo: newShowList });
   }
 
   renderNotFoundMsg() {
@@ -87,34 +97,59 @@ class MapView extends Component {
     );
   }
 
-  renderMap() {
-    if (this.props.markers.length > 0) {
+  render() {
+    if (this.props.trucks.length > 0) {
+      const TruckMap = withGoogleMap(props => (
+        <GoogleMap
+          defaultZoom={15}
+          defaultCenter={{
+            lat: this.props.trucks[0].locations.lat,
+            lng: this.props.trucks[0].locations.lng }}
+          visibleTruckInfo={props.visibleTruckInfo}
+        >
+          {this.props.trucks.map((truck, idx) => (
+            <Marker
+              icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
+              position={{
+                lat: truck.locations.lat,
+                lng: truck.locations.lng }}
+              onClick={() => this.showTruckInfo(truck)}
+              visibleTruckInfo={props.visibleTruckInfo}
+            >
+              {props.visibleTruckInfo.indexOf(truck.id) >= 0 && (
+              <InfoWindow>
+                <TruckEmblem truck={truck} />
+              </InfoWindow>
+                )}
+            </Marker>
+          ))}
+        </GoogleMap>
+      ));
+
+
       return (
         <div style={{ height: '550px', width: '90%', margin: 'auto' }}>
-          <WrappedMap
+          <TruckMap
             containerElement={
               <div style={{ height: '100%', width: '100%' }} />
             }
             mapElement={
               <div style={{ height: '100%', width: '100%' }} />
             }
-            onMapLoad={this.handleMapLoad}
-            markers={this.props.markers}
-            center={this.state.center}
+            // onMapLoad={this.handleMapLoad}
+            // trucks={this.props.trucks}
+            // center={this.state.center}
+            visibleTruckInfo={this.state.visibleTruckInfo}
           />
         </div>
       );
     }
     return this.renderNotFoundMsg();
   }
-
-  render() {
-    return this.renderMap();
-  }
 }
 
 MapView.propTypes = {
-  markers: propSchema.markers,
+  trucks: propSchema.trucks,
   path: propSchema.path,
 };
 

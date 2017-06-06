@@ -7,7 +7,6 @@ export const MAP_TRUCK_UPVOTE_REQ = 'MAP_TRUCK_UPVOTE_REQ';
 export const MAP_TRUCK_UPVOTE = 'MAP_TRUCK_UPVOTE';
 
 const initialState = {
-  markers: [],
   trucks: [],
   error: null,
   fetching: false,
@@ -20,7 +19,6 @@ export default function reducer(state = initialState, action) {
     case MAP_SUCCESS:
       return Object.assign({}, state, {
         fetching: false,
-        markers: action.markers,
         trucks: action.trucks,
       });
     case MAP_FAILURE:
@@ -61,9 +59,8 @@ export const mapTruckUpvote = (idx, upvote) => ({
   upvote,
 });
 
-export const mapSuccess = (markers, trucks) => ({
+export const mapSuccess = trucks => ({
   type: MAP_SUCCESS,
-  markers,
   trucks,
 });
 
