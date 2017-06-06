@@ -44,11 +44,42 @@ class MapView extends Component {
 
     this.showTruckInfo = this.showTruckInfo.bind(this);
     this.hideTruckInfo = this.hideTruckInfo.bind(this);
+    this.calculateCenter = this.calculateCenter.bind(this);
   }
+
+  componentDidMount() {
+    this.calculateCenter(this.props.trucks);
+  }
+
   componentDidUpdate(prevProps) {
     if (!_.isEqual(prevProps.mapCenter, this.props.mapCenter)) {
       this.setState({ center: this.props.mapCenter }); // eslint-disable-line react/no-did-update-set-state
     }
+
+    if (!_.isEqual(prevProps.trucks, this.props.trucks)) {
+      this.calculateCenter(this.props.trucks);
+    }
+  }
+
+  calculateCenter(trucks) {
+    // calc average lat and lng to center the map
+    let center = Object.assign({}, this.state.center);
+    if (trucks.length > 0) {
+      center = trucks.reduce((coords, truck) => {
+        const curr = coords;
+        curr.lat += truck.locations.lat;
+        curr.lng += truck.locations.lng;
+        return curr;
+      }, {
+        lat: 0,
+        lng: 0,
+      });
+
+      center.lat /= trucks.length;
+      center.lng /= trucks.length;
+    }
+
+    this.setState({ center });
   }
 
   showTruckInfo(truck) {
