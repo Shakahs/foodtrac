@@ -6,7 +6,7 @@ function* mapRequest(lat, lng, dist) {
   try {
     const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}`);
     data.sort((a, b) => b.brands.upvotes.length - a.brands.upvotes.length);
-    yield put(actions.mapSuccess(data));
+    yield put(actions.mapSuccess(data, { lat, lng }));
   } catch (e) {
     yield put(actions.mapFailure(e));
   }
