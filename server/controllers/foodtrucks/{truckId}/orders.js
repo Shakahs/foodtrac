@@ -25,8 +25,12 @@ module.exports = {
       });
     })
     .then((truck) => {
+      const pushInfo = truck.brands.owners.user_push_info;
       const message = `A new order has been placed with ${truck.brands.name}'s ${truck.name} Truck.`;
-      return webpush.sendNotification(JSON.parse(truck.brands.owners.user_push_info.subscription), message);
+      if (pushInfo) {
+        return webpush.sendNotification(JSON.parse(pushInfo.subscription), message);
+      }
+      return null;
     })
     .then(() => res.status(201).send(newOrder))
     .catch((e) => {
