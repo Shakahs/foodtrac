@@ -1153,6 +1153,69 @@
         "required" : true,
         "type" : "integer"
       } ]
+    },
+    "/rewards" : {
+      "post" : {
+        "summary" : "create or update reward count",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User Rewards"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/rewards/usercoupon" : {
+      "post" : {
+        "summary" : "Add a coupon for a user",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User coupon"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
+    },
+    "/rewards/{usercouponsId}" : {
+      "put" : {
+        "summary" : "redeem a coupon",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/User coupon"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "usercouponsId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
+      } ]
     }
   },
   "definitions" : {
@@ -1240,6 +1303,12 @@
           "type" : "boolean"
         },
         "auth0_id" : {
+          "type" : "string"
+        },
+        "first_name" : {
+          "type" : "string"
+        },
+        "last_name" : {
           "type" : "string"
         }
       }
@@ -1483,6 +1552,34 @@
       "properties" : {
         "subscription" : {
           "type" : "string"
+        }
+      }
+    },
+    "User Rewards" : {
+      "type" : "object",
+      "properties" : {
+        "brand_id" : {
+          "type" : "integer"
+        },
+        "user_id" : {
+          "type" : "integer"
+        },
+        "count" : {
+          "type" : "integer"
+        }
+      }
+    },
+    "User coupon" : {
+      "type" : "object",
+      "properties" : {
+        "redeemed" : {
+          "type" : "boolean"
+        },
+        "coupon_id" : {
+          "type" : "integer"
+        },
+        "user_reward_id" : {
+          "type" : "integer"
         }
       }
     },
