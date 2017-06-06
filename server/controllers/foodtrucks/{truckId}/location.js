@@ -1,10 +1,6 @@
-const _ = require('lodash');
-const Promise = require('bluebird');
-const webpush = require('web-push');
+const { notifyFollowers } = require('../../../utils');
 const Trucks = require('../../../db/trucks.model');
 const LocationTimelines = require('../../../db/locationtimelines.model');
-
-webpush.setVapidDetails('mailto:test@gmail.com', process.env.VAPID_PUB, process.env.VAPID_PRIV);
 
 const pushNotifications = (res, truckId, location) => Trucks.query()
     .findById(truckId)
@@ -15,13 +11,7 @@ const pushNotifications = (res, truckId, location) => Trucks.query()
       const message = location
         ? `${truck.brands.name}'s ${truck.name} Truck has moved to ${location.address}`
         : `${truck.brands.name}'s ${truck.name} Truck is no longer active on the map.`;
-      return Promise.all(_.reduce(truck.brands.user_follows, (promises, user) => {
-        const pushInfo = user.user_push_info;
-        if (pushInfo) {
-          pushInfo.push(webpush.sendNotification(JSON.parse(pushInfo.subscription), message));
-        }
-        return pushInfo;
-      }, []));
+      return notifyFollowers(truck.brands, message);
     })
     .then(() => {
       if (location) {
