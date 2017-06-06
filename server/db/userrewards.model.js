@@ -36,6 +36,14 @@ class UserRewards extends Model {
           to: 'Users.id',
         },
       },
+      user_coupons: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/usercoupons.model`,
+        join: {
+          from: 'UserCoupons.user_rewards_id',
+          to: 'UserRewards.id',
+        },
+      },
     };
   }
 }

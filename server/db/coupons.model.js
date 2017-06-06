@@ -26,6 +26,14 @@ class Coupons extends Model {
           to: 'Brands.default_coupon_id',
         },
       },
+      user_coupons: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/usercoupons.model`,
+        join: {
+          from: 'UserCoupons.user_rewards_id',
+          to: 'Coupons.id',
+        },
+      },
     };
   }
 }

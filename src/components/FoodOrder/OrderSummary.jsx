@@ -78,7 +78,6 @@ class OrderSummary extends Component {
         const rewardId = newCount.id;
         if ((this.props.truck.brands.rewards_trigger - newCount.count) === 1) {
           newCount.count = 0;
-          // give user coupon
           const newCoupon = {
             redeemed: false,
             coupon_id: this.props.truck.brands.coupon.id,
