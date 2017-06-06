@@ -72,15 +72,22 @@ class OrderSummary extends Component {
     const userReward = brandReward[0];
     const index = brandReward[1];
     const rewardsCopy = [...this.props.userRewards];
-
     if (this.props.truck.brands.rewards_trigger > 0) {
       if (userReward) {
         const newCount = Object.assign({}, userReward);
         const rewardId = newCount.id;
         if ((this.props.truck.brands.rewards_trigger - newCount.count) === 1) {
           newCount.count = 0;
-          delete newCount.id;
           // give user coupon
+          const newCoupon = {
+            redeemed: false,
+            coupon_id: this.props.truck.brands.coupon.id,
+            user_reward_id: newCount.id,
+          };
+          axios.post('/api/rewards/usercoupon', newCoupon)
+            .then(res => console.log(res))
+            .catch(err => console.log(err));
+          delete newCount.id;
         } else {
           newCount.count += 1;
           delete newCount.id;

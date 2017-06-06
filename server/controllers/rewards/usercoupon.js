@@ -9,7 +9,7 @@ module.exports = {
   },
   put(req, res) {
     UserCoupons.query()
-      .where('coupon_id', '=', req.params.couponId)
+      .findById(req.body.id)
       .patch(req.body)
       .then(() => res.sendStatus(200))
       .catch(e => res.status(400).send(e.message));
