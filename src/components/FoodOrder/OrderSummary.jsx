@@ -74,45 +74,37 @@ class OrderSummary extends Component {
 
   brandReward() {
     let userReward = null;
-    let index;
-    this.props.userRewards.forEach((reward, i) => {
+    this.props.userRewards.forEach((reward) => {
       if (reward.brand_id === this.props.truck.brands.id) {
         userReward = Object.assign({}, reward);
-        index = i;
       }
     });
-    return [userReward, index];
+    return userReward;
   }
 
   handleRewards() {
-    const brandReward = this.brandReward();
-    const userReward = brandReward[0];
-    const index = brandReward[1];
-    const rewardsCopy = [...this.props.userRewards];
+    const userReward = this.brandReward();
+    delete userReward.user_coupons;
     if (this.props.truck.brands.rewards_trigger > 0) {
       if (userReward) {
-        const newCount = Object.assign({}, userReward);
-        const rewardId = newCount.id;
-        if ((this.props.truck.brands.rewards_trigger - newCount.count) <= 1) {
-          newCount.count = 0;
+        if ((this.props.truck.brands.rewards_trigger - userReward.count) <= 1) {
+          userReward.count = 0;
           const newCoupon = {
             redeemed: false,
             coupon_id: this.props.truck.brands.coupon.id,
-            user_reward_id: newCount.id,
+            user_reward_id: userReward.id,
           };
           axios.post('/api/rewards/usercoupon', newCoupon)
             .then(res => console.log(res))
             .catch(err => console.log(err));
-          delete newCount.id;
+          delete userReward.id;
         } else {
-          newCount.count += 1;
-          delete newCount.id;
+          userReward.count += 1;
+          delete userReward.id;
         }
-        axios.post('/api/rewards', newCount)
+        axios.post('/api/rewards', userReward)
           .then(() => {
-            newCount.id = rewardId;
-            rewardsCopy[index] = newCount;
-            this.props.userActions.updateUserRewards(rewardsCopy);
+            this.props.userActions.requestUserData(this.props.userId);
           })
           .catch(err => console.log(err));
       } else {
@@ -122,9 +114,8 @@ class OrderSummary extends Component {
           count: 1,
         };
         axios.post('/api/rewards', newReward)
-          .then((res) => {
-            rewardsCopy.push(res.data);
-            this.props.userActions.updateUserRewards(rewardsCopy);
+          .then(() => {
+            this.props.userActions.requestUserData(this.props.userId);
           })
           .catch(err => console.log(err));
       }
@@ -165,14 +156,14 @@ class OrderSummary extends Component {
           <br />
           {this.props.truck.brands.rewards_trigger > 0 ?
             <div>
-              {this.brandReward()[0]
-                ? `${this.props.truck.brands.rewards_trigger - this.brandReward()[0].count} more orders before your free coupon!`
+              {this.brandReward()
+                ? `${this.props.truck.brands.rewards_trigger - this.brandReward().count} more orders before your free coupon!`
                 : null}
             </div> : null
           }
-          {this.brandReward()[0]
+          {this.brandReward()
             ? <SelectCoupons
-              coupons={this.brandReward()[0].user_coupons}
+              coupons={this.brandReward().user_coupons}
               handleDiscount={this.handleDiscount}
               discount={this.state.discount}
             />

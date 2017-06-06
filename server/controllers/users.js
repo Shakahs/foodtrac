@@ -6,7 +6,6 @@ module.exports = {
     Users.query()
       .where('auth0_id', '=', req.body.auth0_id)
       .eager(userEagerOptions)
-      // .eager('[brands, user_rewards.[user_coupons.coupons]]')
       .first()
       .then((newUser) => {
         if (newUser) {
