@@ -40,8 +40,20 @@ class UserRewards extends Model {
         relation: Model.HasManyRelation,
         modelClass: `${__dirname}/usercoupons.model`,
         join: {
-          from: 'UserCoupons.user_rewards_id',
-          to: 'UserRewards.id',
+          from: 'UserRewards.id',
+          to: 'UserCoupons.user_reward_id',
+        },
+      },
+      coupons: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/coupons.model`,
+        join: {
+          from: 'UserRewards.id',
+          through: {
+            from: 'UserCoupons.user_reward_id',
+            to: 'UserCoupons.coupon_id',
+          },
+          to: 'Coupons.id',
         },
       },
     };

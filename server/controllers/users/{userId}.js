@@ -8,7 +8,6 @@ module.exports = {
       .eager(userEagerOptions)
       // .eager('[brands, user_follows, user_rewards]')
       .then((user) => {
-        console.log('IN USER GET', user);
         user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
         res.status(200).json(user);
       })

@@ -7,6 +7,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import CartEntry from './CartEntry';
+import SelectCoupons from './SelectCoupons';
 import { actions as userActions } from '../../redux/user';
 
 class OrderSummary extends Component {
@@ -15,10 +16,16 @@ class OrderSummary extends Component {
     this.state = {
       open: false,
       name: '',
+      discount: '',
     };
     this.calculateTotal = this.calculateTotal.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
     this.orderComplete = this.orderComplete.bind(this);
+    this.handleDiscount = this.handleDiscount.bind(this);
+  }
+
+  handleDiscount(val) {
+    this.setState({ discount: val });
   }
 
   changeName(val) {
@@ -28,9 +35,19 @@ class OrderSummary extends Component {
 
   calculateTotal() {
     let total = 0;
+    let discountValue;
     this.props.currentOrder.forEach((item) => {
       total += (item.price / 100) * item.quantity;
     });
+    if (this.state.discount !== '') {
+      if (this.state.discount[0] === '$') {
+        discountValue = Number(this.state.discount.split('$').join(''));
+        total -= discountValue;
+      } else {
+        discountValue = Number(this.state.discount.split('%').join(''));
+        total -= (total * (discountValue / 100));
+      }
+    }
     return total;
   }
 
@@ -152,6 +169,14 @@ class OrderSummary extends Component {
                 ? `${this.props.truck.brands.rewards_trigger - this.brandReward()[0].count} more orders before your free coupon!`
                 : null}
             </div> : null
+          }
+          {this.brandReward()[0]
+            ? <SelectCoupons
+              coupons={this.brandReward()[0].user_coupons}
+              handleDiscount={this.handleDiscount}
+              discount={this.state.discount}
+            />
+            : null
           }
           <div>
             TOTAL: ${this.calculateTotal()} + tax

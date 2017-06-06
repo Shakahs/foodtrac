@@ -1537,7 +1537,6 @@
       },
       "parameters" : [ {
         "name" : "usercouponsId",
-        "name" : "couponId",
         "in" : "path",
         "required" : true,
         "type" : "string"
