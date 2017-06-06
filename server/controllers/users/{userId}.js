@@ -1,6 +1,5 @@
 const Users = require('../../db/users.model');
-
-const userEagerOptions = '[brands.events_attending, user_follows, events, events_attending]';
+const { userEagerOptions } = require('../eagerOptions');
 
 module.exports = {
   get(req, res) {
