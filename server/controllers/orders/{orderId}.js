@@ -16,7 +16,10 @@ module.exports = {
       .then(({ user, truck }) => {
         res.sendStatus(200);
         const message = `Your order from ${truck.brands.name}'s ${truck.name} Truck is ready for pickup.`;
-        webpush.sendNotification(JSON.parse(user.user_push_info.subscription), message);
+        const pushInfo = user.user_push_info;
+        if (pushInfo) {
+          webpush.sendNotification(JSON.parse(pushInfo.subscription), message);
+        }
       })
       .catch(e => console.log('Error updating truck:', e));
   },

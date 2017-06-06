@@ -13,13 +13,6 @@ const pushNotifications = (res, truckId, location) => Trucks.query()
         : `${truck.brands.name}'s ${truck.name} Truck is no longer active on the map.`;
       return notifyFollowers(truck.brands, message);
     })
-    .then(() => {
-      if (location) {
-        res.status(201).send(location);
-      } else {
-        res.status(200).send('Ended current location.');
-      }
-    })
     .catch(e => res.status(400).send(e.message));
 
 module.exports = {
@@ -43,6 +36,7 @@ module.exports = {
           onlyThisInst: builder => builder.findById(lt.id),
         }))
       .then(location => pushNotifications(res, truckId, location))
+      .then(() => res.status(201).send(location))
       .catch(e => res.status(400).send(e.message));
   },
   put(req, res) {
@@ -53,6 +47,7 @@ module.exports = {
       .findById(id)
       .patch(req.body)
       .then(() => pushNotifications(res, req.params.truckId))
+      .then(() => res.status(200).send('Ended current location.'))
       .catch(e => res.status(400).send(e.message));
   },
 };
