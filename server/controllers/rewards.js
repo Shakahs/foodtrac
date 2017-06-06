@@ -11,13 +11,14 @@ module.exports = {
             .where('user_id', '=', req.body.user_id)
             .andWhere('brand_id', '=', req.body.brand_id)
             .patch(req.body)
-            .then(() => res.sendStatus(200));
+            .then(() => res.sendStatus(200))
+            .catch(err => console.log(err));
         } else { // eslint-disable-line no-else-return
           return UserRewards.query()
             .insert(req.body)
-            .then(() => res.sendStatus(201));
+            .then(newReward => res.status(201).send(newReward));
         }
       })
-      .catch(() => res.sendStatus(400));
+      .catch(e => res.status(400).send(e.message));
   },
 };

@@ -55,31 +55,43 @@ class OrderSummary extends Component {
     this.handleRewards();
   }
 
-  handleRewards() {
+  brandReward() {
     let userReward = null;
     let index;
-    const rewardsCopy = [...this.props.userRewards];
     this.props.userRewards.forEach((reward, i) => {
       if (reward.brand_id === this.props.truck.brands.id) {
         userReward = Object.assign({}, reward);
         index = i;
       }
     });
+    return [userReward, index];
+  }
+
+  handleRewards() {
+    const brandReward = this.brandReward();
+    const userReward = brandReward[0];
+    const index = brandReward[1];
+    const rewardsCopy = [...this.props.userRewards];
 
     if (this.props.truck.brands.rewards_trigger > 0) {
       if (userReward) {
-        const newCount = userReward;
+        const newCount = Object.assign({}, userReward);
+        const rewardId = newCount.id;
         if ((this.props.truck.brands.rewards_trigger - newCount.count) === 1) {
           newCount.count = 0;
+          delete newCount.id;
           // give user coupon
         } else {
           newCount.count += 1;
+          delete newCount.id;
         }
         axios.post('/api/rewards', newCount)
-          .then(res => console.log(res))
+          .then(() => {
+            newCount.id = rewardId;
+            rewardsCopy[index] = newCount;
+            this.props.userActions.updateUserRewards(rewardsCopy);
+          })
           .catch(err => console.log(err));
-        rewardsCopy[index] = newCount;
-        this.props.userActions.updateUserRewards(rewardsCopy);
       } else {
         const newReward = {
           brand_id: this.props.truck.brands.id,
@@ -87,10 +99,11 @@ class OrderSummary extends Component {
           count: 1,
         };
         axios.post('/api/rewards', newReward)
-          .then(res => console.log(res))
+          .then((res) => {
+            rewardsCopy.push(res.data);
+            this.props.userActions.updateUserRewards(rewardsCopy);
+          })
           .catch(err => console.log(err));
-        rewardsCopy.push(newReward);
-        this.props.userActions.updateUserRewards(rewardsCopy);
       }
     }
   }
@@ -127,6 +140,13 @@ class OrderSummary extends Component {
             )}
           </Grid>
           <br />
+          {this.props.truck.brands.rewards_trigger > 0 ?
+            <div>
+              {this.brandReward()[0]
+                ? `${this.props.truck.brands.rewards_trigger - this.brandReward()[0].count} more orders before your free coupon!`
+                : null}
+            </div> : null
+          }
           <div>
             TOTAL: ${this.calculateTotal()} + tax
           </div>
