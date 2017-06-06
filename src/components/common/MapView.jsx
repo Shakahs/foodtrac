@@ -14,22 +14,27 @@ const TruckMap = withGoogleMap(props => (
     zoom={12}
     center={props.center}
   >
-    {props.trucks.map((truck, idx) => (
-      <Marker
-        icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
-        position={{
-          lat: truck.locations.lat,
-          lng: truck.locations.lng }}
-        onClick={() => props.onMarkerClick(truck)}
-        // visibleTruckInfo={props.visibleTruckInfo}
-      >
-        {props.visibleTruckInfo.indexOf(truck.id) >= 0 && (
-        <InfoWindow onCloseClick={() => props.onMarkerClose(truck)}>
-          <TruckEmblem truck={truck} />
-        </InfoWindow>
-     )}
-      </Marker>
-     ))}
+    {props.trucks.map((truck, idx) => { // eslint-disable-line consistent-return,array-callback-return
+      if (truck.locations) {
+        return (
+          <Marker
+            icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
+            position={{
+              lat: truck.locations.lat,
+              lng: truck.locations.lng,
+            }}
+            onClick={() => props.onMarkerClick(truck)}
+          >
+            {props.visibleTruckInfo.indexOf(truck.id) >= 0 && (
+            <InfoWindow onCloseClick={() => props.onMarkerClose(truck)}>
+              <TruckEmblem truck={truck} />
+            </InfoWindow>
+            )}
+          </Marker>
+        );
+      }
+    },
+    )}
   </GoogleMap>
 ));
 
@@ -67,8 +72,10 @@ class MapView extends Component {
     if (trucks.length > 0) {
       center = trucks.reduce((coords, truck) => {
         const curr = coords;
-        curr.lat += truck.locations.lat;
-        curr.lng += truck.locations.lng;
+        if (truck.locations) {
+          curr.lat += truck.locations.lat;
+          curr.lng += truck.locations.lng;
+        }
         return curr;
       }, {
         lat: 0,
