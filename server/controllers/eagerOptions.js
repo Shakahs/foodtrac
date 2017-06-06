@@ -1,3 +1,3 @@
 module.exports = {
-  userEagerOptions: '[brands.events_attending, user_follows, events, events_attending]',
+  userEagerOptions: '[brands.events_attending.events, user_follows, events, events_attending.events]',
 };
