@@ -20,11 +20,11 @@ module.exports = {
     const query = {
       location: '34.053736,-118.242809', // LA city hall
       radius: 25000,
-      type: 'parking',
+      type: 'store',
     };
     return googleMapsClient.placesRadar(query).asPromise()
       .then((radarData) => {
-        const dataSlice = radarData.json.results.slice(0, 40);
+        const dataSlice = radarData.json.results.slice(0, 100);
         return Promise.map(dataSlice, radarPlace =>
           googleMapsClient.place({ placeid: radarPlace.place_id }).asPromise());
       })
