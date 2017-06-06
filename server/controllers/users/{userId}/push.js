@@ -7,7 +7,6 @@ module.exports = {
   post(req, res) {
     req.body.user_id = req.params.userId;
     const findUserPush = () => UserPushInfo.query().where('user_id', req.params.userId).first();
-    console.log(req.body);
     findUserPush()
       .then((pushInfo) => {
         if (pushInfo) return findUserPush().patch(req.body).then(() => findUserPush());

@@ -1,13 +1,12 @@
 const _ = require('lodash');
+const Promise = require('bluebird');
 const webpush = require('web-push');
 const Trucks = require('../../../db/trucks.model');
 const LocationTimelines = require('../../../db/locationtimelines.model');
 
 webpush.setVapidDetails('mailto:test@gmail.com', process.env.VAPID_PUB, process.env.VAPID_PRIV);
 
-const pushNotifications = (res, truckId, location) => {
-  res.status(201).send(location || 'Ended current location.');
-  return Trucks.query()
+const pushNotifications = (res, truckId, location) => Trucks.query()
     .findById(truckId)
     .eager('brands.[user_follows.user_push_info(first)]', {
       first: builder => builder.first(),
@@ -16,15 +15,22 @@ const pushNotifications = (res, truckId, location) => {
       const message = location
         ? `${truck.brands.name}'s ${truck.name} Truck has moved to ${location.address}`
         : `${truck.brands.name}'s ${truck.name} Truck is no longer active on the map.`;
-      _.each(truck.brands.user_follows, (user) => {
+      return Promise.all(_.reduce(truck.brands.user_follows, (promises, user) => {
         const pushInfo = user.user_push_info;
         if (pushInfo) {
-          return webpush.sendNotification(JSON.parse(pushInfo.subscription), message);
+          pushInfo.push(webpush.sendNotification(JSON.parse(pushInfo.subscription), message));
         }
-        return null;
-      });
-    });
-};
+        return pushInfo;
+      }, []));
+    })
+    .then(() => {
+      if (location) {
+        res.status(201).send(location);
+      } else {
+        res.status(200).send('Ended current location.');
+      }
+    })
+    .catch(e => res.status(400).send(e.message));
 
 module.exports = {
   post(req, res) {
