@@ -1,7 +1,4 @@
 self.addEventListener('push', (event) => {
-  console.log('[Service Worker] Push Received.');
-  console.log(`[Service Worker] Push had this data: "${event.data.text()}"`);
-
   const title = 'Foodtrac';
   const options = {
     body: `${event.data.text()}`,
@@ -14,9 +11,7 @@ self.addEventListener('push', (event) => {
 });
 
 self.addEventListener('notificationclick', (event) => {
-  console.log('[Service Worker] Notification click Received.');
-
   event.notification.close();
-
+  // TODO: replace with foodtrac's URL
   event.waitUntil(window.clients.openWindow('https://developers.google.com/web/'));
 });

@@ -1,18 +1,44 @@
-// const Trucks = require('../../../db/trucks.model');
+const _ = require('lodash');
+const webpush = require('web-push');
+const Trucks = require('../../../db/trucks.model');
 const LocationTimelines = require('../../../db/locationtimelines.model');
+
+webpush.setVapidDetails('mailto:test@gmail.com', process.env.VAPID_PUB, process.env.VAPID_PRIV);
+
+const pushNotifications = (res, truckId, location) => {
+  res.status(201).send(location || 'Ended current location.');
+  return Trucks.query()
+    .findById(truckId)
+    .eager('brands.[user_follows.user_push_info(first)]', {
+      first: builder => builder.first(),
+    })
+    .then((truck) => {
+      const message = location
+        ? `${truck.brands.name}'s ${truck.name} Truck has moved to ${location.address}`
+        : `${truck.brands.name}'s ${truck.name} Truck is no longer active on the map.`;
+      _.each(truck.brands.user_follows, (user) => {
+        const pushInfo = user.user_push_info;
+        if (pushInfo) {
+          return webpush.sendNotification(JSON.parse(pushInfo.subscription), message);
+        }
+        return null;
+      });
+    });
+};
 
 module.exports = {
   post(req, res) {
     const now = new Date().toISOString();
+    const truckId = parseInt(req.params.truckId, 10);
     req.body.start = req.body.start ? req.body.start.toISOString() : now;
     // TODO: figure out use for checkin column, not being used ATM
     LocationTimelines.query()
       .patch({ end: now })
       .where('start', '<', now)
       .andWhere('end', 0)
-      .andWhere('truck_id', parseInt(req.params.truckId, 10))
+      .andWhere('truck_id', truckId)
       .then(() => LocationTimelines.query().insert({
-        truck_id: parseInt(req.params.truckId, 10),
+        truck_id: truckId,
         location_id: req.body.location_id,
         start: req.body.start,
       }))
@@ -20,9 +46,7 @@ module.exports = {
         .eager('timelines(onlyThisInst)', {
           onlyThisInst: builder => builder.findById(lt.id),
         }))
-      .then((location) => {
-        res.status(201).send(location);
-      })
+      .then(location => pushNotifications(res, truckId, location))
       .catch(e => res.status(400).send(e.message));
   },
   put(req, res) {
@@ -32,7 +56,7 @@ module.exports = {
     LocationTimelines.query()
       .findById(id)
       .patch(req.body)
-      .then(() => res.sendStatus(200))
+      .then(() => pushNotifications(res, req.params.truckId))
       .catch(e => res.status(400).send(e.message));
   },
 };
