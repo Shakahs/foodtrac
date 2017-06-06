@@ -40,6 +40,7 @@ class EventsList extends React.Component { // eslint-disable-line react/prefer-s
         <div>
           <BigCalendar
             events={this.props.userEvents}
+            onSelectEvent={event => this.props.history.push(`/events/${event.id}`)}
           />
         </div>
         <div>
@@ -56,6 +57,7 @@ class EventsList extends React.Component { // eslint-disable-line react/prefer-s
 
 EventsList.propTypes = {
   userEvents: PropTypes.arrayOf(PropTypes.object),
+  history: PropTypes.func.isRequired,
 };
 
 const generateCalendarEvents = (state) => {
@@ -64,9 +66,10 @@ const generateCalendarEvents = (state) => {
   if (state.user && state.user.events_attending) {
     state.user.events_attending.forEach((event) => {
       userEvents[event.events.id] = {
+        id: event.events.id,
         title: event.events.name,
-        start: event.events.start,
-        end: event.events.end,
+        start: new Date(event.events.start),
+        end: new Date(event.events.end),
       };
     });
   }
