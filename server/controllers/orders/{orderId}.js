@@ -8,15 +8,13 @@ module.exports = {
     Orders.query()
       .where('id', '=', req.params.orderId)
       .patch(req.body)
-      .then(() => {
-        res.sendStatus(200);
-        return Orders.query()
-          .findById(req.params.orderId)
-          .eager('[truck.brands, user.[user_push_info(first)]]', {
-            first: builder => builder.first(),
-          });
-      })
+      .then(() => Orders.query()
+        .findById(req.params.orderId)
+        .eager('[truck.brands, user.[user_push_info(first)]]', {
+          first: builder => builder.first(),
+        }))
       .then(({ user, truck }) => {
+        res.sendStatus(200);
         const message = `Your order from ${truck.brands.name}'s ${truck.name} Truck is ready for pickup.`;
         webpush.sendNotification(JSON.parse(user.user_push_info.subscription), message);
       })
