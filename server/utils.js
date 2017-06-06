@@ -6,9 +6,9 @@ exports.notifyFollowers = (brand, message) =>
   Promise.all(_.reduce(brand.user_follows, (promises, user) => {
     const pushInfo = user.user_push_info;
     if (pushInfo) {
-      pushInfo.push(webpush.sendNotification(JSON.parse(pushInfo.subscription), message));
+      promises.push(webpush.sendNotification(JSON.parse(pushInfo.subscription), message));
     }
-    return pushInfo;
+    return promises;
   }, []));
 
 /* eslint-disable */

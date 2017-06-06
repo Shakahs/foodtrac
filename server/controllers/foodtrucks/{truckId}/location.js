@@ -12,8 +12,7 @@ const pushNotifications = (res, truckId, location) => Trucks.query()
         ? `${truck.brands.name}'s ${truck.name} Truck has moved to ${location.address}`
         : `${truck.brands.name}'s ${truck.name} Truck is no longer active on the map.`;
       return notifyFollowers(truck.brands, message);
-    })
-    .catch(e => res.status(400).send(e.message));
+    });
 
 module.exports = {
   post(req, res) {
