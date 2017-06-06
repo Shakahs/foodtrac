@@ -14,6 +14,7 @@ export const REDIRECT_ADDBRAND_DISABLE = 'REDIRECT_ADDBRAND_DISABLE';
 export const ADD_BRAND = 'ADD_BRAND';
 export const ADD_BRAND_REQUEST = 'ADD_BRAND_REQUEST';
 export const USER_BECOME_OWNER_REQ = 'USER_BECOME_OWNER_REQ';
+export const USER_DATA_REQUESTED = 'USER_DATA_REQUESTED';
 
 const initialState = {
   id: null,
@@ -96,6 +97,11 @@ export const redirectAddBrandEnable = () => ({
 
 export const redirectAddBrandDisable = () => ({
   type: REDIRECT_ADDBRAND_DISABLE,
+});
+
+export const requestUserData = id => ({
+  type: USER_DATA_REQUESTED,
+  id,
 });
 
 // export const userFailure = error => ({

@@ -5,6 +5,14 @@ import { actions as authActions } from '../auth';
 
 const moment = require('moment');
 
+export function* watchRequestUserData() {
+  while (true) {
+    const { id } = yield take(actions.USER_DATA_REQUESTED);
+    const { data } = yield call(axios.get, `/api/users/${id}`);
+    yield put(actions.userReceived(data));
+  }
+}
+
 export function* watchBecomeOwnerReq() {
   while (true) {
     const { id } = yield take(actions.USER_BECOME_OWNER_REQ);

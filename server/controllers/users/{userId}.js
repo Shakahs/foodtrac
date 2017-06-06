@@ -1,10 +1,12 @@
 const Users = require('../../db/users.model');
 
+const userEagerOptions = '[brands.events_attending, user_follows, events, events_attending]';
+
 module.exports = {
   get(req, res) {
     Users.query()
       .findById(req.params.userId)
-      .eager('[brands, user_follows]')
+      .eager(userEagerOptions)
       .then((user) => {
         user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
         res.status(200).json(user);
@@ -15,7 +17,9 @@ module.exports = {
     Users.query()
       .findById(req.params.userId)
       .patch(req.body)
-      .then(() => Users.query().findById(req.params.userId))
+      .then(() => Users.query()
+        .findById(req.params.userId))
+        .eager(userEagerOptions)
       .then((user) => {
         user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
         res.status(200).send(user);
