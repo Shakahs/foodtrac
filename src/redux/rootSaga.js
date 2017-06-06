@@ -11,6 +11,7 @@ export default function* rootSaga() {
     fork(userSagas.watchLoginSuccess),
     fork(userSagas.watchAddBrandRequest),
     fork(userSagas.watchBecomeOwnerReq),
+    fork(userSagas.watchRequestUserData),
     fork(swSagas.watchSubscribePush),
     fork(swSagas.watchUnsubscribePush),
     fork(mapSagas.watchMapRequest),

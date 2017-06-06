@@ -33,7 +33,7 @@ module.exports = {
       .then(seedData => seedData.map((seedDataItem) => {
         const newSeedDataItem = Object.assign({}, seedDataItem);
         newSeedDataItem.brand_id = brandList.pop().id;
-        newSeedDataItem.order = seedDataItem.order ? '1' : '0';
+        newSeedDataItem.order = chance.bool();
         return newSeedDataItem;
       }))
       .then(seedData => insertSeed('Trucks', seedData))

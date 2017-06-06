@@ -1,9 +1,15 @@
 import React from 'react';
+import TruckEmblem from '../../common/Emblem/TruckEmblem';
+import propSchema from '../../common/PropTypes';
 
-const BrandAttendeesListEntry = (props) => (
+const BrandAttendeesListEntry = props => (
   <div>
-    Brand {props.attendee.brands.name}
+    <TruckEmblem truck={props.attendee} />
   </div>
 );
+
+BrandAttendeesListEntry.propTypes = {
+  attendee: propSchema.truck,
+};
 
 export default BrandAttendeesListEntry;

@@ -1,9 +1,11 @@
+import axios from 'axios';
 import React from 'react';
-import { connect } from 'react-refetch';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import PropTypes from 'prop-types';
 import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
 import _ from 'lodash';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { RaisedButton } from 'material-ui';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import FontIcon from 'material-ui/FontIcon';
@@ -13,10 +15,16 @@ import BrandAttendeesList from './BrandAttendeesList';
 import { eventAPI, commentAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
 import CommentsView from '../../common/Comments';
+import { actions as userActions } from '../../../redux/user';
+
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
     super(props);
+
+    this.state = {
+      event: null,
+    };
 
     this.UserRegisterButton = this.UserRegisterButton.bind(this);
     this.UserUnregisterButton = this.UserUnregisterButton.bind(this);
@@ -27,6 +35,19 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
     this.submitComment = this.submitComment.bind(this);
     this.editComment = this.editComment.bind(this);
     this.deleteComment = this.deleteComment.bind(this);
+    this.refreshEvent = this.refreshEvent.bind(this);
+  }
+
+  componentDidMount() {
+    this.refreshEvent();
+  }
+
+  refreshEvent() {
+    axios.get(`/api/events/${this.props.eventId}`)
+      .then(({ data }) => {
+        this.setState({ event: data });
+      })
+      .then(() => { this.props.userActions.requestUserData(this.props.user.id); });
   }
 
   UserRegisterButton() {
@@ -34,8 +55,8 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       icon={<FontIcon className="fa fa-calendar" />}
       label="Attend this event"
       onTouchTap={() => eventAPI.userRegisterAttendEvent(this.props.eventId, this.props.user.id)
-          .then(() => { this.props.refreshEvent(); })
-          .catch(() => { this.props.refreshEvent(); })}
+          .then(() => { this.refreshEvent(); })
+          .catch(() => { this.refreshEvent(); })}
     />);
   }
 
@@ -44,13 +65,13 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       icon={<FontIcon className="fa fa-calendar" />}
       label="Do not attend this event"
       onTouchTap={() => eventAPI.userUnregisterAttendEvent(this.props.eventId, this.props.user.id)
-        .then(() => { this.props.refreshEvent(); })
-        .catch(() => { this.props.refreshEvent(); })}
+        .then(() => { this.refreshEvent(); })
+        .catch(() => { this.refreshEvent(); })}
     />);
   }
 
   UserToggleRegistrationButton() {
-    return (_.some(this.props.eventFetch.value.users_attending,
+    return (_.some(this.state.event.users_attending,
     { user_id: this.props.user.id })
     ? this.UserUnregisterButton()
     : this.UserRegisterButton());
@@ -62,8 +83,8 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       secondary
       label="Attend this event"
       onTouchTap={() => eventAPI.brandRegisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
-        .then(() => { this.props.refreshEvent(); })
-        .catch(() => { this.props.refreshEvent(); })}
+        .then(() => { this.refreshEvent(); })
+        .catch(() => { this.refreshEvent(); })}
     />);
   }
 
@@ -73,13 +94,13 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
       secondary
       label="Do not attend this event"
       onTouchTap={() => eventAPI.brandUnregisterAttendEvent(this.props.eventId, this.props.user.brands[0].id)
-        .then(() => { this.props.refreshEvent(); })
-        .catch(() => { this.props.refreshEvent(); })}
+        .then(() => { this.refreshEvent(); })
+        .catch(() => { this.refreshEvent(); })}
     />);
   }
 
   BrandToggleRegistrationButton() {
-    return (this.props.user.is_truck_owner && _.some(this.props.eventFetch.value.brands_attending,
+    return (this.props.user.is_truck_owner && _.some(this.state.event.brands_attending,
       { brand_id: this.props.user.brands[0].id })
       ? this.BrandUnregisterButton()
       : this.BrandRegisterButton());
@@ -87,34 +108,36 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   submitComment({ text }) {
     commentAPI.createEventComment(text, this.props.user.id, Number(this.props.eventId))
-      .then(() => (this.props.refreshEvent()));
+      .then(() => (this.refreshEvent()));
   }
 
   editComment(text, commentId) {
     commentAPI.editEventComment(text, commentId, this.props.eventId)
-      .then(() => (this.props.refreshEvent()));
+      .then(() => (this.refreshEvent()));
   }
 
   deleteComment(commentId) {
     commentAPI.deleteEventComment(commentId, this.props.eventId)
-      .then(() => (this.props.refreshEvent()));
+      .then(() => (this.refreshEvent()));
   }
 
   render() {
-    const { eventFetch } = this.props;
+    const event = this.state.event;
 
-    if (eventFetch.fulfilled) {
+    if (this.state.event) {
       const GettingStartedGoogleMap = withGoogleMap(() => (
         <GoogleMap
           defaultZoom={15}
           defaultCenter={{
-            lat: eventFetch.value.locations.lat,
-            lng: eventFetch.value.locations.lng }}
+            lat: event.locations.lat,
+            lng: event.locations.lng,
+          }}
         >
           <Marker
             position={{
-              lat: eventFetch.value.locations.lat,
-              lng: eventFetch.value.locations.lng }}
+              lat: event.locations.lat,
+              lng: event.locations.lng,
+            }}
           />
         </GoogleMap>
       ));
@@ -124,17 +147,17 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
           <Row>
             <Col xs={12} sm={12} md={5} lg={5}>
               <h2>
-                {eventFetch.value.name}
+                {event.name}
               </h2>
               <h4>
-                {eventFetch.value.locations.address}
+                {event.locations.address}
               </h4>
               <div>
                 <this.UserToggleRegistrationButton />
                 {this.props.user.is_truck_owner && <this.BrandToggleRegistrationButton />}
               </div>
               <h4>
-                {eventFetch.value.description}
+                {event.description}
               </h4>
             </Col>
             <Col xs={12} sm={12} md={7} lg={7}>
@@ -153,19 +176,19 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
           <Row>
             <Col xs={12} sm={12} md={12} lg={12}>
               <Tabs>
-                <Tab label={`${String(eventFetch.value.comments.length)} Comments`} >
+                <Tab label={`${String(event.comments.length)} Comments`}>
                   <CommentsView
-                    comments={eventFetch.value.comments}
+                    comments={event.comments}
                     submitComment={this.submitComment}
                     removeComment={this.deleteComment}
                     editComment={this.editComment}
                   />
                 </Tab>
-                <Tab label={`${String(eventFetch.value.brands_attending.length)} Trucks Attending`} >
-                  <BrandAttendeesList attendees={eventFetch.value.brands_attending} />
+                <Tab label={`${String(event.brands_attending.length)} Trucks Attending`}>
+                  <BrandAttendeesList attendees={event.brands_attending} />
                 </Tab>
-                <Tab label={`${String(eventFetch.value.users_attending.length)} Users Attending`} >
-                  <UserAttendeesList attendees={eventFetch.value.users_attending} />
+                <Tab label={`${String(event.users_attending.length)} Users Attending`}>
+                  <UserAttendeesList attendees={event.users_attending} />
                 </Tab>
               </Tabs>
             </Col>
@@ -173,29 +196,22 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
         </Grid>
       );
     }
-    return (<div>Loading</div>);
+    return (<div>Loading...</div>);
   }
 }
 
 EventDetail.propTypes = {
-  eventFetch: PropTypes.shape({
-    value: PropTypes.array,
-  }),
-  refreshEvent: PropTypes.func.isRequired,
   user: propSchema.user,
   eventId: PropTypes.number.isRequired,
+  userActions: propSchema.userActions,
 };
 
-export default connect((props) => {
-  const url = `/api/events/${props.eventId}`;
-  return {
-    eventFetch: url,
-    refreshEvent: () => ({
-      eventFetch: {
-        url,
-        force: true,
-        refreshing: true,
-      },
-    }),
-  };
-})(EventDetail);
+const mapStateToProps = state => ({
+  user: state.user,
+});
+
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);

@@ -2,73 +2,102 @@ import React, { Component } from 'react';
 import Paper from 'material-ui/Paper';
 import { Link } from 'react-router-dom';
 import _ from 'lodash';
-import { withGoogleMap, GoogleMap, Marker } from 'react-google-maps';
+import { withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps';
+import PropTypes from 'prop-types';
 import propSchema from './PropTypes';
+import TruckEmblem from '../common/Emblem/TruckEmblem';
 
 const topMarkerColors = ['FFD700', 'C0C0C0', 'CD7F32'];
 // TODO: refactor to set marker colors on multiple markers if they have same upvote score and only color if on /map
-const WrappedMap = withGoogleMap(props => (
+const TruckMap = withGoogleMap(props => (
   <GoogleMap
-    ref={props.onMapLoad}
-    defaultZoom={11}
+    zoom={12}
     center={props.center}
   >
-    {props.markers.map((marker, idx) => (
-      <Marker
-        icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
-        {...marker}
-      />
-    ))}
+    {props.trucks.map((truck, idx) => { // eslint-disable-line consistent-return,array-callback-return
+      if (truck.locations) {
+        return (
+          <Marker
+            icon={`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${idx < 3 ? topMarkerColors[idx] : 'FB7064'}`}
+            position={{
+              lat: truck.locations.lat,
+              lng: truck.locations.lng,
+            }}
+            onClick={() => props.onMarkerClick(truck)}
+          >
+            {props.visibleTruckInfo.indexOf(truck.id) >= 0 && (
+            <InfoWindow onCloseClick={() => props.onMarkerClose(truck)}>
+              <TruckEmblem truck={truck} />
+            </InfoWindow>
+            )}
+          </Marker>
+        );
+      }
+    },
+    )}
   </GoogleMap>
 ));
 
 class MapView extends Component {
   constructor(props) {
     super(props);
+    console.log('initialprops', props);
     this.state = {
       center: { lat: 0, lng: 0 },
+      visibleTruckInfo: [],
     };
 
-    this.handleMapLoad = this.handleMapLoad.bind(this);
+    this.showTruckInfo = this.showTruckInfo.bind(this);
+    this.hideTruckInfo = this.hideTruckInfo.bind(this);
     this.calculateCenter = this.calculateCenter.bind(this);
   }
 
   componentDidMount() {
-    this.calculateCenter(this.props.markers);
+    this.calculateCenter(this.props.trucks);
   }
 
   componentDidUpdate(prevProps) {
-    if (!_.isEqual(prevProps.markers, this.props.markers)) {
-      this.calculateCenter(this.props.markers);
+    if (!_.isEqual(prevProps.mapCenter, this.props.mapCenter)) {
+      this.setState({ center: this.props.mapCenter }); // eslint-disable-line react/no-did-update-set-state
+    }
+
+    if (!_.isEqual(prevProps.trucks, this.props.trucks)) {
+      this.calculateCenter(this.props.trucks);
     }
   }
 
-  handleMapLoad(map) {
-    this._mapComponent = map;
-    if (map) {
-      console.log(map.getZoom());
-    }
-  }
-
-  calculateCenter(markers) {
+  calculateCenter(trucks) {
     // calc average lat and lng to center the map
     let center = Object.assign({}, this.state.center);
-    if (markers.length > 0) {
-      center = markers.reduce((coords, location) => {
+    if (trucks.length > 0) {
+      center = trucks.reduce((coords, truck) => {
         const curr = coords;
-        curr.lat += location.position.lat;
-        curr.lng += location.position.lng;
+        if (truck.locations) {
+          curr.lat += truck.locations.lat;
+          curr.lng += truck.locations.lng;
+        }
         return curr;
       }, {
         lat: 0,
         lng: 0,
       });
 
-      center.lat /= markers.length;
-      center.lng /= markers.length;
+      center.lat /= trucks.length;
+      center.lng /= trucks.length;
     }
 
     this.setState({ center });
+  }
+
+  showTruckInfo(truck) {
+    const newShowList = this.state.visibleTruckInfo.slice();
+    newShowList.push(truck.id);
+    this.setState({ visibleTruckInfo: newShowList });
+  }
+
+  hideTruckInfo(truck) {
+    const newShowList = _.without(this.state.visibleTruckInfo, truck.id);
+    this.setState({ visibleTruckInfo: newShowList });
   }
 
   renderNotFoundMsg() {
@@ -88,19 +117,21 @@ class MapView extends Component {
   }
 
   renderMap() {
-    if (this.props.markers.length > 0) {
+    if (this.props.trucks.length > 0) {
       return (
         <div style={{ height: '550px', width: '90%', margin: 'auto' }}>
-          <WrappedMap
+          <TruckMap
             containerElement={
               <div style={{ height: '100%', width: '100%' }} />
             }
             mapElement={
               <div style={{ height: '100%', width: '100%' }} />
             }
-            onMapLoad={this.handleMapLoad}
-            markers={this.props.markers}
+            trucks={this.props.trucks}
             center={this.state.center}
+            visibleTruckInfo={this.state.visibleTruckInfo}
+            onMarkerClick={this.showTruckInfo}
+            onMarkerClose={this.hideTruckInfo}
           />
         </div>
       );
@@ -114,8 +145,12 @@ class MapView extends Component {
 }
 
 MapView.propTypes = {
-  markers: propSchema.markers,
+  trucks: propSchema.trucks,
   path: propSchema.path,
+  mapCenter: PropTypes.shape({
+    id: PropTypes.number,
+
+  }),
 };
 
 export default MapView;

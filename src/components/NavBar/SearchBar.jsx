@@ -18,6 +18,7 @@ class SearchBar extends Component {
   }
 
   handleSuggestSelect({ location }) {
+    console.log('location', location);
     const { lat, lng } = location;
     this.props.actions.mapRequest(lat, lng);
     this.setState({

@@ -22,8 +22,8 @@ module.exports = {
     const auth0Results = {};
     const userSeedSchema = {
       type: 'array',
-      minItems: 50,
-      maxItems: 100,
+      minItems: 250,
+      maxItems: 200,
       uniqueItems: true,
       items: Users.jsonSchema,
     };

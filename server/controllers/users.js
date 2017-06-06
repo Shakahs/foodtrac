@@ -1,10 +1,11 @@
 const Users = require('../db/users.model');
+const { userEagerOptions } = require('./eagerOptions');
 
 module.exports = {
   post(req, res) {
     Users.query()
       .where('auth0_id', '=', req.body.auth0_id)
-      .eager('[brands, brand_reviews]')
+      .eager(userEagerOptions)
       .first()
       .then((newUser) => {
         if (newUser) {
@@ -12,6 +13,7 @@ module.exports = {
         } else {
           return Users.query()
             .insert(req.body)
+            .eager(userEagerOptions)
             .then(newUser => res.status(201).json(newUser)); // eslint-disable-line no-shadow
         }
         return true;
