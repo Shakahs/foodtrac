@@ -1515,6 +1515,9 @@
     "/rewards" : {
       "post" : {
         "summary" : "create or update reward count",
+      },
+      "put" : {
+        "summary" : "redeem a coupon",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
@@ -1523,6 +1526,7 @@
           "schema" : {
             "$ref" : "#/definitions/User coupon",
             "$ref" : "#/definitions/User Rewards"
+            "$ref" : "#/definitions/User coupon"
           }
         } ],
         "responses" : {
@@ -1533,6 +1537,7 @@
       },
       "parameters" : [ {
         "name" : "usercouponsId",
+        "name" : "couponId",
         "in" : "path",
         "required" : true,
         "type" : "string"
