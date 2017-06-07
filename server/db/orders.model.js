@@ -48,6 +48,18 @@ class Orders extends Model {
           to: 'OrderItems.order_id',
         },
       },
+      menuitems: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/menuitems.model`,
+        join: {
+          from: 'Orders.id',
+          through: {
+            from: 'OrderItems.order_id',
+            to: 'OrderItems.menu_item_id',
+          },
+          to: 'MenuItems.id',
+        },
+      },
     };
   }
 }
