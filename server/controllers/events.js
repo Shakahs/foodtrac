@@ -4,8 +4,9 @@ const Events = require('../db/events/events.model');
 module.exports = {
   get(req, res) {
     Events.query()
-    .then(data => res.status(200).send(data))
-    .catch(e => console.log('Error getting events:', e));
+      .eager('[locations, owners, users_attending.users, brands_attending.brands]')
+      .then(data => res.status(200).send(data))
+      .catch(e => console.log('Error getting events:', e));
   },
   post(req, res) {
     return Events.query()

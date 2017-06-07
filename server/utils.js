@@ -4,7 +4,7 @@ const Promise = require('bluebird');
 
 exports.getFirstOrNullLocation = (brand) => {
   _.forEach(brand.trucks, (truck) => { /* eslint-disable no-param-reassign */
-    if (truck.locations.length > 0) {
+    if (truck.locations && truck.locations.length > 0) {
       truck.locations = truck.locations[0];
     } else {
       truck.locations = null;
