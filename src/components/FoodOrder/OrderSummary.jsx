@@ -43,7 +43,7 @@ class OrderSummary extends Component {
 
     if (reward) {
       reward.user_coupons.forEach((coupon) => {
-        if (coupon.coupon_id === this.state.discount) {
+        if (coupon.id === this.state.discount) {
           currCoupon = coupon;
         }
       });
