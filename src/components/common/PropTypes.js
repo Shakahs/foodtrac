@@ -191,6 +191,10 @@ export default {
     brand_id: PropTypes.number,
     user_id: PropTypes.number,
   })).isRequired,
+  events: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    name: PropTypes.string,
+  })),
   event: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
