@@ -13,6 +13,8 @@ import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
 import SiteHeader from './SiteHeader';
+import AuthorizedComponent from '../common/AuthHelpers/AuthorizedComponent';
+import UnauthorizedComponent from '../common/AuthHelpers/UnauthorizedComponent';
 import './NavBar.scss';
 
 
@@ -58,18 +60,20 @@ class NavBar extends Component {
             <SearchBar />
           </Col>
           <Col xs={5} md={3} lg={3} >
-            {this.props.isLoggedIn ? (
+            <AuthorizedComponent>
               <div>
                 <UserEmblem user={this.props.user} />
                 <UserMenu handleLogout={this.props.authActions.logout} />
               </div>
-            ) : (
+            </AuthorizedComponent>
+            <UnauthorizedComponent>
               <div>
                 <Login onSubmit={this.props.authActions.loginRequest} />
                 <Link to="/signup">
                   <p>Sign up</p>
                 </Link>
-              </div>)}
+              </div>
+            </UnauthorizedComponent>
           </Col>
         </Row>
       </Grid>
@@ -80,7 +84,6 @@ class NavBar extends Component {
 NavBar.propTypes = {
   user: propSchema.user,
   authActions: propSchema.authActions,
-  isLoggedIn: propSchema.isLoggedIn,
   foodGenresActions: propSchema.foodGenresActions,
 };
 
