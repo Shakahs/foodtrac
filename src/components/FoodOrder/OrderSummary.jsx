@@ -17,7 +17,6 @@ class OrderSummary extends Component {
       open: false,
       name: '',
       discount: 0,
-      couponIssued: false,
     };
     this.calculateTotal = this.calculateTotal.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
@@ -76,6 +75,9 @@ class OrderSummary extends Component {
       name: this.state.name,
       orderitems: orderItems,
     };
+    if (this.state.discount > 0) {
+      order.user_coupon_id = this.state.discount;
+    }
     axios.post(`/api/foodtrucks/${this.props.truck.id}/orders`, order)
       .then(() => this.orderComplete())
       .catch(e => console.log(e));

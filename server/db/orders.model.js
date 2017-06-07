@@ -5,8 +5,6 @@ class Orders extends Model {
     return 'Orders';
   }
 
-// Add user_coupon_id if needed
-
   static get jsonSchema() {
     return {
       type: 'object',
@@ -17,6 +15,7 @@ class Orders extends Model {
         truck_id: { type: 'integer' },
         date: { type: 'string' },
         ready: { type: 'boolean', default: false },
+        user_coupon_id: { type: ['integer', 'null'] },
         name: { type: 'string' },
       },
     };

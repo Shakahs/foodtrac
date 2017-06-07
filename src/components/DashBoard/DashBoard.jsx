@@ -16,8 +16,14 @@ class DashBoard extends Component {
   render() {
     return (
       <div>
-        <RewardsList rewards={this.props.user.user_rewards} />
-        <OrdersList orders={this.props.user.orders} />
+        {this.props.user.user_rewards.length > 0
+          ? <RewardsList rewards={this.props.user.user_rewards} />
+          : null
+        }
+        {this.props.user.orders.length > 0
+          ? <OrdersList orders={this.props.user.orders} />
+          : null
+        }
         <FollowedList />
         <EventsList />
         <FeedList />
