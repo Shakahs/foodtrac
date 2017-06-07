@@ -138,6 +138,14 @@ class Users extends Model {
           to: 'UserRewards.user_id',
         },
       },
+      orders: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/orders.model`,
+        join: {
+          from: 'Users.id',
+          to: 'Orders.user_id',
+        },
+      },
     };
   }
 }

@@ -5,8 +5,6 @@ class Orders extends Model {
     return 'Orders';
   }
 
-// Add user_coupon_id if needed
-
   static get jsonSchema() {
     return {
       type: 'object',
@@ -17,6 +15,7 @@ class Orders extends Model {
         truck_id: { type: 'integer' },
         date: { type: 'string' },
         ready: { type: 'boolean', default: false },
+        user_coupon_id: { type: ['integer', 'null'] },
         name: { type: 'string' },
       },
     };
@@ -46,6 +45,18 @@ class Orders extends Model {
         join: {
           from: 'Orders.id',
           to: 'OrderItems.order_id',
+        },
+      },
+      menuitems: {
+        relation: Model.ManyToManyRelation,
+        modelClass: `${__dirname}/menuitems.model`,
+        join: {
+          from: 'Orders.id',
+          through: {
+            from: 'OrderItems.order_id',
+            to: 'OrderItems.menu_item_id',
+          },
+          to: 'MenuItems.id',
         },
       },
     };
