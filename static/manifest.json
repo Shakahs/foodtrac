@@ -1,0 +1,14 @@
+{
+  "short_name": "foodtrac",
+  "name": "foodtrac - Connect with your favorite food trucks",
+  "icons": [
+    {
+      "src": "/foodtruckicon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "display": "standalone",
+  "theme_color": "#00bcd4",
+  "start_url": "/?launcher=true&utm_source=homescreen"
+}
