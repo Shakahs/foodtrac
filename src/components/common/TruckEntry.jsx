@@ -10,10 +10,11 @@ import './TruckEntry.scss';
 
 const TruckEntry = (props) => {
   let timelineId;
+  const shouldRenderProfileLink = props.path === '/map';
   if (props.path === '/map') timelineId = props.truck.locations.timeline_id;
   return (
     <Col xs={12} sm={12} md={6} lg={6}>
-      <div className="truckEntry" zDepth={3}>
+      <div className="truckEntry">
         <Upvote
           timeline_id={timelineId}
           brand_id={props.truck.brand_id}
@@ -26,11 +27,11 @@ const TruckEntry = (props) => {
           <p>Current location: {props.truck.locations ? props.truck.locations.address : 'Not currently active'}</p>
         </CardText>
         <CardActions className="truck-entry-btns">
-          {props.path === '/brand/:brandId/trucks'
-            ? null
-            : <Link to={`/brand/${props.truck.brand_id}/trucks`}>
+          {shouldRenderProfileLink
+            ? <Link to={`/brand/${props.truck.brand_id}/trucks`}>
               <FlatButton label="Go to Profile" />
-            </Link>}
+            </Link>
+            : null}
           <FollowButton brandId={props.truck.brand_id} user={props.user} path={props.path} />
           {props.truck.order === 1 ?
             <OrderButton truck={props.truck} user={props.user} /> : null
