@@ -16,7 +16,7 @@ class OrderSummary extends Component {
     this.state = {
       open: false,
       name: '',
-      discount: '',
+      discount: 0,
     };
     this.calculateTotal = this.calculateTotal.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
@@ -35,17 +35,26 @@ class OrderSummary extends Component {
 
   calculateTotal() {
     let total = 0;
-    let discountValue;
+    let currCoupon;
+    const reward = this.brandReward();
     this.props.currentOrder.forEach((item) => {
       total += (item.price / 100) * item.quantity;
     });
-    if (this.state.discount !== '') {
-      if (this.state.discount[0] === '$') {
-        discountValue = Number(this.state.discount.split('$').join(''));
-        total -= discountValue;
-      } else {
-        discountValue = Number(this.state.discount.split('%').join(''));
-        total -= (total * (discountValue / 100));
+
+    if (reward) {
+      reward.user_coupons.forEach((coupon) => {
+        if (coupon.coupon_id === this.state.discount) {
+          currCoupon = coupon;
+        }
+      });
+      if (currCoupon) {
+        if (this.state.discount > 0) {
+          if (currCoupon.coupons[0].flat_discount > 0) {
+            total -= currCoupon.coupons[0].flat_discount;
+          } else {
+            total -= (total * (currCoupon.coupons[0].percent_discount / 100));
+          }
+        }
       }
     }
     return total;
@@ -127,6 +136,7 @@ class OrderSummary extends Component {
   }
 
   render() {
+    console.log('IN ORDER RENDER', this.state.discount);
     const actions = [
       (this.state.name !== '' ?
         <Link to="/">

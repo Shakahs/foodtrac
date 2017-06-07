@@ -10,9 +10,9 @@ class SelectCoupons extends Component {
 
   renderSelectCoupon(coupon, i) {
     if (coupon.coupons[0].percent_discount > 0) {
-      return <MenuItem key={i + 1} value={`${coupon.coupons[0].percent_discount}%`} primaryText={`${coupon.coupons[0].percent_discount}% off`} />;
+      return <MenuItem key={i + 1} value={coupon.id} primaryText={`${coupon.coupons[0].percent_discount}% off`} />;
     }
-    return <MenuItem key={i + 1} value={`$${coupon.coupons[0].flat_discount}`} primaryText={`$${coupon.coupons[0].flat_discount} off`} />;
+    return <MenuItem key={i + 1} value={coupon.id} primaryText={`$${coupon.coupons[0].flat_discount} off`} />;
   }
 
   render() {
