@@ -1,4 +1,5 @@
 const _ = require('lodash');
+const { getFirstOrNullLocation } = require('../../utils');
 const Brands = require('../../db/brands.model');
 
 module.exports = {
@@ -30,13 +31,7 @@ module.exports = {
           .orderBy('start', 'desc');
       })
       .then((brand) => { /* eslint-disable no-param-reassign */
-        _.forEach(brand.trucks, (truck) => {
-          if (truck.locations.length > 0) {
-            truck.locations = truck.locations[0];
-          } else {
-            truck.locations = null;
-          }
-        });
+        getFirstOrNullLocation(brand);
         brand.menu_items = _.map(brand.menu_items, (item) => {
           item.price /= 100;
           return item;
