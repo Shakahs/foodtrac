@@ -49,6 +49,9 @@ const TabView = props => (
             trucks={props.trucks}
             getBrand={props.getBrand}
             menuItems={props.menuItems}
+            defaultCouponId={props.defaultCouponId}
+            rewardTrigger={props.rewardTrigger}
+            coupon={props.coupon}
           />)}
         />
         <Route path="/brand/:brandId/orders/:truckId" component={IncomingOrder} />
@@ -68,6 +71,9 @@ TabView.propTypes = {
   submitComment: propSchema.submitComment,
   removeComment: propSchema.removeComment,
   editComment: propSchema.editComment,
+  defaultCouponId: propSchema.defaultCouponId,
+  rewardTrigger: propSchema.rewardTrigger,
+  coupon: propSchema.coupon,
 };
 
 export default TabView;

@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { MenuItem, RaisedButton } from 'material-ui';
 import { SelectField, TextField } from 'redux-form-material-ui';
 import { Field, reduxForm } from 'redux-form';
@@ -37,17 +36,14 @@ const ManageBasic = props => (
     </Field>
     <br />
     <br />
-    <Link to={`/brand/${props.brandId}/trucks`}>
-      <RaisedButton
-        label="Save Changes"
-        onClick={props.handleSubmit}
-      />
-    </Link>
+    <RaisedButton
+      label="Save Changes"
+      onClick={props.handleSubmit}
+    />
   </div>
 );
 
 ManageBasic.propTypes = {
-  brandId: propSchema.brandId,
   foodGenres: propSchema.foodGenres,
   handleSubmit: propSchema.handleSubmit,
 };

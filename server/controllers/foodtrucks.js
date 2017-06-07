@@ -9,7 +9,7 @@ module.exports = {
     // const latestValidTime = new Date(currentTime - 28800000);
     Trucks.query()
       .eagerAlgorithm(Trucks.WhereInEagerAlgorithm)
-      .eager('[brands.[food_genres, upvotes, menu_items], locations]')
+      .eager('[brands.[food_genres, upvotes, menu_items, coupon], locations]')
       .modifyEager('locations', (builder) => {
         getLatestTruckLocation(
           builder

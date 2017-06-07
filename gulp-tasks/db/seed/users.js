@@ -22,8 +22,8 @@ module.exports = {
     const auth0Results = {};
     const userSeedSchema = {
       type: 'array',
-      minItems: 250,
-      maxItems: 200,
+      minItems: 50,
+      maxItems: 100,
       uniqueItems: true,
       items: Users.jsonSchema,
     };
@@ -66,7 +66,7 @@ module.exports = {
             });
         };
 
-        const limiter = new Bottleneck(0, 25);
+        const limiter = new Bottleneck(0, 35);
 
         const createThrottled = function (obj) {
           return limiter.schedule(doCreate, obj);

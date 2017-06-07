@@ -89,6 +89,7 @@ export default {
 
   userActions: PropTypes.shape({
     brandInfoUpdate: PropTypes.func,
+    updateUserRewards: PropTypes.func,
   }).isRequired,
 
   foodGenres: PropTypes.arrayOf(PropTypes.shape({
@@ -205,4 +206,26 @@ export default {
     subscribePush: PropTypes.func,
     unsubscribePush: PropTypes.func,
   }),
+  setValues: PropTypes.func.isRequired,
+  setType: PropTypes.func.isRequired,
+  trigger: PropTypes.number.isRequired,
+  type: PropTypes.number.isRequired,
+  flatRate: PropTypes.string.isRequired,
+  percentRate: PropTypes.number.isRequired,
+  defaultCouponId: PropTypes.number.isRequired,
+  rewardTrigger: PropTypes.number.isRequired,
+  saveChanges: PropTypes.func.isRequired,
+  coupon: PropTypes.shape({
+    flat_discount: PropTypes.number,
+    percent_discount: PropTypes.number,
+  }).isRequired,
+  userRewards: PropTypes.arrayOf(PropTypes.shape({
+    brand_id: PropTypes.number,
+    user_id: PropTypes.number,
+    count: PropTypes.number,
+  })).isRequired,
+  discount: PropTypes.number.isRequired,
+  handleDiscount: PropTypes.func.isRequired,
+  coupons: PropTypes.arrayOf(PropTypes.object).isRequired,
+
 };
