@@ -224,7 +224,7 @@ export default {
     user_id: PropTypes.number,
     count: PropTypes.number,
   })).isRequired,
-  discount: PropTypes.string.isRequired,
+  discount: PropTypes.number.isRequired,
   handleDiscount: PropTypes.func.isRequired,
   coupons: PropTypes.arrayOf(PropTypes.object).isRequired,
 

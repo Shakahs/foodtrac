@@ -91,6 +91,14 @@ class OrderSummary extends Component {
     return userReward;
   }
 
+  redeemCoupon() {
+    if (this.state.discount > 0) {
+      axios.put(`/api/rewards/${this.state.discount}`, { redeemed: true })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    }
+  }
+
   handleRewards() {
     const userReward = this.brandReward();
     delete userReward.user_coupons;
@@ -129,6 +137,7 @@ class OrderSummary extends Component {
           .catch(err => console.log(err));
       }
     }
+    this.redeemCoupon();
   }
 
   orderComplete() {
@@ -136,7 +145,6 @@ class OrderSummary extends Component {
   }
 
   render() {
-    console.log('IN ORDER RENDER', this.state.discount);
     const actions = [
       (this.state.name !== '' ?
         <Link to="/">
