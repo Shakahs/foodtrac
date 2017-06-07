@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { CardTitle } from 'material-ui';
+import { CardHeader } from 'material-ui';
 import { Link } from 'react-router-dom';
 import TruckList from '../common/TrucksList';
 import propSchema from '../common/PropTypes';
@@ -16,7 +16,7 @@ const FollowedEntry = props => (
   <div>
     <Link to={`/brand/${props.brand.id}/trucks`}>
       <div className="brand-card-header">
-        <CardTitle
+        <CardHeader
           title={props.brand.name}
           subtitle={props.brand.description}
         />

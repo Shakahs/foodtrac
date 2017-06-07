@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import React from 'react';
-import { Card, CardHeader } from 'material-ui';
+import { Card, CardTitle } from 'material-ui';
 import FollowedEntry from './FollowedEntry';
 import propSchema from '../common/PropTypes';
 
 const FollowedList = props => (
   <Card>
-    <CardHeader
+    <CardTitle
       title="Brands that you follow"
-      subtitle="X followed brands"
+      subtitle={`${props.brands.length} followed brands`}
     />
     {_.map(props.brands, (brand, idx) => <FollowedEntry brand={brand} key={idx} />)}
   </Card>
