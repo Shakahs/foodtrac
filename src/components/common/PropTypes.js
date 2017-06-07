@@ -22,6 +22,7 @@ export default {
     is_truck_owner: PropTypes.bool,
     auth0_id: PropTypes.string,
     user_rewards: PropTypes.array,
+    orders: PropTypes.array,
   }).isRequired,
 
   auth: PropTypes.shape({
@@ -175,6 +176,7 @@ export default {
   order: PropTypes.shape({
     date: PropTypes.string,
     orderitems: PropTypes.array,
+    menuitems: PropTypes.array,
   }).isRequired,
 
   getOrders: PropTypes.func.isRequired,
@@ -237,5 +239,6 @@ export default {
     }),
     count: PropTypes.number,
   }).isRequired,
+  orders: PropTypes.arrayOf(PropTypes.object).isRequired,
 
 };

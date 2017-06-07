@@ -20,7 +20,7 @@ class CouponsList extends Component {
   render() {
     return (
       <div>
-        {`${this.couponDiscount()} off! ${this.props.coupon.redeemed === 1 ? 'redeemed!' : null}`}
+        {`${this.couponDiscount()} off ${this.props.coupon.redeemed === 1 ? 'redeemed!' : ''}`}
       </div>
     );
   }

@@ -102,7 +102,6 @@ class OrderSummary extends Component {
 
   handleRewards() {
     const userReward = this.brandReward();
-    delete userReward.user_coupons;
     if (this.props.truck.brands.rewards_trigger > 0) {
       if (userReward) {
         if ((this.props.truck.brands.rewards_trigger - userReward.count) <= 1) {
@@ -115,12 +114,15 @@ class OrderSummary extends Component {
           axios.post('/api/rewards/usercoupon', newCoupon)
             .then(res => console.log(res))
             .catch(err => console.log(err));
-          delete userReward.id;
         } else {
           userReward.count += 1;
-          delete userReward.id;
         }
-        axios.post('/api/rewards', userReward)
+        const rewardUpdate = {
+          brand_id: userReward.brand_id,
+          user_id: userReward.user_id,
+          count: userReward.count,
+        };
+        axios.post('/api/rewards', rewardUpdate)
           .then(() => {
             this.props.userActions.requestUserData(this.props.userId);
           })
