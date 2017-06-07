@@ -1,7 +1,8 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-// import CouponsList from './CouponsList';
-// import RewardsList from './RewardsList';
+import CouponsList from './CouponsList';
+import RewardsList from './RewardsList';
 import FollowedList from './FollowedList';
 import EventsList from './EventsList';
 // import FeedList from './FeedList';
@@ -17,9 +18,9 @@ class DashBoard extends Component {
     return (
       <div>
         <FollowedList brands={this.props.user.user_follows} />
-        <EventsList />
-        {/* <CouponsList />
-        <RewardsList />*/}
+        <EventsList events={_.map(this.props.user.events_attending, eventJoin => eventJoin.events)} />
+        <CouponsList />
+        <RewardsList />
       </div>
     );
   }
