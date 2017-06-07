@@ -1,12 +1,14 @@
 import React from 'react';
 import { Tabs, Tab } from 'material-ui';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
 import propSchema from '../common/PropTypes';
 import ManageBasic from './ManageBasic';
 import ManageTrucks from './ManageTrucks';
 import ManageMenu from './ManageMenu';
+import ManageReward from './ManageReward';
 import { actions as userActions } from '../../redux/user';
 
 class ManageBrand extends React.Component {
@@ -16,6 +18,7 @@ class ManageBrand extends React.Component {
       name: '',
       description: '',
       food_genre_id: 0,
+      redirect: false,
     };
 
     this.handleInfoEdit = this.handleInfoEdit.bind(this);
@@ -68,11 +71,23 @@ class ManageBrand extends React.Component {
   handleSave(data) {
     this.handleInfoEdit(data);
     this.handleReduxUpdate(data);
+    this.setState({ redirect: true });
+  }
+
+  redirectToMap() {
+    if (this.state.redirect) {
+      this.setState({
+        redirect: false,
+      });
+      return <Redirect push to={`/brand/${this.props.brandId}/trucks`} />;
+    }
+    return null;
   }
 
   render() {
     return (
       <Tabs>
+        {this.redirectToMap()}
         <Tab label="Change Basic Brand Info">
           <ManageBasic
             brandId={this.props.brandId}
@@ -95,6 +110,15 @@ class ManageBrand extends React.Component {
             getBrand={this.props.getBrand}
           />
         </Tab>
+        <Tab label="Manage your Rewards">
+          <ManageReward
+            brandId={this.props.brandId}
+            getBrand={this.props.getBrand}
+            defaultCouponId={this.props.defaultCouponId}
+            rewardTrigger={this.props.rewardTrigger}
+            coupon={this.props.coupon}
+          />
+        </Tab>
       </Tabs>
     );
   }
@@ -108,6 +132,9 @@ ManageBrand.propTypes = {
   userActions: propSchema.userActions,
   user: propSchema.user,
   menuItems: propSchema.menuItems,
+  defaultCouponId: propSchema.defaultCouponId,
+  rewardTrigger: propSchema.rewardTrigger,
+  coupon: propSchema.coupon,
 };
 
 const mapStateToProps = state => ({

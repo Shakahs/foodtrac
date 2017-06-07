@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Link } from 'react-router-dom';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import { actions as authActions } from '../../redux/auth';
@@ -40,11 +39,8 @@ class NavBar extends Component {
               {this.props.isLoggedIn ? (
                 <UserMenu handleLogout={this.props.authActions.logout} />
               ) : (
-                <div>
+                <div className="login">
                   <Login onSubmit={this.props.authActions.loginRequest} />
-                  <Link to="/signup">
-                    <p>Sign up</p>
-                  </Link>
                 </div>)}
             </div>
           }

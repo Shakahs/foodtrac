@@ -130,6 +130,14 @@ class Users extends Model {
           to: 'UserPushInfo.user_id',
         },
       },
+      user_rewards: {
+        relation: Model.HasManyRelation,
+        modelClass: `${__dirname}/userrewards.model`,
+        join: {
+          from: 'Users.id',
+          to: 'UserRewards.user_id',
+        },
+      },
     };
   }
 }

@@ -15,6 +15,7 @@ export const ADD_BRAND = 'ADD_BRAND';
 export const ADD_BRAND_REQUEST = 'ADD_BRAND_REQUEST';
 export const USER_BECOME_OWNER_REQ = 'USER_BECOME_OWNER_REQ';
 export const USER_DATA_REQUESTED = 'USER_DATA_REQUESTED';
+export const USER_REWARDS_UPDATE = 'USER_REWARDS_UPDATE';
 
 const initialState = {
   id: null,
@@ -24,6 +25,7 @@ const initialState = {
   user_follows: [],
   brands: [],
   redirectToAddBrand: false,
+  user_rewards: [],
 };
 
 export default function reducer(state = Immutable(initialState), action) {
@@ -51,6 +53,8 @@ export default function reducer(state = Immutable(initialState), action) {
       return Immutable.merge(state, { redirectToAddBrand: false });
     case authActions.LOGOUT:
       return Immutable(initialState);
+    case USER_REWARDS_UPDATE:
+      return Immutable.merge(state, { user_rewards: action.rewards });
     default:
       return state;
   }
@@ -102,6 +106,11 @@ export const redirectAddBrandDisable = () => ({
 export const requestUserData = id => ({
   type: USER_DATA_REQUESTED,
   id,
+});
+
+export const updateUserRewards = rewards => ({
+  type: USER_REWARDS_UPDATE,
+  rewards,
 });
 
 // export const userFailure = error => ({

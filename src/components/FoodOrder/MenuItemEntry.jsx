@@ -32,7 +32,9 @@ class MenuItemEntry extends Component {
           <div>${this.props.menuItem.price / 100}</div>
         </Col>
         <Col xs={1} sm={1} md={1} lg={1}>
-          <div>{this.props.menuItem.calories}</div>
+          {this.props.menuItem.calories ?
+            <div>calories: {this.props.menuItem.calories}</div> : null
+          }
         </Col>
         <Col xs={1} sm={1} md={1} lg={1}>
           <TextField
