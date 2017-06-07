@@ -1,6 +1,7 @@
 body {
   background-color: gray;
   margin: 10px;
+  font-family: Roboto, sans-serif;
 }
 
 a {
@@ -19,4 +20,20 @@ a {
   margin: 10px 32px;
   text-align: center;
   padding: 10px 0px;
+}
+
+.card-header:hover {
+  background-color: whitesmoke;
+}
+
+a {
+  color: darkslateblue;
+}
+
+a:visited {
+  color: grey;
+}
+
+a:hover{
+  color: lightskyblue;
 }

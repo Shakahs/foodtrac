@@ -2,6 +2,25 @@ const _ = require('lodash');
 const webpush = require('web-push');
 const Promise = require('bluebird');
 
+exports.getFirstOrNullLocation = (brand) => {
+  _.forEach(brand.trucks, (truck) => { /* eslint-disable no-param-reassign */
+    if (truck.locations && truck.locations.length > 0) {
+      truck.locations = truck.locations[0];
+    } else {
+      truck.locations = null;
+    } /* eslint-enable no-param-reassign */
+  });
+};
+
+exports.getLatestTruckLocation = (builder) => {
+  const currentTime = new Date();
+  const latestValidTime = new Date(currentTime - 28800000);
+  return builder.whereBetween('start', [latestValidTime.toISOString(), currentTime.toISOString()])
+                .andWhere('end', 0)
+                .orWhere('end', '>', currentTime.toISOString())
+                .orderBy('start', 'desc');
+};
+
 exports.notifyFollowers = (brand, message) =>
   Promise.all(_.reduce(brand.user_follows, (promises, user) => {
     const pushInfo = user.user_push_info;
