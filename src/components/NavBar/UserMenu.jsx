@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import Drawer from 'material-ui/Drawer';
 import PropTypes from 'prop-types';
+import UserEmblem from '../common/Emblem/UserEmblem';
 import propSchema from '../common/PropTypes';
 import { actions as authActions } from '../../redux/auth';
 
@@ -15,10 +16,18 @@ const UserMenu = props => (
     className="MenuDrawer"
     docked={false}
     onRequestChange={props.handleMenuChange}
+    width={300}
   >
     {/* <MenuItem onTouchTap={props.handleMenuClose}>*/}
     {/* <SiteHeader handleMenuToggle={props.handleMenuToggle} />*/}
     {/* </MenuItem>*/}
+
+    {props.isLoggedIn ? (
+      <MenuItem>
+        <UserEmblem user={props.user} />
+      </MenuItem>
+      ) : null }
+
     <MenuItem
       containerElement={<Link to="/" />}
       primaryText="Dashboard"
@@ -57,11 +66,12 @@ UserMenu.propTypes = {
   authActions: propSchema.authActions,
   user: propSchema.user,
   menuOpen: PropTypes.bool.isRequired,
+  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   user: state.user,
-  // isLoggedIn: state.auth.isLoggedIn,
+  isLoggedIn: state.auth.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
