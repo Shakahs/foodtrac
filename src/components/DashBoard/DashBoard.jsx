@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import CouponsList from './CouponsList';
+import { connect } from 'react-redux';
+import propSchema from '../common/PropTypes';
 import RewardsList from './RewardsList';
 import FollowedList from './FollowedList';
 import EventsList from './EventsList';
@@ -14,8 +15,7 @@ class DashBoard extends Component {
   render() {
     return (
       <div>
-        <CouponsList />
-        <RewardsList />
+        <RewardsList rewards={this.props.user.user_rewards} />
         <FollowedList />
         <EventsList />
         <FeedList />
@@ -24,4 +24,10 @@ class DashBoard extends Component {
   }
 }
 
-export default DashBoard;
+DashBoard.propTypes = {
+  user: propSchema.user,
+};
+
+const mapStateToProps = ({ user }) => ({ user });
+
+export default connect(mapStateToProps)(DashBoard);

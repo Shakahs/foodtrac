@@ -21,6 +21,7 @@ export default {
     email: PropTypes.string,
     is_truck_owner: PropTypes.bool,
     auth0_id: PropTypes.string,
+    user_rewards: PropTypes.array,
   }).isRequired,
 
   auth: PropTypes.shape({
@@ -227,5 +228,14 @@ export default {
   discount: PropTypes.number.isRequired,
   handleDiscount: PropTypes.func.isRequired,
   coupons: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+  rewards: PropTypes.arrayOf(PropTypes.object).isRequired,
+  reward: PropTypes.shape({
+    brands: PropTypes.shape({
+      name: PropTypes.string,
+      rewards_trigger: PropTypes.number,
+    }),
+    count: PropTypes.number,
+  }).isRequired,
 
 };
