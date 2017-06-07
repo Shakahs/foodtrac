@@ -22,16 +22,17 @@ $a-tags: 'a, a:active, a:hover, a:visited';
 //  float: right;
 //}
 
-.searchBar {
+.searchBar .toolbar {
   //float: left;
   //margin-right: 90px;
   //margin-top: 13px;
   //margin: 5px;
+  background-color: white !important;
 }
 
 .geosuggest__input {
     //padding: 20px  !important;
-    width: 400px;
+    width: 300px;
     //height: 150px !important;
   margin: 5px;
 }

@@ -2,9 +2,9 @@ import { call, put, take } from 'redux-saga/effects';
 import axios from 'axios';
 import { actions } from './index';
 
-function* mapRequest(lat, lng, dist) {
+function* mapRequest(lat, lng, dist, foodGenre) {
   try {
-    const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}`);
+    const { data } = yield call(axios.get, `/api/foodtrucks?lat=${lat}&lng=${lng}&dist=${dist || 40}&foodGenre=${foodGenre}`);
     data.sort((a, b) => b.brands.upvotes.length - a.brands.upvotes.length);
     yield put(actions.mapSuccess(data, { lat, lng }));
   } catch (e) {
@@ -27,8 +27,8 @@ export function* watchMapTruckUpvoteReq() {
 
 export function* watchMapRequest() {
   while (true) {
-    const { lat, lng } = yield take(actions.MAP_REQUEST);
-    yield call(mapRequest, lat, lng);
+    const { lat, lng, dist, foodGenre } = yield take(actions.MAP_REQUEST);
+    yield call(mapRequest, lat, lng, dist, foodGenre);
   }
 }
 

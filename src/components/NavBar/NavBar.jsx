@@ -13,7 +13,7 @@ import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
 import SiteHeader from './SiteHeader';
-import UnauthorizedComponent from '../common/AuthHelpers/UnauthorizedComponent';
+import UnauthorizedComponent from '../common/Helpers/UnauthorizedComponent';
 import './NavBar.scss';
 
 class NavBar extends Component {
