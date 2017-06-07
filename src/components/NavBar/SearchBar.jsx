@@ -3,6 +3,8 @@ import Geosuggest from 'react-geosuggest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
+import RaisedButton from 'material-ui/RaisedButton';
+import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
 import { actions as mapActions } from '../../redux/MapSearch';
 import propSchema from '../common/PropTypes';
 
@@ -18,7 +20,6 @@ class SearchBar extends Component {
   }
 
   handleSuggestSelect({ location }) {
-    console.log('location', location);
     const { lat, lng } = location;
     this.props.actions.mapRequest(lat, lng);
     this.setState({
@@ -41,17 +42,37 @@ class SearchBar extends Component {
       // TODO: add distance, genre, review/maybe upvote filtering
       <div className="searchBar">
         {this.redirectToMap()}
-        <Geosuggest
-          className="midin"
-          ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
-          country="us"
-          types={['geocode']}
-          placeholder="Type your address!"
-          onSuggestSelect={(e) => {
-            this.handleSuggestSelect(e);
-            this._geoSuggest.clear();
-          }}
-        />
+
+        <Toolbar >
+          <ToolbarGroup firstChild >
+            {/* <TextField*/}
+            {/* className="addressEntry"*/}
+            {/* hintText="Type in a search address"*/}
+            {/* floatingLabelText="Type in a search address"*/}
+            {/* fullWidth*/}
+            {/* />*/}
+
+            <Geosuggest
+              className="addressEntry"
+              ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
+              country="us"
+              types={['geocode']}
+              placeholder="Type your address!"
+              onSuggestSelect={(e) => {
+                this.handleSuggestSelect(e);
+                this._geoSuggest.clear();
+              }}
+            />
+
+          </ToolbarGroup>
+          <ToolbarGroup lastChild>
+            <ToolbarSeparator />
+            <RaisedButton label="Options" secondary />
+            <RaisedButton label="Search" primary />
+          </ToolbarGroup>
+        </Toolbar>
+
+
       </div>
     );
   }

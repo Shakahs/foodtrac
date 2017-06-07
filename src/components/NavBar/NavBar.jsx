@@ -11,7 +11,7 @@ import { actions as authActions } from '../../redux/auth';
 import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
-import Login from './LoginButton';
+// import Login from './LoginButton';
 import SiteHeader from './SiteHeader';
 import AuthorizedComponent from '../common/AuthHelpers/AuthorizedComponent';
 import UnauthorizedComponent from '../common/AuthHelpers/UnauthorizedComponent';
@@ -53,13 +53,13 @@ class NavBar extends Component {
           menuOpen={this.state.menuOpen}
         />
         <Row>
-          <Col xs={2} md={3} lg={3}>
+          <Col xs={2} md={2} lg={2}>
             <SiteHeader handleMenuToggle={this.handleMenuToggle} />
           </Col>
-          <Col xs={5} md={6} lg={6}>
+          <Col xs={5} md={8} lg={8}>
             <SearchBar />
           </Col>
-          <Col xs={5} md={3} lg={3} >
+          <Col xs={5} md={2} lg={2} >
             <AuthorizedComponent>
               <div>
                 <UserEmblem user={this.props.user} />
@@ -68,9 +68,9 @@ class NavBar extends Component {
             </AuthorizedComponent>
             <UnauthorizedComponent>
               <div>
-                <Login onSubmit={this.props.authActions.loginRequest} />
+                {/* <Login onSubmit={this.props.authActions.loginRequest} />*/}
                 <Link to="/signup">
-                  <p>Sign up</p>
+                  <p>Log in / Sign up</p>
                 </Link>
               </div>
             </UnauthorizedComponent>
