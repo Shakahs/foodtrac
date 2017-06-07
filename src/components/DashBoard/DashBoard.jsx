@@ -1,27 +1,34 @@
 import React, { Component } from 'react';
-import CouponsList from './CouponsList';
-import RewardsList from './RewardsList';
+import { connect } from 'react-redux';
+// import CouponsList from './CouponsList';
+// import RewardsList from './RewardsList';
 import FollowedList from './FollowedList';
 import EventsList from './EventsList';
-import FeedList from './FeedList';
+// import FeedList from './FeedList';
+import propSchema from '../common/PropTypes';
 
 class DashBoard extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {};
   }
 
   render() {
     return (
       <div>
-        <CouponsList />
-        <RewardsList />
-        <FollowedList />
+        <FollowedList brands={this.props.user.user_follows} />
         <EventsList />
-        <FeedList />
+        {/* <CouponsList />
+        <RewardsList />*/}
       </div>
     );
   }
 }
 
-export default DashBoard;
+const mapStateToProps = ({ user }) => ({ user });
+
+DashBoard.propTypes = {
+  user: propSchema.user,
+};
+
+export default connect(mapStateToProps)(DashBoard);

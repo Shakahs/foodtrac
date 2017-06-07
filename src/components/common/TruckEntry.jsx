@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
-import Paper from 'material-ui/Paper';
-import FlatButton from 'material-ui/FlatButton';
+import { FlatButton, CardText, CardActions } from 'material-ui';
 import propSchema from './PropTypes';
 import FollowButton from './FollowButton';
 import OrderButton from './OrderButton';
@@ -14,19 +13,19 @@ const TruckEntry = (props) => {
   if (props.path === '/map') timelineId = props.truck.locations.timeline_id;
   return (
     <Col xs={12} sm={12} md={6} lg={6}>
-      <Paper className="truckEntry" zDepth={3}>
+      <div className="truckEntry" zDepth={3}>
         <Upvote
           timeline_id={timelineId}
           brand_id={props.truck.brand_id}
           mapUpvotes={props.truck.brands.upvotes}
           idx={props.idx}
         />
-        <div className="truck-entry-body">
+        <CardText className="truck-entry-body">
           <p>{props.truck.brands.name}: {props.truck.name !== 'null' ? <em>{props.truck.name}</em> : null}</p>
           <p>Type of food: {props.truck.brands.food_genres.name}</p>
           <p>Current location: {props.truck.locations ? props.truck.locations.address : 'Not currently active'}</p>
-        </div>
-        <div className="truck-entry-btns">
+        </CardText>
+        <CardActions className="truck-entry-btns">
           {props.path === '/brand/:brandId/trucks'
             ? null
             : <Link to={`/brand/${props.truck.brand_id}/trucks`}>
@@ -36,8 +35,8 @@ const TruckEntry = (props) => {
           {props.truck.order === 1 ?
             <OrderButton truck={props.truck} user={props.user} /> : null
           }
-        </div>
-      </Paper>
+        </CardActions>
+      </div>
     </Col>
   );
 };
