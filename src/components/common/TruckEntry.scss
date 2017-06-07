@@ -1,8 +1,13 @@
 .truckEntry {
+  background-color: white;
   min-height: 150px;
   margin-top: 10px;
 }
 
 .truck-entry-body {
   display: inline-block;
+}
+
+.truck-entry-body, .truck-entry-btns {
+  padding: 0 !important;
 }
