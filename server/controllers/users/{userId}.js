@@ -22,10 +22,10 @@ module.exports = {
       .findById(req.params.userId)
       .patch(req.body)
       .then(() => Users.query()
-        .findById(req.params.userId))
+        .findById(req.params.userId)
         .eager(userEagerOptions, {
           latest: builder => getLatestTruckLocation(builder),
-        })
+        }))
       .then((user) => {
         user.is_truck_owner = Boolean(user.is_truck_owner); // eslint-disable-line no-param-reassign
         _.each(user.user_follows, brand => getFirstOrNullLocation(brand));

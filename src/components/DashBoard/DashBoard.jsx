@@ -5,7 +5,6 @@ import RewardsList from './RewardsList';
 import FollowedList from './FollowedList';
 import EventsList from './EventsList';
 import OrdersList from './OrdersList';
-// import FeedList from './FeedList';
 import propSchema from '../common/PropTypes';
 
 class DashBoard extends Component {
@@ -19,11 +18,11 @@ class DashBoard extends Component {
       <div>
         <FollowedList brands={this.props.user.user_follows} />
         <EventsList events={_.map(this.props.user.events_attending, eventJoin => eventJoin.events)} />
-        {this.props.user.user_rewards.length > 0
+        {this.props.user.user_rewards && this.props.user.user_rewards.length > 0
           ? <RewardsList rewards={this.props.user.user_rewards} />
           : null
         }
-        {this.props.user.orders.length > 0
+        {this.props.user.orders && this.props.user.orders.length > 0
           ? <OrdersList orders={this.props.user.orders} />
           : null
         }

@@ -5,8 +5,6 @@ const { getBoundingBox, getLatestTruckLocation } = require('../utils');
 module.exports = {
   get(req, res) {
     const boundingBox = getBoundingBox([req.query.lat, req.query.lng], req.query.dist || 50);
-    // const currentTime = new Date();
-    // const latestValidTime = new Date(currentTime - 28800000);
     Trucks.query()
       .eagerAlgorithm(Trucks.WhereInEagerAlgorithm)
       .eager('[brands.[food_genres, upvotes, menu_items, coupon], locations]')

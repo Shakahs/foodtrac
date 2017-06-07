@@ -20,8 +20,12 @@ export function* watchRequestUserData() {
 export function* watchBecomeOwnerReq() {
   while (true) {
     const { id } = yield take(actions.USER_BECOME_OWNER_REQ);
-    const { data } = yield call(axios.put, `/api/users/${id}`, { is_truck_owner: true });
-    yield put(actions.userReceived(data));
+    try {
+      const { data } = yield call(axios.put, `/api/users/${id}`, { is_truck_owner: true });
+      yield put(actions.userReceived(data));
+    } catch (err) {
+      console.log('Error becoming owner:', err);
+    }
   }
 }
 
