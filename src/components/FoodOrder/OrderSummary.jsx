@@ -17,6 +17,7 @@ class OrderSummary extends Component {
       open: false,
       name: '',
       discount: 0,
+      couponIssued: false,
     };
     this.calculateTotal = this.calculateTotal.bind(this);
     this.submitOrder = this.submitOrder.bind(this);
@@ -144,6 +145,14 @@ class OrderSummary extends Component {
     this.setState({ open: !this.state.open });
   }
 
+  newCouponAlert() { // eslint-disable-line consistent-return
+    if (this.brandReward()) {
+      return (this.props.truck.brands.rewards_trigger - this.brandReward().count) <= 1
+        ? <div>Congratulation! You will recieve a new coupon upon confirming your order!</div>
+        : null;
+    }
+  }
+
   render() {
     const actions = [
       (this.state.name !== '' ?
@@ -203,6 +212,7 @@ class OrderSummary extends Component {
             open={this.state.open}
             onRequestClose={this.orderComplete}
           >
+            {this.newCouponAlert()}
             <TextField
               floatingLabelText="Give us your name"
               hintText="name"

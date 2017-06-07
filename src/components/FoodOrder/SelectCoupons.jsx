@@ -22,7 +22,7 @@ class SelectCoupons extends Component {
         value={this.props.discount}
         onChange={(e, i, val) => this.props.handleDiscount(val)}
       >
-        <MenuItem key={0} value={''} />
+        <MenuItem key={0} value={0} />
         {this.props.coupons.map((coupon, i) => // eslint-disable-line no-confusing-arrow
           coupon.redeemed === 0 ? this.renderSelectCoupon(coupon, i) : null,
         )}
