@@ -16,6 +16,7 @@ const pushNotifications = (res, truckId, location) => Trucks.query()
 
 module.exports = {
   post(req, res) {
+    let newLocation;
     const now = new Date().toISOString();
     const truckId = parseInt(req.params.truckId, 10);
     req.body.start = req.body.start ? req.body.start.toISOString() : now;
@@ -34,8 +35,11 @@ module.exports = {
         .eager('timelines(onlyThisInst)', {
           onlyThisInst: builder => builder.findById(lt.id),
         }))
-      .then(location => pushNotifications(res, truckId, location))
-      .then(() => res.status(201).send(location))
+      .then((location) => {
+        newLocation = location;
+        return pushNotifications(res, truckId, location);
+      })
+      .then(() => res.status(201).send(newLocation))
       .catch(e => res.status(400).send(e.message));
   },
   put(req, res) {
