@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Grid } from 'react-flexbox-grid';
+import { Grid, Row } from 'react-flexbox-grid';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -43,13 +43,13 @@ class EventsList extends React.Component { // eslint-disable-line react/prefer-s
             onSelectEvent={event => this.props.history.push(`/events/${event.id}`)}
           />
         </div>
-        <div>
+        <Row>
           {this.state.events.length > 0 ?
-            _.map(this.state.events, event => <EventsListEntry event={event} />)
+            _.map(this.state.events, (event, idx) => <EventsListEntry event={event} key={idx} />)
             :
             <div className="noItems">No events to display</div>
           }
-        </div>
+        </Row>
       </Grid>
     );
   }

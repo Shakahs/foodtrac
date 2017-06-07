@@ -21,3 +21,19 @@ a {
   text-align: center;
   padding: 10px 0px;
 }
+
+.card-header:hover {
+  background-color: whitesmoke;
+}
+
+a {
+  color: darkslateblue;
+}
+
+a:visited {
+  color: grey;
+}
+
+a:hover{
+  color: lightskyblue;
+}
