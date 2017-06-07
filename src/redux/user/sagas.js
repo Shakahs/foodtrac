@@ -8,8 +8,12 @@ const moment = require('moment');
 export function* watchRequestUserData() {
   while (true) {
     const { id } = yield take(actions.USER_DATA_REQUESTED);
-    const { data } = yield call(axios.get, `/api/users/${id}`);
-    yield put(actions.userReceived(data));
+    try {
+      const { data } = yield call(axios.get, `/api/users/${id}`);
+      yield put(actions.userReceived(data));
+    } catch (err) {
+      console.log('Error fetching user data:', err);
+    }
   }
 }
 
