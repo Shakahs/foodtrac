@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import AppBar from 'material-ui/AppBar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
+import { Grid, Row, Col } from 'react-flexbox-grid';
+import 'font-awesome/css/font-awesome.min.css';
+import UserEmblem from '../common/Emblem/UserEmblem';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import { actions as authActions } from '../../redux/auth';
@@ -9,54 +12,80 @@ import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
+import SiteHeader from './SiteHeader';
 import './NavBar.scss';
 
+
 class NavBar extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       logged: false,
+      menuOpen: false,
     };
-    this.handleLogin = this.handleLogin.bind(this);
+    this.handleMenuToggle = this.handleMenuToggle.bind(this);
+    this.handleMenuClose = this.handleMenuClose.bind(this);
+    this.handleMenuChange = this.handleMenuChange.bind(this);
   }
 
   componentDidMount() {
     this.props.foodGenresActions.foodGenresRequest();
   }
 
-  handleLogin() {
-    this.setState({ logged: !this.state.logged });
+  handleMenuToggle() {
+    this.setState({ menuOpen: !this.state.menuOpen });
   }
+
+  handleMenuClose() { this.setState({ menuOpen: false }); }
+
+  handleMenuChange(open) { this.setState({ menuOpen: open }); }
 
   render() {
     return (
-      <div className="NavBar">
-        <AppBar
-          title="foodtrac"
-          iconElementRight={
-            <div className="navBarRight">
-              <SearchBar />
-              {this.props.isLoggedIn ? (
-                <UserMenu handleLogout={this.props.authActions.logout} />
-              ) : (
-                <div className="login">
-                  <Login onSubmit={this.props.authActions.loginRequest} />
-                </div>)}
-            </div>
-          }
+      <Grid fluid className="NavBar">
+        <UserMenu
+          handleLogout={this.props.authActions.logout}
+          handleMenuToggle={this.handleMenuToggle}
+          handleMenuClose={this.handleMenuClose}
+          handleMenuChange={this.handleMenuChange}
+          menuOpen={this.state.menuOpen}
         />
-      </div>
+        <Row>
+          <Col xs={2} md={3} lg={3}>
+            <SiteHeader handleMenuToggle={this.handleMenuToggle} />
+          </Col>
+          <Col xs={5} md={6} lg={6}>
+            <SearchBar />
+          </Col>
+          <Col xs={5} md={3} lg={3} >
+            {this.props.isLoggedIn ? (
+              <div>
+                <UserEmblem user={this.props.user} />
+                <UserMenu handleLogout={this.props.authActions.logout} />
+              </div>
+            ) : (
+              <div>
+                <Login onSubmit={this.props.authActions.loginRequest} />
+                <Link to="/signup">
+                  <p>Sign up</p>
+                </Link>
+              </div>)}
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }
 
 NavBar.propTypes = {
+  user: propSchema.user,
   authActions: propSchema.authActions,
   isLoggedIn: propSchema.isLoggedIn,
   foodGenresActions: propSchema.foodGenresActions,
 };
 
 const mapStateToProps = state => ({
+  user: state.user,
   isLoggedIn: state.auth.isLoggedIn,
 });
 

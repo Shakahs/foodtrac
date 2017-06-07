@@ -1,44 +1,71 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import IconButton from 'material-ui/IconButton';
-import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import Divider from 'material-ui/Divider';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import Drawer from 'material-ui/Drawer';
+import PropTypes from 'prop-types';
 import propSchema from '../common/PropTypes';
+import { actions as authActions } from '../../redux/auth';
 
 const UserMenu = props => (
-  <IconMenu
-    iconButtonElement={
-      <IconButton><MoreVertIcon /></IconButton>
-    }
-    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
-    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+  <Drawer
+    open={props.menuOpen}
+    className="MenuDrawer"
+    docked={false}
+    onRequestChange={props.handleMenuChange}
   >
-    <MenuItem containerElement={<Link to="/" />} primaryText="Dashboard" />
+    {/* <MenuItem onTouchTap={props.handleMenuClose}>*/}
+    {/* <SiteHeader handleMenuToggle={props.handleMenuToggle} />*/}
+    {/* </MenuItem>*/}
+    <MenuItem
+      containerElement={<Link to="/" />}
+      primaryText="Dashboard"
+      onTouchTap={props.handleMenuClose}
+    />
     {props.user.is_truck_owner ?
       props.user.brands.map(brand =>
-        <MenuItem key={brand.id} containerElement={<Link to={`/brand/${brand.id}/trucks`} />} primaryText={brand.name} />,
+        (<MenuItem
+          key={brand.id}
+          containerElement={<Link to={`/brand/${brand.id}/trucks`} />}
+          primaryText={brand.name}
+          onTouchTap={props.handleMenuClose}
+        />),
       ) : null
     }
-    <MenuItem containerElement={<Link to="/settings" />} primaryText="Settings" />
+    <MenuItem
+      containerElement={<Link to="/settings" />}
+      primaryText="Settings"
+      onTouchTap={props.handleMenuClose}
+    />
     <Divider />
     <MenuItem
       containerElement={<Link to="/" />}
       primaryText="Sign out"
-      onClick={() => { props.handleLogout(); }}
+      onTouchTap={() => {
+        props.handleMenuClose();
+        props.authActions.logout();
+      }}
     />
-  </IconMenu>
+  </Drawer>
 );
 
 UserMenu.propTypes = {
-  handleLogout: propSchema.handleLogout,
+  handleMenuClose: PropTypes.func.isRequired,
+  handleMenuChange: PropTypes.func.isRequired,
+  authActions: propSchema.authActions,
   user: propSchema.user,
+  menuOpen: PropTypes.bool.isRequired,
 };
 
-const mapStateToProps = ({ user }) => ({
-  user,
+const mapStateToProps = state => ({
+  user: state.user,
+  // isLoggedIn: state.auth.isLoggedIn,
 });
 
-export default connect(mapStateToProps, null)(UserMenu);
+const mapDispatchToProps = dispatch => ({
+  authActions: bindActionCreators(authActions, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserMenu);

@@ -1,6 +1,26 @@
+$a-tags: 'a, a:active, a:hover, a:visited';
+.emblem .truckOwnerByline {
+  #{$a-tags} {
+    color: purple;
+  }
+}
 
 .NavBar {
   margin: -10 -10 0 -10;
+  background-color: #2196F3;
+  padding: 10px;
+}
+
+.SiteHeader {
+  font-size: 32px;
+}
+
+.SiteHeader #{$a-tags} {
+  color: white;
+}
+
+.MenuDrawer {
+  padding: 10px
 }
 
 .navBarRight a {
