@@ -6,8 +6,6 @@ import combineDates from './util';
 import { eventAPI } from '../../api';
 import propSchema from '../common/PropTypes';
 
-// Todo: validate end time is after start time, and perhaps at least a minimum amount later
-
 class CreateEvents extends React.Component {
   constructor(props) {
     super(props);
