@@ -14,7 +14,7 @@ module.exports = {
           user_id: req.body.userId,
         })
       .then(newImage => Brands.query(trx)
-        .patch({ cover_image_id: newImage.id })
+        .patch({ logo_image_id: newImage.id })
         .where('id', req.params.brandId)))
       .then(() => res.status(201).send(`data received okay ${filename}`))
       .catch(e => res.status(400).send(e.message));

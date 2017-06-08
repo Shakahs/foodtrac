@@ -1224,7 +1224,7 @@
     },
     "/brands/{brandId}/coverImage" : {
       "post" : {
-        "summary" : "upload an image to Google Cloud",
+        "summary" : "upload a cover image to Google Cloud",
         "consumes" : [ ],
         "parameters" : [ {
           "name" : "body",
@@ -1253,6 +1253,39 @@
         "in" : "path",
         "required" : true,
         "type" : "integer"
+      } ]
+    },
+    "/brands/{brandId}/logoimage" : {
+      "post" : {
+        "summary" : "upload a logo image to Google Cloud",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "object",
+            "properties" : {
+              "fileData" : {
+                "type" : "string"
+              },
+              "userId" : {
+                "type" : "integer"
+              }
+            }
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "string"
       } ]
     }
   },

@@ -29,6 +29,14 @@ class Images extends Model {
           to: 'Brands.cover_image_id',
         },
       },
+      brand_logo_image: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: path.resolve(__dirname, '../', 'brands.model'),
+        join: {
+          from: 'Images.id',
+          to: 'Brands.logo_image_id',
+        },
+      },
       user: {
         relation: Model.BelongsToOneRelation,
         modelClass: path.resolve(__dirname, '../', 'users.model'),
