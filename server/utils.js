@@ -1,6 +1,36 @@
 const _ = require('lodash');
 const webpush = require('web-push');
 const Promise = require('bluebird');
+const Storage = require('@google-cloud/storage');
+const parseDataUri = require('parse-data-uri');
+const uuidV4 = require('uuid/v4');
+const mime = require('mime-types');
+const key = require('../googleCloudKey.json');
+
+exports.saveFileToGoogleStorage = (rawData) => {
+  const storage = Storage({
+    projectId: process.env.GOOGLE_CLOUD_PROJECT,
+    credentials: key,
+  });
+
+  const bucketName = process.env.GOOGLE_CLOUD_STORAGE_IMAGE_BUCKET;
+
+  const parsed = parseDataUri(rawData);
+  const newFilename = `${uuidV4()}.${mime.extension(parsed.mimeType)}`;
+
+
+  const bucket = storage.bucket(bucketName)
+    .file(newFilename)
+    .createWriteStream({
+      metadata: { contentType: parsed.mimeType },
+      predefinedAcl: 'publicRead',
+    });
+
+  bucket.write(parsed.data);
+  bucket.end();
+
+  return newFilename;
+};
 
 exports.getFirstOrNullLocation = (brand) => {
   _.forEach(brand.trucks, (truck) => { /* eslint-disable no-param-reassign */

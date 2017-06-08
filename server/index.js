@@ -12,7 +12,7 @@ Model.knex(knex);
 
 const app = express();
 app.use('/static', express.static('static'));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: '5mb' }));
 
 delete swaggerSpec.host;
 app.use(swaggerize({

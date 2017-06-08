@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 
 const ManageRewardEntry = props => (
   <div>

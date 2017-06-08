@@ -8,7 +8,7 @@ import Trucks from './Trucks';
 import EventsAttendingList from './EventsAttending';
 import ReviewMain from './Reviews';
 import CommentsView from '../common/Comments';
-import ManageBrand from './ManageBrand';
+import ManageBrand from './Manage/ManageBrand';
 import IncomingOrder from './IncomingOrder/IncomingOrder';
 import './TabView.scss';
 

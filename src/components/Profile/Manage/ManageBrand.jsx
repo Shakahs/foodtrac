@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import axios from 'axios';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 import ManageBasic from './ManageBasic';
 import ManageTrucks from './ManageTrucks';
 import ManageMenu from './ManageMenu';
 import ManageReward from './ManageReward';
-import { actions as userActions } from '../../redux/user';
+import { actions as userActions } from '../../../redux/user/index';
 
 class ManageBrand extends React.Component {
   constructor(props) {
@@ -91,6 +91,7 @@ class ManageBrand extends React.Component {
         <Tab label="Change Basic Brand Info">
           <ManageBasic
             brandId={this.props.brandId}
+            user={this.props.user}
             getBrand={this.props.getBrand}
             onSubmit={this.handleSave}
             foodGenres={this.props.foodGenres}
