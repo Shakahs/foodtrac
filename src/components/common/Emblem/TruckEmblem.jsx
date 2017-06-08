@@ -13,7 +13,7 @@ class TruckEmblem extends React.Component { // eslint-disable-line react/prefer-
     const truckAvatar = truck.brands.logo_image
       ? `http://storage.googleapis.com/foodtrac/${truck.brands.logo_image.filename}`
       : (<FontIcon className="fa fa-truck" />);
-    const profileLink = (<Link to={`/brand/${truck.brands.id}`} >
+    const profileLink = (<Link to={`/brand/${truck.brands.id}/trucks`} >
       {truck.brands.name}
     </Link>);
     return (
