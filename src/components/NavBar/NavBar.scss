@@ -1,16 +1,40 @@
+$a-tags: 'a, a:active, a:hover, a:visited';
 
 .NavBar {
   margin: -10 -10 0 -10;
+  background-color: #2196F3;
+  padding: 10px;
 }
 
-.navBarRight a {
-  float: right;
+.SiteHeader {
+  font-size: 32px;
 }
 
-.searchBar {
-  float: left;
-  margin-right: 90px;
-  margin-top: 13px;
+.SiteHeader #{$a-tags} {
+  color: white;
+}
+
+.MenuDrawer {
+  padding: 10px
+}
+
+//.navBarRight a {
+//  float: right;
+//}
+
+.searchBar .toolbar {
+  //float: left;
+  //margin-right: 90px;
+  //margin-top: 13px;
+  //margin: 5px;
+  background-color: white !important;
+}
+
+.geosuggest__input {
+    //padding: 20px  !important;
+    width: 300px;
+    //height: 150px !important;
+  margin: 5px;
 }
 
 .login {

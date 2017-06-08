@@ -1,3 +1,5 @@
+import { REHYDRATE } from 'redux-persist/constants';
+
 export const FOODGENRES_REQUEST = 'FOODGENRES_REQUEST';
 export const FOODGENRES_SUCCESS = 'FOODGENRES_SUCCESS';
 export const FOODGENRES_FAILURE = 'FOODGENRES_FAILURE';
@@ -10,6 +12,9 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
+    case REHYDRATE:
+      if (action.payload.foodGenresReducer) return action.payload.foodGenresReducer;
+      return state;
     case FOODGENRES_REQUEST:
       return Object.assign({}, state, { fetching: true });
     case FOODGENRES_SUCCESS:

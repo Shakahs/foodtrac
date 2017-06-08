@@ -16,7 +16,7 @@ module.exports = {
       })
       .then((trucks) => { /* eslint-disable no-param-reassign */
         trucks = _.filter(trucks, (truck) => {
-          if (truck.locations.length > 0) {
+          if (truck.locations.length > 0 && [truck.brands.food_genre_id, 0].includes(req.query.foodGenre)) {
             truck.locations = truck.locations[0];
             truck.brands.upvotes = _.filter(truck.brands.upvotes, upvote => upvote.timeline_id === truck.locations.timeline_id);
             return true;

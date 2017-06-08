@@ -44,11 +44,12 @@ export default function reducer(state = initialState, action) {
   }
 }
 
-export const mapRequest = (lat, lng, dist) => ({
+export const mapRequest = (lat, lng, dist, foodGenre) => ({
   type: MAP_REQUEST,
   lat,
   lng,
   dist,
+  foodGenre,
 });
 
 export const mapTruckUpvoteReq = (options, brandId, idx) => ({
