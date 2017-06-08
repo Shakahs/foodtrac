@@ -4,9 +4,7 @@ import PropTypes from 'prop-types';
 
 const UnauthorizedComponent = props => (
   <div>
-    {!props.isLoggedIn ? (
-      <div>{props.children}</div>
-    ) : '' }
+    {!props.isLoggedIn && props.children}
   </div>
 );
 

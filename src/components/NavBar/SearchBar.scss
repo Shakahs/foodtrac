@@ -1,0 +1,25 @@
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // background-color: white !important;
+}
+
+.searchBar > div {
+  display: inline-block;
+}
+
+.addressEntry {
+  flex-grow: 2;
+}
+
+.searchBar ul {
+  position: absolute;
+  background-color: white;
+}
+
+.searchBar li {
+  cursor: pointer;
+  list-style-type: none;
+}
