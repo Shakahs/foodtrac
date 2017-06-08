@@ -2,7 +2,8 @@ const Storage = require('@google-cloud/storage');
 const parseDataUri = require('parse-data-uri');
 const uuidV4 = require('uuid/v4');
 const mime = require('mime-types');
-const key = require('../../googleCloudKey.json');
+const key = require('../../../../googleCloudKey.json');
+const { saveFileToGoogleStorage } = require('../../../utils');
 
 const storage = Storage({
   projectId: process.env.GOOGLE_CLOUD_PROJECT,

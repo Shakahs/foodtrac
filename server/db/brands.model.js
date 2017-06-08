@@ -125,6 +125,14 @@ class Brands extends Model {
           to: 'Coupons.id',
         },
       },
+      cover_image: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: path.resolve(__dirname, 'images/', 'images.model'),
+        join: {
+          from: 'Brands.cover_image_id',
+          to: 'Images.id',
+        },
+      },
     };
   }
 }

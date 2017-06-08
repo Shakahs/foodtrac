@@ -146,6 +146,14 @@ class Users extends Model {
           to: 'Orders.user_id',
         },
       },
+      images: {
+        relation: Model.HasManyRelation,
+        modelClass: path.resolve(__dirname, 'images/', 'images.model'),
+        join: {
+          from: 'Users.id',
+          to: 'Images.user_id',
+        },
+      },
     };
   }
 }
