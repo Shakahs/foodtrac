@@ -27,10 +27,6 @@ $a-tags: 'a, a:active, a:hover, a:visited';
   height: 100%;
 }
 
-.nav-btn {
-  height: 100% !important;
-}
-
 .center-span {
   line-height: 60px;
   vertical-align: middle;
@@ -40,8 +36,8 @@ $a-tags: 'a, a:active, a:hover, a:visited';
   margin-right: 5px;
 }
 
-.login {
-  float: right;
+.nav-btn {
+  height: 100% !important;
 }
 
 .relative {
