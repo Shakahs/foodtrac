@@ -21,6 +21,7 @@ class Profile extends Component {
         trucks: [],
         brand_comments: [],
         menu_items: [],
+        cover_image: { filename: '' },
       },
       markers: [],
     };
@@ -116,7 +117,7 @@ class Profile extends Component {
     return (
       <Grid fluid>
         <Row>
-          <Cover />
+          <Cover coverImage={this.state.brand.cover_image} />
         </Row>
         <Row>
           <ProfileInfo

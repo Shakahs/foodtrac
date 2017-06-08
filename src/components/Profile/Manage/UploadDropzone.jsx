@@ -26,7 +26,9 @@ class UploadDropzone extends Component {
         userId: this.props.user.id,
         fileData: result,
       })
-        .then(res => console.log(res))
+        .then(() =>
+          setTimeout(() => this.props.getBrand(this.props.brandId), 3000),
+        )
         .catch(err => console.log(err));
     };
 
@@ -47,7 +49,7 @@ class UploadDropzone extends Component {
           <p>Drop your picture here!</p>
         </Dropzone>
         {this.state.file.length > 0
-          ? <div>{this.state.file[0].name}</div>
+          ? <div>{this.state.file[0].name} was successfully uploaded! Your cover picture will change in a few seconds.</div>
           : null
         }
       </div>
@@ -58,6 +60,7 @@ class UploadDropzone extends Component {
 UploadDropzone.propTypes = {
   brandId: propSchema.brandId,
   user: propSchema.user,
+  getBrand: propSchema.getBrand,
 };
 
 export default UploadDropzone;

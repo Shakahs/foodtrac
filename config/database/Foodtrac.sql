@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-08 09:09:16.58
+-- Last modification date: 2017-06-08 17:26:13.782
 
 -- tables
 -- Table: BrandAttendees
@@ -66,6 +66,7 @@ CREATE TABLE Brands (
     rewards_trigger int NULL DEFAULT NULL,
     default_coupon_id int NULL DEFAULT NULL,
     cover_image_id int NULL,
+    logo_image_id int NULL,
     CONSTRAINT Brands_pk PRIMARY KEY (id)
 );
 
@@ -135,7 +136,7 @@ CREATE TABLE FoodGenres (
 -- Table: Images
 CREATE TABLE Images (
     id int NOT NULL AUTO_INCREMENT,
-    filename varchar(30) NOT NULL,
+    filename varchar(50) NOT NULL,
     user_id int NOT NULL,
     CONSTRAINT Images_pk PRIMARY KEY (id)
 );
