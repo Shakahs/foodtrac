@@ -4,7 +4,10 @@ import { MenuItem, Divider, Drawer, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+<<<<<<< HEAD
 import 'font-awesome/css/font-awesome.min.css';
+=======
+>>>>>>> Add Events link to UserMenu and hide all links but Events if user not logged in
 import AuthorizedComponent from '../common/Helpers/AuthorizedComponent';
 import UserEmblem from '../common/Emblem/UserEmblem';
 import propSchema from '../common/PropTypes';
