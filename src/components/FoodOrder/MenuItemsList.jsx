@@ -57,7 +57,6 @@ class MenuItemsList extends Component {
       <Col xs={8} sm={8} md={8} lg={8}>
         <Paper>
           <div>Order from {this.props.truck.brands.name}&#39;s food truck</div>
-          <div>located at: {this.props.truck.locations.address}</div>
           <br />
           {this.state.appetizers.length > 0 ?
             (<div>
