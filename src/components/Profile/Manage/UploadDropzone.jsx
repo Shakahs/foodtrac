@@ -27,7 +27,7 @@ class UploadDropzone extends Component {
         fileData: result,
       })
         .then(() =>
-          setTimeout(() => this.props.getBrand(this.props.brandId), 3000),
+          setTimeout(() => this.props.getBrand(this.props.brandId), 5000),
         )
         .catch(err => console.log(err));
     };

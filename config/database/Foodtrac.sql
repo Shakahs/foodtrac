@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-08 17:26:13.782
+-- Last modification date: 2017-06-08 18:21:23.175
 
 -- tables
 -- Table: BrandAttendees
@@ -138,6 +138,7 @@ CREATE TABLE Images (
     id int NOT NULL AUTO_INCREMENT,
     filename varchar(50) NOT NULL,
     user_id int NOT NULL,
+    Brands_id int NOT NULL,
     CONSTRAINT Images_pk PRIMARY KEY (id)
 );
 
@@ -413,6 +414,10 @@ ALTER TABLE Events ADD CONSTRAINT Events_Locations FOREIGN KEY Events_Locations 
 -- Reference: Events_Users (table: Events)
 ALTER TABLE Events ADD CONSTRAINT Events_Users FOREIGN KEY Events_Users (owner_id)
     REFERENCES Users (id);
+
+-- Reference: Images_Brands (table: Brands)
+ALTER TABLE Brands ADD CONSTRAINT Images_Brands FOREIGN KEY Images_Brands (logo_image_id)
+    REFERENCES Images (id);
 
 -- Reference: Images_Users (table: Images)
 ALTER TABLE Images ADD CONSTRAINT Images_Users FOREIGN KEY Images_Users (user_id)
