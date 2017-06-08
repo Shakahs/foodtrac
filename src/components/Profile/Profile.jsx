@@ -21,6 +21,8 @@ class Profile extends Component {
         trucks: [],
         brand_comments: [],
         menu_items: [],
+        cover_image: { filename: '' },
+        logo_image: { filename: '' },
       },
       markers: [],
     };
@@ -116,7 +118,7 @@ class Profile extends Component {
     return (
       <Grid fluid>
         <Row>
-          <Cover />
+          <Cover coverImage={this.state.brand.cover_image} />
         </Row>
         <Row>
           <ProfileInfo
@@ -128,6 +130,7 @@ class Profile extends Component {
             user={this.props.user}
             trucks={this.state.brand.trucks}
             upvotes={this.props.upvotes}
+            logo={this.state.brand.logo_image}
           />
           <TabView
             brand={this.state.brand}

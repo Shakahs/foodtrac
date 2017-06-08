@@ -22,11 +22,13 @@ class UploadDropzone extends Component {
     const reader = new FileReader();
     reader.onloadend = (event) => {
       const result = event.target.result;
-      axios.post(`/api/brands/${this.props.brandId}/coverImage`, {
+      axios.post(`/api/brands/${this.props.brandId}/${this.props.imageType}`, {
         userId: this.props.user.id,
         fileData: result,
       })
-        .then(res => console.log(res))
+        .then(() =>
+          setTimeout(() => this.props.getBrand(this.props.brandId), 5000),
+        )
         .catch(err => console.log(err));
     };
 
@@ -34,6 +36,9 @@ class UploadDropzone extends Component {
   }
 
   render() {
+    const type = this.props.imageType === 'coverImage'
+      ? 'cover picture'
+      : 'logo';
     return (
       <div>
         <Dropzone
@@ -47,7 +52,7 @@ class UploadDropzone extends Component {
           <p>Drop your picture here!</p>
         </Dropzone>
         {this.state.file.length > 0
-          ? <div>{this.state.file[0].name}</div>
+          ? <div>{this.state.file[0].name} was successfully uploaded! Your {type} will change in a few seconds.</div>
           : null
         }
       </div>
@@ -58,6 +63,8 @@ class UploadDropzone extends Component {
 UploadDropzone.propTypes = {
   brandId: propSchema.brandId,
   user: propSchema.user,
+  getBrand: propSchema.getBrand,
+  imageType: propSchema.imageType,
 };
 
 export default UploadDropzone;

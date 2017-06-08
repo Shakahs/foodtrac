@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Col } from 'react-flexbox-grid';
-import RaisedButton from 'material-ui/RaisedButton';
-import Paper from 'material-ui/Paper';
+import { RaisedButton, Paper, Avatar } from 'material-ui';
 import propSchema from '../common/PropTypes';
 import Upvote from '../common/Upvote';
 import FollowButton from '../common/FollowButton';
@@ -10,6 +9,17 @@ import './ProfileInfo.scss';
 
 const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
+    <Paper>
+      <Avatar
+        className="brandLogo"
+        // src="http://job.ihworld.com/sites/default/files/default_images/company-profile-default-logo.jpg"
+        src={props.logo
+          ? `http://storage.googleapis.com/foodtrac/${props.logo.filename}`
+          : 'http://job.ihworld.com/sites/default/files/default_images/company-profile-default-logo.jpg'
+        }
+        size={150}
+      />
+    </Paper>
     <Paper zDepth={1}>
       <Upvote brand_id={props.brandId} upvotes={props.upvotes} />
       <div className="profile-info">
@@ -81,6 +91,7 @@ ProfileInfo.propTypes = {
   path: propSchema.path,
   user: propSchema.user,
   trucks: propSchema.trucks,
+  logo: propSchema.logo,
 };
 
 export default ProfileInfo;

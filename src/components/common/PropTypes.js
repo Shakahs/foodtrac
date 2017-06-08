@@ -245,4 +245,12 @@ export default {
   }).isRequired,
   orders: PropTypes.arrayOf(PropTypes.object).isRequired,
   children: PropTypes.element,
+
+  coverImage: PropTypes.shape({
+    filename: PropTypes.string,
+  }),
+  logo: PropTypes.shape({
+    filename: PropTypes.string,
+  }),
+  imageType: PropTypes.string.isRequired,
 };

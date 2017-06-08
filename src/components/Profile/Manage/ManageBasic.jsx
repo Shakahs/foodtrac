@@ -62,7 +62,7 @@ class ManageBasic extends Component {
           onClick={this.toggleCoverDropzone}
         />
         {this.state.coverDropzone
-          ? <UploadDropzone {...this.props} />
+          ? <UploadDropzone {...this.props} imageType={'coverImage'} />
           : null
         }
         <br />
@@ -71,7 +71,7 @@ class ManageBasic extends Component {
           onClick={this.toggleLogoDropzone}
         />
         {this.state.logoDropzone
-          ? <UploadDropzone {...this.props} />
+          ? <UploadDropzone {...this.props} imageType={'logoimage'} />
           : null
         }
         <br />
