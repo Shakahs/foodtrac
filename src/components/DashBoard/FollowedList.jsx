@@ -13,7 +13,7 @@ const FollowedList = props => (
     />
     {props.brands && props.brands.length > 0
       ? _.map(props.brands, (brand, idx) => <FollowedEntry brand={brand} key={idx} />)
-      : <h2>You are not currently following any brands.</h2>}
+      : <h2 style={{ padding: '0 32px' }}>You are not currently following any brands.</h2>}
   </DashEntry>
 );
 
