@@ -6,6 +6,7 @@ const Cover = () => (
     <Paper>
       <img
         src="https://cdnb.artstation.com/p/assets/images/images/000/910/393/large/wichanan-sarajan-foodtruck-render2-0001.jpg?1435928759"
+        // src="http://storage.googleapis.com/foodtrac/Seattle.jpg"
         alt="/"
         height="35%"
         width="100%"

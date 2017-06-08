@@ -23,7 +23,9 @@
   "author": "team foodtrac",
   "license": "ISC",
   "dependencies": {
+    "@google-cloud/storage": "^1.1.1",
     "@google/maps": "^0.3.1",
+    "atob": "^2.0.3",
     "auth0-js": "^8.6.1",
     "axios": "^0.16.1",
     "bluebird": "^3.5.0",
@@ -48,6 +50,7 @@
     "react-big-calendar": "^0.14.0",
     "react-datepicker": "^0.46.0",
     "react-dom": "^15.4.2",
+    "react-dropzone": "^3.13.2",
     "react-flexbox-grid": "^1.1.3",
     "react-geosuggest": "^2.1.0",
     "react-google-maps": "^7.0.0",
@@ -63,10 +66,12 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "^4.8.0",
     "redux-saga": "^0.15.3",
+    "s3": "^4.4.0",
     "seamless-immutable": "^7.1.2",
+    "superagent": "^3.5.2",
     "swaggerize-express": "^4.0.5",
-    "web-push": "^3.2.2",
-    "url-loader": "^0.5.8"
+    "url-loader": "^0.5.8",
+    "web-push": "^3.2.2"
   },
   "devDependencies": {
     "auth0": "^2.6.0",

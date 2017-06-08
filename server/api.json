@@ -586,6 +586,11 @@
           "in" : "query",
           "required" : false,
           "type" : "integer"
+        }, {
+          "name" : "foodGenre",
+          "in" : "query",
+          "required" : false,
+          "type" : "integer"
         } ],
         "responses" : {
           "200" : {
@@ -1216,6 +1221,26 @@
         "required" : true,
         "type" : "string"
       } ]
+    },
+    "/upload" : {
+      "post" : {
+        "summary" : "upload an image to Google Cloud",
+        "consumes" : [ ],
+        "parameters" : [ {
+          "name" : "body",
+          "in" : "body",
+          "required" : true,
+          "schema" : {
+            "type" : "string",
+            "format" : "binary"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Status 200"
+          }
+        }
+      }
     }
   },
   "definitions" : {
