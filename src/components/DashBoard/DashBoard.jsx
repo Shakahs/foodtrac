@@ -6,6 +6,7 @@ import FollowedList from './FollowedList';
 import EventsList from './EventsList';
 import OrdersList from './OrdersList';
 import propSchema from '../common/PropTypes';
+import './DashBoard.scss';
 
 class DashBoard extends Component {
   constructor(props) {
@@ -15,17 +16,11 @@ class DashBoard extends Component {
 
   render() {
     return (
-      <div>
+      <div id="dashboard">
         <FollowedList brands={this.props.user.user_follows} />
         <EventsList events={_.map(this.props.user.events_attending, eventJoin => eventJoin.events)} />
-        {this.props.user.user_rewards && this.props.user.user_rewards.length > 0
-          ? <RewardsList rewards={this.props.user.user_rewards} />
-          : null
-        }
-        {this.props.user.orders && this.props.user.orders.length > 0
-          ? <OrdersList orders={this.props.user.orders} />
-          : null
-        }
+        <RewardsList rewards={this.props.user.user_rewards} />
+        <OrdersList orders={this.props.user.orders} />
       </div>
     );
   }

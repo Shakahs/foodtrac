@@ -135,8 +135,10 @@ class OrderSummary extends Component {
           user_id: this.props.userId,
           count: 1,
         };
+        console.log('about to post rewards');
         axios.post('/api/rewards', newReward)
           .then(() => {
+            console.log('posted rewards');
             this.props.userActions.requestUserData(this.props.userId);
           })
           .catch(err => console.log(err));

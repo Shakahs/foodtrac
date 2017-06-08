@@ -1,11 +1,12 @@
 import _ from 'lodash';
 import React from 'react';
-import { Card, CardTitle } from 'material-ui';
+import { CardTitle } from 'material-ui';
 import FollowedEntry from './FollowedEntry';
 import propSchema from '../common/PropTypes';
+import DashEntry from './DashEntry';
 
 const FollowedList = props => (
-  <Card style={{ 'padding-bottom': '15px' }}>
+  <DashEntry>
     <CardTitle
       title="Brands that you follow"
       subtitle={`${props.brands.length} followed brands`}
@@ -13,7 +14,7 @@ const FollowedList = props => (
     {props.brands && props.brands.length > 0
       ? _.map(props.brands, (brand, idx) => <FollowedEntry brand={brand} key={idx} />)
       : <h2>You are not currently following any brands.</h2>}
-  </Card>
+  </DashEntry>
 );
 
 FollowedList.propTypes = {

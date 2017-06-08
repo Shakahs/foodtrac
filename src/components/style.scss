@@ -4,6 +4,21 @@ body {
   font-family: Roboto, sans-serif;
 }
 
+.app-content {
+  width: 100%;
+  margin: 0 auto;
+}
+
+@media (min-width: 800px) {
+  .app-content {
+    width: 80%;
+  }
+}
+
+#dashboard {
+  
+}
+
 a {
   text-decoration: none;
 }
@@ -36,4 +51,11 @@ a:visited {
 
 a:hover{
   color: lightskyblue;
+}
+
+.card-text {
+  padding: 0 16px 10px 16px !important;
+  font-size: 14px !important;
+  color: rgba(0, 0, 0, 0.70) !important;
+  font-weight: bold;
 }

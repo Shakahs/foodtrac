@@ -244,5 +244,5 @@ export default {
     count: PropTypes.number,
   }).isRequired,
   orders: PropTypes.arrayOf(PropTypes.object).isRequired,
-
+  children: PropTypes.element,
 };

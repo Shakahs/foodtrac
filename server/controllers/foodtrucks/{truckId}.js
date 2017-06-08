@@ -3,7 +3,8 @@ const Trucks = require('../../db/trucks.model');
 module.exports = {
   get(req, res) {
     Trucks.query()
-      .where('id', '=', req.params.truckId)
+      .findById(req.params.truckId)
+      .eager('brands.[food_genres, upvotes, menu_items, coupon]')
       .then(truck => res.status(200).json(truck))
       .catch((e) => {
         console.log('Error fetching truck info:', e);
@@ -22,7 +23,7 @@ module.exports = {
   },
   delete(req, res) {
     Trucks.query()
-      .where('id', '=', req.params.truckId)
+      .findById(req.params.truckId)
       .delete()
       .then(() => res.status(200))
       .catch((e) => {

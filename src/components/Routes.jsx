@@ -17,16 +17,18 @@ class Routes extends Component {
 
   render() {
     return (
-      <Switch>
-        <Route exact path="/" component={DashBoard} />
-        <Route path="/map" component={MapPage} />
-        <Route path="/brand/:brandId" component={Profile} />
-        <Route path="/login" component={Login} />
-        <Route path="/settings" component={Settings} />
-        <Route path="/signup" component={SignUp} />
-        <Route path="/order/:truckId" component={FoodOrder} />
-        <Route path="/events" component={Events} />
-      </Switch>
+      <div className="app-content">
+        <Switch>
+          <Route exact path="/" component={DashBoard} />
+          <Route path="/map" component={MapPage} />
+          <Route path="/brand/:brandId" component={Profile} />
+          <Route path="/login" component={Login} />
+          <Route path="/settings" component={Settings} />
+          <Route path="/signup" component={SignUp} />
+          <Route path="/order/:truckId" component={FoodOrder} />
+          <Route path="/events" component={Events} />
+        </Switch>
+      </div>
     );
   }
 }

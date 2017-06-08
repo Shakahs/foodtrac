@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import axios from 'axios';
 import { Grid, Row } from 'react-flexbox-grid';
 import propSchema from '../common/PropTypes';
 import MenuItemsList from './MenuItemsList';
@@ -22,15 +22,8 @@ class FoodOrder extends Component {
   }
 
   componentDidMount() {
-    this.setTruckInfo();
-  }
-
-  setTruckInfo() {
-    this.props.trucks.forEach((truck) => {
-      if (truck.id === Number(this.props.match.params.truckId)) {
-        this.setState({ truck });
-      }
-    });
+    axios.get(`/api/foodtrucks/${this.props.match.params.truckId}`)
+      .then(({ data }) => this.setState({ truck: data }));
   }
 
   addToOrder(item) {
@@ -66,12 +59,7 @@ class FoodOrder extends Component {
 
 FoodOrder.propTypes = {
   match: propSchema.match,
-  trucks: propSchema.trucks,
 };
 
-const mapStateToProps = ({ map }) => {
-  const trucks = map.trucks;
-  return { trucks };
-};
 
-export default connect(mapStateToProps, null)(FoodOrder);
+export default FoodOrder;
