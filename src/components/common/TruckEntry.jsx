@@ -31,7 +31,7 @@ const TruckEntry = (props) => {
           </div>
           <CardActions className="truck-entry-btns">
             {shouldRenderProfileLink
-            ? <Link to={`/brand/${props.truck.brand_id}/trucks`}>
+            ? <Link to={`/brand/${props.truck.brand_id}/`}>
               <FlatButton label="Go to Profile" />
             </Link>
             : null}
