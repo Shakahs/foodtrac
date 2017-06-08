@@ -14,16 +14,19 @@ class UploadDropzone extends Component {
     this.setState({ file });
   }
 
-  upload(data) {
-    // console.log('IN UPLOAD', data, {
-    //   headers: { 'Content-Type': data.type },
-    // });
+  upload(fileObj) {
+    const reader = new FileReader();
 
-    axios.post('/api/upload', data, {
-      headers: { 'Content-Type': data.type },
-    })
-      .then(res => console.log(res))
-      .catch(err => console.log(err));
+    reader.onloadend = function (event) {
+      const result = event.target.result;
+      axios.post('/api/upload', {
+        fileData: result,
+      })
+        .then(res => console.log(res))
+        .catch(err => console.log(err));
+    };
+
+    reader.readAsDataURL(fileObj);
   }
 
   render() {
@@ -33,11 +36,8 @@ class UploadDropzone extends Component {
           accept="image/jpeg, image/png"
           multiple={false}
           onDrop={(accepted) => {
-            // const fr = new FileReader();
-            // const binaryData = fr.readAsBinaryString(accepted[0]);
             this.handleDrop(accepted);
             this.upload(accepted[0]);
-            console.log('DROPZONE ACCEPTED', accepted);
           }}
         >
           <p>Drop your picture here!</p>

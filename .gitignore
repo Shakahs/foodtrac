@@ -6,4 +6,4 @@ node_modules
 temp.auth0users.txt
 Foodtrac.mwb.bak
 bundle.js
-googleUploadKey.json
+/googleCloudKey.json

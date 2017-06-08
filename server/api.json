@@ -1231,8 +1231,12 @@
           "in" : "body",
           "required" : true,
           "schema" : {
-            "type" : "string",
-            "format" : "binary"
+            "type" : "object",
+            "properties" : {
+              "fileData" : {
+                "type" : "string"
+              }
+            }
           }
         } ],
         "responses" : {
