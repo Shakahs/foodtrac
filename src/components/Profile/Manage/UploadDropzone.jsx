@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 
 class UploadDropzone extends Component {
   constructor(props) {

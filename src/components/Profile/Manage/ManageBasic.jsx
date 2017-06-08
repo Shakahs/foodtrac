@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { MenuItem, RaisedButton, FlatButton } from 'material-ui';
 import { SelectField, TextField } from 'redux-form-material-ui';
 import { Field, reduxForm } from 'redux-form';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 import UploadDropzone from './UploadDropzone';
 
 

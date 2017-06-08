@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextField, SelectField, MenuItem, FlatButton } from 'material-ui';
 import { Row, Col } from 'react-flexbox-grid';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 
 const ManageMenuItem = props => (
   <Row>
