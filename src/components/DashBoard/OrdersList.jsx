@@ -1,20 +1,21 @@
 import React from 'react';
-import { Card, CardTitle } from 'material-ui';
+import { CardTitle } from 'material-ui';
 import { Grid, Row } from 'react-flexbox-grid';
 import propSchema from '../common/PropTypes';
 import OrderEntry from './OrderEntry';
+import DashEntry from './DashEntry';
 
 const OrdersList = props => (
-  <Card>
+  <DashEntry>
     <CardTitle title="Your Orders" />
     <Grid fluid>
       <Row>
-        {props.orders.map(order =>
-          <OrderEntry order={order} />,
-        )}
+        {props.orders && props.orders.length > 0
+          ? props.orders.map(order => <OrderEntry order={order} />)
+          : <h2>You have not made any orders yet.</h2>}
       </Row>
     </Grid>
-  </Card>
+  </DashEntry>
 );
 
 OrdersList.propTypes = {

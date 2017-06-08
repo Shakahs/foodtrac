@@ -8,14 +8,7 @@ import './EventsListEntry.scss';
 
 const cardHeaderStyle = {
   padding: '10px 16px 8px 16px',
-  'font-weight': 'bold',
-};
-
-const cardTextStyle = {
-  padding: '0 16px 10px 16px',
-  'font-size': '14px',
-  color: 'rgba(0, 0, 0, 0.70)',
-  'font-weight': 'bold',
+  fontWeight: 'bold',
 };
 
 const EventsListEntry = props => (
@@ -26,11 +19,11 @@ const EventsListEntry = props => (
         title={<Link to={`/events/${props.event.id}`}>{props.event.name}</Link>}
         subtitle={`${moment(props.event.start).format('YYYY-MM-DD h:mm a')} - ${props.event.brands_attending.length} Trucks | ${props.event.users_attending.length} People`}
       />
-      <CardText style={cardTextStyle}>
+      <CardText className="card-text">
         {`Organized by ${props.event.owners.first_name} ${props.event.owners.last_name}`}
       </CardText>
-      <CardText style={cardTextStyle}>{props.event.locations.address}</CardText>
-      <CardText style={cardTextStyle} expandable>{props.event.description}</CardText>
+      <CardText className="card-text">{props.event.locations.address}</CardText>
+      <CardText className="card-text" expandable>{props.event.description}</CardText>
     </Card>
   </Col>
 );
