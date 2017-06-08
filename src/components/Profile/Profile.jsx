@@ -22,6 +22,7 @@ class Profile extends Component {
         brand_comments: [],
         menu_items: [],
         cover_image: { filename: '' },
+        logo_image: { filename: '' },
       },
       markers: [],
     };
@@ -129,6 +130,7 @@ class Profile extends Component {
             user={this.props.user}
             trucks={this.state.brand.trucks}
             upvotes={this.props.upvotes}
+            logo={this.state.brand.logo_image}
           />
           <TabView
             brand={this.state.brand}

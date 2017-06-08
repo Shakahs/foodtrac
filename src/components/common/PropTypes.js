@@ -249,4 +249,8 @@ export default {
   coverImage: PropTypes.shape({
     filename: PropTypes.string,
   }),
+  logo: PropTypes.shape({
+    filename: PropTypes.string,
+  }),
+  imageType: PropTypes.string.isRequired,
 };
