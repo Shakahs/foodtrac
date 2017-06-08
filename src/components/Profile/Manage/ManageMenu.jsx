@@ -3,7 +3,7 @@ import { FlatButton, RaisedButton } from 'material-ui';
 import { Grid } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 import ManageMenuItem from './ManageMenuItem';
 
 class ManageMenu extends Component {

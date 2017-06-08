@@ -35,6 +35,7 @@ class Brands extends Model {
           },
         },
         default_coupon_id: { type: ['integer', 'null'], default: null },
+        cover_image_id: { type: ['integer', 'null'], default: null },
       },
     };
   }
@@ -123,6 +124,14 @@ class Brands extends Model {
         join: {
           from: 'Brands.default_coupon_id',
           to: 'Coupons.id',
+        },
+      },
+      cover_image: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: path.resolve(__dirname, 'images/', 'images.model'),
+        join: {
+          from: 'Brands.cover_image_id',
+          to: 'Images.id',
         },
       },
     };

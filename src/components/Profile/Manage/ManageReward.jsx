@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Checkbox } from 'material-ui';
 import axios from 'axios';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 import ManageRewardEntry from './ManageRewardEntry';
 
 class ManageReward extends Component {

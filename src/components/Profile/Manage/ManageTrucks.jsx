@@ -3,7 +3,7 @@ import { TextField, Tabs, Tab, RaisedButton, FlatButton } from 'material-ui';
 import Geosuggest from 'react-geosuggest';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import propSchema from '../common/PropTypes';
+import propSchema from '../../common/PropTypes';
 
 class ManageTrucks extends Component {
   constructor() {
