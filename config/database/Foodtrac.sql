@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2017-06-08 08:32:15.428
+-- Last modification date: 2017-06-08 09:09:16.58
 
 -- tables
 -- Table: BrandAttendees
@@ -135,7 +135,7 @@ CREATE TABLE FoodGenres (
 -- Table: Images
 CREATE TABLE Images (
     id int NOT NULL AUTO_INCREMENT,
-    url varchar(30) NOT NULL,
+    filename varchar(30) NOT NULL,
     user_id int NOT NULL,
     CONSTRAINT Images_pk PRIMARY KEY (id)
 );

@@ -1,34 +1,23 @@
-const Storage = require('@google-cloud/storage');
-const parseDataUri = require('parse-data-uri');
-const uuidV4 = require('uuid/v4');
-const mime = require('mime-types');
-const key = require('../../../../googleCloudKey.json');
+const objection = require('objection');
+const Images = require('../../../db/images/images.model');
+const Brands = require('../../../db/brands.model');
 const { saveFileToGoogleStorage } = require('../../../utils');
 
-const storage = Storage({
-  projectId: process.env.GOOGLE_CLOUD_PROJECT,
-  credentials: key,
-});
-
-const bucketName = process.env.GOOGLE_CLOUD_STORAGE_IMAGE_BUCKET;
 
 module.exports = {
   post(req, res) {
-    const parsed = parseDataUri(req.body.fileData);
-    const newFilename = `${uuidV4()}.${mime.extension(parsed.mimeType)}`;
+    const filename = saveFileToGoogleStorage(req.body.fileData);
 
-
-    const bucket = storage.bucket(bucketName)
-      .file(newFilename)
-      .createWriteStream({
-        metadata: { contentType: parsed.mimeType },
-        predefinedAcl: 'publicRead',
-      });
-
-    bucket.write(parsed.data);
-    bucket.end();
-
-    res.status(201).send('data received okay');
+    objection.transaction(Images.knex(), trx => Images.query(trx)
+        .insert({
+          filename,
+          user_id: req.body.userId,
+        })
+      .then(newImage => Brands.query(trx)
+        .patch({ cover_image_id: newImage.id })
+        .where('id', req.params.brandId)))
+      .then(() => res.status(201).send(`data received okay ${filename}`))
+      .catch(e => res.status(400).send(e.message));
   },
 };
 

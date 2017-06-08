@@ -31,7 +31,7 @@ class Images extends Model {
       },
       user: {
         relation: Model.BelongsToOneRelation,
-        modelClass: path.resolve(__dirname, '../', 'user.model'),
+        modelClass: path.resolve(__dirname, '../', 'users.model'),
         join: {
           from: 'Images.user_id',
           to: 'Users.id',

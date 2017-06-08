@@ -1222,7 +1222,7 @@
         "type" : "string"
       } ]
     },
-    "/upload" : {
+    "/brands/{brandId}/coverImage" : {
       "post" : {
         "summary" : "upload an image to Google Cloud",
         "consumes" : [ ],
@@ -1235,6 +1235,9 @@
             "properties" : {
               "fileData" : {
                 "type" : "string"
+              },
+              "userId" : {
+                "type" : "integer"
               }
             }
           }
@@ -1244,7 +1247,13 @@
             "description" : "Status 200"
           }
         }
-      }
+      },
+      "parameters" : [ {
+        "name" : "brandId",
+        "in" : "path",
+        "required" : true,
+        "type" : "integer"
+      } ]
     }
   },
   "definitions" : {

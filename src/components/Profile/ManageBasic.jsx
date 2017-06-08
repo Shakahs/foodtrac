@@ -7,8 +7,8 @@ import UploadDropzone from './UploadDropzone';
 
 
 class ManageBasic extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       coverDropzone: false,
       logoDropzone: false,
@@ -62,7 +62,7 @@ class ManageBasic extends Component {
           onClick={this.toggleCoverDropzone}
         />
         {this.state.coverDropzone
-          ? <UploadDropzone />
+          ? <UploadDropzone {...this.props} />
           : null
         }
         <br />
@@ -71,7 +71,7 @@ class ManageBasic extends Component {
           onClick={this.toggleLogoDropzone}
         />
         {this.state.logoDropzone
-          ? <UploadDropzone />
+          ? <UploadDropzone {...this.props} />
           : null
         }
         <br />

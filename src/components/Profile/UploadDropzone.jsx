@@ -1,13 +1,17 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import axios from 'axios';
+import propSchema from '../common/PropTypes';
 
 class UploadDropzone extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       file: [],
     };
+
+    this.handleDrop = this.handleDrop.bind(this);
+    this.upload = this.upload.bind(this);
   }
 
   handleDrop(file) {
@@ -16,10 +20,10 @@ class UploadDropzone extends Component {
 
   upload(fileObj) {
     const reader = new FileReader();
-
-    reader.onloadend = function (event) {
+    reader.onloadend = (event) => {
       const result = event.target.result;
-      axios.post('/api/upload', {
+      axios.post(`/api/brands/${this.props.brandId}/coverImage`, {
+        userId: this.props.user.id,
         fileData: result,
       })
         .then(res => console.log(res))
@@ -50,5 +54,10 @@ class UploadDropzone extends Component {
     );
   }
 }
+
+UploadDropzone.propTypes = {
+  brandId: propSchema.brandId,
+  user: propSchema.user,
+};
 
 export default UploadDropzone;

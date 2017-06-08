@@ -91,6 +91,7 @@ class ManageBrand extends React.Component {
         <Tab label="Change Basic Brand Info">
           <ManageBasic
             brandId={this.props.brandId}
+            user={this.props.user}
             getBrand={this.props.getBrand}
             onSubmit={this.handleSave}
             foodGenres={this.props.foodGenres}

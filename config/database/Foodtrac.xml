@@ -628,7 +628,7 @@ END
                     </Properties>
                 </Column>
                 <Column Id="c32">
-                    <Name>url</Name>
+                    <Name>filename</Name>
                     <Type>varchar(30)</Type>
                     <Description></Description>
                     <Nullable>false</Nullable>

@@ -35,6 +35,7 @@ class Brands extends Model {
           },
         },
         default_coupon_id: { type: ['integer', 'null'], default: null },
+        cover_image_id: { type: ['integer', 'null'], default: null },
       },
     };
   }
