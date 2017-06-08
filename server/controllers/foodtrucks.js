@@ -7,7 +7,7 @@ module.exports = {
     const boundingBox = getBoundingBox([req.query.lat, req.query.lng], req.query.dist || 50);
     Trucks.query()
       .eagerAlgorithm(Trucks.WhereInEagerAlgorithm)
-      .eager('[brands.[food_genres, upvotes, menu_items, coupon], locations]')
+      .eager('[brands.[food_genres, upvotes, menu_items, coupon, logo_image], locations]')
       .modifyEager('locations', (builder) => {
         getLatestTruckLocation(
           builder

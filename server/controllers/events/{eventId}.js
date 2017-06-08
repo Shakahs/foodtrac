@@ -7,7 +7,7 @@ module.exports = {
       // eslint-disable-next-line quotes, no-useless-escape
       .eager(`[locations, \
       users_attending.users.[brands, brand_reviews], \
-      brands_attending.brands, \
+      brands_attending.brands.logo_image, \
       comments(newestFirst).users.[brand_reviews, \
       brands]]`, {
         newestFirst: builder => builder.orderBy('created_at', 'desc'),

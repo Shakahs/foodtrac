@@ -4,7 +4,7 @@ const Events = require('../db/events/events.model');
 module.exports = {
   get(req, res) {
     Events.query()
-      .eager('[locations, owners, users_attending.users, brands_attending.brands]')
+      .eager('[locations, owners, users_attending.users, brands_attending.brands.logo_image]')
       .then(data => res.status(200).send(data))
       .catch(e => console.log('Error getting events:', e));
   },
