@@ -80,7 +80,7 @@ class SearchBar extends Component {
 
         {this.props.foodGenres && this.props.foodGenres.length > 0 &&
           <DropDownMenu
-            value={this.state.selectedFoodGenre}
+            value={this.state.searchFoodGenre}
             onChange={this.handleFoodGenreChange}
             className="genre-drop-down"
           >
