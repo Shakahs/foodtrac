@@ -261,4 +261,6 @@ export default {
     startLoading: PropTypes.func,
     endLoading: PropTypes.func,
   }).isRequired,
+
+  history: PropTypes.shape({ push: PropTypes.func }).isRequired,
 };
