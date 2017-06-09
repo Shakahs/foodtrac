@@ -74,8 +74,9 @@ export const loginFailure = error => (
   }
 );
 
-export const logout = () => (
+export const logout = userId => (
   {
     type: LOGOUT,
+    userId,
   }
 );

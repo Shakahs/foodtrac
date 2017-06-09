@@ -57,7 +57,7 @@ const UserMenu = props => (
         primaryText={<span><FontIcon className="fa fa-sign-out" /> Sign Out</span>}
         onClick={() => {
           props.handleMenuClose();
-          props.authActions.logout();
+          props.authActions.logout(props.user.id);
         }}
       />
     </AuthorizedComponent>

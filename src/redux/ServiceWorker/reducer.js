@@ -1,3 +1,4 @@
+import { actions as authActions } from '../auth';
 
 export const REGISTERED_SERVICE_WORKER = 'REGISTERED_SERVICE_WORKER';
 export const SUBSCRIBE_PUSH = 'SUBSCRIBE_PUSH';
@@ -15,6 +16,9 @@ export default function reducer(state = initialState, action) {
     case SUBSCRIBE_PUSH:
     case UNSUBSCRIBE_PUSH:
       return Object.assign({}, state, { subscription: action.subscription });
+    case authActions.LOGOUT:
+      state.subscription.unsubscribe();
+      return state;
     default:
       return state;
   }
