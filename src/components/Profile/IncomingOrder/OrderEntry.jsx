@@ -32,6 +32,19 @@ class OrderEntry extends Component {
     return total / 100;
   }
 
+  organizeMenuItems() {
+    const items = {};
+    const sortedItems = [];
+    this.props.order.orderitems.forEach((item) => {
+      items[item.menu_item.name] = (items[item.menu_item.name] || 0) + 1;
+    });
+    // eslint-disable-next-line guard-for-in
+    for (const k in items) { // eslint-disable-line no-restricted-syntax
+      sortedItems.push(`${items[k]} x ${k}`);
+    }
+    return sortedItems;
+  }
+
   render() {
     let discountType = '';
     if (this.props.order.user_coupon) {
@@ -42,9 +55,9 @@ class OrderEntry extends Component {
     return (
       <TableRow>
         <TableRowColumn>{this.props.order.name}</TableRowColumn>
-        <TableRowColumn>{this.props.order.orderitems.map(({ menu_item }) =>
+        <TableRowColumn>{this.organizeMenuItems().map(item =>
           (<div>
-            <span>{menu_item.name}</span>
+            <span>{item}</span>
             <br />
           </div>),
         )}</TableRowColumn>
