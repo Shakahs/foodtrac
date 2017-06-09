@@ -1,4 +1,13 @@
 .dash-section {
   padding-bottom: 15px;
-  margin-top: 20px;
+  margin-top: 15px;
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+@media (min-width: 900px) {
+  .dash-section {
+    margin-right: 0;
+    margin-left: 0;
+  }
 }

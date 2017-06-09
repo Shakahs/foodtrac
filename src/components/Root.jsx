@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { actions } from '../redux/ServiceWorker';
+import { actions as swActions } from '../redux/ServiceWorker';
+import { actions as userActions } from '../redux/user';
 import NavBar from './NavBar/NavBar';
 import Routes from './Routes';
 import propSchema from './common/PropTypes';
@@ -24,11 +25,16 @@ class Root extends Component {
           swReg = reg;
           return swReg.pushManager.getSubscription();
         })
-        .then(subscription => this.props.dispatch(actions.registeredServiceWorker(swReg, subscription)))
+        .then(subscription => this.props.dispatch(swActions.registeredServiceWorker(swReg, subscription)))
         .catch(e => console.log('Service worker error:', e));
     } else {
       console.warn('Push messaging is not supported');
     }
+    setInterval(() => {
+      if (this.props.isLoggedIn && this.props.user.id) {
+        this.props.dispatch(userActions.requestUserData(this.props.user.id));
+      }
+    }, 300000);
   }
 
   render() {
@@ -46,10 +52,13 @@ class Root extends Component {
   }
 }
 
+const mapStateToProps = ({ auth, user }) => ({ isLoggedIn: auth.isLoggedIn, user });
 const mapDispatchToProps = dispatch => ({ dispatch });
 
 Root.propTypes = {
   dispatch: propSchema.dispatch,
+  isLoggedIn: propSchema.isLoggedIn,
+  user: propSchema.user,
 };
 
-export default connect(null, mapDispatchToProps)(Root);
+export default connect(mapStateToProps, mapDispatchToProps)(Root);

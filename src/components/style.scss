@@ -9,12 +9,6 @@ body {
   margin: 0 auto;
 }
 
-@media (min-width: 800px) {
-  .app-content {
-    width: 80%;
-  }
-}
-
 #dashboard {
   
 }
@@ -121,4 +115,10 @@ a:hover{
 .geosuggest__item--active:hover,
 .geosuggest__item--active:focus {
   background: #ccc;
+}
+
+@media (min-width: 800px) {
+  .app-content {
+    width: 80%;
+  }
 }
