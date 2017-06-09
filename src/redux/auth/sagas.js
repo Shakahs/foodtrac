@@ -65,22 +65,42 @@ function* handleReturnedHash() {
   yield put(actions.loginSuccess(tokenData, profileData));
 }
 
+
+function validateLoginForm(values) {
+  if (!validator.isEmail(`${values.email}`)) {
+    throw new SubmissionError({ email: 'email required' });
+  }
+  if (!values.password) {
+    throw new SubmissionError({ password: 'password required' });
+  }
+}
+
 export function* watchLoginRequest() {
   while (true) {
     if (window.location.hash) {
       yield call(handleReturnedHash);
     }
 
-    const { credential } = yield take(actions.LOGIN_REQUEST);
+    try {
+      const { credential } = yield take(actions.LOGIN_REQUEST);
+      yield call(validateLoginForm, credential);
 
-    webAuth.redirect.loginWithCredentials({
-      connection: globalConfig.AUTH0_DB_NAME,
-      username: credential.email,
-      password: credential.password,
-      scope: 'openid',
-      redirectUri: window.location.origin,
-      responseType: 'token',
-    }, (err) => { put(actions.loginFailure(err)); }); // error callback not working
+      yield call(Promise.fromCallback,
+        callback => webAuth.redirect.loginWithCredentials({
+          connection: globalConfig.AUTH0_DB_NAME,
+          username: credential.email,
+          password: credential.password,
+          scope: 'openid',
+          redirectUri: window.location.origin,
+          responseType: 'token',
+        }, callback));
+    } catch (e) {
+      if (e instanceof SubmissionError) {
+        yield put(stopSubmit('Login', e.errors));
+      } else if (e.statusCode && e.statusCode >= 400) {
+        yield put(stopSubmit('Login', { _error: 'Login error, please try again' }));
+      }
+    }
   }
 }
 
