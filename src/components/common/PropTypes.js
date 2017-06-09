@@ -257,4 +257,8 @@ export default {
   close: PropTypes.func.isRequired,
 
   loading: PropTypes.bool.isRequired,
+  loadingActions: PropTypes.shape({
+    startLoading: PropTypes.func,
+    endLoading: PropTypes.func,
+  }).isRequired,
 };
