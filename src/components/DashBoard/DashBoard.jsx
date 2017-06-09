@@ -5,6 +5,7 @@ import RewardsList from './RewardsList';
 import FollowedList from './FollowedList';
 import EventsList from './EventsList';
 import OrdersList from './OrdersList';
+import LandingPage from '../LandingPage';
 import propSchema from '../common/PropTypes';
 import './DashBoard.scss';
 
@@ -16,12 +17,13 @@ class DashBoard extends Component {
 
   render() {
     return (
-      <div id="dashboard">
-        <FollowedList brands={this.props.user.user_follows} />
-        <EventsList events={_.map(this.props.user.events_attending, eventJoin => eventJoin.events)} />
-        <RewardsList rewards={this.props.user.user_rewards} />
-        <OrdersList orders={this.props.user.orders} />
-      </div>
+      this.props.user.auth0_id ?
+        <div id="dashboard">
+          <FollowedList brands={this.props.user.user_follows} />
+          <EventsList events={_.map(this.props.user.events_attending, eventJoin => eventJoin.events)} />
+          <RewardsList rewards={this.props.user.user_rewards} />
+          <OrdersList orders={this.props.user.orders} />
+        </div> : <LandingPage />
     );
   }
 }
