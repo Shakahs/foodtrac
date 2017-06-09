@@ -14,6 +14,7 @@ export default function* rootSaga() {
     fork(userSagas.watchRequestUserData),
     fork(swSagas.watchSubscribePush),
     fork(swSagas.watchUnsubscribePush),
+    fork(swSagas.watchLogout),
     fork(mapSagas.watchMapRequest),
     fork(mapSagas.watchMapTruckUpvoteReq),
     fork(profileSagas),

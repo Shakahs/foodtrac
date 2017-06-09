@@ -1,6 +1,7 @@
-import { call, take } from 'redux-saga/effects';
+import { call, take, put } from 'redux-saga/effects';
 import axios from 'axios';
 import { actions } from './index';
+import { actions as authActions } from '../auth';
 
 export function* watchSubscribePush() {
   while (true) {
@@ -16,3 +17,9 @@ export function* watchUnsubscribePush() {
   }
 }
 
+export function* watchLogout() {
+  while (true) {
+    const { userId } = yield take(authActions.LOGOUT);
+    yield put(actions.unsubscribePush(userId));
+  }
+}
