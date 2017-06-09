@@ -1,0 +1,24 @@
+.menuList {
+  padding-bottom: 15;
+}
+
+.menuEntryRow {
+  display: flex;
+  align-items: center;
+}
+
+.quantityOrder {
+  width: 60px !important;
+  margin-bottom: 25;
+  margin-left: 15;
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.couponSelector {
+  margin-left: 25;
+}

@@ -11,7 +11,7 @@ class MenuItemEntry extends Component {
     this.state = {
       name: this.props.menuItem.name,
       price: this.props.menuItem.price,
-      quantity: 3,
+      quantity: 1,
       menu_item_id: this.props.menuItem.id,
     };
   }
