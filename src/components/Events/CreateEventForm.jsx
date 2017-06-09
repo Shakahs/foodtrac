@@ -7,10 +7,11 @@ import TimePicker from 'rc-time-picker';
 import Geosuggest from 'react-geosuggest';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'rc-time-picker/assets/index.css';
+import './CreateEventForm.scss';
 
 
 const CreateEventForm = props => (
-  <div>
+  <div className="event-form">
     <form onSubmit={props.handleSubmit}>
       <div>
         When is your event?
