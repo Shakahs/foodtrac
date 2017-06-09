@@ -253,4 +253,6 @@ export default {
     filename: PropTypes.string,
   }),
   imageType: PropTypes.string.isRequired,
+
+  close: PropTypes.func.isRequired,
 };

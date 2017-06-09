@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Dropzone from 'react-dropzone';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
+import { Snackbar } from 'material-ui';
 import axios from 'axios';
 import { actions as userActions } from '../../../redux/user';
 import propSchema from '../../common/PropTypes';
@@ -11,14 +12,26 @@ class UploadDropzone extends Component {
     super(props);
     this.state = {
       file: [],
+      open: false,
     };
 
     this.handleDrop = this.handleDrop.bind(this);
     this.upload = this.upload.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
   }
 
   handleDrop(file) {
-    this.setState({ file });
+    this.setState({
+      file,
+      open: true,
+    });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      open: false,
+    });
+    this.props.close();
   }
 
   upload(fileObj) {
@@ -33,6 +46,7 @@ class UploadDropzone extends Component {
           setTimeout(() => {
             this.props.getBrand(this.props.brandId);
             this.props.userActions.requestUserData(this.props.user.id);
+            // this.props.close();
           }, 5000),
         )
         .catch(err => console.log(err));
@@ -57,9 +71,13 @@ class UploadDropzone extends Component {
         >
           <p>Drop your picture here!</p>
         </Dropzone>
-        {this.state.file.length > 0
-          ? <div>{this.state.file[0].name} was successfully uploaded! Your {type} will change in a few seconds.</div>
-          : null
+        {this.state.file.length > 0 ?
+          <Snackbar
+            open={this.state.open}
+            message={`${this.state.file[0].name} was successfully uploaded! Your ${type} will change in a few seconds.`}
+            autoHideDuration={3000}
+            onRequestClose={this.handleRequestClose}
+          /> : null
         }
       </div>
     );
@@ -72,6 +90,7 @@ UploadDropzone.propTypes = {
   getBrand: propSchema.getBrand,
   imageType: propSchema.imageType,
   userActions: propSchema.userActions,
+  close: propSchema.close,
 };
 
 const mapDispatchToProps = dispatch => ({
