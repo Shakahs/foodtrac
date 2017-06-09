@@ -18,7 +18,7 @@ class UserEmblem extends React.Component { // eslint-disable-line react/prefer-s
           <FontIcon className="fa fa-star" style={{ fontSize: '1.2em' }} /> {user.brand_reviews ? user.brand_reviews.length : 0} Reviews
       </div>
         {user.is_truck_owner > 0 && user.brands && user.brands.length > 0 && (<div className="truckOwnerByline">
-          <Link to={`/brand/${user.brands[0].id}/trucks`} >
+          <Link to={`/brand/${user.brands[0].id}`} >
             {this.props.user.brands[0].logo_image
               ? <Avatar
                 src={`http://storage.googleapis.com/foodtrac/${this.props.user.brands[0].logo_image.filename}`}
