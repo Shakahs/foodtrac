@@ -22,22 +22,41 @@ class NavBar extends Component {
       logged: false,
       menuOpen: false,
       loginMenuOpen: false,
+      searchWindowOpen: false,
+      height: screen.availHeight,
+      width: screen.availWidth,
     };
     this.handleMenuToggle = this.handleMenuToggle.bind(this);
     this.handleMenuClose = this.handleMenuClose.bind(this);
     this.handleMenuChange = this.handleMenuChange.bind(this);
+    this.updateDimensions = this.updateDimensions.bind(this);
     this.handleLoginTouchTap = this.handleLoginTouchTap.bind(this);
+    this.handleSearchTouchTap = this.handleSearchTouchTap.bind(this);
     this.handleLoginRequestClose = this.handleLoginRequestClose.bind(this);
+    this.handleSearchRequestClose = this.handleSearchRequestClose.bind(this);
   }
 
   componentDidMount() {
     this.props.foodGenresActions.foodGenresRequest();
+    window.addEventListener('resize', this.updateDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+  updateDimensions() {
+    this.setState({
+      height: screen.availHeight,
+      width: screen.availWidth,
+    });
   }
 
   handleMenuToggle(e) {
     e.preventDefault();
     this.setState({ menuOpen: !this.state.menuOpen });
   }
+
 
   handleMenuClose() { this.setState({ menuOpen: false }); }
 
@@ -49,7 +68,23 @@ class NavBar extends Component {
 
     this.setState({
       loginMenuOpen: true,
-      anchorEl: event.currentTarget,
+      loginAnchorEl: event.currentTarget,
+    });
+  }
+
+  handleSearchTouchTap(event) {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      searchWindowOpen: true,
+      searchAnchorEl: event.currentTarget,
+    });
+  }
+
+  handleSearchRequestClose() {
+    this.setState({
+      searchWindowOpen: false,
     });
   }
 
@@ -70,7 +105,7 @@ class NavBar extends Component {
             handleMenuChange={this.handleMenuChange}
             menuOpen={this.state.menuOpen}
           />
-          <Row style={{ width: '100%' }}>
+          <Row style={{ width: '100%', margin: 0 }}>
             <Col xs={1} sm={1} md={1} lg={1} className="centered-span-container">
               <FontIcon
                 className="fa fa-bars center-span"
@@ -80,21 +115,39 @@ class NavBar extends Component {
             </Col>
             <Col xs={2} sm={2} md={2} lg={2}>
               <Link to="/" className="site-header center-span">
-                foodtrac
-              </Link>
+              foodtrac
+            </Link>
             </Col>
-            <Col xs={7} sm={7} md={7} lg={7}>
-              <SearchBar />
+            <Col xs={4} sm={4} md={7} lg={7}>
+              {this.state.width > 800 && <SearchBar />}
             </Col>
-            <Col xs={2} sm={2} md={2} lg={2} className="relative">
+            {this.state.width < 800 &&
+            <Col xs={2} sm={2} className="centered-span-container">
+              <FlatButton
+                className="nav-btn"
+                label={<FontIcon className="fa fa-search center-span" />}
+                onTouchTap={e => this.handleSearchTouchTap(e)}
+              />
+              <Popover
+                open={this.state.searchWindowOpen}
+                anchorEl={this.state.searchAnchorEl}
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                onRequestClose={this.handleSearchRequestClose}
+              >
+                <SearchBar />
+              </Popover>
+            </Col>}
+            <Col xs={3} sm={3} md={2} lg={2} className="relative">
               <UnauthorizedComponent>
                 <FlatButton
-                  label="Log In / Sign Up"
+                  className="nav-btn"
+                  label={<span className="login-btn"><FontIcon className="fa fa-sign-in" /> {this.state.width > 800 ? 'Login' : ''}</span>}
                   onTouchTap={this.handleLoginTouchTap}
                 />
                 <Popover
                   open={this.state.loginMenuOpen}
-                  anchorEl={this.state.anchorEl}
+                  anchorEl={this.state.loginAnchorEl}
                   anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
                   targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                   onRequestClose={this.handleLoginRequestClose}
