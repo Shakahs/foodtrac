@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import CreateEventForm from './CreateEventForm';
 import combineDates from './util';
 import { eventAPI } from '../../api';
@@ -55,7 +56,9 @@ class CreateEvents extends React.Component {
       lat: this.state.newEventAddress.location.lat,
       lng: this.state.newEventAddress.location.lng,
     };
-    eventAPI.createEvent(newEvent, newLocation);
+    eventAPI.createEvent(newEvent, newLocation)
+      .then(res => this.props.history.push(`/events/${res.data.id}`))
+      .catch(e => alert(e.message));
   }
 
   render() {
@@ -75,6 +78,7 @@ class CreateEvents extends React.Component {
 
 CreateEvents.propTypes = {
   user: propSchema.user,
+  history: propSchema.history,
 };
 
 const mapStateToProps = state => ({
@@ -82,4 +86,4 @@ const mapStateToProps = state => ({
 });
 
 
-export default connect(mapStateToProps)(CreateEvents);
+export default connect(mapStateToProps)(withRouter(CreateEvents));
