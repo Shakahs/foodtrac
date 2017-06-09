@@ -1,5 +1,6 @@
 import { put, take, call } from 'redux-saga/effects';
-import { stopSubmit } from 'redux-form';
+import { stopSubmit, SubmissionError } from 'redux-form';
+import validator from 'validator';
 import { actions } from './index';
 
 const auth0 = require('auth0-js');
@@ -11,30 +12,45 @@ const webAuth = new auth0.WebAuth({
   clientID: globalConfig.AUTH0_CLIENT_ID,
 });
 
-function* dispatchFormError(formName, field, fieldError, formError = '') {
-  const err = {};
-  err[field] = fieldError;
-  err['_error'] = formError; // eslint-disable-line dot-notation
-  yield put(stopSubmit(formName, err));
-}
-
-function* validateCreateAccountForm(values) {
-  // debugger
+function validateCreateAccountForm(values) {
+  if (!values.first_name || !validator.isAlpha(`${values.first_name}`)) {
+    throw new SubmissionError({ first_name: 'not a valid name' });
+  }
+  if (!values.last_name || !validator.isAlpha(`${values.last_name}`)) {
+    throw new SubmissionError({ last_name: 'not a valid name' });
+  }
+  if (!validator.isEmail(`${values.email}`)) {
+    throw new SubmissionError({ email: 'not a valid email' });
+  }
+  if (!values.password || values.password.length < 6) {
+    throw new SubmissionError({ password: 'passwords must be at least 6 characters' });
+  }
   if (values.password !== values.password2) {
-    yield call(dispatchFormError, 'SignUp', 'password2', 'passwords must match');
+    throw new SubmissionError({ password2: 'passwords must match' });
   }
 }
 
 export function* watchCreateAccount() {
   while (true) {
-    const { newUser } = yield take(actions.ACCOUNT_CREATE);
-    yield call(validateCreateAccountForm, newUser);
-    newUser.connection = globalConfig.AUTH0_DB_NAME;
-    newUser.user_metadata = {};
-    newUser.user_metadata.signed_up_as_truck_owner = (newUser.isTruckOwner) ? '1' : '0';
-    yield call(Promise.fromCallback,
-      callback => webAuth.signup(newUser, callback));
-    yield put(actions.loginRequest({ email: newUser.email, password: newUser.password }));
+    try {
+      const { newUser } = yield take(actions.ACCOUNT_CREATE);
+      yield call(validateCreateAccountForm, newUser);
+      newUser.connection = globalConfig.AUTH0_DB_NAME;
+      newUser.user_metadata = {};
+      newUser.user_metadata.signed_up_as_truck_owner = (newUser.isTruckOwner) ? '1' : '0';
+      yield call(Promise.fromCallback,
+        callback => webAuth.signup(newUser, callback));
+      yield put(actions.loginRequest({ email: newUser.email, password: newUser.password }));
+    } catch (e) {
+      if (e instanceof SubmissionError) {
+        yield put(stopSubmit('SignUp', e.errors));
+      } else if (e.code === 'user_exists') {
+        yield put(stopSubmit('SignUp', { email: 'email already registered' }));
+      } else {
+        console.log(e);
+        // debugger
+      }
+    }
   }
 }
 
