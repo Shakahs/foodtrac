@@ -49,3 +49,13 @@ $a-tags: 'a, a:active, a:hover, a:visited';
   justify-content: center;
   align-items: center;
 }
+
+.loginPopover{
+  padding: 10px;
+  background-color:rgba(33, 150, 243, 0.75);
+  font-size: small;
+}
+
+.loginFields {
+  width: 125px;
+}

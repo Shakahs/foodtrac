@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Geosuggest from 'react-geosuggest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { actions as mapActions } from '../../redux/MapSearch';
 import propSchema from '../common/PropTypes';
 import './SearchBar.scss';
@@ -15,47 +16,45 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false,
+      searchLocation: {
+        lat: null,
+        lng: null,
+      },
       searchRange: 10,
-      selectedFoodGenre: 0,
+      searchFoodGenre: 0,
     };
-    this.handleSuggestSelect = this.handleSuggestSelect.bind(this);
-    this.redirectToMap = this.redirectToMap.bind(this);
+    this.handleLocationSelect = this.handleLocationSelect.bind(this);
     this.handleSearchRangeChange = this.handleSearchRangeChange.bind(this);
     this.handleFoodGenreChange = this.handleFoodGenreChange.bind(this);
+    this.sendMapSearch = this.sendMapSearch.bind(this);
   }
 
-  handleSuggestSelect({ location }) {
+  sendMapSearch() {
+    this.props.actions.mapRequest(this.state.searchLocation.lat,
+      this.state.searchLocation.lng,
+      this.state.searchRange,
+      this.state.searchFoodGenre);
+    this.props.history.push('/map');
+  }
+
+  handleLocationSelect({ location }) {
     const { lat, lng } = location;
-    this.props.actions.mapRequest(lat, lng, this.state.searchRange, this.state.selectedFoodGenre);
     this.setState({
-      redirect: true,
-    });
-  }
-
-  redirectToMap() {
-    if (this.state.redirect) {
-      this.setState({
-        redirect: false,
-      });
-      return <Redirect push to="/map" />;
-    }
-    return null;
+      searchLocation: { lat, lng },
+    }, this.sendMapSearch);
   }
 
   handleSearchRangeChange(event, index, searchRange) {
-    this.setState({ searchRange });
+    this.setState({ searchRange }, this.sendMapSearch);
   }
 
-  handleFoodGenreChange(event, index, selectedFoodGenre) {
-    this.setState({ selectedFoodGenre });
+  handleFoodGenreChange(event, index, searchFoodGenre) {
+    this.setState({ searchFoodGenre }, this.sendMapSearch);
   }
 
   render() {
     return (
       <div className="searchBar">
-        {this.redirectToMap()}
-
         <Geosuggest
           className="addressEntry"
           ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
@@ -63,8 +62,7 @@ class SearchBar extends Component {
           types={['geocode']}
           placeholder="Type your address!"
           onSuggestSelect={(e) => {
-            this.handleSuggestSelect(e);
-            this._geoSuggest.clear();
+            this.handleLocationSelect(e);
           }}
         />
 
@@ -77,13 +75,13 @@ class SearchBar extends Component {
         </DropDownMenu>
 
         {this.props.foodGenres && this.props.foodGenres.length > 0 &&
-          <DropDownMenu value={this.state.selectedFoodGenre} onChange={this.handleFoodGenreChange}>
+          <DropDownMenu value={this.state.searchFoodGenre} onChange={this.handleFoodGenreChange}>
             <MenuItem value={0} primaryText="Any Food" />
             {this.props.foodGenres.map(foodGenre => (
               <MenuItem value={foodGenre.id} primaryText={foodGenre.name} />
                 ))}
           </DropDownMenu>}
-        <RaisedButton className="location-search-btn" label="Search" primary />
+        <RaisedButton className="location-search-btn" label="Search" primary onClick={this.sendMapSearch} />
       </div>
     );
   }
@@ -92,6 +90,7 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   actions: propSchema.actions,
   foodGenres: propSchema.foodGenres,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }),
 };
 
 SearchBar.defaultProps = {
@@ -106,4 +105,5 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(mapActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar));
+
