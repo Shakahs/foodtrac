@@ -172,16 +172,9 @@ class OrderSummary extends Component {
       ),
     ];
     return (
-<<<<<<< HEAD
-      <Col xs={4} sm={4} md={4} lg={4}>
-        <Paper>
-          <div>Order Summary</div>
-          <br />
-=======
       <Col xs={12} sm={12} md={4} lg={4}>
         <Card className="summary">
           <CardTitle title="Order Summary" />
->>>>>>> Styles food order page
           <Grid fluid>
             {this.props.currentOrder.map((currentItem, i) =>
               (<CartEntry
