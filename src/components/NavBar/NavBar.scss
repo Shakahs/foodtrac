@@ -14,6 +14,14 @@ $a-tags: 'a, a:active, a:hover, a:visited';
   color: white;
 }
 
+.site-header:visited {
+  color: white;
+}
+
+.site-header:hover {
+  color: #c3c3c3;
+}
+
 .centered-span-container {
   text-align: center;
 }
