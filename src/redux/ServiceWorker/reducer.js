@@ -17,7 +17,9 @@ export default function reducer(state = initialState, action) {
     case UNSUBSCRIBE_PUSH:
       return Object.assign({}, state, { subscription: action.subscription });
     case authActions.LOGOUT:
-      state.subscription.unsubscribe();
+      if (state.subscription) {
+        state.subscription.unsubscribe();
+      }
       return state;
     default:
       return state;
