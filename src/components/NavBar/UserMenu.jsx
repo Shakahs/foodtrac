@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 import UserEmblem from '../common/Emblem/UserEmblem';
 import propSchema from '../common/PropTypes';
 import { actions as authActions } from '../../redux/auth';
+import AuthorizedComponent from '../common/Helpers/AuthorizedComponent';
 
 const UserMenu = props => (
   <Drawer
@@ -22,41 +23,45 @@ const UserMenu = props => (
     {/* <SiteHeader handleMenuToggle={props.handleMenuToggle} />*/}
     {/* </MenuItem>*/}
 
-    {props.isLoggedIn ? (
+    <AuthorizedComponent>
       <MenuItem>
         <UserEmblem user={props.user} />
       </MenuItem>
-      ) : null }
+    </AuthorizedComponent>
 
     <MenuItem
       containerElement={<Link to="/" />}
       primaryText="Dashboard"
       onTouchTap={props.handleMenuClose}
     />
-    {props.user.is_truck_owner ?
-      props.user.brands.map(brand =>
+    <AuthorizedComponent requireTruckOwner>
+      { props.user.brands.map(brand =>
         (<MenuItem
           key={brand.id}
           containerElement={<Link to={`/brand/${brand.id}/trucks`} />}
           primaryText={brand.name}
           onTouchTap={props.handleMenuClose}
         />),
-      ) : null
-    }
-    <MenuItem
-      containerElement={<Link to="/settings" />}
-      primaryText="Settings"
-      onTouchTap={props.handleMenuClose}
-    />
-    <Divider />
-    <MenuItem
-      containerElement={<Link to="/" />}
-      primaryText="Sign out"
-      onTouchTap={() => {
-        props.handleMenuClose();
-        props.authActions.logout();
-      }}
-    />
+      )}
+    </AuthorizedComponent>
+
+    <AuthorizedComponent>
+      <MenuItem
+        containerElement={<Link to="/settings" />}
+        primaryText="Settings"
+        onTouchTap={props.handleMenuClose}
+      />
+      <Divider />
+      <MenuItem
+        containerElement={<Link to="/" />}
+        primaryText="Sign out"
+        onTouchTap={() => {
+          props.handleMenuClose();
+          props.authActions.logout();
+        }}
+      />
+    </AuthorizedComponent>
+
   </Drawer>
 );
 
@@ -66,7 +71,6 @@ UserMenu.propTypes = {
   authActions: propSchema.authActions,
   user: propSchema.user,
   menuOpen: PropTypes.bool.isRequired,
-  isLoggedIn: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
