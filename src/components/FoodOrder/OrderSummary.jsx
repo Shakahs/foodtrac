@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Paper, RaisedButton, Dialog, FlatButton, TextField } from 'material-ui';
+import { Card, CardTitle, CardText, CardHeader, Dialog, FlatButton, TextField } from 'material-ui';
 import { Grid, Col } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -172,10 +172,9 @@ class OrderSummary extends Component {
       ),
     ];
     return (
-      <Col xs={4} sm={4} md={4} lg={4}>
-        <Paper>
-          <div>Order Summary</div>
-          <br />
+      <Col xs={12} sm={12} md={4} lg={4}>
+        <Card className="summary">
+          <CardTitle title="Order Summary" />
           <Grid fluid>
             {this.props.currentOrder.map((currentItem, i) =>
               (<CartEntry
@@ -186,11 +185,10 @@ class OrderSummary extends Component {
               />),
             )}
           </Grid>
-          <br />
           {this.props.truck.brands.rewards_trigger > 0 ?
             <div>
               {this.brandReward()
-                ? `${this.props.truck.brands.rewards_trigger - this.brandReward().count} more orders before your free coupon!`
+                ? <CardText>{`${this.props.truck.brands.rewards_trigger - this.brandReward().count} more orders before your free coupon!`}</CardText>
                 : null}
             </div> : null
           }
@@ -202,11 +200,12 @@ class OrderSummary extends Component {
             />
             : null
           }
-          <div>
-            TOTAL: ${this.calculateTotal()} + tax
-          </div>
+          <CardHeader
+            title={`Total: $${this.calculateTotal()}`}
+            subtitle="+ tax"
+          />
           {this.props.currentOrder.length > 0 ?
-            <RaisedButton
+            <FlatButton
               label="Submit Order"
               onClick={this.orderComplete}
             /> : null
@@ -226,7 +225,7 @@ class OrderSummary extends Component {
               value={this.state.name}
             />
           </Dialog>
-        </Paper>
+        </Card>
       </Col>
     );
   }

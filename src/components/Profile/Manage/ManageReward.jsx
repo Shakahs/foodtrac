@@ -93,7 +93,7 @@ class ManageReward extends Component {
 
   render() {
     return (
-      <div>
+      <div className="manageRewards">
         <Checkbox
           label={'Enable your Reward Program'}
           checked={this.state.checked}

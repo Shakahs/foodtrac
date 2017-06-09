@@ -88,9 +88,9 @@ class ManageBrand extends React.Component {
 
   render() {
     return (
-      <Tabs>
+      <Tabs className="manageTabs">
         {this.redirectToMap()}
-        <Tab label="Change Basic Brand Info">
+        <Tab label="Info">
           <ManageBasic
             brandId={this.props.brandId}
             user={this.props.user}
@@ -99,21 +99,21 @@ class ManageBrand extends React.Component {
             foodGenres={this.props.foodGenres}
           />
         </Tab>
-        <Tab label="Manage Your Trucks">
+        <Tab label="Trucks">
           <ManageTrucks
             brandId={this.props.brandId}
             trucks={this.props.trucks}
             getBrand={this.props.getBrand}
           />
         </Tab>
-        <Tab label="Edit your Menu">
+        <Tab label="Menu">
           <ManageMenu
             brandId={this.props.brandId}
             menuItems={this.props.menuItems}
             getBrand={this.props.getBrand}
           />
         </Tab>
-        <Tab label="Manage your Rewards">
+        <Tab label="Rewards">
           <ManageReward
             brandId={this.props.brandId}
             getBrand={this.props.getBrand}

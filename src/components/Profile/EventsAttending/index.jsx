@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid } from 'react-flexbox-grid';
 import _ from 'lodash';
-import EventsListEntry from './EventsAttendingListEntry';
+import EventsListEntry from '../../Events/EventsListEntry';
 import propSchema from '../../common/PropTypes';
 
 const EventsAttendingList = props => (
@@ -12,7 +12,7 @@ const EventsAttendingList = props => (
       <Link to={'/events/create'}>Create an event</Link>
     </div>
     {props.brand.events_attending.length > 0 ?
-  _.map(props.brand.events_attending, event => <EventsListEntry event={event} />)
+  _.map(props.brand.events_attending, event => <EventsListEntry event={event.events} />)
   :
   <div className="noItems">This truck is not attending any events</div>
   }

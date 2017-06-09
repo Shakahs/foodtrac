@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'react-flexbox-grid';
-import { FlatButton, TextField } from 'material-ui';
+import { FlatButton, TextField, CardText, FontIcon } from 'material-ui';
+import 'font-awesome/css/font-awesome.min.css';
 import propSchema from '../common/PropTypes';
-import './MenuItemEntry.scss';
+import './foodOrder.scss';
 
 class MenuItemEntry extends Component {
   constructor(props) {
@@ -21,22 +22,14 @@ class MenuItemEntry extends Component {
 
   render() {
     return (
-      <Row>
+      <Row className="menuEntryRow">
         <Col xs={3} sm={3} md={3} lg={3}>
-          <div>{this.props.menuItem.name}</div>
+          <CardText>{this.props.menuItem.name}</CardText>
         </Col>
-        <Col xs={4} sm={4} md={4} lg={4}>
-          <div>{this.props.menuItem.description}</div>
+        <Col xs={3} sm={3} md={3} lg={3}>
+          <CardText>${this.props.menuItem.price / 100}</CardText>
         </Col>
-        <Col xs={1} sm={1} md={1} lg={1}>
-          <div>${this.props.menuItem.price / 100}</div>
-        </Col>
-        <Col xs={1} sm={1} md={1} lg={1}>
-          {this.props.menuItem.calories ?
-            <div>calories: {this.props.menuItem.calories}</div> : null
-          }
-        </Col>
-        <Col xs={1} sm={1} md={1} lg={1}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <TextField
             className="quantityOrder"
             floatingLabelText="Quantity"
@@ -44,9 +37,9 @@ class MenuItemEntry extends Component {
             onChange={(e, val) => this.setQuantity(val)}
           />
         </Col>
-        <Col xs={2} sm={2} md={2} lg={2}>
+        <Col xs={3} sm={3} md={3} lg={3}>
           <FlatButton
-            label="Add to Cart"
+            label={<FontIcon className="fa fa-cart-plus" />}
             onClick={() => this.props.addToOrder(this.state)}
           />
         </Col>

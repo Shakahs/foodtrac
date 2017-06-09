@@ -79,7 +79,7 @@ class UploadDropzone extends Component {
           }}
           onDropRejected={this.uploadFailure}
         >
-          <p>Drop your picture here!</p>
+          <p className="dropzoneText">Drop your picture here!</p>
         </Dropzone>
         {this.state.file.length > 0 ?
           <Snackbar

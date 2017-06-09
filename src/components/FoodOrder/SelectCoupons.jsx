@@ -18,6 +18,7 @@ class SelectCoupons extends Component {
   render() {
     return (
       <SelectField
+        className="couponSelector"
         floatingLabelText="Choose a coupon"
         value={this.props.discount}
         onChange={(e, i, val) => this.props.handleDiscount(val)}

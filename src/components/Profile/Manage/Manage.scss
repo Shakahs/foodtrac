@@ -1,0 +1,43 @@
+.manageTabs > div:first-child {
+  background-color: #2196F3 !important;
+}
+
+.trucksTabs > div:first-child {
+  background-color: #102c59 !important;
+}
+
+.basicInfo {
+  margin-left: 25;
+}
+
+.menuItem {
+  margin-bottom: 15;
+  padding-left: 10;
+  padding-right: 10;
+}
+
+.menuField {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.removeButton {
+  position: absolute;
+  top: 23;
+}
+
+.manageRewards {
+  margin-left: 25;
+}
+
+.dropzoneText {
+  display: flex;
+  justify-content: center;
+}
+
+.truckField {
+  position: absolute;
+  margin-top: 20;
+  margin-left: 25;
+}
