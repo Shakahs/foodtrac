@@ -1,3 +1,8 @@
+@keyframes rotationAnim {
+    from {transform: rotate(0deg);}
+    to {transform: rotate(360deg);}
+}
+
 .landing {
   position: absolute;
   width: 100%;
@@ -12,9 +17,12 @@
 }
 
 .landgingLogoContainer {
+  position: absolute;
   text-align: center;
   font-size: 50px;
   font-weight: bold;
+  animation-name: rotationAnim;
+  animation-duration: 3s;
 }
 
 .landingLogo {
