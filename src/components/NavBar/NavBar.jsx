@@ -105,7 +105,7 @@ class NavBar extends Component {
             handleMenuChange={this.handleMenuChange}
             menuOpen={this.state.menuOpen}
           />
-          <Row style={{ width: '100%', margin: 0 }}>
+          <Row>
             <Col xs={1} sm={1} md={1} lg={1} className="centered-span-container">
               <FontIcon
                 className="fa fa-bars center-span"
@@ -118,11 +118,11 @@ class NavBar extends Component {
               foodtrac
             </Link>
             </Col>
-            <Col xs={4} sm={4} md={7} lg={7}>
+            <Col xs={4} sm={7} md={7} lg={7}>
               {this.state.width > 800 && <SearchBar />}
             </Col>
             {this.state.width < 800 &&
-            <Col xs={2} sm={2} className="centered-span-container">
+            <Col xs={2} className="centered-span-container">
               <FlatButton
                 className="nav-btn"
                 label={<FontIcon className="fa fa-search center-span" />}
@@ -136,10 +136,9 @@ class NavBar extends Component {
                 onRequestClose={this.handleSearchRequestClose}
               >
                 <SearchBar />
-                {/*<LoginForm onSubmit={this.props.authActions.loginRequest} />*/}
               </Popover>
             </Col>}
-            <Col xs={3} sm={3} md={2} lg={2} className="relative">
+            <Col xs={3} sm={2} md={2} lg={2} className="relative">
               <UnauthorizedComponent>
                 <FlatButton
                   className="nav-btn"

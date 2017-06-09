@@ -12,7 +12,6 @@
 
 .addressEntry {
   order: 1;
-  flex-grow: 2;
 }
 
 .location-search-btn {
@@ -38,13 +37,13 @@
 }
 
 @media (min-width: 900px) {
-  .addressEntry {
-    flex-grow: 2;
-  }
   .addressEntry,
   .location-search-btn,
   .dist-drop-down,
   .genre-drop-down {
     order: initial;
+  }
+  .searchBar {
+    flex-wrap: nowrap;
   }
 }
