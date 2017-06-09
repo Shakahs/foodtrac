@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TableRow, TableRowColumn, FlatButton } from 'material-ui';
+import { TableRow, TableRowColumn, Checkbox } from 'material-ui';
 import axios from 'axios';
 import propSchema from '../../common/PropTypes';
 
@@ -51,9 +51,8 @@ class OrderEntry extends Component {
         <TableRowColumn>{discountType}</TableRowColumn>
         <TableRowColumn>${this.calculateTotal()}</TableRowColumn>
         <TableRowColumn>
-          <FlatButton
-            label="Ready"
-            onClick={this.orderReady}
+          <Checkbox
+            onCheck={this.orderReady}
           />
         </TableRowColumn>
       </TableRow>
