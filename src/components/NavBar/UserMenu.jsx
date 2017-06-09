@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import MenuItem from 'material-ui/MenuItem';
-import Divider from 'material-ui/Divider';
+import { MenuItem, Divider, Drawer, FontIcon } from 'material-ui';
 import { Link } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import Drawer from 'material-ui/Drawer';
 import PropTypes from 'prop-types';
+import 'font-awesome/css/font-awesome.min.css';
+import AuthorizedComponent from '../common/Helpers/AuthorizedComponent';
 import UserEmblem from '../common/Emblem/UserEmblem';
 import propSchema from '../common/PropTypes';
 import { actions as authActions } from '../../redux/auth';
-import AuthorizedComponent from '../common/Helpers/AuthorizedComponent';
 
 const UserMenu = props => (
   <Drawer
@@ -19,7 +18,7 @@ const UserMenu = props => (
     onRequestChange={props.handleMenuChange}
     width={300}
   >
-    {/* <MenuItem onTouchTap={props.handleMenuClose}>*/}
+    {/* <MenuItem onClick={props.handleMenuClose}>*/}
     {/* <SiteHeader handleMenuToggle={props.handleMenuToggle} />*/}
     {/* </MenuItem>*/}
 
@@ -27,41 +26,41 @@ const UserMenu = props => (
       <MenuItem>
         <UserEmblem user={props.user} />
       </MenuItem>
-    </AuthorizedComponent>
-
-    <MenuItem
-      containerElement={<Link to="/" />}
-      primaryText="Dashboard"
-      onTouchTap={props.handleMenuClose}
-    />
-    <AuthorizedComponent requireTruckOwner>
-      { props.user.brands.map(brand =>
-        (<MenuItem
-          key={brand.id}
-          containerElement={<Link to={`/brand/${brand.id}/trucks`} />}
-          primaryText={brand.name}
-          onTouchTap={props.handleMenuClose}
-        />),
-      )}
-    </AuthorizedComponent>
-
-    <AuthorizedComponent>
+      <MenuItem
+        containerElement={<Link to="/" />}
+        primaryText={<span><FontIcon className="fa fa-home" /> Dashboard</span>}
+        onClick={props.handleMenuClose}
+      />
+      {props.user.is_truck_owner &&
+        props.user.brands.map(brand =>
+          (<MenuItem
+            key={brand.id}
+            containerElement={<Link to={`/brand/${brand.id}/trucks`} />}
+            primaryText={<span><FontIcon className="fa fa-truck" /> {brand.name}</span>}
+            onClick={props.handleMenuClose}
+          />))}
       <MenuItem
         containerElement={<Link to="/settings" />}
-        primaryText="Settings"
-        onTouchTap={props.handleMenuClose}
+        primaryText={<span><FontIcon className="fa fa-cog" /> Settings</span>}
+        onClick={props.handleMenuClose}
       />
+    </AuthorizedComponent>
+    <MenuItem
+      containerElement={<Link to="/events" />}
+      primaryText={<span><FontIcon className="fa fa-calendar" /> Events</span>}
+      onClick={props.handleMenuClose}
+    />
+    <AuthorizedComponent>
       <Divider />
       <MenuItem
         containerElement={<Link to="/" />}
-        primaryText="Sign out"
-        onTouchTap={() => {
+        primaryText={<span><FontIcon className="fa fa-sign-out" /> Sign Out</span>}
+        onClick={() => {
           props.handleMenuClose();
           props.authActions.logout();
         }}
       />
     </AuthorizedComponent>
-
   </Drawer>
 );
 

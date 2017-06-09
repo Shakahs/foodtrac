@@ -1,60 +1,46 @@
 $a-tags: 'a, a:active, a:hover, a:visited';
 
 .NavBar {
-  margin: -10 -10 0 -10;
   background-color: #2196F3;
-  padding: 10px;
+  padding: 0;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.SiteHeaderLink {
+.site-header {
   font-size: 32px;
-  color: white !important;
+  color: white;
 }
 
-.MenuDrawer {
-  padding: 10px
+.site-header:visited {
+  color: white;
 }
 
-//.navBarRight a {
-//  float: right;
-//}
-
-.searchBar .toolbar {
-  //float: left;
-  //margin-right: 90px;
-  //margin-top: 13px;
-  //margin: 5px;
-  background-color: white !important;
+.site-header:hover {
+  color: #c3c3c3;
 }
 
-.geosuggest__input {
-    //padding: 20px  !important;
-    width: 300px;
-    //height: 150px !important;
-  margin: 5px;
+.centered-span-container {
+  text-align: center;
+}
+
+.center-span {
+  line-height: 60px;
+  vertical-align: middle;
+}
+
+.location-search-btn {
+  margin-right: 5px;
 }
 
 .login {
   float: right;
 }
 
-.geosuggest__suggests--hidden {
-  max-height: 0;
-  overflow: hidden;
-  border-width: 0;
-}
-
-.geosuggest__item--active {
-  background: #267dc0;
-  color: #fff;
-}
-
-.searchBar ul {
-  position: absolute;
-  background-color: white;
-}
-
-.searchBar li {
-  cursor: pointer;
-  list-style-type: none;
+.relative {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

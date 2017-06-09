@@ -6,9 +6,9 @@ import { Redirect } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import { Toolbar, ToolbarGroup, ToolbarSeparator } from 'material-ui/Toolbar';
 import { actions as mapActions } from '../../redux/MapSearch';
 import propSchema from '../common/PropTypes';
+import './SearchBar.scss';
 
 
 class SearchBar extends Component {
@@ -53,57 +53,37 @@ class SearchBar extends Component {
 
   render() {
     return (
-      // TODO: add distance, genre, review/maybe upvote filtering
       <div className="searchBar">
         {this.redirectToMap()}
 
-        <Toolbar className="toolbar">
-          <ToolbarGroup firstChild >
-            {/* <TextField*/}
-            {/* className="addressEntry"*/}
-            {/* hintText="Type in a search address"*/}
-            {/* floatingLabelText="Type in a search address"*/}
-            {/* fullWidth*/}
-            {/* />*/}
+        <Geosuggest
+          className="addressEntry"
+          ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
+          country="us"
+          types={['geocode']}
+          placeholder="Type your address!"
+          onSuggestSelect={(e) => {
+            this.handleSuggestSelect(e);
+            this._geoSuggest.clear();
+          }}
+        />
 
-            <Geosuggest
-              className="addressEntry"
-              ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
-              country="us"
-              types={['geocode']}
-              placeholder="Type your address!"
-              onSuggestSelect={(e) => {
-                this.handleSuggestSelect(e);
-                this._geoSuggest.clear();
-              }}
-            />
+        <DropDownMenu value={this.state.searchRange} onChange={this.handleSearchRangeChange}>
+          <MenuItem value={5} primaryText="5 Miles" />
+          <MenuItem value={10} primaryText="10 Miles" />
+          <MenuItem value={15} primaryText="15 Miles" />
+          <MenuItem value={20} primaryText="20 Miles" />
+          <MenuItem value={30} primaryText="30 Miles" />
+        </DropDownMenu>
 
-          </ToolbarGroup>
-          <ToolbarGroup lastChild>
-            <ToolbarSeparator />
-            <DropDownMenu value={this.state.searchRange} onChange={this.handleSearchRangeChange}>
-              <MenuItem value={5} primaryText="5 Miles" />
-              <MenuItem value={10} primaryText="10 Miles" />
-              <MenuItem value={15} primaryText="15 Miles" />
-              <MenuItem value={20} primaryText="20 Miles" />
-              <MenuItem value={30} primaryText="30 Miles" />
-            </DropDownMenu>
-
-            {this.props.foodGenres && this.props.foodGenres.length > 0 &&
-            <div>
-              <DropDownMenu value={this.state.selectedFoodGenre} onChange={this.handleFoodGenreChange}>
-                <MenuItem value={0} primaryText="Any Food" />
-                {this.props.foodGenres.map(foodGenre => (
-                  <MenuItem value={foodGenre.id} primaryText={foodGenre.name} />
+        {this.props.foodGenres && this.props.foodGenres.length > 0 &&
+          <DropDownMenu value={this.state.selectedFoodGenre} onChange={this.handleFoodGenreChange}>
+            <MenuItem value={0} primaryText="Any Food" />
+            {this.props.foodGenres.map(foodGenre => (
+              <MenuItem value={foodGenre.id} primaryText={foodGenre.name} />
                 ))}
-              </DropDownMenu>
-            </div>
-            }
-            <RaisedButton label="Search" primary />
-          </ToolbarGroup>
-        </Toolbar>
-
-
+          </DropDownMenu>}
+        <RaisedButton className="location-search-btn" label="Search" primary />
       </div>
     );
   }

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import 'font-awesome/css/font-awesome.min.css';
-import FlatButton from 'material-ui/FlatButton';
-import Popover from 'material-ui/Popover';
+import { Popover, FlatButton, FontIcon } from 'material-ui';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import { actions as authActions } from '../../redux/auth';
@@ -12,7 +12,6 @@ import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
 import Login from './LoginButton';
-import SiteHeader from './SiteHeader';
 import UnauthorizedComponent from '../common/Helpers/UnauthorizedComponent';
 import './NavBar.scss';
 
@@ -35,7 +34,8 @@ class NavBar extends Component {
     this.props.foodGenresActions.foodGenresRequest();
   }
 
-  handleMenuToggle() {
+  handleMenuToggle(e) {
+    e.preventDefault();
     this.setState({ menuOpen: !this.state.menuOpen });
   }
 
@@ -69,38 +69,37 @@ class NavBar extends Component {
           handleMenuChange={this.handleMenuChange}
           menuOpen={this.state.menuOpen}
         />
-        <Row>
-          <Col xs={2} md={2} lg={2}>
-            <SiteHeader handleMenuToggle={this.handleMenuToggle} />
+        <Row style={{ width: '100%' }}>
+          <Col xs={1} sm={1} md={1} lg={1} className="centered-span-container">
+            <FontIcon
+              className="fa fa-bars center-span"
+              hoverColor="#00bcd4"
+              onTouchTap={this.handleMenuToggle}
+            />
           </Col>
-          <Col xs={5} md={8} lg={8}>
+          <Col xs={2} sm={2} md={2} lg={2}>
+            <Link to="/" className="site-header center-span">
+              foodtrac
+            </Link>
+          </Col>
+          <Col xs={7} sm={7} md={7} lg={7}>
             <SearchBar />
           </Col>
-          <Col xs={5} md={2} lg={2} >
+          <Col xs={2} sm={2} md={2} lg={2} className="relative">
             <UnauthorizedComponent>
-              <div>
-                {/* <Login onSubmit={this.props.authActions.loginRequest} />*/}
-                {/* <Link to="/signup">*/}
-                {/* <p>Log in / Sign up</p>*/}
-                {/* </Link>*/}
-
-                <FlatButton
-                  label="Log In / Sign Up"
-                  onTouchTap={this.handleLoginTouchTap}
-                />
-
-                <Popover
-                  open={this.state.loginMenuOpen}
-                  anchorEl={this.state.anchorEl}
-                  anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                  targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-                  onRequestClose={this.handleLoginRequestClose}
-                >
-                  <Login onSubmit={this.props.authActions.loginRequest} />
-                </Popover>
-
-
-              </div>
+              <FlatButton
+                label="Log In / Sign Up"
+                onTouchTap={this.handleLoginTouchTap}
+              />
+              <Popover
+                open={this.state.loginMenuOpen}
+                anchorEl={this.state.anchorEl}
+                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                onRequestClose={this.handleLoginRequestClose}
+              >
+                <Login onSubmit={this.props.authActions.loginRequest} />
+              </Popover>
             </UnauthorizedComponent>
           </Col>
         </Row>
