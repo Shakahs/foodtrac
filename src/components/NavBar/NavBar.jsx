@@ -118,11 +118,11 @@ class NavBar extends Component {
               foodtrac
             </Link>
             </Col>
-            <Col xs={4} sm={7} md={7} lg={7}>
+            <Col xs={this.props.isLoggedIn ? 6 : 4} sm={7} md={7} lg={7}>
               {this.state.width > 800 && <SearchBar />}
             </Col>
             {this.state.width < 800 &&
-            <Col xs={2} className="centered-span-container">
+            <Col xs={this.props.isLoggedIn ? 3 : 2} className="centered-span-container">
               <FlatButton
                 className="nav-btn"
                 label={<FontIcon className="fa fa-search center-span" />}
@@ -171,6 +171,7 @@ NavBar.propTypes = {
   authActions: propSchema.authActions,
   foodGenresActions: propSchema.foodGenresActions,
   loading: propSchema.loading,
+  isLoggedIn: propSchema.isLoggedIn,
 };
 
 const mapStateToProps = state => ({
