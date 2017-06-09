@@ -11,7 +11,7 @@ const EventsAttendingList = props => (
     <div>
       <Link to={'/events/create'}>Create an event</Link>
     </div>
-    {props.brand.events_attending.length > 0 ?
+    {props.brand.events_attending && props.brand.events_attending.length > 0 ?
   _.map(props.brand.events_attending, event => <EventsListEntry event={event.events} />)
   :
   <div className="noItems">This truck is not attending any events</div>
