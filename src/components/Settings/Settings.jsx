@@ -7,8 +7,9 @@ import { Col } from 'react-flexbox-grid';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import NotificationSubBtn from './NotificationSubBtn';
-import SettingsSideBar from './SettingsSideBar';
+import SettingsTabs from './SettingsTabs';
 import AddBrandsView from '../common/AddBrandsView';
+import './Settings.scss';
 
 const settingsPanelStyle = {
   display: 'inline-block',
@@ -17,9 +18,9 @@ const settingsPanelStyle = {
 };
 
 const Settings = props => (
-  <div className="row">
-    <SettingsSideBar is_truck_owner={props.user.is_truck_owner} />
-    <Col xs={12} sm={12} md={9} lg={9}>
+  <div className="row settings">
+    <SettingsTabs is_truck_owner={props.user.is_truck_owner} />
+    <Col xs={12}>
       <Card style={settingsPanelStyle}>
         <Switch>
           <Route
