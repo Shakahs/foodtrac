@@ -1,6 +1,5 @@
 const CACHE_NAME = 'foodtrac-cache';
 const urlsToCache = [
-  '/',
   '/bundle.js',
 ];
 
