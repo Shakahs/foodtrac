@@ -67,6 +67,7 @@ class Profile extends Component {
             description: res.data.description,
             food_genres: res.data.food_genres,
             fromProfile: true,
+            logo_image: res.data.logo_image,
           };
         });
         this.setState({ brandId: parseInt(this.props.match.params.brandId, 10) });

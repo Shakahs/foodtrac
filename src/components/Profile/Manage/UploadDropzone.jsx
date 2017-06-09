@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import axios from 'axios';
+import { actions as userActions } from '../../../redux/user';
 import propSchema from '../../common/PropTypes';
 
 class UploadDropzone extends Component {
@@ -27,7 +30,10 @@ class UploadDropzone extends Component {
         fileData: result,
       })
         .then(() =>
-          setTimeout(() => this.props.getBrand(this.props.brandId), 5000),
+          setTimeout(() => {
+            this.props.getBrand(this.props.brandId);
+            this.props.userActions.requestUserData(this.props.user.id);
+          }, 5000),
         )
         .catch(err => console.log(err));
     };
@@ -65,6 +71,11 @@ UploadDropzone.propTypes = {
   user: propSchema.user,
   getBrand: propSchema.getBrand,
   imageType: propSchema.imageType,
+  userActions: propSchema.userActions,
 };
 
-export default UploadDropzone;
+const mapDispatchToProps = dispatch => ({
+  userActions: bindActionCreators(userActions, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(UploadDropzone);
