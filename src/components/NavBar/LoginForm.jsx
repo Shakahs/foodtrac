@@ -9,7 +9,7 @@ import propSchema from '../common/PropTypes';
 //   {/*</Link>*/}
 // );
 
-const Login = props => (
+const LoginFormComponent = props => (
   <form onSubmit={props.handleSubmit}>
     <div>
       <label htmlFor="email">Email</label>
@@ -26,12 +26,12 @@ const Login = props => (
   </form>
 );
 
-Login.propTypes = {
+LoginFormComponent.propTypes = {
   handleSubmit: propSchema.handleSubmit,
 };
 
 const LoginForm = reduxForm({
   form: 'login', // a unique name for this form
-})(Login);
+})(LoginFormComponent);
 
 export default LoginForm;

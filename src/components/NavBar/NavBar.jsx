@@ -11,7 +11,7 @@ import { actions as authActions } from '../../redux/auth';
 import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
-import Login from './LoginButton';
+import LoginForm from './LoginForm';
 import UnauthorizedComponent from '../common/Helpers/UnauthorizedComponent';
 import './NavBar.scss';
 
@@ -136,6 +136,7 @@ class NavBar extends Component {
                 onRequestClose={this.handleSearchRequestClose}
               >
                 <SearchBar />
+                {/*<LoginForm onSubmit={this.props.authActions.loginRequest} />*/}
               </Popover>
             </Col>}
             <Col xs={3} sm={3} md={2} lg={2} className="relative">
@@ -152,7 +153,7 @@ class NavBar extends Component {
                   targetOrigin={{ horizontal: 'left', vertical: 'top' }}
                   onRequestClose={this.handleLoginRequestClose}
                 >
-                  <Login onSubmit={this.props.authActions.loginRequest} />
+                  <LoginForm onSubmit={this.props.authActions.loginRequest} />
                 </Popover>
               </UnauthorizedComponent>
             </Col>
