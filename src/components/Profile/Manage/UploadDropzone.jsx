@@ -12,24 +12,34 @@ class UploadDropzone extends Component {
     super(props);
     this.state = {
       file: [],
-      open: false,
+      openSuccess: false,
+      openFailure: false,
     };
-
     this.handleDrop = this.handleDrop.bind(this);
     this.upload = this.upload.bind(this);
     this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.uploadFailure = this.uploadFailure.bind(this);
+    this.failureClose = this.failureClose.bind(this);
   }
 
   handleDrop(file) {
     this.setState({
       file,
-      open: true,
+      openSuccess: true,
     });
+  }
+
+  uploadFailure() {
+    this.setState({ openFailure: true });
+  }
+
+  failureClose() {
+    this.setState({ openFailure: false });
   }
 
   handleRequestClose() {
     this.setState({
-      open: false,
+      openSuccess: false,
     });
     this.props.close();
   }
@@ -46,7 +56,6 @@ class UploadDropzone extends Component {
           setTimeout(() => {
             this.props.getBrand(this.props.brandId);
             this.props.userActions.requestUserData(this.props.user.id);
-            // this.props.close();
           }, 5000),
         )
         .catch(err => console.log(err));
@@ -64,21 +73,28 @@ class UploadDropzone extends Component {
         <Dropzone
           accept="image/jpeg, image/png"
           multiple={false}
-          onDrop={(accepted) => {
-            this.handleDrop(accepted);
-            this.upload(accepted[0]);
+          onDropAccepted={(file) => {
+            this.handleDrop(file);
+            this.upload(file[0]);
           }}
+          onDropRejected={this.uploadFailure}
         >
           <p>Drop your picture here!</p>
         </Dropzone>
         {this.state.file.length > 0 ?
           <Snackbar
-            open={this.state.open}
+            open={this.state.openSuccess}
             message={`${this.state.file[0].name} was successfully uploaded! Your ${type} will change in a few seconds.`}
             autoHideDuration={3000}
             onRequestClose={this.handleRequestClose}
           /> : null
         }
+        <Snackbar
+          open={this.state.openFailure}
+          message="Upload failed. Make sure to use .jpeg or .png!"
+          autoHideDuration={3000}
+          onRequestClose={this.failureClose}
+        />
       </div>
     );
   }
