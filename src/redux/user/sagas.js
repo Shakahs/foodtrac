@@ -32,7 +32,11 @@ export function* watchBecomeOwnerReq() {
 export function* watchLoginSuccess() {
   while (true) {
     const { profileData } = yield take(authActions.LOGIN_SUCCESS);
-    const postData = { auth0_id: profileData.user_id };
+    const postData = {
+      auth0_id: profileData.user_id,
+      first_name: profileData.user_metadata.first_name,
+      last_name: profileData.user_metadata.last_name,
+    };
     postData.is_truck_owner = (Boolean(Number(profileData.user_metadata.signed_up_as_truck_owner)));
     const userData = yield call(axios.post, '/api/users/', postData);
     userData.data.is_truck_owner = Boolean(userData.data.is_truck_owner);

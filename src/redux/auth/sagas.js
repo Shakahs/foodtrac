@@ -38,6 +38,8 @@ export function* watchCreateAccount() {
       newUser.connection = globalConfig.AUTH0_DB_NAME;
       newUser.user_metadata = {};
       newUser.user_metadata.signed_up_as_truck_owner = (newUser.isTruckOwner) ? '1' : '0';
+      newUser.user_metadata.first_name = newUser.first_name;
+      newUser.user_metadata.last_name = newUser.last_name;
       yield call(Promise.fromCallback,
         callback => webAuth.signup(newUser, callback));
       yield put(actions.loginRequest({ email: newUser.email, password: newUser.password }));

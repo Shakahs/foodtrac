@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Paper, TextField } from 'material-ui';
+import { Checkbox } from 'redux-form-material-ui';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -78,7 +79,12 @@ const SignUpForm = (props) => {
           </Row>
           <Row>
             <Col>
-              {error && <strong>{error}</strong>}
+              <Field
+                name="isTruckOwner"
+                // type="submit"
+                component={Checkbox}
+                label="Do you own a food truck?"
+              />
             </Col>
           </Row>
           <Row>
