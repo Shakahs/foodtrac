@@ -59,6 +59,14 @@ class Orders extends Model {
           to: 'MenuItems.id',
         },
       },
+      user_coupon: {
+        relation: Model.BelongsToOneRelation,
+        modelClass: `${__dirname}/usercoupons.model`,
+        join: {
+          from: 'Orders.user_coupon_id',
+          to: 'UserCoupons.id',
+        },
+      },
     };
   }
 }

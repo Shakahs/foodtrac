@@ -9,6 +9,7 @@ import { actions as loadingActions } from '../../redux/Loading';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
 import TabView from './TabView';
+import './cover.scss';
 
 class Profile extends Component {
   constructor(props) {
@@ -123,7 +124,7 @@ class Profile extends Component {
   render() {
     return (
       <Grid fluid>
-        <Row>
+        <Row className="coverRow">
           <Cover coverImage={this.state.brand.cover_image} />
         </Row>
         <Row>

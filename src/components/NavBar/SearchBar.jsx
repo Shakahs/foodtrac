@@ -22,6 +22,7 @@ class SearchBar extends Component {
       },
       searchRange: 10,
       searchFoodGenre: 0,
+      selectedFoodGenre: 0,
     };
     this.handleLocationSelect = this.handleLocationSelect.bind(this);
     this.handleSearchRangeChange = this.handleSearchRangeChange.bind(this);

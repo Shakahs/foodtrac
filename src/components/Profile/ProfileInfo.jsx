@@ -9,7 +9,7 @@ import './ProfileInfo.scss';
 
 const ProfileInfo = props => (
   <Col xs={12} sm={12} md={3} lg={3}>
-    <Paper>
+    <Paper className="logoContainer">
       <Avatar
         className="brandLogo"
         // src="http://job.ihworld.com/sites/default/files/default_images/company-profile-default-logo.jpg"

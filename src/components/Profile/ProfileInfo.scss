@@ -6,7 +6,8 @@
   display: inline-block;
 }
 
-.brandLogo {
-  display: block !important;
-  margin: auto;
+.logoContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
