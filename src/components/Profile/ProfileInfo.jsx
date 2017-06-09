@@ -13,7 +13,7 @@ const ProfileInfo = props => (
       <Avatar
         className="brandLogo"
         // src="http://job.ihworld.com/sites/default/files/default_images/company-profile-default-logo.jpg"
-        src={props.logo
+        src={props.logo && props.logo.length > 0
           ? `http://storage.googleapis.com/foodtrac/${props.logo.filename}`
           : 'http://job.ihworld.com/sites/default/files/default_images/company-profile-default-logo.jpg'
         }

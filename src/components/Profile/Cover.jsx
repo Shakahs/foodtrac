@@ -8,11 +8,11 @@ const Cover = props => (
     <Paper className="coverContainer">
       <img
         className="coverPicture"
-        src={props.coverImage
+        src={props.coverImage && props.coverImage.length > 0
           ? `http://storage.googleapis.com/foodtrac/${props.coverImage.filename}`
-          : 'https://cdnb.artstation.com/p/assets/images/images/000/910/393/large/wichanan-sarajan-foodtruck-render2-0001.jpg?1435928759'
+          : 'https://storage.googleapis.com/foodtrac/defaultTruckCover.jpeg'
         }
-        alt="https://cdnb.artstation.com/p/assets/images/images/000/910/393/large/wichanan-sarajan-foodtruck-render2-0001.jpg?1435928759"
+        alt="https://storage.googleapis.com/foodtrac/defaultTruckCover.jpeg"
         height="35%"
         width="100%"
       />
