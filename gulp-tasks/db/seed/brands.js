@@ -46,6 +46,7 @@ module.exports = {
           newSeedDataItem.food_genre_id = chance.pickone(foodGenres).id;
           delete newSeedDataItem.default_coupon_id;
           delete newSeedDataItem.cover_image_id;
+          delete newSeedDataItem.logo_image_id;
           newSeedDataItem.name += ' Truck';
           return newSeedDataItem;
         });

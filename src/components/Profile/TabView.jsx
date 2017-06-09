@@ -23,7 +23,7 @@ const TabView = props => (
           )}
         />
         <Route
-          path="/brand/:brandId/trucks"
+          path="/brand/:brandId/"
           render={({ match }) => (<Trucks
             brandName={props.brandName}
             trucks={props.trucks}

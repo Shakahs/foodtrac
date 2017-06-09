@@ -36,7 +36,7 @@ class Users extends Model {
               [
                 true, false,
               ],
-              [1, 3],
+              [1, 2],
             ],
           },
         },

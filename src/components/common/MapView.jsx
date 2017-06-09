@@ -117,7 +117,7 @@ class MapView extends Component {
   }
 
   renderMap() {
-    if (this.props.trucks.length > 0) {
+    if (_.some(this.props.trucks, truck => truck.locations)) {
       return (
         <div style={{ height: '550px', width: '90%', margin: 'auto' }}>
           <TruckMap

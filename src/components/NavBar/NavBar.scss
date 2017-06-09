@@ -6,12 +6,9 @@ $a-tags: 'a, a:active, a:hover, a:visited';
   padding: 10px;
 }
 
-.SiteHeader {
+.SiteHeaderLink {
   font-size: 32px;
-}
-
-.SiteHeader #{$a-tags} {
-  color: white;
+  color: white !important;
 }
 
 .MenuDrawer {
