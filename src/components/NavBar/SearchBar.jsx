@@ -16,21 +16,41 @@ class SearchBar extends Component {
     super(props);
     this.state = {
       redirect: false,
+      searchLocation: {
+        lat: null,
+        lng: null,
+      },
       searchRange: 10,
-      selectedFoodGenre: 0,
+      searchFoodGenre: 0,
     };
-    this.handleSuggestSelect = this.handleSuggestSelect.bind(this);
+    this.handleLocationSelect = this.handleLocationSelect.bind(this);
     this.redirectToMap = this.redirectToMap.bind(this);
     this.handleSearchRangeChange = this.handleSearchRangeChange.bind(this);
     this.handleFoodGenreChange = this.handleFoodGenreChange.bind(this);
+    this.sendMapSearch = this.sendMapSearch.bind(this);
   }
 
-  handleSuggestSelect({ location }) {
+  sendMapSearch() {
+    this.props.actions.mapRequest(this.state.searchLocation.lat,
+      this.state.searchLocation.lng,
+      this.state.searchRange,
+      this.state.searchFoodGenre);
+  }
+
+  handleLocationSelect({ location }) {
     const { lat, lng } = location;
-    this.props.actions.mapRequest(lat, lng, this.state.searchRange, this.state.selectedFoodGenre);
     this.setState({
       redirect: true,
-    });
+      searchLocation: { lat, lng },
+    }, this.sendMapSearch);
+  }
+
+  handleSearchRangeChange(event, index, searchRange) {
+    this.setState({ searchRange }, this.sendMapSearch);
+  }
+
+  handleFoodGenreChange(event, index, searchFoodGenre) {
+    this.setState({ searchFoodGenre }, this.sendMapSearch);
   }
 
   redirectToMap() {
@@ -41,14 +61,6 @@ class SearchBar extends Component {
       return <Redirect push to="/map" />;
     }
     return null;
-  }
-
-  handleSearchRangeChange(event, index, searchRange) {
-    this.setState({ searchRange });
-  }
-
-  handleFoodGenreChange(event, index, selectedFoodGenre) {
-    this.setState({ selectedFoodGenre });
   }
 
   render() {
@@ -63,8 +75,7 @@ class SearchBar extends Component {
           types={['geocode']}
           placeholder="Type your address!"
           onSuggestSelect={(e) => {
-            this.handleSuggestSelect(e);
-            this._geoSuggest.clear();
+            this.handleLocationSelect(e);
           }}
         />
 
@@ -77,7 +88,7 @@ class SearchBar extends Component {
         </DropDownMenu>
 
         {this.props.foodGenres && this.props.foodGenres.length > 0 &&
-          <DropDownMenu value={this.state.selectedFoodGenre} onChange={this.handleFoodGenreChange}>
+          <DropDownMenu value={this.state.searchFoodGenre} onChange={this.handleFoodGenreChange}>
             <MenuItem value={0} primaryText="Any Food" />
             {this.props.foodGenres.map(foodGenre => (
               <MenuItem value={foodGenre.id} primaryText={foodGenre.name} />
