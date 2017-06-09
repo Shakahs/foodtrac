@@ -65,7 +65,7 @@ class Settings extends Component {
                 path="/settings/notifications"
                 component={NotificationSubBtn}
               />
-              <Redirect from="/settings" exact to={this.props.is_truck_owner ? '/settings/addbrand' : '/settings/becomeOwner'} />
+              <Redirect from="/settings" exact to={this.props.user.is_truck_owner ? '/settings/addbrand' : '/settings/becomeOwner'} />
             </Switch>
             <Snackbar
               open={this.state.showOwnerNotification}
