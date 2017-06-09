@@ -3,7 +3,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  // background-color: white !important;
+  flex-wrap: wrap;
 }
 
 .searchBar > div {
@@ -11,7 +11,20 @@
 }
 
 .addressEntry {
+  order: 1;
   flex-grow: 2;
+}
+
+.location-search-btn {
+  order: 2;
+}
+
+.dist-drop-down {
+  order: 3;
+}
+
+.genre-drop-down {
+  order: 4;
 }
 
 .searchBar ul {
@@ -22,4 +35,16 @@
 .searchBar li {
   cursor: pointer;
   list-style-type: none;
+}
+
+@media (min-width: 900px) {
+  .addressEntry {
+    flex-grow: 2;
+  }
+  .addressEntry,
+  .location-search-btn,
+  .dist-drop-down,
+  .genre-drop-down {
+    order: initial;
+  }
 }
