@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TextField, Tabs, Tab, RaisedButton, FlatButton } from 'material-ui';
+import { TextField, Tabs, Tab, FlatButton } from 'material-ui';
 import Geosuggest from 'react-geosuggest';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -144,12 +144,13 @@ class ManageTrucks extends Component {
   render() {
     return (
       <div>
-        <Tabs>
+        <Tabs className="trucksTabs">
           {this.props.trucks.map((truck, i) => {
             const name = truck.name === 'null' ? `Food Truck ${i + 1}` : truck.name;
             return (
-              <Tab key={truck.id} label={name}>
+              <Tab key={truck.id} label={name} className="truckTab">
                 <TextField
+                  className="truckField"
                   hintText="Change your Food truck's Name"
                   onChange={(e, val) => this.handleEditTruckChange(e, val, i, truck.id)}
                 />
@@ -202,7 +203,7 @@ class ManageTrucks extends Component {
         <br />
         <br />
         <Link to={`/brand/${this.props.brandId}/trucks`}>
-          <RaisedButton
+          <FlatButton
             label="Save Changes"
             onClick={() => this.handleSave()}
           />

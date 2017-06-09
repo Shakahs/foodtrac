@@ -88,7 +88,7 @@ class ManageBrand extends React.Component {
 
   render() {
     return (
-      <Tabs>
+      <Tabs className="manageTabs">
         {this.redirectToMap()}
         <Tab label="Info">
           <ManageBasic

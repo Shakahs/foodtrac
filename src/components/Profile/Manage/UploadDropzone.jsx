@@ -71,7 +71,6 @@ class UploadDropzone extends Component {
     return (
       <div>
         <Dropzone
-          // className="dropzone"
           accept="image/jpeg, image/png"
           multiple={false}
           onDropAccepted={(file) => {
@@ -80,7 +79,7 @@ class UploadDropzone extends Component {
           }}
           onDropRejected={this.uploadFailure}
         >
-          <p>Drop your picture here!</p>
+          <p className="dropzoneText">Drop your picture here!</p>
         </Dropzone>
         {this.state.file.length > 0 ?
           <Snackbar
