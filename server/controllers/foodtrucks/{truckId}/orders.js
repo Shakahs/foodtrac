@@ -8,7 +8,7 @@ module.exports = {
   get(req, res) {
     Orders.query()
       .where('truck_id', '=', req.params.truckId)
-      .eager('orderitems.menu_item')
+      .eager('[orderitems.menu_item, user_coupon.coupons]')
       .then(order => res.status(200).json(order))
       .catch(e => res.status(400).send(e.message));
   },
