@@ -5,6 +5,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Field, reduxForm } from 'redux-form';
 import propSchema from '../common/PropTypes';
 import { renderField } from './formUtil';
+import './auth.scss';
 
 const LoginFormComponent = props => (
   <Grid fluid className="loginPopover">
