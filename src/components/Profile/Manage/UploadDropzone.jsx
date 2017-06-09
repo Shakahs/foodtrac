@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import Dropzone from 'react-dropzone';
-import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
+import { Snackbar } from 'material-ui';
 import axios from 'axios';
 import { actions as userActions } from '../../../redux/user';
 import propSchema from '../../common/PropTypes';
@@ -11,14 +12,36 @@ class UploadDropzone extends Component {
     super(props);
     this.state = {
       file: [],
+      openSuccess: false,
+      openFailure: false,
     };
-
     this.handleDrop = this.handleDrop.bind(this);
     this.upload = this.upload.bind(this);
+    this.handleRequestClose = this.handleRequestClose.bind(this);
+    this.uploadFailure = this.uploadFailure.bind(this);
+    this.failureClose = this.failureClose.bind(this);
   }
 
   handleDrop(file) {
-    this.setState({ file });
+    this.setState({
+      file,
+      openSuccess: true,
+    });
+  }
+
+  uploadFailure() {
+    this.setState({ openFailure: true });
+  }
+
+  failureClose() {
+    this.setState({ openFailure: false });
+  }
+
+  handleRequestClose() {
+    this.setState({
+      openSuccess: false,
+    });
+    this.props.close();
   }
 
   upload(fileObj) {
@@ -50,17 +73,28 @@ class UploadDropzone extends Component {
         <Dropzone
           accept="image/jpeg, image/png"
           multiple={false}
-          onDrop={(accepted) => {
-            this.handleDrop(accepted);
-            this.upload(accepted[0]);
+          onDropAccepted={(file) => {
+            this.handleDrop(file);
+            this.upload(file[0]);
           }}
+          onDropRejected={this.uploadFailure}
         >
           <p>Drop your picture here!</p>
         </Dropzone>
-        {this.state.file.length > 0
-          ? <div>{this.state.file[0].name} was successfully uploaded! Your {type} will change in a few seconds.</div>
-          : null
+        {this.state.file.length > 0 ?
+          <Snackbar
+            open={this.state.openSuccess}
+            message={`${this.state.file[0].name} was successfully uploaded! Your ${type} will change in a few seconds.`}
+            autoHideDuration={3000}
+            onRequestClose={this.handleRequestClose}
+          /> : null
         }
+        <Snackbar
+          open={this.state.openFailure}
+          message="Upload failed. Make sure to use .jpeg or .png!"
+          autoHideDuration={3000}
+          onRequestClose={this.failureClose}
+        />
       </div>
     );
   }
@@ -72,6 +106,7 @@ UploadDropzone.propTypes = {
   getBrand: propSchema.getBrand,
   imageType: propSchema.imageType,
   userActions: propSchema.userActions,
+  close: propSchema.close,
 };
 
 const mapDispatchToProps = dispatch => ({

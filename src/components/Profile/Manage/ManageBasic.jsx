@@ -15,6 +15,7 @@ class ManageBasic extends Component {
     };
     this.toggleCoverDropzone = this.toggleCoverDropzone.bind(this);
     this.toggleLogoDropzone = this.toggleLogoDropzone.bind(this);
+    this.autoCloseOnUpload = this.autoCloseOnUpload.bind(this);
   }
 
   toggleCoverDropzone() {
@@ -23,6 +24,13 @@ class ManageBasic extends Component {
 
   toggleLogoDropzone() {
     this.setState({ logoDropzone: !this.state.logoDropzone });
+  }
+
+  autoCloseOnUpload() {
+    this.setState({
+      coverDropzone: false,
+      logoDropzone: false,
+    });
   }
 
   render() {
@@ -62,7 +70,11 @@ class ManageBasic extends Component {
           onClick={this.toggleCoverDropzone}
         />
         {this.state.coverDropzone
-          ? <UploadDropzone {...this.props} imageType={'coverImage'} />
+          ? <UploadDropzone
+            {...this.props}
+            imageType={'coverImage'}
+            close={this.autoCloseOnUpload}
+          />
           : null
         }
         <br />
@@ -71,7 +83,11 @@ class ManageBasic extends Component {
           onClick={this.toggleLogoDropzone}
         />
         {this.state.logoDropzone
-          ? <UploadDropzone {...this.props} imageType={'logoimage'} />
+          ? <UploadDropzone
+            {...this.props}
+            imageType={'logoimage'}
+            close={this.autoCloseOnUpload}
+          />
           : null
         }
         <br />

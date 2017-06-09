@@ -69,9 +69,11 @@ class ManageBrand extends React.Component {
   }
 
   handleSave(data) {
-    this.handleInfoEdit(data);
-    this.handleReduxUpdate(data);
-    this.setState({ redirect: true });
+    if (Object.keys(data).length > 0) {
+      this.handleInfoEdit(data);
+      this.handleReduxUpdate(data);
+      this.setState({ redirect: true });
+    }
   }
 
   redirectToMap() {
