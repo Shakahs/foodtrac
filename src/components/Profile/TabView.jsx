@@ -22,15 +22,6 @@ const TabView = props => (
             <MenuList menuItems={props.menuItems} />
           )}
         />
-        <Route
-          path="/brand/:brandId/"
-          render={({ match }) => (<Trucks
-            brandName={props.brandName}
-            trucks={props.trucks}
-            markers={props.markers}
-            path={match.path}
-          />)}
-        />
         <Route path="/brand/:brandId/events" render={routeProps => <EventsAttendingList {...routeProps} {...props} />} />
         <Route path="/brand/:brandId/reviews" render={routeProps => <ReviewMain {...routeProps} {...props} />} />
         <Route
@@ -55,6 +46,15 @@ const TabView = props => (
           />)}
         />
         <Route path="/brand/:brandId/orders/:truckId" component={IncomingOrder} />
+        <Route
+          path="/brand/:brandId/"
+          render={({ match }) => (<Trucks
+            brandName={props.brandName}
+            trucks={props.trucks}
+            markers={props.markers}
+            path={match.path}
+          />)}
+        />
       </Switch>
     </Paper>
   </Col>
