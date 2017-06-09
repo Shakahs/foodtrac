@@ -15,7 +15,7 @@ class TruckEmblem extends React.Component { // eslint-disable-line react/prefer-
       : <FontIcon className="fa fa-truck" />;
 
     const profileLink = (
-      <Link to={`/brand/${truck.brands.id}`} >
+      <Link to={`/brand/${truck.brand_id}`} >
         {truck.brands.name}
       </Link>);
 
