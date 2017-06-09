@@ -1,20 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Paper, TextField } from 'material-ui';
+import { Paper } from 'material-ui';
 import { Checkbox } from 'redux-form-material-ui';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import { Field, reduxForm } from 'redux-form';
 import RaisedButton from 'material-ui/RaisedButton';
-
-
-const renderField = ({ input, label, type, meta: { touched, error } }) => ( //eslint-disable-line
-  <TextField
-    hintText={label}
-    floatingLabelText={label}
-    errorText={touched && error}
-    type={type}
-    {...input}
-  />);
+import { renderField } from './formUtil';
 
 const SignUpForm = (props) => {
   const { error, handleSubmit, pristine, reset, submitting } = props;  //eslint-disable-line

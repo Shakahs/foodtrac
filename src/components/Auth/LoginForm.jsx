@@ -4,35 +4,28 @@ import { Grid, Row, Col } from 'react-flexbox-grid';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Field, reduxForm } from 'redux-form';
 import propSchema from '../common/PropTypes';
-
-const renderField = ({ input, label, type }) => ( // eslint-disable-line react/prop-types
-  <div>
-    <input {...input} placeholder={label} type={type} className="loginFields" />
-  </div>
-);
+import { renderField } from './formUtil';
 
 const LoginFormComponent = props => (
   <Grid fluid className="loginPopover">
     <form onSubmit={props.handleSubmit}>
       <Row>
-        <Col xs={4}>
-          <label htmlFor="email">Email:</label>
-        </Col>
-        <Col xs={8}>
-          <Field name="email" component="input" type="text" className="loginFields" />
+        <Col>
+          <Field
+            name="email"
+            type="text"
+            component={renderField}
+            label="E-Mail Address"
+          />
         </Col>
       </Row>
       <Row>
-        <Col xs={4}>
-          <label htmlFor="password">Password:</label>
-        </Col>
-        <Col xs={8} >
+        <Col>
           <Field
             name="password"
             type="password"
             component={renderField}
             label="Password"
-            className="loginFields"
           />
         </Col>
       </Row>
