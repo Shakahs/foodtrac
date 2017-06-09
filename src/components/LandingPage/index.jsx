@@ -3,11 +3,15 @@ import './landing.scss';
 
 const LandingPage = () => (
   <div className="landing" >
-    <img
-      className="landingLogo"
-      src="http://storage.googleapis.com/foodtrac/foodtrac.png"
-      alt=""
-    />
+    <div className="landgingLogoContainer">
+      <img
+        className="landingLogo"
+        src="http://storage.googleapis.com/foodtrac/foodtracpin.png"
+        alt=""
+      />
+      <br />
+      <div>foodtrac</div>
+    </div>
   </div>
 );
 
