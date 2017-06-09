@@ -95,7 +95,7 @@ const SignUpForm = (props) => {
                 label="Clear Fields"
                 primary
                 // eslint-disable-next-line
-                onClick={() => props.resetForm()} />
+                onClick={props.reset} />
             </Col>
           </Row>
         </Grid>
