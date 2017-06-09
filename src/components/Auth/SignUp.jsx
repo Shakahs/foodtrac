@@ -1,7 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import propSchema from '../common/PropTypes';
 import SignUpForm from './SignUpForm';
 import { actions as authActions } from '../../redux/auth';
 
@@ -13,7 +13,7 @@ const SignUp = props => (
 );
 
 SignUp.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
+  authActions: propSchema.authActions,
 };
 
 const mapDispatchToProps = dispatch => ({

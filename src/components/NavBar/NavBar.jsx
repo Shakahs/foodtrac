@@ -11,7 +11,7 @@ import { actions as authActions } from '../../redux/auth';
 import { actions as foodGenresActions } from '../../redux/FoodGenres';
 import SearchBar from './SearchBar';
 import UserMenu from './UserMenu';
-import LoginForm from './LoginForm';
+import LoginForm from '../Auth/LoginForm';
 import UnauthorizedComponent from '../common/Helpers/UnauthorizedComponent';
 import './NavBar.scss';
 

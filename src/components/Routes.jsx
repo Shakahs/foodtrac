@@ -5,7 +5,7 @@ import MapPage from './MapPage/MapPage';
 import Profile from './Profile/Profile';
 import Settings from './Settings/Settings';
 import FoodOrder from './FoodOrder/FoodOrder';
-import SignUp from './SignUp';
+import SignUp from './Auth/SignUp';
 import Events from './Events';
 
 class Routes extends Component {
