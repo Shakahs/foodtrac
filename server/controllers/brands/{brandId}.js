@@ -13,7 +13,7 @@ module.exports = {
   get(req, res) {
     // users need a username to display publically
     const eagerOption = req.query.eager
-      ? '[trucks.locations, food_genres, menu_items, brand_comments(newestFirst).users.[brand_reviews, brands], brand_reviews(newestFirst).users, upvotes, events_attending.events.[locations, brands_attending.brands.logo_image, users_attending.[brands, brand_reviews], owners], coupon, cover_image, logo_image]'
+      ? '[trucks.locations, food_genres, menu_items, brand_comments(newestFirst).users.[brand_reviews, brands], brand_reviews(newestFirst).users, upvotes, events_attending.events.[locations, brands_attending.brands.logo_image, users_attending.[users.[brands, brand_reviews]], owners], coupon, cover_image, logo_image]'
       : '';
     const currentTime = new Date();
     const latestValidTime = new Date(currentTime - 28800000);
