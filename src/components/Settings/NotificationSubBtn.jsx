@@ -35,7 +35,7 @@ class NotificationSubBtn extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ padding: '20px' }}>
         <Toggle
           label="Notifications"
           defaultToggled={this.props.sw.subscription !== null}

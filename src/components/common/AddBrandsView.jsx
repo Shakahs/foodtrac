@@ -71,7 +71,7 @@ class AddBrandsView extends Component {
 
   render() {
     return (
-      <div>
+      <div style={{ padding: '0 20px' }}>
         <form onSubmit={this.handleSubmit}>
           <TextField
             floatingLabelText="Brand Name"
