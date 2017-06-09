@@ -66,7 +66,11 @@ class SearchBar extends Component {
           }}
         />
 
-        <DropDownMenu value={this.state.searchRange} onChange={this.handleSearchRangeChange}>
+        <DropDownMenu
+          value={this.state.searchRange}
+          onChange={this.handleSearchRangeChange}
+          className="dist-drop-down"
+        >
           <MenuItem value={5} primaryText="5 Miles" />
           <MenuItem value={10} primaryText="10 Miles" />
           <MenuItem value={15} primaryText="15 Miles" />
@@ -75,7 +79,11 @@ class SearchBar extends Component {
         </DropDownMenu>
 
         {this.props.foodGenres && this.props.foodGenres.length > 0 &&
-          <DropDownMenu value={this.state.searchFoodGenre} onChange={this.handleFoodGenreChange}>
+          <DropDownMenu
+            value={this.state.selectedFoodGenre}
+            onChange={this.handleFoodGenreChange}
+            className="genre-drop-down"
+          >
             <MenuItem value={0} primaryText="Any Food" />
             {this.props.foodGenres.map(foodGenre => (
               <MenuItem value={foodGenre.id} primaryText={foodGenre.name} />
