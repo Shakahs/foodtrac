@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import Geosuggest from 'react-geosuggest';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Redirect } from 'react-router-dom';
 import RaisedButton from 'material-ui/RaisedButton';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
+import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import { actions as mapActions } from '../../redux/MapSearch';
 import propSchema from '../common/PropTypes';
 import './SearchBar.scss';
@@ -15,7 +16,6 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      redirect: false,
       searchLocation: {
         lat: null,
         lng: null,
@@ -24,7 +24,6 @@ class SearchBar extends Component {
       searchFoodGenre: 0,
     };
     this.handleLocationSelect = this.handleLocationSelect.bind(this);
-    this.redirectToMap = this.redirectToMap.bind(this);
     this.handleSearchRangeChange = this.handleSearchRangeChange.bind(this);
     this.handleFoodGenreChange = this.handleFoodGenreChange.bind(this);
     this.sendMapSearch = this.sendMapSearch.bind(this);
@@ -35,12 +34,12 @@ class SearchBar extends Component {
       this.state.searchLocation.lng,
       this.state.searchRange,
       this.state.searchFoodGenre);
+    this.props.history.push('/map');
   }
 
   handleLocationSelect({ location }) {
     const { lat, lng } = location;
     this.setState({
-      redirect: true,
       searchLocation: { lat, lng },
     }, this.sendMapSearch);
   }
@@ -53,21 +52,9 @@ class SearchBar extends Component {
     this.setState({ searchFoodGenre }, this.sendMapSearch);
   }
 
-  redirectToMap() {
-    if (this.state.redirect) {
-      this.setState({
-        redirect: false,
-      });
-      return <Redirect push to="/map" />;
-    }
-    return null;
-  }
-
   render() {
     return (
       <div className="searchBar">
-        {this.redirectToMap()}
-
         <Geosuggest
           className="addressEntry"
           ref={el => this._geoSuggest = el} // eslint-disable-line no-return-assign
@@ -94,7 +81,7 @@ class SearchBar extends Component {
               <MenuItem value={foodGenre.id} primaryText={foodGenre.name} />
                 ))}
           </DropDownMenu>}
-        <RaisedButton className="location-search-btn" label="Search" primary />
+        <RaisedButton className="location-search-btn" label="Search" primary onClick={this.sendMapSearch} />
       </div>
     );
   }
@@ -103,6 +90,7 @@ class SearchBar extends Component {
 SearchBar.propTypes = {
   actions: propSchema.actions,
   foodGenres: propSchema.foodGenres,
+  history: PropTypes.shape({ push: PropTypes.func.isRequired }),
 };
 
 SearchBar.defaultProps = {
@@ -117,4 +105,5 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(mapActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchBar);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SearchBar));
+
