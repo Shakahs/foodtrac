@@ -52,10 +52,10 @@ $a-tags: 'a, a:active, a:hover, a:visited';
 
 .loginPopover{
   padding: 10px;
-  background-color:rgba(33, 150, 243, 0.75)
+  background-color:rgba(33, 150, 243, 0.75);
+  font-size: small;
 }
 
-.loginRight {
-  text-align: justify;
-
+.loginFields {
+  width: 125px;
 }
