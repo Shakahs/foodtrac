@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatButton, RaisedButton } from 'material-ui';
+import { FlatButton } from 'material-ui';
 import { Grid } from 'react-flexbox-grid';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -96,7 +96,7 @@ class ManageMenu extends Component {
         <br />
         {this.state.menuItems.length > 0 ?
           <Link to={`/brand/${this.props.brandId}/trucks`}>
-            <RaisedButton
+            <FlatButton
               label="Save Changes"
               onClick={this.saveChanges}
             />

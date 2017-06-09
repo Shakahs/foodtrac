@@ -1,0 +1,20 @@
+.basicField {
+  margin-left: 25;
+}
+
+.menuItem {
+  margin-bottom: 15;
+  padding-left: 10;
+  padding-right: 10;
+}
+
+.menuField {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.removeButton {
+  position: absolute;
+  top: 23;
+}

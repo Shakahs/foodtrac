@@ -4,6 +4,7 @@ import { SelectField, TextField } from 'redux-form-material-ui';
 import { Field, reduxForm } from 'redux-form';
 import propSchema from '../../common/PropTypes';
 import UploadDropzone from './UploadDropzone';
+import './Manage.scss';
 
 
 class ManageBasic extends Component {
@@ -35,8 +36,9 @@ class ManageBasic extends Component {
 
   render() {
     return (
-      <div>
+      <div className="basicInfo">
         <Field
+          className="basicField"
           name="name"
           component={TextField}
           type="text"
@@ -45,6 +47,7 @@ class ManageBasic extends Component {
         />
         <br />
         <Field
+          className="basicField"
           name="description"
           component={TextField}
           type="text"
@@ -53,6 +56,7 @@ class ManageBasic extends Component {
         />
         <br />
         <Field
+          className="basicField"
           name="food_genre_id"
           component={SelectField}
           hintText="Change Food Genre"

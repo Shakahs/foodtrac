@@ -71,6 +71,7 @@ class UploadDropzone extends Component {
     return (
       <div>
         <Dropzone
+          // className="dropzone"
           accept="image/jpeg, image/png"
           multiple={false}
           onDropAccepted={(file) => {
