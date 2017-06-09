@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Table, TableHeader, TableRow, TableHeaderColumn, TableBody } from 'material-ui';
 import propSchema from '../../common/PropTypes';
 import OrderEntry from './OrderEntry';
 
@@ -38,20 +39,29 @@ class IncomingOrder extends Component {
 
   render() {
     return (
-      <div>
-        <div>Incoming Orders</div>
-        <br />
-        <br />
-        {this.state.orders.map(order => // eslint-disable-line no-confusing-arrow
-          order.ready === 0 ?
-            <OrderEntry
+      <Table onRowSelection={index => this.orderReady(index)}>
+        <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+          <TableRow>
+            <TableHeaderColumn>Order for:</TableHeaderColumn>
+            <TableHeaderColumn>Item ordered:</TableHeaderColumn>
+            <TableHeaderColumn>Coupon:</TableHeaderColumn>
+            <TableHeaderColumn>Total due:</TableHeaderColumn>
+            <TableHeaderColumn>Ready:</TableHeaderColumn>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {this.state.orders.map(order => // eslint-disable-line no-confusing-arrow
+            order.ready === 0
+            ? <OrderEntry
               key={order.id}
               order={order}
               truckId={this.props.match.params.truckId}
               getOrders={this.getOrders}
-            /> : null,
-        )}
-      </div>
+            />
+            : null,
+          )}
+        </TableBody>
+      </Table>
     );
   }
 }
