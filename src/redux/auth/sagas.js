@@ -98,7 +98,7 @@ export function* watchLoginRequest() {
       if (e instanceof SubmissionError) {
         yield put(stopSubmit('Login', e.errors));
       } else if (e.statusCode && e.statusCode >= 400) {
-        yield put(stopSubmit('Login', { _error: 'Access denied, please try again' }));
+        yield put(stopSubmit('Login', { _error: 'Access denied, please retry' }));
       }
     }
   }
