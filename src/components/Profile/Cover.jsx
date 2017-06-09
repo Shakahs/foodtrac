@@ -8,8 +8,8 @@ const Cover = props => (
     <Paper className="coverContainer">
       <img
         className="coverPicture"
-        src={props.coverImage && props.coverImage.length > 0
-          ? `http://storage.googleapis.com/foodtrac/${props.coverImage.filename}`
+        src={props.coverImage && props.coverImage.filename.length > 0
+          ? `https://storage.googleapis.com/foodtrac/${props.coverImage.filename}`
           : 'https://storage.googleapis.com/foodtrac/defaultTruckCover.jpeg'
         }
         alt="https://storage.googleapis.com/foodtrac/defaultTruckCover.jpeg"
