@@ -255,4 +255,10 @@ export default {
   imageType: PropTypes.string.isRequired,
 
   close: PropTypes.func.isRequired,
+
+  loading: PropTypes.bool.isRequired,
+  loadingActions: PropTypes.shape({
+    startLoading: PropTypes.func,
+    endLoading: PropTypes.func,
+  }).isRequired,
 };

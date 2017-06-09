@@ -16,6 +16,7 @@ import { eventAPI, commentAPI } from '../../../api';
 import propSchema from '../../common/PropTypes';
 import CommentsView from '../../common/Comments';
 import { actions as userActions } from '../../../redux/user';
+import { actions as loadingActions } from '../../../redux/Loading';
 
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -123,8 +124,9 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
 
   render() {
     const event = this.state.event;
-
+    this.props.loadingActions.startLoading();
     if (this.state.event) {
+      this.props.loadingActions.endLoading();
       const GettingStartedGoogleMap = withGoogleMap(() => (
         <GoogleMap
           defaultZoom={15}
@@ -141,7 +143,6 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
           />
         </GoogleMap>
       ));
-
       return (
         <Grid fluid>
           <Row>
@@ -196,7 +197,7 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
         </Grid>
       );
     }
-    return (<div>Loading...</div>);
+    return (<div />);
   }
 }
 
@@ -204,6 +205,7 @@ EventDetail.propTypes = {
   user: propSchema.user,
   eventId: PropTypes.number.isRequired,
   userActions: propSchema.userActions,
+  loadingActions: propSchema.loadingActions,
 };
 
 const mapStateToProps = state => ({
@@ -212,6 +214,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   userActions: bindActionCreators(userActions, dispatch),
+  loadingActions: bindActionCreators(loadingActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EventDetail);

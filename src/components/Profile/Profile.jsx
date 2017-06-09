@@ -5,6 +5,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import propSchema from '../common/PropTypes';
 import { actions as profileActions } from '../../redux/CurrentProfile';
+import { actions as loadingActions } from '../../redux/Loading';
 import Cover from './Cover';
 import ProfileInfo from './ProfileInfo';
 import TabView from './TabView';
@@ -46,6 +47,7 @@ class Profile extends Component {
   }
 
   getBrandDetail(brandId) {
+    this.props.dispatch(loadingActions.startLoading());
     axios.get(`/api/brands/${brandId}?eager=true`)
       .then((res) => {
         const markers = res.data.trucks.reduce((result, truck) => {
@@ -70,9 +72,12 @@ class Profile extends Component {
             logo_image: res.data.logo_image,
           };
         });
-        this.setState({ brandId: parseInt(this.props.match.params.brandId, 10) });
-        this.setState({ markers });
-        this.setState({ brand: res.data });
+        this.setState({
+          brandId: parseInt(this.props.match.params.brandId, 10),
+          brand: res.data,
+          markers,
+        });
+        this.props.dispatch(loadingActions.endLoading());
         this.props.dispatch(profileActions.newBrandProfile(res.data.upvotes));
       })
       .catch(err => console.log(err));

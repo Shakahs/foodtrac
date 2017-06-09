@@ -6,6 +6,7 @@ import { reducer as swReducer } from './ServiceWorker';
 import { reducer as authReducer } from './auth';
 import { reducer as profileReducer } from './CurrentProfile';
 import { reducer as foodGenresReducer } from './FoodGenres';
+import { reducer as loadingReducer } from './Loading';
 
 const combinedReducer = combineReducers({
   map: mapReducer,
@@ -15,6 +16,7 @@ const combinedReducer = combineReducers({
   sw: swReducer,
   form: formReducer,
   profile: profileReducer,
+  loading: loadingReducer,
 });
 
 export default combinedReducer;

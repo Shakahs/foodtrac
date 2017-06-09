@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Link } from 'react-router-dom';
 import { Grid, Row, Col } from 'react-flexbox-grid';
 import 'font-awesome/css/font-awesome.min.css';
-import { Popover, FlatButton, FontIcon } from 'material-ui';
+import { Popover, FlatButton, FontIcon, LinearProgress } from 'material-ui';
 import propSchema from '../common/PropTypes';
 import { actions as userActions } from '../../redux/user';
 import { actions as authActions } from '../../redux/auth';
@@ -61,49 +61,55 @@ class NavBar extends Component {
 
   render() {
     return (
-      <Grid fluid className="NavBar">
-        <UserMenu
-          handleLogout={this.props.authActions.logout}
-          handleMenuToggle={this.handleMenuToggle}
-          handleMenuClose={this.handleMenuClose}
-          handleMenuChange={this.handleMenuChange}
-          menuOpen={this.state.menuOpen}
-        />
-        <Row style={{ width: '100%' }}>
-          <Col xs={1} sm={1} md={1} lg={1} className="centered-span-container">
-            <FontIcon
-              className="fa fa-bars center-span"
-              hoverColor="#00bcd4"
-              onTouchTap={this.handleMenuToggle}
-            />
-          </Col>
-          <Col xs={2} sm={2} md={2} lg={2}>
-            <Link to="/" className="site-header center-span">
-              foodtrac
-            </Link>
-          </Col>
-          <Col xs={7} sm={7} md={7} lg={7}>
-            <SearchBar />
-          </Col>
-          <Col xs={2} sm={2} md={2} lg={2} className="relative">
-            <UnauthorizedComponent>
-              <FlatButton
-                label="Log In / Sign Up"
-                onTouchTap={this.handleLoginTouchTap}
+      <div>
+        <Grid fluid className="NavBar">
+          <UserMenu
+            handleLogout={this.props.authActions.logout}
+            handleMenuToggle={this.handleMenuToggle}
+            handleMenuClose={this.handleMenuClose}
+            handleMenuChange={this.handleMenuChange}
+            menuOpen={this.state.menuOpen}
+          />
+          <Row style={{ width: '100%' }}>
+            <Col xs={1} sm={1} md={1} lg={1} className="centered-span-container">
+              <FontIcon
+                className="fa fa-bars center-span"
+                hoverColor="#00bcd4"
+                onTouchTap={this.handleMenuToggle}
               />
-              <Popover
-                open={this.state.loginMenuOpen}
-                anchorEl={this.state.anchorEl}
-                anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
-                targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-                onRequestClose={this.handleLoginRequestClose}
-              >
-                <Login onSubmit={this.props.authActions.loginRequest} />
-              </Popover>
-            </UnauthorizedComponent>
-          </Col>
-        </Row>
-      </Grid>
+            </Col>
+            <Col xs={2} sm={2} md={2} lg={2}>
+              <Link to="/" className="site-header center-span">
+                foodtrac
+              </Link>
+            </Col>
+            <Col xs={7} sm={7} md={7} lg={7}>
+              <SearchBar />
+            </Col>
+            <Col xs={2} sm={2} md={2} lg={2} className="relative">
+              <UnauthorizedComponent>
+                <FlatButton
+                  label="Log In / Sign Up"
+                  onTouchTap={this.handleLoginTouchTap}
+                />
+                <Popover
+                  open={this.state.loginMenuOpen}
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{ horizontal: 'left', vertical: 'bottom' }}
+                  targetOrigin={{ horizontal: 'left', vertical: 'top' }}
+                  onRequestClose={this.handleLoginRequestClose}
+                >
+                  <Login onSubmit={this.props.authActions.loginRequest} />
+                </Popover>
+              </UnauthorizedComponent>
+            </Col>
+          </Row>
+        </Grid>
+        {this.props.loading
+          ? <LinearProgress mode="indeterminate" />
+          : null
+        }
+      </div>
     );
   }
 }
@@ -111,11 +117,13 @@ class NavBar extends Component {
 NavBar.propTypes = {
   authActions: propSchema.authActions,
   foodGenresActions: propSchema.foodGenresActions,
+  loading: propSchema.loading,
 };
 
 const mapStateToProps = state => ({
   user: state.user,
   isLoggedIn: state.auth.isLoggedIn,
+  loading: state.loading.loading,
 });
 
 
