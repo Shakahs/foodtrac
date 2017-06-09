@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerize = require('swaggerize-express');
@@ -11,7 +12,7 @@ const knex = require('knex')(knexConfig.development);
 Model.knex(knex);
 
 const app = express();
-app.use('/static', express.static('static'));
+
 app.use(bodyParser.json({ limit: '5mb' }));
 
 delete swaggerSpec.host;
@@ -20,13 +21,14 @@ app.use(swaggerize({
   handlers: './controllers',
 }));
 
+app.use('/', express.static('static'));
 app.use(history());
 
-if (app.get('env') === 'production') {
-  app.use(morgan('common', { skip(req, res) { return res.statusCode < 400; }, stream: `${__dirname}/../morgan.log` }));
-} else {
-  app.use(morgan('dev'));
-}
+// if (app.get('env') === 'production') {
+//   app.use(morgan('common', { skip(req, res) { return res.statusCode < 400; }, stream: `${__dirname}/../morgan.log` }));
+// } else {
+app.use(morgan('dev'));
+// }
 
 // try to send custom error messages after API request validation failure instead of a strack trace
 // per https://github.com/krakenjs/swaggerize-routes/issues/60

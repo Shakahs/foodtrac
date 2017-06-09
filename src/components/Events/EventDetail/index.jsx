@@ -17,7 +17,7 @@ import propSchema from '../../common/PropTypes';
 import CommentsView from '../../common/Comments';
 import { actions as userActions } from '../../../redux/user';
 import { actions as loadingActions } from '../../../redux/Loading';
-
+import AuthorizedComponent from '../../common/Helpers/AuthorizedComponent';
 
 class EventDetail extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor(props) {
@@ -154,8 +154,12 @@ class EventDetail extends React.Component { // eslint-disable-line react/prefer-
                 {event.locations.address}
               </h4>
               <div>
-                <this.UserToggleRegistrationButton />
-                {this.props.user.is_truck_owner && <this.BrandToggleRegistrationButton />}
+                <AuthorizedComponent>
+                  <this.UserToggleRegistrationButton />
+                </AuthorizedComponent>
+                <AuthorizedComponent requireTruckOwner >
+                  <this.BrandToggleRegistrationButton />
+                </AuthorizedComponent>
               </div>
               <h4>
                 {event.description}
