@@ -69,9 +69,9 @@ Webpack-dev-server and node run on their respective ports that you set in `.env`
 
 ## Deployment
 
-Deployed on Google Compute Engine
+Deployed on Google Compute Engine. HTTPS is required to utilize service workers.
 
-Access our app on foodtrac.me
+Access our app on https://foodtrac.me
 
 ## Built With
 
