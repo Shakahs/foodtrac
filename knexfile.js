@@ -2,9 +2,9 @@ module.exports = {
   development: {
     client: 'mysql',
     connection: {
-      user: 'root',
-      password: '',
-      database: 'foodtrac',
+      user: process.env.MYSQL_USER,
+      password: process.env.MYSQL_PW,
+      database: process.env.DATABASE_NAME,
       multipleStatements: true,
       timezone: 'utc',
     },
