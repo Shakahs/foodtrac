@@ -190,7 +190,7 @@ CREATE INDEX LocationVotes_Users ON LocationVotes (user_id);
 -- Table: Locations
 CREATE TABLE Locations (
     id int NOT NULL AUTO_INCREMENT,
-    name varchar(30) NOT NULL,
+    name varchar(60) NOT NULL,
     address varchar(100) NOT NULL,
     lat decimal(9,6) NOT NULL,
     lng decimal(9,6) NOT NULL,
