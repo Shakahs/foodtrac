@@ -17,7 +17,7 @@ class Brands extends Model {
         name: {
           type: 'string',
           minLength: 1,
-          maxLength: 30,
+          maxLength: 24,
           faker: 'commerce.productName',
         },
         description: {
