@@ -13,7 +13,7 @@ class Locations extends Model {
 
       properties: {
         id: { type: 'integer' },
-        name: { type: 'string', minLength: 1, maxLength: 30 },
+        name: { type: 'string', minLength: 1, maxLength: 255 },
         address: { type: 'string', minLength: 1, maxLength: 100 },
         lat: { type: 'number' },
         lng: { type: 'number' },
