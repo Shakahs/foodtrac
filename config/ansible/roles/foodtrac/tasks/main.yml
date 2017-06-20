@@ -1,0 +1,5 @@
+---
+- name: create foodtrac system group
+  action: group name=foodtrac
+- name: create foodtrac system user
+  action: user name=foodtrac group=foodtrac

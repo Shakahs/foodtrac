@@ -1,0 +1,2 @@
+[foodtrac-server]
+35.197.1.226
