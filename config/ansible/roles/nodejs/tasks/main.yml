@@ -1,0 +1,7 @@
+---
+- name: Install NodeJS repo via Nodesource setup script
+  script: setup_8.x.sh
+- name: Install NodeJS package
+  apt:
+    state: latest
+    name: nodejs
