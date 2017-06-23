@@ -1,5 +1,10 @@
 ---
 - name: Install MariaDB package
-  action: apt state=latest name=mariadb-server
+  apt:
+    state: latest
+    name: mariadb-server
 - name: enable MariaDB (mysql) service
-  action: service name=mysql state=started enabled=yes
+  service:
+    name: mysql
+    state: started
+    enabled: yes
