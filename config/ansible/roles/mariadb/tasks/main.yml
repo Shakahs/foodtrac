@@ -8,3 +8,7 @@
     name: mysql
     state: started
     enabled: yes
+- name: Install python-mysqld package
+  apt:
+    state: latest
+    name: python-mysqldb

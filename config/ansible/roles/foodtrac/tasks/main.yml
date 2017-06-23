@@ -6,3 +6,13 @@
   user:
     name: foodtrac
     group: foodtrac
+- name: create foodtrac mysql database
+  mysql_db:
+    name: foodtrac_db
+    state: present
+- name: create foodtrac mariadb database
+  mysql_user:
+    name: foodtrac
+    password: '12345'
+    priv: 'foodtrac_db.*:ALL'
+    state: present
