@@ -17,7 +17,6 @@
     chdir: /var/www/foodtrac
 
 - name: install foodtrac environment files
-  tags: current
   copy:
     src: "{{ item }}"
     dest: /var/www/foodtrac/{{ item }}
@@ -28,7 +27,6 @@
     - googleCloudKey.json
 
 - name: install foodtrac systemd unit
-  tags: current
   copy:
     src: foodtrac.service
     dest: /etc/systemd/system/foodtrac.service
@@ -37,7 +35,6 @@
     mode: 0644
 
 - name: start foodtrac systemd service
-  tags: current
   systemd:
     state: started
     name: foodtrac
