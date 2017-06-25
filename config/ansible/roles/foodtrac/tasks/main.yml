@@ -17,6 +17,8 @@
     chdir: /var/www/foodtrac
 
 - name: install foodtrac environment files
+  notify:
+  - restart foodtrac
   copy:
     src: "{{ item }}"
     dest: /var/www/foodtrac/{{ item }}
@@ -32,7 +34,7 @@
     dest: /etc/systemd/system/foodtrac.service
     owner: root
     group: root
-    mode: 0644
+    mode: 0444
 
 - name: start foodtrac systemd service
   systemd:
