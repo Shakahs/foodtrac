@@ -16,13 +16,16 @@
   args:
     chdir: /var/www/foodtrac
 
-- name: install foodtrac environment variables
+- name: install foodtrac environment files
   tags: current
   copy:
-    src: .env
-    dest: /var/www/foodtrac/.env
+    src: "{{ item }}"
+    dest: /var/www/foodtrac/{{ item }}
     owner: foodtrac
     group: foodtrac
+  with_items:
+    - .env
+    - googleCloudKey.json
 
 - name: install foodtrac systemd unit
   tags: current
