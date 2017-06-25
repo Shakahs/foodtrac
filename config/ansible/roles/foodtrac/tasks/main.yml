@@ -42,6 +42,14 @@
   args:
     chdir: /var/www/foodtrac
 
+- name: install foodtrac environment variables
+  tags: current
+  copy:
+    src: .env
+    dest: /var/www/foodtrac/.env
+    owner: foodtrac
+    group: foodtrac
+
 - name: install foodtrac systemd unit
   tags: current
   copy:
@@ -51,23 +59,6 @@
     group: root
     mode: 0644
 
-#
-#- name: Add Port 80
-#  file:
-#    path: /etc/authbind/byport/80
-#    mode: 0755
-#    owner: foodtrac
-#    state: touch
-#
-#
-#- name: Add Port 443
-#  file:
-#    path: /etc/authbind/byport/443
-#    mode: 0755
-#    owner: foodtrac
-#    state: touch
-
-
 - name: start foodtrac systemd service
   tags: current
   systemd:
@@ -75,3 +66,31 @@
     name: foodtrac
     daemon_reload: yes
 
+- name: install foodtrac Nginx configuration
+  tags: current
+  notify:
+  - reload nginx
+  copy:
+    src: foodtrac.me.nginx
+    dest: /etc/nginx/sites-available/foodtrac.me
+    owner: root
+    group: root
+
+- name: Enable Foodtrac Nginx configuration
+  tags: current
+  notify:
+  - reload nginx
+  file:
+    src: /etc/nginx/sites-available/foodtrac.me
+    dest: /etc/nginx/sites-enabled/foodtrac.me
+    owner: root
+    group: root
+    state: link
+
+- name: Ensure Nginx default site is disabled
+  tags: current
+  notify:
+  - reload nginx
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
