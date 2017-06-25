@@ -2,10 +2,12 @@
 - name: create foodtrac system group
   group:
     name: foodtrac
+    system: yes
 - name: create foodtrac system user
   user:
     name: foodtrac
     group: foodtrac
+    system: yes
 - name: create foodtrac mysql database
   mysql_db:
     name: foodtrac_db
@@ -33,3 +35,33 @@
   when: git_finished.changed
   args:
     chdir: /var/www/foodtrac
+- name: install foodtrac systemd unit
+  tags: current
+  copy:
+    src: foodtrac.service
+    dest: /etc/systemd/system/foodtrac.service
+    owner: root
+    group: root
+    mode: 0644
+
+#- name: Add Port 80
+#  file:
+#    path: /etc/authbind/byport/80
+#    mode: 0755
+#    owner: foodtrac
+#    state: touch
+#
+#- name: Add Port 443
+#  file:
+#    path: /etc/authbind/byport/443
+#    mode: 0755
+#    owner: foodtrac
+#    state: touch
+
+- name: start foodtrac systemd service
+  tags: current
+  systemd:
+    state: started
+    name: foodtrac
+    daemon_reload: yes
+
