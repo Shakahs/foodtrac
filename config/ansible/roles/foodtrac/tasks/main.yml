@@ -3,31 +3,37 @@
   group:
     name: foodtrac
     system: yes
+
 - name: create foodtrac system user
   user:
     name: foodtrac
     group: foodtrac
     system: yes
+
 - name: create foodtrac mysql database
   mysql_db:
     name: foodtrac_db
     state: present
 #    TODO: fix credential setup, should not be committing password to repo
+
 - name: create foodtrac mariadb database
   mysql_user:
     name: foodtrac
     password: '12345'
     priv: 'foodtrac_db.*:ALL'
     state: present
+
 - name: Install git package
   apt:
     state: latest
     name: git
+
 - name: checkout foodtrac code
   register: git_finished
   git:
     repo: 'https://github.com/hrla14-foodtrac/foodtrac.git'
     dest: /var/www/foodtrac
+
 - name: install npm deps
   shell: npm install
   register: npm_finished
@@ -35,6 +41,7 @@
   when: git_finished.changed
   args:
     chdir: /var/www/foodtrac
+
 - name: install foodtrac systemd unit
   tags: current
   copy:
@@ -44,6 +51,7 @@
     group: root
     mode: 0644
 
+#
 #- name: Add Port 80
 #  file:
 #    path: /etc/authbind/byport/80
@@ -51,12 +59,14 @@
 #    owner: foodtrac
 #    state: touch
 #
+#
 #- name: Add Port 443
 #  file:
 #    path: /etc/authbind/byport/443
 #    mode: 0755
 #    owner: foodtrac
 #    state: touch
+
 
 - name: start foodtrac systemd service
   tags: current

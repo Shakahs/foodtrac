@@ -3,11 +3,13 @@
   apt:
     state: latest
     name: mariadb-server
+
 - name: enable MariaDB (mysql) service
   service:
     name: mysql
     state: started
     enabled: yes
+
 - name: Install python-mysqld package
   apt:
     state: latest
