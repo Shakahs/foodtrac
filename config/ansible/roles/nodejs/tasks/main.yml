@@ -1,7 +1,11 @@
 ---
-- name: Install NodeJS repo via Nodesource setup script
+- name: Install NodeJS 8.x repo via Nodesource setup script (will always run)
   script: setup_8.x.sh
-- name: Install NodeJS package
+- name: Install NodeJS 8.x package
   apt:
     state: latest
     name: nodejs
+- name: Install build-essential package (needed for npm install to compile things)
+  apt:
+    state: latest
+    name: build-essential

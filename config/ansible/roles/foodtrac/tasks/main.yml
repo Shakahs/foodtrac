@@ -22,6 +22,14 @@
     state: latest
     name: git
 - name: checkout foodtrac code
+  register: git_finished
   git:
     repo: 'https://github.com/hrla14-foodtrac/foodtrac.git'
     dest: /var/www/foodtrac
+- name: install npm deps
+  shell: npm install
+  register: npm_finished
+  failed_when: '"ERR!" in npm_finished.stderr'
+  when: git_finished.changed
+  args:
+    chdir: /var/www/foodtrac
