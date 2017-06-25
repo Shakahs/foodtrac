@@ -1,32 +1,6 @@
 ---
-- name: create foodtrac system group
-  group:
-    name: foodtrac
-    system: yes
-
-- name: create foodtrac system user
-  user:
-    name: foodtrac
-    group: foodtrac
-    system: yes
-
-- name: create foodtrac mysql database
-  mysql_db:
-    name: foodtrac_db
-    state: present
-#    TODO: fix credential setup, should not be committing password to repo
-
-- name: create foodtrac mariadb database
-  mysql_user:
-    name: foodtrac
-    password: '12345'
-    priv: 'foodtrac_db.*:ALL'
-    state: present
-
-- name: Install git package
-  apt:
-    state: latest
-    name: git
+- name: Setup Foodtrac system dependencies
+  include: system.yml
 
 - name: checkout foodtrac code
   register: git_finished
@@ -66,31 +40,5 @@
     name: foodtrac
     daemon_reload: yes
 
-- name: install foodtrac Nginx configuration
-  tags: current
-  notify:
-  - reload nginx
-  copy:
-    src: foodtrac.me.nginx
-    dest: /etc/nginx/sites-available/foodtrac.me
-    owner: root
-    group: root
-
-- name: Enable Foodtrac Nginx configuration
-  tags: current
-  notify:
-  - reload nginx
-  file:
-    src: /etc/nginx/sites-available/foodtrac.me
-    dest: /etc/nginx/sites-enabled/foodtrac.me
-    owner: root
-    group: root
-    state: link
-
-- name: Ensure Nginx default site is disabled
-  tags: current
-  notify:
-  - reload nginx
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
+- name: Foodtrac Nginx setup
+  include: nginx.yml
