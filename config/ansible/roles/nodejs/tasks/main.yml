@@ -1,6 +1,6 @@
 ---
-- name: Install NodeJS 8.x repo via Nodesource setup script (will always run)
-  script: setup_8.x.sh
+- name: Install NodeJS 6.x repo via Nodesource setup script (will always run)
+  script: setup_6.x.sh
 
 - name: Install packages
   apt:
