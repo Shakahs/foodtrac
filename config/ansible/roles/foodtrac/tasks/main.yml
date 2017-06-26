@@ -14,14 +14,14 @@
   failed_when: '"ERR!" in npm_finished.stderr'
   when: git_finished.changed
   args:
-    chdir: /var/www/foodtrac
+    chdir: /var/www/{{ domain_name }}
 
 - name: install foodtrac environment files
   notify:
   - restart foodtrac
   copy:
     src: "{{ item }}"
-    dest: /var/www/foodtrac/{{ item }}
+    dest: /var/www/{{ domain_name }}/{{ item }}
     owner: foodtrac
     group: foodtrac
   with_items:
@@ -41,6 +41,9 @@
     state: started
     name: foodtrac
     daemon_reload: yes
+
+- name: Foodtrac Letsencrypt setup
+  include: letsencrypt.yml
 
 - name: Foodtrac Nginx setup
   include: nginx.yml
