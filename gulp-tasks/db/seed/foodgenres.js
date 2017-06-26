@@ -11,15 +11,7 @@ jsf.extend('chance', () => chance);
 
 module.exports = {
   fn() {
-    const foodGenreSchema = {
-      type: 'array',
-      minItems: 6,
-      maxItems: 6,
-      uniqueItems: true,
-      items: FoodGenres.jsonSchema,
-    };
-    return jsf.resolve(foodGenreSchema)
-      .then(seedData => insertSeed('FoodGenres', seedData))
+    insertSeed('FoodGenres', ['Mexican', 'Korean', 'BBQ', 'Burgers', 'Grilled Cheese', 'Pho'])
       .then(() => checkSeededTable(FoodGenres));
   },
 };

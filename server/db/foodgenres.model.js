@@ -16,9 +16,6 @@ class FoodGenres extends Model {
           type: 'string',
           minLength: 1,
           maxLength: 20,
-          chance: {
-            pickone: [['Mexican', 'Korean', 'BBQ', 'Burgers', 'Grilled Cheese', 'Pho']],
-          },
         },
       },
     };
