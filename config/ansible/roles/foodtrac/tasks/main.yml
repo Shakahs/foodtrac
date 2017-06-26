@@ -2,17 +2,16 @@
 - name: Setup Foodtrac system dependencies
   include: system.yml
 
-- name: checkout foodtrac code
-  register: git_finished
-  git:
-    repo: 'https://github.com/hrla14-foodtrac/foodtrac.git'
-    dest: /var/www/{{ domain_name }}
+- name: deploy code from active branch of local git repo
+  tags: deploy
+  include: gitpush.yml
 
 - name: install npm deps
+  tags: deploy
   shell: npm install
   register: npm_finished
   failed_when: '"ERR!" in npm_finished.stderr'
-  when: git_finished.changed
+  when: git_push.changed
   args:
     chdir: /var/www/{{ domain_name }}
 
