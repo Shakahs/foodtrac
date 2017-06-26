@@ -6,7 +6,7 @@
   register: git_finished
   git:
     repo: 'https://github.com/hrla14-foodtrac/foodtrac.git'
-    dest: /var/www/foodtrac
+    dest: /var/www/{{ domain_name }}
 
 - name: install npm deps
   shell: npm install

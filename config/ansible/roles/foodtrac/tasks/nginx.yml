@@ -2,25 +2,17 @@
 - name: install Foodtrac Nginx configuration
   notify:
   - reload nginx
-  copy:
-    src: foodtrac.me.nginx
-    dest: /etc/nginx/sites-available/foodtrac.me
-    owner: root
-    group: root
+  template:
+    src: templates/foodtrac-https.jinja2
+    dest: /etc/nginx/sites-available/foodtrac-https
 
 - name: Enable Foodtrac Nginx configuration
   notify:
   - reload nginx
   file:
-    src: /etc/nginx/sites-available/foodtrac.me
-    dest: /etc/nginx/sites-enabled/foodtrac.me
+    src: /etc/nginx/sites-available/foodtrac-https
+    dest: /etc/nginx/sites-enabled/foodtrac-https
     owner: root
     group: root
     state: link
 
-- name: Ensure Nginx default site is disabled
-  notify:
-  - reload nginx
-  file:
-    path: /etc/nginx/sites-enabled/default
-    state: absent
