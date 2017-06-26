@@ -11,7 +11,9 @@ jsf.extend('chance', () => chance);
 
 module.exports = {
   fn() {
-    insertSeed('FoodGenres', ['Mexican', 'Korean', 'BBQ', 'Burgers', 'Grilled Cheese', 'Pho'])
+    const genres = ['Mexican', 'Korean', 'BBQ', 'Burgers', 'Grilled Cheese', 'Pho'];
+    const genresObj = genres.map(genre => ({ name: genre }));
+    insertSeed('FoodGenres', genresObj)
       .then(() => checkSeededTable(FoodGenres));
   },
 };

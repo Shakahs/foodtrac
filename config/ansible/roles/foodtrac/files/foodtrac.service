@@ -1,6 +1,6 @@
 [Service]
-ExecStart=/usr/bin/node /var/www/foodtrac/server/index.js
-WorkingDirectory=/var/www/foodtrac
+ExecStart=/usr/bin/node /var/www/foodtrac.me/server/index.js
+WorkingDirectory=/var/www/foodtrac.me
 Restart=always
 StandardOutput=syslog
 StandardError=syslog

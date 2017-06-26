@@ -1,5 +1,6 @@
 ---
 - name: install Foodtrac Nginx configuration
+  tags: nginx
   notify:
   - reload nginx
   template:
