@@ -28,8 +28,8 @@
     - googleCloudKey.json
 
 - name: install foodtrac systemd unit
-  copy:
-    src: foodtrac.service
+  template:
+    src: foodtrac.service.jinja2
     dest: /etc/systemd/system/foodtrac.service
     owner: root
     group: root
@@ -41,6 +41,7 @@
     name: foodtrac
     daemon_reload: yes
 
+#todo: fallback to self-signed cert when letsencrypt fails (needed for development without access to domain)
 - name: Foodtrac Letsencrypt setup
   include: letsencrypt.yml
 

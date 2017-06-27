@@ -1,13 +1,5 @@
+#adapted from https://github.com/savoirfairelinux/ansible-gitpush-deploy
 ---
-
-#- name: Ensure that our repo and work dirs exist
-#  file:
-#    path: "{{ item }}"
-#    state: directory
-#  with_items:
-#    - "{{ gitpush_repo_path }}"
-#    - "{{ gitpush_workdir_path }}"
-
 - name: Ensure that our repo dir exists
   file:
     path: "{{ gitpush_repo_path }}"
@@ -28,12 +20,6 @@
   command: "git init --bare \"{{ gitpush_repo_path }}\""
   when: not gitpush_repo_stat.stat.exists
   become: no
-
-#- name: Creating the post-receive hook
-#  template:
-#    src: post-receive.jinja2
-#    dest: "{{ gitpush_repo_path }}/hooks/post-receive"
-#    mode: u=rwx,g=rwx,o=
 
 - set_fact:
     gitpush_host: "{{ ansible_host }}"
