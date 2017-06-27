@@ -13,7 +13,7 @@ module.exports = {
   fn() {
     const genres = ['Mexican', 'Korean', 'BBQ', 'Burgers', 'Grilled Cheese', 'Pho'];
     const genresObj = genres.map(genre => ({ name: genre }));
-    insertSeed('FoodGenres', genresObj)
+    return insertSeed('FoodGenres', genresObj)
       .then(() => checkSeededTable(FoodGenres));
   },
 };
