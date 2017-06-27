@@ -60,11 +60,13 @@
 - name: start foodtrac systemd service
   systemd:
     state: started
+    enabled: yes
     name: foodtrac
     daemon_reload: yes
 
 #todo: fallback to self-signed cert when letsencrypt fails (needed for development without access to domain)
 - name: Foodtrac Letsencrypt setup
+  tags: letsencrypt
   include: letsencrypt.yml
 
 - name: Foodtrac Nginx setup
