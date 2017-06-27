@@ -47,3 +47,16 @@
 
 - name: Foodtrac Nginx setup
   include: nginx.yml
+
+- name: Run data seeding task
+  tags: gulp
+  command: /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
+  args:
+    chdir: /var/www/{{ domain_name }}
+
+- name: Add data seeding task to cron
+  tags: gulp
+  cron:
+    name: gulp_reseed
+    hour: '*/4'
+    job: cd /var/www/{{ domain_name }} && /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
