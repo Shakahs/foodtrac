@@ -60,3 +60,9 @@
     name: gulp_reseed
     hour: '*/4'
     job: cd /var/www/{{ domain_name }} && /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
+
+- name: Build bundle.js
+  tags: bundle
+  command: /var/www/{{ domain_name }}/node_modules/webpack/bin/webpack.js -p
+  args:
+    chdir: /var/www/{{ domain_name }}

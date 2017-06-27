@@ -1,5 +1,5 @@
 require('dotenv').config();
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 // const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -55,10 +55,10 @@ const webpackConfig = {
      VAPID_PUB: '${process.env.VAPID_PUB}',
    }`,
   },
-  plugins: [
-    new BundleAnalyzerPlugin(),
+  // plugins: [
+    // new BundleAnalyzerPlugin(),
     // new ExtractTextPlugin('bundle.css'),
-  ],
+  // ],
 };
 
 webpackConfig.module.loaders.push({
