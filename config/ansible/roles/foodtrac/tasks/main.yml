@@ -6,15 +6,6 @@
   tags: deploy
   include: gitpush.yml
 
-- name: install npm deps
-  tags: deploy
-  shell: npm install
-  register: npm_finished
-  failed_when: '"ERR!" in npm_finished.stderr'
-  when: git_push.changed
-  args:
-    chdir: /var/www/{{ domain_name }}
-
 - name: install foodtrac environment files
   notify:
   - restart foodtrac
@@ -26,6 +17,37 @@
   with_items:
     - .env
     - googleCloudKey.json
+
+- name: install npm deps
+  tags: deploy
+  shell: npm install
+  register: npm_finished
+  failed_when: '"ERR!" in npm_finished.stderr'
+  when: git_push.changed
+  args:
+    chdir: /var/www/{{ domain_name }}
+
+- name: Run data seeding task
+  when: git_push.changed
+  tags: gulp
+  command: /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
+  args:
+    chdir: /var/www/{{ domain_name }}
+
+- name: Add data seeding task to cron
+  tags: gulp
+  cron:
+    name: gulp_reseed
+    hour: '*/4'
+    minute: 0
+    job: cd /var/www/{{ domain_name }} && /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
+
+- name: Build bundle.js
+  tags: bundle
+  when: git_push.changed
+  command: /var/www/{{ domain_name }}/node_modules/webpack/bin/webpack.js -p
+  args:
+    chdir: /var/www/{{ domain_name }}
 
 - name: install foodtrac systemd unit
   template:
@@ -47,22 +69,3 @@
 
 - name: Foodtrac Nginx setup
   include: nginx.yml
-
-- name: Run data seeding task
-  tags: gulp
-  command: /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
-  args:
-    chdir: /var/www/{{ domain_name }}
-
-- name: Add data seeding task to cron
-  tags: gulp
-  cron:
-    name: gulp_reseed
-    hour: '*/4'
-    job: cd /var/www/{{ domain_name }} && /var/www/{{ domain_name }}/node_modules/gulp/bin/gulp.js db
-
-- name: Build bundle.js
-  tags: bundle
-  command: /var/www/{{ domain_name }}/node_modules/webpack/bin/webpack.js -p
-  args:
-    chdir: /var/www/{{ domain_name }}
